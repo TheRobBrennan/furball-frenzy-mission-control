@@ -25,8 +25,14 @@ budget, data, and communications, and see how every choice shapes the result.
 Needs Docker.
 
 ```bash
-make up        # web on http://localhost:3000, api on http://localhost:8000
+npr start      # web on http://localhost:3000, api on http://localhost:8000, detached
+npr stop       # stop
+npr build      # fresh rebuild, no cache
+npr clean      # remove containers and the images built here
+npr logs       # tail logs
 ```
+
+`npr` is `npm run`, the scripts wrap the Makefile, so `make up` (foreground), `make down`, and the rest work too.
 
 Native dev:
 
@@ -48,5 +54,5 @@ FastAPI backend talk to each other. The game itself is next, see the game plan.
 - The lunar rover is inspired by the PLAYMOBIL ESA Starter Pack Space Mission (71734).
 - Mission design references from NASA, listed on the challenge's Resources tab.
 
-Built over the Space Apps weekend in Rockingham, NC, with the Charlotte, NC local event.
+Built over the Space Apps weekend in North Carolina, with the Charlotte, NC local event.
 Released under the [MIT License](LICENSE).

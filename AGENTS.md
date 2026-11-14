@@ -32,18 +32,49 @@ link to them.
 ## Commands
 
 ```bash
-make up         # build and run web (http://localhost:3000) and api (http://localhost:8000)
-make up-d       # same, in the background
-make down       # stop
-make test       # api tests plus web lint and build
-make lint       # ruff plus eslint
+npr start       # build and run web (http://localhost:3000) and api (http://localhost:8000), detached
+npr stop        # stop
+npr restart     # stop, then start
+npr build       # fresh rebuild, no cache, then start detached
+npr clean       # remove containers, networks, and the images built here
+npr logs        # tail logs
+npr ps          # show what is running
+npr test        # api tests plus web lint and build
+npr lint        # ruff plus eslint
+make up         # same as start but in the foreground, Ctrl+C stops
 
 cd apps/api && uv run pytest -q
 cd apps/web && pnpm dev       # native dev, set API_URL if the api is not on localhost:8000
 ```
 
+`npr` is Rob's shell alias for `npm run`. The scripts in the root `package.json` wrap the
+Makefile, so `make` works the same way.
+
 The web app forwards `/api/*` to the FastAPI service (`API_URL`, default
 `http://localhost:8000`, `http://api:8000` inside Docker).
+
+## Tone
+
+Whimsy, intrigue, and mischief: the furballs and the American Space Program. Warm, playful, and
+kind, never creepy. The Polish elephants love cameras, drawings, and all kinds of media, and keep
+a few things classified just for the fun of it, they are playful, not sneaky or surveilling.
+
+## Mobile first, always
+
+**The site must be responsive and mobile-friendly, without question.** Rob develops on a
+MacBook Pro and it is easy to forget the phone, so mobile stays top of mind on every UI change.
+
+- Design for a phone first (375 x 812), then tablet (768) and desktop (1280 and up).
+- No horizontal scroll at any width, no content cut off, tap targets at least 44 px, text readable
+  without zooming, images sized with responsive `sizes`, and animations that respect
+  `prefers-reduced-motion`.
+- **Check every visual change at a phone width** in the running app (`npr start`), for example
+  the browser's mobile emulation, not just on the laptop.
+- PR screenshots show the phone width as well as the desktop, see the PR template.
+- **No decorative chips or pills.** Anything shaped like a button or a chip must link somewhere or do
+  something. Plain text labels are fine, fake buttons are not.
+- Keep the first screen (above the fold) good on a phone, the hero image and the title come
+  first, nothing important hides behind a hover.
 
 ## Git workflow
 

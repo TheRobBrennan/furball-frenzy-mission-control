@@ -48,10 +48,61 @@ The elephants drive a lunar rover inspired by the PLAYMOBIL ESA Starter Pack Spa
 
 ### The cast
 
-Two groups, both in the game: Rockingham, NC (the Polish elephants, Captain Piggy, Hamley,
+Two groups, both in the game: North Carolina (the Polish elephants, Captain Piggy, Hamley,
 Blue Bear, and others) and Seattle WA (Hamlet the drone pilot, Little Bear, Little Bunny,
 Kraken Bear, Fuzzy Black Bear, and the lunar rover). More furballs join along the way.
 The character notes, traits, and photos live in Rob's vault.
+
+### The setting
+
+- **North Carolina:** the main cast launches from an undisclosed location, the lake right
+  out in their backyard.
+- **Seattle WA:** the Seattle cast bops around the city between missions, with landmarks as
+  places and backdrops: the Space Needle, Pike Place Market, and Climate Pledge Arena, a
+  favorite of Kraken Bear.
+
+### Gear and toys
+
+The crew's own gear is a source of parts, vehicles, and mission control hardware for the game:
+
+- **Drones:** the DJI Mini 2 Pro, Air 2S, Avata, and DJI FPV, Hamlet is the experienced pilot and
+  the Polish elephants fly along, scouts and aerial survey in the game
+- **Radio control trucks:** Slash, a Traxxas 2WD truck and family member the crew acquired on a
+  road trip to the Oregon coast, a ground vehicle alongside the lunar rover
+- **The 2021 M1 iPad Pro and the 2021 14-inch MacBook Pro:** Mission Control, with Piggy at the helm
+- **Ableton Push 3 standalone:** the Polish elephants jam with Little Bunny on it in their free time,
+  the game's music and sound could come from their sessions
+- **Remotes:** Piggy ends up with his paws on every remote, learns the buttons, and teaches anyone
+  who wants to learn, a tutorial voice for the game, for furballs and humans alike
+
+Piggy and Hamley are brothers, Hamley is the first little brother and looks up to Piggy.
+
+### The fleet at home base
+
+The North Carolina crew has a fleet of ground vehicles at home base, rumor has it a truck named
+Rocky that looks very much like a full-size Slash, a blue Blazer, a convertible, an RV, and a golf
+cart for getting around a big property. Piggy loves road trips and driving, and is the first to
+jump at the mention of a road trip or a chance to sightsee and scope out the area. In the game they
+are the ground vehicles, rovers and support vehicles, and Piggy's road trips are the scouting and
+site survey missions.
+
+**Public renditions:** the vehicles appear in the game as illustrated renditions, Rocky and the Blazer
+in Chevy blue and the convertible in dark blue, drawn as SVG so they scale on a phone. Only the
+renditions are published, never photos of the real vehicles: no plates, badges, backgrounds, or
+location metadata.
+
+### Tone and the classified files
+
+Whimsy, intrigue, and mischief: the furballs and the American Space Program. The Polish elephants keep
+a few things classified, just for the fun of it, unless they get some convincing, a bit of humor, or
+the right credentials. They love cameras of every kind (phones, the DJI Action 5 Pro, GoPro Hero
+cameras, camera pens and lights), can pull up satellite imagery in real time or close to it, keep
+friendly files and notes on everything they do, and never forget. They love bringing ideas and
+conversations to life with images, drawings, and all kinds of media, and jam with Little Bunny on
+their Ableton Push 3 standalone in their free time. They are playful, never creepy.
+
+In the game, mission details can start as classified dossiers that unlock with charm, a joke, or
+credentials. The landing page has a small clearance desk as a first taste of it.
 
 ## Architecture
 

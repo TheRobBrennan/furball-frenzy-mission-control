@@ -1,0 +1,24 @@
+{
+  "name": "furball-frenzy-mission-control",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Furball Frenzy: Mission Control, a web game for the 2026 NASA Space Apps Challenge",
+  "license": "MIT",
+  "scripts": {
+    "start": "make up-d",
+    "stop": "make down",
+    "restart": "make down && make up-d",
+    "build": "make build",
+    "clean": "make clean",
+    "logs": "make logs",
+    "ps": "make ps",
+    "test": "make test",
+    "lint": "make lint",
+    "dev:api": "cd apps/api && uv run uvicorn app.main:app --reload --port 8000",
+    "dev:web": "cd apps/web && pnpm dev"
+  },
+  "engines": {
+    "node": ">=24.17.0 <25",
+    "pnpm": ">=10.11"
+  }
+}
