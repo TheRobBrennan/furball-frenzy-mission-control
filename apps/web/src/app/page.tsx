@@ -28,6 +28,24 @@ const photos = [
   },
 ];
 
+const meeting = [
+  {
+    src: "/images/piggy-meets-hamley-1.jpg",
+    alt: "Piggy, a big pink pig with large eyes, with Hamley, a small pink Steiff pig, tucked in front of him",
+    caption: "Piggy meets Hamley for the first time",
+  },
+  {
+    src: "/images/piggy-meets-hamley-2.jpg",
+    alt: "Piggy and Hamley seen from behind on a windowsill, looking out over trees and a lake",
+    caption: "Taking in the view together",
+  },
+  {
+    src: "/images/piggy-meets-hamley-3.jpg",
+    alt: "Hamley and Piggy side by side on a windowsill next to a houndstooth curtain",
+    caption: "Window seats",
+  },
+];
+
 type Member = { name: string; title?: string };
 
 const crew: Record<string, Member[]> = {
@@ -161,6 +179,38 @@ export default function Home() {
             </li>
           ))}
         </ul>
+      </section>
+
+      <section
+        aria-label="How Piggy met Hamley"
+        className="mx-auto max-w-5xl px-6 py-12 text-center"
+      >
+        <h2 className="text-3xl font-black sm:text-4xl">How Piggy met Hamley</h2>
+        <p className="mx-auto mt-4 max-w-2xl text-lg text-white/80">
+          Piggy met his first little brother, Hamley, in Chicago, over three nights of the
+          Fare Thee Well Grateful Dead concerts at Soldier Field. Hamley has looked up
+          to him ever since.
+        </p>
+        <div className="mt-8 grid gap-6 sm:grid-cols-3">
+          {meeting.map((photo) => (
+            <figure
+              key={photo.src}
+              className="mx-auto w-full max-w-xs overflow-hidden rounded-xl border border-white/10 bg-white/5 shadow-xl shadow-black/40 sm:max-w-none"
+            >
+              <Image
+                src={photo.src}
+                alt={photo.alt}
+                width={1200}
+                height={1600}
+                className="aspect-[3/4] w-full object-cover"
+                sizes="(min-width: 640px) 30vw, 80vw"
+              />
+              <figcaption className="p-3 font-mono text-xs text-white/70">
+                {photo.caption}
+              </figcaption>
+            </figure>
+          ))}
+        </div>
       </section>
 
       <section className="mx-auto max-w-5xl px-6 py-16">

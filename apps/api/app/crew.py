@@ -51,7 +51,9 @@ CREW: list[Character] = [
         role="Crew",
         bio=(
             "The pig in the rainbow coat and Piggy's first little brother. They are very close, "
-            "Hamley looks up to Piggy with love and respect and is happy to help in any way he can."
+            "Hamley looks up to Piggy with love and respect and is happy to help in any way he can. "
+            "They met for the first time in Chicago, over three nights of the Fare Thee Well "
+            "Grateful Dead concerts at Soldier Field."
         ),
     ),
     Character(
@@ -84,8 +86,10 @@ CREW: list[Character] = [
         bio=(
             "An experienced drone pilot who leads the technological charge for the "
             "American Space Program along with the Polish elephants. Piggy and the Polish "
-            "elephants used to have a lot of fun with Hamlet, flying DJI drones, driving radio "
-            "control trucks, and using the iPad Pro for their ideas."
+            "elephants are tight with Hamlet, they have a lot of fun together flying DJI "
+            "drones, driving radio control trucks, and using the iPad Pro for their ideas. "
+            "They will be reunited in December, when the furballs' visit to North Carolina "
+            "is complete."
         ),
     ),
     Character(
