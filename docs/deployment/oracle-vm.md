@@ -167,8 +167,8 @@ A merge to `main` bumps the version, merges the bump, and deploys, with `.github
 
 1. **Let Actions open the bump PR.** Settings, Actions, General, Workflow permissions, tick *Allow
    GitHub Actions to create and approve pull requests*.
-2. **Create the environment** `furball-frenzy` (Settings, Environments). Add Required reviewers if
-   deploys should wait for an approval.
+2. **Create the environment** `furball-frenzy` (Settings, Environments) and limit its deployment branches
+   to `main`. Add Required reviewers if deploys should wait for an approval.
 3. **Add two environment secrets:**
    - `FURBALL_DEPLOY_SSH_KEY`, the contents of `~/.ssh/furball_oracle_deploy`
    - `FURBALL_VM_IP`, the VM's public address
