@@ -32,6 +32,11 @@ HOSTNAME_PUBLIC="$(env_get FURBALL_PUBLIC_HOSTNAME)"
 # Cloudflare account or zone (an old login, another client), and `route dns` would quietly create
 # the tunnel and the DNS record there. A separate file avoids reusing it by accident.
 export TUNNEL_ORIGIN_CERT="${FURBALL_CLOUDFLARE_CERT:-$HOME/.cloudflared/furball-frenzy-origincert.pem}"
+# Never the default login. cloudflared silently falls back to ~/.cloudflared/cert.pem, which can be a
+# login for another account or zone, so a project-specific file is required.
+case "$TUNNEL_ORIGIN_CERT" in
+  "$HOME/.cloudflared/cert.pem"|"") echo "Refusing to use the default cloudflared login, set FURBALL_CLOUDFLARE_CERT to a project file." >&2; exit 1 ;;
+esac
 if [ ! -f "$TUNNEL_ORIGIN_CERT" ]; then
   echo "==> Authorizing cloudflared, a browser tab opens. Pick the zone that serves $HOSTNAME_PUBLIC."
   # `cloudflared tunnel login` always writes to $HOME/.cloudflared/cert.pem and refuses to
@@ -64,10 +69,12 @@ case "$HOSTNAME_PUBLIC" in
 esac
 
 echo "==> Looking for a tunnel named $NAME"
+CREATED=0
 ID="$(cloudflared tunnel list --name "$NAME" --output json 2>/dev/null | python3 -c 'import json,sys; d=json.load(sys.stdin) or []; print(d[0]["id"] if d else "")')"
 if [ -z "$ID" ]; then
   echo "==> Creating tunnel $NAME"
   cloudflared tunnel create "$NAME" >/dev/null
+  CREATED=1
   ID="$(cloudflared tunnel list --name "$NAME" --output json | python3 -c 'import json,sys; print(json.load(sys.stdin)[0]["id"])')"
 else
   echo "==> Tunnel $NAME already exists"
@@ -79,7 +86,17 @@ mkdir -p infra/cloudflared
 install -m 600 "$CRED" infra/cloudflared/credentials.json
 
 echo "==> Routing $HOSTNAME_PUBLIC to the tunnel (DNS record)"
-cloudflared tunnel route dns --overwrite-dns "$NAME" "$HOSTNAME_PUBLIC"
+OUT="$(cloudflared tunnel route dns --overwrite-dns "$NAME" "$HOSTNAME_PUBLIC" 2>&1)" || true
+printf '%s\n' "$OUT" | grep -v -i 'outdated'
+# cloudflared prints the record it created. If the name is not exactly the hostname, the login is for
+# a different zone (the zone's name gets appended), so undo what this run created and stop.
+if ! printf '%s\n' "$OUT" | grep -q -E "(Added CNAME $HOSTNAME_PUBLIC which|$HOSTNAME_PUBLIC is already configured)"; then
+  echo "The DNS record was not created as exactly $HOSTNAME_PUBLIC, this login is for the wrong zone." >&2
+  if [ "$CREATED" = 1 ]; then cloudflared tunnel delete "$NAME" >/dev/null 2>&1 && echo "Deleted the tunnel this run created." >&2; fi
+  rm -f infra/cloudflared/credentials.json
+  echo "A stray DNS record may remain in the other zone, check it in the Cloudflare dashboard." >&2
+  exit 1
+fi
 
 tmp="$(mktemp)"; trap 'rm -f "$tmp"' EXIT
 grep -v '^TUNNEL_ID=' "$ENV_FILE" > "$tmp" || true

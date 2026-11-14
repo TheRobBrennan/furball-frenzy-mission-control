@@ -55,6 +55,24 @@ tunnel --no-autoupdate run --credentials-file /etc/cloudflared/credentials.json 
 inside the same Docker network, where `localhost` is the `cloudflared` container itself. If the
 `web` service is ever renamed, update the overlay.
 
+## Guardrails, so this cannot hit the wrong account
+
+A first run once created a tunnel and a DNS record in another company's zone, because `cloudflared`
+quietly falls back to `~/.cloudflared/cert.pem`, an old login for a different account. Three things
+now stop that:
+
+1. **A project login file.** The script uses `~/.cloudflared/furball-frenzy-origincert.pem` and
+   refuses to run with the default `cert.pem`.
+2. **A zone check before anything is created.** It reads the login's zone name and stops unless the
+   public hostname belongs to it.
+3. **A check after the DNS step.** cloudflared prints the record it made. If the name is not exactly
+   the hostname, the zone name was appended, so the script deletes the tunnel it just created and
+   stops.
+
+If you run the commands by hand, set `TUNNEL_ORIGIN_CERT` first and look at the zone in the output of
+`cloudflared tunnel route dns`. Check old logins with `ls ~/.cloudflared`, and delete any you no
+longer need.
+
 ## Check it
 
 ```bash
