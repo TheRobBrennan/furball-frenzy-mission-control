@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+:root {
+  --space: #050816;
+  --space-2: #0b1230;
+  --amber: #ffb703;
+  --ember: #fb5607;
+  --ice: #8ecae6;
+  --foreground: #f1f5ff;
+}
+
+@theme inline {
+  --color-space: var(--space);
+  --color-space-2: var(--space-2);
+  --color-amber: var(--amber);
+  --color-ember: var(--ember);
+  --color-ice: var(--ice);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--space);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+/* A slow drifting starfield, drawn with layered radial gradients. */
+.starfield {
+  background-image:
+    radial-gradient(2px 2px at 20px 30px, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 90px 120px, #cfe8ff, transparent),
+    radial-gradient(2px 2px at 160px 70px, #fff, transparent),
+    radial-gradient(1px 1px at 230px 180px, #ffe9a8, transparent),
+    radial-gradient(1.5px 1.5px at 300px 40px, #fff, transparent),
+    radial-gradient(1px 1px at 60px 220px, #cfe8ff, transparent);
+  background-size: 340px 260px;
+  animation: drift 90s linear infinite;
+}
+
+@keyframes drift {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -340px 260px;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--tilt, 0deg));
+  }
+  50% {
+    transform: translateY(-10px) rotate(var(--tilt, 0deg));
+  }
+}
+
+.polaroid {
+  animation: float 7s ease-in-out infinite;
+  transform: rotate(var(--tilt, 0deg));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .starfield,
+  .polaroid {
+    animation: none;
+  }
+}
