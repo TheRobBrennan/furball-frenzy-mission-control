@@ -93,6 +93,7 @@ public-safe and confirmed, add it to `crew.py` in the same change.
 | 2026-11-14 | The golf cart | Dark blue with a rear-facing back seat, for getting around the whole property | confirmed |
 | 2026-11-14 | The golf cart | A gas-powered E-Z-GO Valor | confirmed |
 | 2026-11-14 | The golf cart | The site shuttle | **proposed** |
+| 2026-11-14 | The '72 Chevelle | A classic 1972 Chevelle in the family, to draw once there is a color and a photo | confirmed |
 | 2026-11-14 | The lunar rover | The drawing has to look like the real toy the elephants own, from Rob's own photo of them on it, not a guess | confirmed |
 | 2026-11-14 | The lunar rover | The elephants' rover, a tilt-and-steer moon buggy with a tool box up front, twin lights, a sample gripper, and a long antenna, built from a toy space kit, and the game uses every piece in the kit | confirmed |
 | 2026-11-14 | Slash | The Traxxas Slash, a 1/10 scale 2WD radio control truck, Rocky is its full-size version | confirmed |
