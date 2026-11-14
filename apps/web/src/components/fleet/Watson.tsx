@@ -3,7 +3,7 @@ import Wheel from "./Wheel";
 // Watson, the 2025 Hyundai Tucson: a sharp-edged compact SUV in dark metallic gray with a light bar across the front. An original drawing, no badges or plates. The back runs long and tall like the real one,
 // the roof carries almost to the tail, and the two doors sit mid-body with a small fixed rear pane.
 const BODY =
-  "M 70,150 L 70,112 L 70,68 L 76,54 L 92,50 L 236,50 Q 246,50 252,56 L 286,94 L 344,102 Q 362,106 364,124 L 366,150 Z";
+  "M 70,150 L 70,116 L 71,88 L 90,60 L 112,50 L 236,50 Q 246,50 252,56 L 286,94 L 344,102 Q 362,106 364,124 L 366,150 Z";
 
 export default function Watson() {
   return (
@@ -29,7 +29,7 @@ export default function Watson() {
           <circle cx="298" cy="146" r="34" fill="#030509" />
           <rect x="66" y="140" width="304" height="12" fill="#aeb8c6" />
         </g>
-        <path d="M 98,82 L 100,64 Q 102,59 112,58 L 120,58 L 120,82 Z" fill="url(#watson-glass)" stroke="#050816" strokeWidth="2.5" strokeLinejoin="round" />
+        <path d="M 93,82 L 104,66 L 114,58 L 120,58 L 120,82 Z" fill="url(#watson-glass)" stroke="#050816" strokeWidth="2.5" strokeLinejoin="round" />
         <path d="M 128,58 L 176,58 L 176,84 L 128,84 Z" fill="url(#watson-glass)" stroke="#050816" strokeWidth="2.5" strokeLinejoin="round" />
         <path d="M 184,58 L 236,58 Q 245,58 250,63 L 266,84 L 184,84 Z" fill="url(#watson-glass)" stroke="#050816" strokeWidth="2.5" strokeLinejoin="round" />
         <path d="M 76,104 L 340,108" stroke="#fff" strokeOpacity="0.3" strokeWidth="2" strokeLinecap="round" />
@@ -38,7 +38,7 @@ export default function Watson() {
         <rect x="196" y="98" width="14" height="4" rx="2" fill="#2a3140" />
         <path d="M 322,100 L 360,106 L 359,111 L 322,105 Z" fill="#e8f6ff" stroke="#050816" strokeWidth="2" strokeLinejoin="round" />
         <path d="M 346,112 L 364,118 L 365,140 L 344,136 Z" fill="#0a0f1c" />
-        <rect x="70" y="76" width="9" height="11" rx="2" fill="#e63946" />
+        <rect x="70" y="84" width="9" height="11" rx="2" fill="#e63946" />
       </g>
       <Wheel cx={110} cy={146} r={29} rim="#1c2230" spoke="#6d7a90" spokes={5} />
       <Wheel cx={298} cy={146} r={29} rim="#1c2230" spoke="#6d7a90" spokes={5} />
