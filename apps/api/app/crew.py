@@ -10,6 +10,7 @@ from pydantic import BaseModel
 class Character(BaseModel):
     slug: str
     name: str
+    title: str | None = None  # a special designation, such as "Captain"
     location: str  # "North Carolina" or "Seattle WA"
     role: str
     bio: str
@@ -27,11 +28,16 @@ CREW: list[Character] = [
         ),
     ),
     Character(
-        slug="captain-piggy",
-        name="Captain Piggy",
+        slug="piggy",
+        name="Piggy",
+        title="Captain",
         location="North Carolina",
-        role="Captain",
-        bio="Coordinates with Hamlet, the Polish elephants, and the crew.",
+        role="Captain, overseer of the Polish elephants",
+        bio=(
+            "Largely oversees the Polish elephants and keeps them out of mischief, when "
+            "possible. It is not always a success, and he giggles and helps them get back "
+            "on the right path. He also watches over the little duck."
+        ),
     ),
     Character(
         slug="hamley",
@@ -48,8 +54,23 @@ CREW: list[Character] = [
         bio="The newest recruit to the bunch.",
     ),
     Character(
+        slug="gray-elephant",
+        name="The Gray Elephant",
+        location="North Carolina",
+        role="Crew",
+        bio="The larger gray elephant of the North Carolina crew.",
+    ),
+    Character(
+        slug="little-duck",
+        name="The Little Duck",
+        location="North Carolina",
+        role="Crew",
+        bio="A little pink duck that Piggy watches over, along with the Polish elephants.",
+    ),
+    Character(
         slug="hamlet",
         name="Hamlet",
+        title="Captain",
         location="Seattle WA",
         role="Captain and drone pilot",
         bio=(

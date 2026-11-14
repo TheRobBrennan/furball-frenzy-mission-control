@@ -28,19 +28,23 @@ const photos = [
   },
 ];
 
-const crew = {
+type Member = { name: string; title?: string };
+
+const crew: Record<string, Member[]> = {
   "North Carolina": [
-    "The Polish Elephants",
-    "Captain Piggy",
-    "Hamley",
-    "Blue Bear",
+    { name: "The Polish Elephants" },
+    { name: "Piggy", title: "Captain" },
+    { name: "Hamley" },
+    { name: "Blue Bear" },
+    { name: "The Gray Elephant" },
+    { name: "The Little Duck" },
   ],
   "Seattle WA": [
-    "Hamlet",
-    "Little Bear",
-    "Little Bunny",
-    "Kraken Bear",
-    "Fuzzy Black Bear",
+    { name: "Hamlet", title: "Captain" },
+    { name: "Little Bear" },
+    { name: "Little Bunny" },
+    { name: "Kraken Bear" },
+    { name: "Fuzzy Black Bear" },
   ],
 };
 
@@ -174,12 +178,17 @@ export default function Home() {
                 {place}
               </h3>
               <ul className="mt-4 space-y-2 text-lg">
-                {names.map((name) => (
-                  <li key={name} className="flex items-center gap-3">
+                {names.map((member) => (
+                  <li key={member.name} className="flex items-center gap-3">
                     <span className="text-amber" aria-hidden="true">
                       &#9733;
                     </span>
-                    {name}
+                    {member.name}
+                    {member.title && (
+                      <span className="rounded-full border border-amber/60 px-2 py-0.5 font-mono text-xs uppercase tracking-widest text-amber">
+                        {member.title}
+                      </span>
+                    )}
                   </li>
                 ))}
               </ul>
