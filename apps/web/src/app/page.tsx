@@ -1,5 +1,7 @@
 import Image from "next/image";
 import ClearanceDesk from "@/components/ClearanceDesk";
+import HeroPolaroid from "@/components/HeroPolaroid";
+import MissionPatch from "@/components/MissionPatch";
 import MissionStatus from "@/components/MissionStatus";
 import VersionLine from "@/components/VersionLine";
 
@@ -79,23 +81,10 @@ export default function Home() {
       />
 
       <section className="relative mx-auto grid max-w-6xl items-center gap-8 px-6 pb-12 pt-8 lg:grid-cols-2 lg:gap-12 lg:pb-20 lg:pt-20">
-        <figure
-          className="polaroid order-1 mx-auto w-full max-w-[19rem] rounded-md bg-white p-3 pb-4 shadow-2xl shadow-black/60 sm:max-w-sm lg:order-2 lg:max-w-md"
-          style={{ ["--tilt" as string]: "2deg" }}
-        >
-          <Image
-            src="/images/american-space-program.jpg"
-            alt="An illustration of two Polish elephants and a pilot pig in an aviator cap under an American Space Program sign"
-            width={1024}
-            height={1024}
-            priority
-            className="aspect-square w-full rounded-sm object-cover"
-            sizes="(min-width: 1024px) 448px, (min-width: 640px) 384px, 304px"
-          />
-          <figcaption className="mt-3 text-center font-mono text-xs font-semibold text-space sm:text-sm">
-            Reporting for duty at the American Space Program
-          </figcaption>
-        </figure>
+        <div className="relative order-1 mx-auto w-full max-w-[19rem] sm:max-w-sm lg:order-2 lg:max-w-md">
+          <HeroPolaroid />
+          <MissionPatch className="patch-wobble pointer-events-none absolute -left-4 -top-6 z-10 h-24 w-24 drop-shadow-[0_6px_10px_rgba(0,0,0,0.55)] sm:-left-8 sm:-top-8 sm:h-28 sm:w-28" />
+        </div>
 
         <div className="order-2 text-center lg:order-1 lg:text-left">
           <p className="mb-3 font-mono text-[0.65rem] uppercase tracking-[0.15em] text-ice sm:text-xs sm:tracking-[0.25em]">

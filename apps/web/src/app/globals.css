@@ -89,9 +89,72 @@ body {
   transform: rotate(var(--tilt, 0deg));
 }
 
+/* A new photo "develops" like an instant print: it starts warm, soft, and see-through. */
+@keyframes develop {
+  from {
+    opacity: 0;
+    filter: sepia(1) saturate(1.6) blur(7px) brightness(1.25);
+  }
+  60% {
+    opacity: 1;
+    filter: sepia(0.5) blur(2px) brightness(1.1);
+  }
+  to {
+    opacity: 1;
+    filter: none;
+  }
+}
+
+.photo-develop {
+  animation: develop 1.6s ease-out both;
+}
+
+@keyframes caption-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.photo-caption {
+  animation: caption-in 0.7s ease-out 0.5s both;
+}
+
+/* Each photo has its own tilt, the frame settles into it. */
+.hero-photo {
+  transform: rotate(calc(var(--photo-tilt, 0deg) * -0.25));
+  transition: transform 1.2s ease-in-out;
+}
+
+/* The mission patch sways a little, as if it were pinned to the corner. */
+@keyframes patch-wobble {
+  0%,
+  100% {
+    transform: rotate(-14deg) translateY(0);
+  }
+  50% {
+    transform: rotate(-9deg) translateY(-4px);
+  }
+}
+
+.patch-wobble {
+  animation: patch-wobble 6s ease-in-out infinite;
+  transform: rotate(-12deg);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .starfield,
-  .polaroid {
+  .polaroid,
+  .patch-wobble,
+  .photo-develop,
+  .photo-caption {
     animation: none;
+  }
+  .hero-photo {
+    transition: none;
   }
 }
