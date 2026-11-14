@@ -39,7 +39,9 @@ CREW: list[Character] = [
             "on the right path. He also watches over the little duck. Hamley's big brother. "
             "Notoriously winds up at the helm of the iPad Pro and the MacBook Pro, and with his "
             "paws on every remote, he learns the buttons, controls the device, and is eager to "
-            "teach anyone who wants to learn, furballs and humans alike."
+            "teach anyone who wants to learn, furballs and humans alike. Loves road trips and "
+            "driving, and is the first to jump at the mention of a road trip or any chance to "
+            "sightsee and scope out the area."
         ),
     ),
     Character(

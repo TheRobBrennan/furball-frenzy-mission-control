@@ -75,6 +75,15 @@ The crew's own gear is a source of parts, vehicles, and mission control hardware
 
 Piggy and Hamley are brothers, Hamley is the first little brother and looks up to Piggy.
 
+### The fleet at home base
+
+The North Carolina crew has a fleet of ground vehicles at home base, rumor has it a truck named
+Rocky that looks very much like a full-size Slash, a blue Blazer, a convertible, an RV, and a golf
+cart for getting around a big property. Piggy loves road trips and driving, and is the first to
+jump at the mention of a road trip or a chance to sightsee and scope out the area. In the game they
+are the ground vehicles, rovers and support vehicles, and Piggy's road trips are the scouting and
+site survey missions.
+
 ## Architecture
 
 - `apps/api` owns the rules: crew data, parts catalog, launch vehicles, and the mission
