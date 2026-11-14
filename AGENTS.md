@@ -53,6 +53,21 @@ Makefile, so `make` works the same way.
 The web app forwards `/api/*` to the FastAPI service (`API_URL`, default
 `http://localhost:8000`, `http://api:8000` inside Docker).
 
+## Mobile first, always
+
+**The site must be responsive and mobile-friendly, without question.** Rob develops on a
+MacBook Pro and it is easy to forget the phone, so mobile stays top of mind on every UI change.
+
+- Design for a phone first (375 x 812), then tablet (768) and desktop (1280 and up).
+- No horizontal scroll at any width, no content cut off, tap targets at least 44 px, text readable
+  without zooming, images sized with responsive `sizes`, and animations that respect
+  `prefers-reduced-motion`.
+- **Check every visual change at a phone width** in the running app (`npr start`), for example
+  the browser's mobile emulation, not just on the laptop.
+- PR screenshots show the phone width as well as the desktop, see the PR template.
+- Keep the first screen (above the fold) good on a phone, the hero image and the title come
+  first, nothing important hides behind a hover.
+
 ## Git workflow
 
 - **Branch naming:** `YYYY.MM.DD/short-kebab-description`, dated the day the branch is

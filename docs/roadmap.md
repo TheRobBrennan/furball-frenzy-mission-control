@@ -44,6 +44,28 @@ See `game-plan.md` for the loop and the milestones.
 - [ ] Polish, animation, sound, the elephants' story
 - [ ] Submit on the Space Apps Project tab, closes Sunday 2026-11-15 at 11:59pm local time
 
+## Principle: mobile first
+
+The site must be responsive and mobile-friendly, without question. See `CLAUDE.md`. Tasks:
+
+- [x] Mobile rule in `CLAUDE.md` and `AGENTS.md`, and a PR template that asks for phone-width screenshots
+- [x] First check of the landing page at 375 x 812, no horizontal scroll
+- [ ] Automated responsive checks (Playwright at 375, 768, and 1280, no horizontal overflow) in CI
+- [ ] A phone-first redesign of the top of the page, the hero image is visible on the first screen
+
+## Banner image options for the launch site
+
+Rob's decision: obfuscated banner imagery of the actual lake.
+
+- **Rob's own photos of the lake**, cropped and processed so no house, dock, or flag is
+  recognizable, metadata stripped.
+- **Public-domain aerial imagery**, USDA NAIP, processed with a duotone or grid look and
+  CLASSIFIED bars.
+- **A 3D render from public lidar**, USGS 3DEP or North Carolina's statewide lidar, as a
+  hillshaded or point-cloud "classified" view, generated offline.
+- Not for the public site: map or satellite screenshots from consumer map apps, their imagery is
+  licensed and they show street names.
+
 ## Before the deploy: a more exciting page above the fold
 
 - [ ] Make the top of the page more visually exciting with Rob's own photos from the launch
