@@ -111,3 +111,7 @@ Dead concerts at Soldier Field.
 - **The Seattle crew bops around the city**, Seattle landmarks as places and backdrops: the
   Space Needle, Pike Place Market, and Climate Pledge Arena, a favorite of Kraken Bear.
 - Furballs join along the way, more of the Seattle crew, Fuzzy Brown Bear, and others.
+
+## README visuals
+- Keep the README exciting off the bat: hero image, phone and desktop screenshots, refreshed with each visual change.
+- Add animated GIFs of the game loop (launch, rover drive, clearance desk) as they come to life, keep each under a few MB.

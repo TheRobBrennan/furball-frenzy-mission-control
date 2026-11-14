@@ -1,5 +1,7 @@
 # 🐘 Furball Frenzy: Mission Control
 
+<p align="center"><img src="apps/web/public/images/american-space-program.jpg" alt="Two Polish elephants and Captain Hamlet reporting for duty at the American Space Program" width="520"></p>
+
 A web game for the **2026 NASA Space Apps Challenge**, the *Space Mission Design Game*
 challenge, built by a team of one with a crew of plush explorers.
 
@@ -11,6 +13,14 @@ budget, data, and communications, and see how every choice shapes the result.
 - Team page: <https://www.spaceappschallenge.org/2026/find-a-team/furball-frenzy-mission-control/>
 - Challenge: <https://www.spaceappschallenge.org/2026/challenges/space-mission-design-game/>
 - Game plan: [docs/game-plan.md](docs/game-plan.md)
+
+## See it
+
+| Phone (375) | Desktop (1280) |
+| --- | --- |
+| <img src="docs/screenshots/2026-11-14-mobile-text-fix-phone-375.jpg" alt="Landing page on a phone" width="240"> | <img src="docs/screenshots/2026-11-14-mobile-text-fix-desktop-1280.jpg" alt="Landing page on desktop" width="560"> |
+
+Animated GIFs of the game loop go here as the app evolves. Keep the README's visuals current with every visual change.
 
 ## Stack
 
