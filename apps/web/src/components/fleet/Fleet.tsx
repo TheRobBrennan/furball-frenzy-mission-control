@@ -1,4 +1,6 @@
 import type { ReactNode } from "react";
+import Reveal from "../Reveal";
+import SectionHeading from "../SectionHeading";
 import Blazer from "./Blazer";
 import Convertible from "./Convertible";
 import GolfCart from "./GolfCart";
@@ -49,18 +51,15 @@ const vehicles: Vehicle[] = [
 
 export default function Fleet() {
   return (
-    <section
+    <Reveal
+      as="section"
       id="fleet"
-      className="mx-auto max-w-6xl scroll-mt-6 px-6 pb-16 text-center"
+      className="mx-auto max-w-6xl scroll-mt-6 px-6 py-14 text-center sm:py-20"
       aria-labelledby="fleet-heading"
     >
-      <h2 id="fleet-heading" className="text-3xl font-black tracking-tight sm:text-4xl">
-        The fleet
-      </h2>
-      <p className="mx-auto mt-3 max-w-2xl text-balance text-white/75">
-        Wheels for road trips and site surveys on the ground, and one very special rover for the
-        Moon.
-      </p>
+      <SectionHeading id="fleet-heading" eyebrow="Wheels" title="The fleet">
+        <p>One very special rover for the Moon, and wheels for road trips and site surveys on the ground.</p>
+      </SectionHeading>
       <div className="fleet-card mt-10 grid items-center gap-8 rounded-3xl border border-amber/60 bg-white/5 p-6 text-left shadow-xl shadow-black/30 backdrop-blur sm:p-8 md:grid-cols-[minmax(0,15rem)_1fr]">
         <div className="mx-auto w-full max-w-[13rem] rounded-2xl bg-gradient-to-b from-space-2 to-space p-4 md:max-w-none">
           <LunarRover />
@@ -84,7 +83,7 @@ export default function Fleet() {
           </p>
         </div>
       </div>
-      <ul className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-6">
+      <ul className="reveal-stagger mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-6">
         {vehicles.map((v, i) => (
           <li
             key={v.name}
@@ -101,6 +100,6 @@ export default function Fleet() {
           </li>
         ))}
       </ul>
-    </section>
+    </Reveal>
   );
 }

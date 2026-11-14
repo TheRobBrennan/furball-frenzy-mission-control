@@ -1,6 +1,9 @@
 import Image from "next/image";
 import ClearanceDesk from "@/components/ClearanceDesk";
 import Fleet from "@/components/fleet/Fleet";
+import Reveal from "@/components/Reveal";
+import SectionHeading from "@/components/SectionHeading";
+import StarDivider from "@/components/StarDivider";
 import HeroPolaroid from "@/components/HeroPolaroid";
 import MissionPatch from "@/components/MissionPatch";
 import MissionStatus from "@/components/MissionStatus";
@@ -125,29 +128,38 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="story" className="mx-auto max-w-3xl scroll-mt-6 px-6 pb-12 text-center">
-        <blockquote className="rounded-3xl border border-white/10 bg-white/5 p-6 text-left text-lg leading-relaxed text-white/90 shadow-2xl shadow-black/40 backdrop-blur sm:p-8 sm:text-center sm:text-2xl">
+      <StarDivider />
+
+      <Reveal as="section" id="story" className="mx-auto max-w-3xl scroll-mt-6 px-6 py-14 text-center sm:py-20">
+        <SectionHeading eyebrow="The mission brief" />
+        <blockquote className="mt-8 rounded-3xl border border-white/10 bg-white/5 p-6 text-left text-lg leading-relaxed text-white/90 shadow-2xl shadow-black/40 backdrop-blur sm:p-8 sm:text-center sm:text-2xl">
           The true heroes of our game follow the adventures, and the misadventures, of
           two space-enthusiast Polish elephants who want nothing more than to be part of
           the American Space Program and to shine as its international members.{" "}
           <span className="font-bold text-amber">Their lifelong dream!</span>
         </blockquote>
-      </section>
+      </Reveal>
 
-      <section aria-label="Classified files" className="mx-auto max-w-3xl px-6 pb-12 text-left sm:text-center">
-        <h2 className="text-3xl font-black text-balance sm:text-4xl">Classified, by the elephants</h2>
-        <p className="mx-auto mt-4 mb-8 max-w-xl text-base text-pretty text-white/80 sm:text-lg">
-          The Polish elephants keep a few things classified, just for the fun of it. A bit of
-          humor, a good argument, or the right credentials will do. They love cameras,
-          drawings, and every kind of media, and nothing makes them happier than bringing
-          an idea or a conversation to life.
-        </p>
-        <ClearanceDesk />
-      </section>
+      <StarDivider />
 
-      <section
+      <Reveal as="section" aria-label="Classified files" className="mx-auto max-w-3xl px-6 py-14 text-left sm:py-20 sm:text-center">
+        <SectionHeading eyebrow="Clearance required" title="Classified, by the elephants">
+          <p>
+            The Polish elephants keep a few things classified, just for the fun of it. A bit of
+            humor, a good argument, or the right credentials will do. They love cameras,
+            drawings, and every kind of media, and nothing makes them happier than bringing
+            an idea or a conversation to life.
+          </p>
+        </SectionHeading>
+        <div className="mt-8">
+          <ClearanceDesk />
+        </div>
+      </Reveal>
+
+      <Reveal
+        as="section"
         aria-label="The Polish elephants"
-        className="mx-auto grid max-w-6xl gap-10 px-6 py-12 sm:grid-cols-2 lg:grid-cols-3"
+        className="reveal-stagger mx-auto grid max-w-6xl gap-10 px-6 py-10 sm:grid-cols-2 sm:py-14 lg:grid-cols-3"
       >
         {photos.map((photo) => (
           <figure
@@ -168,11 +180,14 @@ export default function Home() {
             </figcaption>
           </figure>
         ))}
-      </section>
+      </Reveal>
 
-      <section
+      <StarDivider />
+
+      <Reveal
+        as="section"
         aria-label="The North Carolina crew"
-        className="mx-auto grid max-w-6xl items-center gap-10 px-6 py-12 lg:grid-cols-2"
+        className="mx-auto grid max-w-6xl items-center gap-10 px-6 py-14 sm:py-20 lg:grid-cols-2"
       >
         <figure
           className="polaroid mx-auto w-full max-w-xl rounded-md bg-white p-3 pb-5 shadow-2xl shadow-black/60"
@@ -191,34 +206,42 @@ export default function Home() {
           </figcaption>
         </figure>
         <div className="space-y-4 text-left">
-          <h2 className="text-3xl font-black text-balance sm:text-4xl">Launch site: classified</h2>
-          <p className="text-base text-pretty text-white/80 sm:text-lg">
-            The North Carolina crew launches from an undisclosed location. All we can say
-            is that it is a lake, and it is right out in their backyard.
-          </p>
+          <SectionHeading eyebrow="Home base" title="Launch site: classified" align="left">
+            <p>
+              The North Carolina crew launches from an undisclosed location. All we can say
+              is that it is a lake, and it is right out in their backyard.
+            </p>
+          </SectionHeading>
           <p className="font-mono text-sm text-ice">
             Coordinates withheld by order of Mission Control
           </p>
         </div>
-      </section>
+      </Reveal>
 
-      <Fleet />
+      <div className="border-y border-white/5 bg-white/[0.03]">
+        <Fleet />
+      </div>
 
-      <section
+      <StarDivider />
+
+      <Reveal
+        as="section"
         aria-label="The Seattle crew"
-        className="mx-auto max-w-4xl px-6 py-12 text-left sm:text-center"
+        className="mx-auto max-w-4xl px-6 py-14 text-left sm:py-20 sm:text-center"
       >
-        <h2 className="text-3xl font-black text-balance sm:text-4xl">Meanwhile, in Seattle</h2>
-        <p className="mx-auto mt-4 max-w-2xl text-base text-pretty text-white/80 sm:text-lg">
-          The Seattle crew is bopping around town between missions, keeping tabs on
-          Mission Control from the Space Needle, Pike Place Market, and Climate Pledge
-          Arena, the Kraken Bear&apos;s favorite.
-        </p>
-      </section>
+        <SectionHeading eyebrow="Meanwhile" title="Meanwhile, in Seattle">
+          <p>
+            The Seattle crew is bopping around town between missions, keeping tabs on
+            Mission Control from the Space Needle, Pike Place Market, and Climate Pledge
+            Arena, the Kraken Bear&apos;s favorite.
+          </p>
+        </SectionHeading>
+      </Reveal>
 
-      <section
+      <Reveal
+        as="section"
         aria-label="The quest for the perfect home"
-        className="mx-auto grid max-w-6xl items-center gap-10 px-6 py-12 lg:grid-cols-2"
+        className="mx-auto grid max-w-6xl items-center gap-10 px-6 py-10 sm:py-16 lg:grid-cols-2"
       >
         <figure
           className="polaroid mx-auto w-full max-w-xs rounded-md bg-white p-3 pb-5 shadow-2xl shadow-black/60 lg:max-w-sm"
@@ -237,86 +260,89 @@ export default function Home() {
           </figcaption>
         </figure>
         <div className="space-y-4 text-left">
-          <h2 className="text-3xl font-black text-balance sm:text-4xl">The quest for the perfect home</h2>
-          <p className="text-base text-pretty text-white/80 sm:text-lg">
-            The Polish elephants were on a quest to find the perfect home. They traveled
-            all the way from Poland for a React Native meetup hosted by Software Mansion
-            at Stoup Brewing.
-          </p>
-          <p className="text-base text-pretty text-white/80 sm:text-lg">
-            After a beer, the shy elephant happily flagged down his brother to make sure
-            the two of them, and their coins, could travel together safely and meet their
-            new family in Seattle.
-          </p>
+          <SectionHeading eyebrow="Origin story" title="The quest for the perfect home" align="left">
+            <p>
+              The Polish elephants were on a quest to find the perfect home. They traveled
+              all the way from Poland for a React Native meetup hosted by Software Mansion
+              at Stoup Brewing.
+            </p>
+            <p className="mt-4">
+              After a beer, the shy elephant happily flagged down his brother to make sure
+              the two of them, and their coins, could travel together safely and meet their
+              new family in Seattle.
+            </p>
+          </SectionHeading>
         </div>
-      </section>
+      </Reveal>
 
-      <section
+      <StarDivider />
+
+      <Reveal
+        as="section"
         aria-label="How Piggy met Hamley"
-        className="tie-dye mx-auto my-6 max-w-5xl rounded-3xl px-6 py-12 text-left sm:text-center"
+        className="mx-auto my-6 max-w-5xl px-4 sm:px-6"
       >
-        <h2 className="text-3xl font-black text-balance sm:text-4xl">How Piggy met Hamley</h2>
-        <p className="mx-auto mt-4 max-w-2xl text-base text-pretty text-white/80 sm:text-lg">
-          Hamley flew in from England with his new family, excited to know he would be
-          meeting his big brother for the first time. Piggy and Hamley met in Chicago, over
-          three nights of the Fare Thee Well Grateful Dead concerts at Soldier Field.
-          Hamley has looked up to him ever since.
-        </p>
-        <div className="mt-8 grid gap-6 sm:grid-cols-3">
-          {meeting.map((photo) => (
-            <figure
-              key={photo.src}
-              className="mx-auto w-full max-w-xs overflow-hidden rounded-xl border border-white/10 bg-white/5 shadow-xl shadow-black/40 sm:max-w-none"
-            >
-              <Image
-                src={photo.src}
-                alt={photo.alt}
-                width={1200}
-                height={1600}
-                className="aspect-[3/4] w-full object-cover"
-                sizes="(min-width: 640px) 30vw, 80vw"
-              />
-              <figcaption className="p-3 font-mono text-xs text-white/70">
-                {photo.caption}
-              </figcaption>
-            </figure>
-          ))}
+        <div className="tie-dye rounded-3xl px-6 py-12 text-left sm:py-16 sm:text-center">
+          <SectionHeading eyebrow="Family" title="How Piggy met Hamley">
+            <p>
+              Hamley flew in from England with his new family, excited to know he would be
+              meeting his big brother for the first time. Piggy and Hamley met in Chicago, over
+              three nights of the Fare Thee Well Grateful Dead concerts at Soldier Field.
+              Hamley has looked up to him ever since.
+            </p>
+          </SectionHeading>
+          <div className="reveal-stagger mt-8 grid gap-6 sm:grid-cols-3">
+            {meeting.map((photo) => (
+              <figure
+                key={photo.src}
+                className="mx-auto w-full max-w-xs overflow-hidden rounded-xl border border-white/10 bg-white/5 shadow-xl shadow-black/40 sm:max-w-none"
+              >
+                <Image
+                  src={photo.src}
+                  alt={photo.alt}
+                  width={1200}
+                  height={1600}
+                  className="aspect-[3/4] w-full object-cover"
+                  sizes="(min-width: 640px) 30vw, 80vw"
+                />
+                <figcaption className="p-3 font-mono text-xs text-white/70">
+                  {photo.caption}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
         </div>
-      </section>
+      </Reveal>
 
-      <section id="crew" className="mx-auto max-w-5xl scroll-mt-6 px-6 py-16">
-        <h2 className="text-left text-3xl font-black text-balance sm:text-center sm:text-4xl">The crew</h2>
-        <p className="mx-auto mt-3 max-w-xl text-left text-pretty text-white/70 sm:text-center">
-          Everyone is in the game, wherever they are. More furballs join along the way.
-        </p>
-        <div className="mt-10 grid gap-8 sm:grid-cols-2">
-          {Object.entries(crew).map(([place, names]) => (
-            <div
-              key={place}
-              className="rounded-2xl border border-white/10 bg-white/5 p-6"
-            >
-              <h3 className="font-mono text-sm uppercase tracking-widest text-ice">
-                {place}
-              </h3>
-              <ul className="mt-4 space-y-2 text-lg">
-                {names.map((member) => (
-                  <li key={member.name} className="flex items-center gap-3">
-                    <span className="text-amber" aria-hidden="true">
-                      &#9733;
-                    </span>
-                    {member.name}
-                    {member.title && (
-                      <span className="font-mono text-xs uppercase tracking-widest text-amber">
-                        {member.title}
+      <div className="mt-10 border-y border-white/5 bg-white/[0.03]">
+        <Reveal as="section" id="crew" className="mx-auto max-w-5xl scroll-mt-6 px-6 py-14 sm:py-20">
+          <SectionHeading eyebrow="The roster" title="The crew">
+            <p>Everyone is in the game, wherever they are. More furballs join along the way.</p>
+          </SectionHeading>
+          <div className="reveal-stagger mt-10 grid gap-8 sm:grid-cols-2">
+            {Object.entries(crew).map(([place, names]) => (
+              <div key={place} className="rounded-2xl border border-white/10 bg-white/5 p-6">
+                <h3 className="font-mono text-sm uppercase tracking-widest text-ice">{place}</h3>
+                <ul className="mt-4 space-y-2 text-lg">
+                  {names.map((member) => (
+                    <li key={member.name} className="flex items-center gap-3">
+                      <span className="text-amber" aria-hidden="true">
+                        &#9733;
                       </span>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      </section>
+                      {member.name}
+                      {member.title && (
+                        <span className="font-mono text-xs uppercase tracking-widest text-amber">
+                          {member.title}
+                        </span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </Reveal>
+      </div>
 
       <footer className="mx-auto max-w-5xl px-6 pb-12 text-center font-mono text-xs text-white/50">
         Built over the 2026 NASA Space Apps Challenge weekend, Charlotte, NC local
