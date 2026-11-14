@@ -60,7 +60,7 @@ CREW: list[Character] = [
             "Each has their own iPad Pro and MacBook Pro, and a tabbed binder with colored dividers for their research and journaling",
         ],
         bio=(
-            "Space-enthusiast elephants from Poland who want nothing more than to shine "
+            "Space-enthusiast elephants from Software Mansion in Krakow, Poland who want nothing more than to shine "
             "as international members of the American Space Program. They were on a quest to "
             "find the perfect home, visiting all the way from Poland for a React Native meetup "
             "hosted by Software Mansion at Stoup Brewing. After a beer, the shy elephant happily "
@@ -76,7 +76,7 @@ CREW: list[Character] = [
         bio=(
             "The pig in the rainbow coat and Piggy's first little brother. They are very close, "
             "Hamley looks up to Piggy with love and respect and is happy to help in any way he can. "
-            "Hamley flew from England with his new family, excited to know he would be meeting "
+            "Hamley flew from England with his new family, probably from Hamleys toy store in London, excited to know he would be meeting "
             "his big brother for the first time. They met in Chicago, over three nights of the "
             "Fare Thee Well Grateful Dead concerts at Soldier Field."
         ),
@@ -122,7 +122,7 @@ CREW: list[Character] = [
         name="Little Bear",
         location="Seattle WA",
         role="Crew",
-        bio="The teddy bear in the red and white knit sweater.",
+        bio="The teddy bear in the red and white knit sweater, probably from Hamleys toy store in London, like Hamley.",
     ),
     Character(
         slug="little-bunny",

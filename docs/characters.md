@@ -30,6 +30,7 @@ public-safe and confirmed, add it to `crew.py` in the same change.
 ### The Polish elephants, mission leads
 | Date | Trait | Status |
 | --- | --- | --- |
+| 2026-11-14 | Hail from Software Mansion in Krakow, Poland | confirmed |
 | 2026-11-14 | Keep a few things classified for fun, convinced by humor, a good argument, or credentials | confirmed |
 | 2026-11-14 | Love cameras of every kind, the DJI Action 5 Pro and GoPro Hero among them | confirmed |
 | 2026-11-14 | Love bringing ideas to life with images, drawings, and all kinds of media | confirmed |
@@ -46,8 +47,15 @@ public-safe and confirmed, add it to `crew.py` in the same change.
 ### Hamley, North Carolina
 | Date | Trait | Status |
 | --- | --- | --- |
+| 2026-11-14 | Probably from Hamleys toy store in London | **proposed** |
 | 2026-11-14 | Piggy's first little brother, looks up to him with love and respect | confirmed |
 | 2026-11-14 | Flew from England with his new family, met Piggy in Chicago | confirmed |
+
+### Little Bear, Seattle
+| Date | Trait | Status |
+| --- | --- | --- |
+| 2026-11-14 | The teddy bear in the red and white knit sweater | confirmed |
+| 2026-11-14 | Probably from Hamleys toy store in London, like Hamley | **proposed** |
 
 ### Hamlet, Captain, Seattle
 | Date | Trait | Status |
