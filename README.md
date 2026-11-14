@@ -16,9 +16,9 @@ budget, data, and communications, and see how every choice shapes the result.
 
 ## See it
 
-| Phone (375) | Desktop (1280) |
+| Phone (375), top of page, full page in docs/screenshots | Desktop (1280) |
 | --- | --- |
-| <img src="docs/screenshots/2026-11-14-mobile-text-fix-phone-375.jpg" alt="Landing page on a phone" width="240"> | <img src="docs/screenshots/2026-11-14-mobile-text-fix-desktop-1280.jpg" alt="Landing page on desktop" width="560"> |
+| <img src="docs/screenshots/readme-phone-375.jpg" alt="Landing page on a phone" width="240"> | <img src="docs/screenshots/2026-11-14-mobile-text-fix-desktop-1280.jpg" alt="Landing page on desktop" width="560"> |
 
 Animated GIFs of the game loop go here as the app evolves. Keep the README's visuals current with every visual change.
 
