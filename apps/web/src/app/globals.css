@@ -19,6 +19,16 @@
   --font-mono: var(--font-geist-mono);
 }
 
+html {
+  scroll-behavior: auto;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
 body {
   background: var(--space);
   color: var(--foreground);
@@ -36,6 +46,12 @@ body {
     radial-gradient(1px 1px at 60px 220px, #cfe8ff, transparent);
   background-size: 340px 260px;
   animation: drift 90s linear infinite;
+}
+
+/* A soft glowing planet behind the hero. */
+.glow-planet {
+  background: radial-gradient(circle at 35% 35%, rgba(142, 202, 230, 0.55), rgba(40, 70, 160, 0.25) 55%, transparent 72%);
+  filter: blur(6px);
 }
 
 @keyframes drift {

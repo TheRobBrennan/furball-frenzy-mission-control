@@ -71,29 +71,65 @@ export default function Home() {
     <main className="relative isolate flex-1 overflow-hidden bg-gradient-to-b from-space via-space-2 to-space">
       <div className="starfield absolute inset-0 -z-10 opacity-70" aria-hidden="true" />
 
-      <section className="mx-auto flex max-w-5xl flex-col items-center px-6 pb-16 pt-20 text-center">
-        <p className="mb-4 font-mono text-xs uppercase tracking-[0.35em] text-ice">
-          NASA Space Apps Challenge 2026 &middot; Space Mission Design Game
-        </p>
-        <h1 className="text-5xl font-black leading-tight tracking-tight sm:text-7xl">
-          Furball Frenzy:{" "}
-          <span className="bg-gradient-to-r from-amber to-ember bg-clip-text text-transparent">
-            Mission Control
-          </span>
-        </h1>
-        <p className="mt-6 max-w-2xl text-lg text-white/80 sm:text-xl">
-          Design a space mission. Balance the mass, the power, and the budget. Get the
-          elephants to the Moon.
-        </p>
-        <p className="mt-3 font-mono text-sm text-amber">
-          A web game anyone can play, launching soon
-        </p>
-        <div className="mt-8">
-          <MissionStatus />
+      <div
+        className="glow-planet pointer-events-none absolute -right-24 -top-24 -z-10 h-72 w-72 rounded-full sm:h-96 sm:w-96"
+        aria-hidden="true"
+      />
+
+      <section className="relative mx-auto grid max-w-6xl items-center gap-8 px-6 pb-12 pt-8 lg:grid-cols-2 lg:gap-12 lg:pb-20 lg:pt-20">
+        <figure
+          className="polaroid order-1 mx-auto w-full max-w-[19rem] rounded-md bg-white p-3 pb-4 shadow-2xl shadow-black/60 sm:max-w-sm lg:order-2 lg:max-w-md"
+          style={{ ["--tilt" as string]: "2deg" }}
+        >
+          <Image
+            src="/images/american-space-program.jpg"
+            alt="An illustration of two Polish elephants and a pilot pig in an aviator cap under an American Space Program sign"
+            width={1024}
+            height={1024}
+            priority
+            className="aspect-square w-full rounded-sm object-cover"
+            sizes="(min-width: 1024px) 448px, (min-width: 640px) 384px, 304px"
+          />
+          <figcaption className="mt-3 text-center font-mono text-xs font-semibold text-space sm:text-sm">
+            Reporting for duty at the American Space Program
+          </figcaption>
+        </figure>
+
+        <div className="order-2 text-center lg:order-1 lg:text-left">
+          <p className="mb-3 font-mono text-[0.7rem] uppercase tracking-[0.25em] text-ice sm:text-xs">
+            NASA Space Apps 2026 &middot; Space Mission Design Game
+          </p>
+          <h1 className="text-4xl font-black leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
+            Furball Frenzy:{" "}
+            <span className="bg-gradient-to-r from-amber to-ember bg-clip-text text-transparent">
+              Mission Control
+            </span>
+          </h1>
+          <p className="mt-5 text-lg text-white/85 sm:text-xl">
+            Two Polish elephants, one lifelong dream: shining in the American Space
+            Program. Design the mission that gets them to the Moon.
+          </p>
+          <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
+            <a
+              href="#story"
+              className="inline-flex min-h-12 items-center justify-center rounded-full bg-amber px-6 font-bold text-space shadow-lg shadow-amber/20 transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            >
+              Start the mission
+            </a>
+            <a
+              href="#crew"
+              className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/30 px-6 font-bold text-white transition hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            >
+              Meet the crew
+            </a>
+          </div>
+          <div className="mt-6 flex justify-center lg:justify-start">
+            <MissionStatus />
+          </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-3xl px-6 pb-12 text-center">
+      <section id="story" className="mx-auto max-w-3xl scroll-mt-6 px-6 pb-12 text-center">
         <blockquote className="rounded-3xl border border-white/10 bg-white/5 p-8 text-xl leading-relaxed text-white/90 shadow-2xl shadow-black/40 backdrop-blur sm:text-2xl">
           The true heroes of our game follow the adventures, and the misadventures, of
           two space-enthusiast Polish elephants who want nothing more than to be part of
@@ -213,7 +249,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-5xl px-6 py-16">
+      <section id="crew" className="mx-auto max-w-5xl scroll-mt-6 px-6 py-16">
         <h2 className="text-center text-3xl font-black sm:text-4xl">The crew</h2>
         <p className="mx-auto mt-3 max-w-xl text-center text-white/70">
           Everyone is in the game, wherever they are. More furballs join along the way.
