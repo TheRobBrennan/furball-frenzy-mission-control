@@ -32,15 +32,23 @@ link to them.
 ## Commands
 
 ```bash
-make up         # build and run web (http://localhost:3000) and api (http://localhost:8000)
-make up-d       # same, in the background
-make down       # stop
-make test       # api tests plus web lint and build
-make lint       # ruff plus eslint
+npr start       # build and run web (http://localhost:3000) and api (http://localhost:8000), detached
+npr stop        # stop
+npr restart     # stop, then start
+npr build       # fresh rebuild, no cache, then start detached
+npr clean       # remove containers, networks, and the images built here
+npr logs        # tail logs
+npr ps          # show what is running
+npr test        # api tests plus web lint and build
+npr lint        # ruff plus eslint
+make up         # same as start but in the foreground, Ctrl+C stops
 
 cd apps/api && uv run pytest -q
 cd apps/web && pnpm dev       # native dev, set API_URL if the api is not on localhost:8000
 ```
+
+`npr` is Rob's shell alias for `npm run`. The scripts in the root `package.json` wrap the
+Makefile, so `make` works the same way.
 
 The web app forwards `/api/*` to the FastAPI service (`API_URL`, default
 `http://localhost:8000`, `http://api:8000` inside Docker).

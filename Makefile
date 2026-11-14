@@ -4,23 +4,27 @@
 COMPOSE := docker compose -f infra/docker-compose.yml
 
 .DEFAULT_GOAL := help
-.PHONY: help up up-d down build logs ps test lint
+.PHONY: help up up-d down build clean logs ps test lint
 
 help:  ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
 	  | awk 'BEGIN{FS=":.*?## "}{printf "  \033[1m%-10s\033[0m %s\n", $$1, $$2}'
 
-up:  ## Build and run the web app and the API, Ctrl+C stops
+up:  ## Build and run the web app and the API in the foreground, Ctrl+C stops
 	$(COMPOSE) up --build
 
-up-d:  ## Same as up, in the background
+up-d:  ## Build and run the web app and the API in the background (npr start)
 	$(COMPOSE) up --build -d
 
 down:  ## Stop everything
 	$(COMPOSE) down
 
-build:  ## Rebuild all images from scratch
+build:  ## Fresh rebuild, all images from scratch (no cache), then start detached
 	$(COMPOSE) build --no-cache
+	$(COMPOSE) up -d --force-recreate
+
+clean:  ## Stop and remove containers, networks, and the images built here (fresh slate)
+	$(COMPOSE) down -v --rmi local
 
 logs:  ## Tail logs from all running services
 	$(COMPOSE) logs -f

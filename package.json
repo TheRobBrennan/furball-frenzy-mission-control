@@ -5,10 +5,11 @@
   "description": "Furball Frenzy: Mission Control, a web game for the 2026 NASA Space Apps Challenge",
   "license": "MIT",
   "scripts": {
-    "start": "make up",
-    "start:d": "make up-d",
+    "start": "make up-d",
     "stop": "make down",
+    "restart": "make down && make up-d",
     "build": "make build",
+    "clean": "make clean",
     "logs": "make logs",
     "ps": "make ps",
     "test": "make test",

@@ -6,10 +6,10 @@ Written Saturday 2026-11-14, the Space Apps weekend. The order is Rob's.
 
 - [x] Repo, Docker, placeholder landing page, GitHub to Discord webhook
 - [ ] **Discord:** the repo's GitHub webhook posts to `#concourse-2026`, verified with a real event
-- [ ] **`npr` shortcut:** the root `package.json` scripts launch the repo, `npr start` brings up the stack, `npr stop` stops it
+- [ ] **`npr` shortcut:** the root `package.json` scripts launch the repo, `npr start` brings up the stack detached, `npr stop` stops it, `npr build` rebuilds from scratch, `npr clean` removes everything built
 - [ ] **Manual check:** open the default page, the API, and the API docs, and confirm there are photos that include all the furballs in Rockingham
 
-URLs when the stack is up (`npr start` or `npr start:d`):
+URLs when the stack is up (`npr start`):
 
 | What | URL |
 | --- | --- |
