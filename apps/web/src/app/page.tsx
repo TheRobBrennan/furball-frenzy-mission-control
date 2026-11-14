@@ -1,5 +1,6 @@
 import Image from "next/image";
 import ClearanceDesk from "@/components/ClearanceDesk";
+import Fleet from "@/components/fleet/Fleet";
 import HeroPolaroid from "@/components/HeroPolaroid";
 import MissionPatch from "@/components/MissionPatch";
 import MissionStatus from "@/components/MissionStatus";
@@ -200,6 +201,8 @@ export default function Home() {
           </p>
         </div>
       </section>
+
+      <Fleet />
 
       <section
         aria-label="The Seattle crew"

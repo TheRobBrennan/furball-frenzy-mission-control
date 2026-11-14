@@ -54,6 +54,9 @@ CREW: list[Character] = [
             "Keeps friendly files and notes on everything they do, an elephant never forgets",
             "Loves jamming with Little Bunny on their Ableton Push 3 standalone in their free time",
             "Fun and playful, never creepy",
+            "Love to be tied together and stay close, and ride the lunar rover stacked as one, strapped in and sharing a helmet",
+            "Use the Bunny system, like all good furballs: safety and silliness first",
+            "Proud of their hard work, creativity, and team ethos",
         ],
         bio=(
             "Space-enthusiast elephants from Poland who want nothing more than to shine "
