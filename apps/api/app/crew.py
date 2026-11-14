@@ -10,7 +10,7 @@ from pydantic import BaseModel
 class Character(BaseModel):
     slug: str
     name: str
-    location: str  # "Rockingham, NC" or "Seattle WA"
+    location: str  # "North Carolina" or "Seattle WA"
     role: str
     bio: str
 
@@ -19,7 +19,7 @@ CREW: list[Character] = [
     Character(
         slug="polish-elephants",
         name="The Polish Elephants",
-        location="Rockingham, NC",
+        location="North Carolina",
         role="Mission leads",
         bio=(
             "Space-enthusiast elephants from Poland who want nothing more than to shine "
@@ -29,21 +29,21 @@ CREW: list[Character] = [
     Character(
         slug="captain-piggy",
         name="Captain Piggy",
-        location="Rockingham, NC",
+        location="North Carolina",
         role="Captain",
         bio="Coordinates with Hamlet, the Polish elephants, and the crew.",
     ),
     Character(
         slug="hamley",
         name="Hamley",
-        location="Rockingham, NC",
+        location="North Carolina",
         role="Crew",
         bio="The pig in the rainbow coat.",
     ),
     Character(
         slug="blue-bear",
         name="Blue Bear",
-        location="Rockingham, NC",
+        location="North Carolina",
         role="Recruit",
         bio="The newest recruit to the bunch.",
     ),

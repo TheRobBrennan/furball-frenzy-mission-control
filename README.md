@@ -54,5 +54,5 @@ FastAPI backend talk to each other. The game itself is next, see the game plan.
 - The lunar rover is inspired by the PLAYMOBIL ESA Starter Pack Space Mission (71734).
 - Mission design references from NASA, listed on the challenge's Resources tab.
 
-Built over the Space Apps weekend in Rockingham, NC, with the Charlotte, NC local event.
+Built over the Space Apps weekend in North Carolina, with the Charlotte, NC local event.
 Released under the [MIT License](LICENSE).

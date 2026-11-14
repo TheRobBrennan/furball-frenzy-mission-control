@@ -29,7 +29,7 @@ const photos = [
 ];
 
 const crew = {
-  "Rockingham, NC": [
+  "North Carolina": [
     "The Polish Elephants",
     "Captain Piggy",
     "Hamley",
@@ -106,7 +106,7 @@ export default function Home() {
       </section>
 
       <section
-        aria-label="The Rockingham crew"
+        aria-label="The North Carolina crew"
         className="mx-auto grid max-w-6xl items-center gap-10 px-6 py-12 lg:grid-cols-2"
       >
         <figure
@@ -114,7 +114,7 @@ export default function Home() {
           style={{ ["--tilt" as string]: "1.5deg" }}
         >
           <Image
-            src="/images/rockingham-crew.jpg"
+            src="/images/north-carolina-crew.jpg"
             alt="Blue Bear, the two Polish elephants, a larger elephant, a pink rubber duck, and a NASCAR race car piled together on a bed"
             width={2000}
             height={1500}
@@ -122,13 +122,13 @@ export default function Home() {
             sizes="(min-width: 1024px) 576px, 90vw"
           />
           <figcaption className="mt-4 text-center font-mono text-sm font-semibold text-space">
-            The Rockingham crew, gathering before launch
+            The North Carolina crew, gathering before launch
           </figcaption>
         </figure>
         <div className="space-y-4 text-center lg:text-left">
           <h2 className="text-3xl font-black sm:text-4xl">Launch site: classified</h2>
           <p className="text-lg text-white/80">
-            The Rockingham crew launches from an undisclosed location. All we can say
+            The North Carolina crew launches from an undisclosed location. All we can say
             is that it is a lake, and it is right out in their backyard.
           </p>
           <p className="font-mono text-sm text-ice">

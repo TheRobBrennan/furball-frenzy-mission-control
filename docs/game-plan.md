@@ -48,14 +48,14 @@ The elephants drive a lunar rover inspired by the PLAYMOBIL ESA Starter Pack Spa
 
 ### The cast
 
-Two groups, both in the game: Rockingham, NC (the Polish elephants, Captain Piggy, Hamley,
+Two groups, both in the game: North Carolina (the Polish elephants, Captain Piggy, Hamley,
 Blue Bear, and others) and Seattle WA (Hamlet the drone pilot, Little Bear, Little Bunny,
 Kraken Bear, Fuzzy Black Bear, and the lunar rover). More furballs join along the way.
 The character notes, traits, and photos live in Rob's vault.
 
 ### The setting
 
-- **Rockingham, NC:** the main cast launches from an undisclosed location, the lake right
+- **North Carolina:** the main cast launches from an undisclosed location, the lake right
   out in their backyard.
 - **Seattle WA:** the Seattle cast bops around the city between missions, with landmarks as
   places and backdrops: the Space Needle, Pike Place Market, and Climate Pledge Arena, a

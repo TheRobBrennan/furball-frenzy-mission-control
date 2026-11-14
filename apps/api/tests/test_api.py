@@ -15,7 +15,7 @@ def test_crew_lists_both_locations() -> None:
     response = client.get("/crew")
     assert response.status_code == 200
     locations = {c["location"] for c in response.json()}
-    assert locations == {"Rockingham, NC", "Seattle WA"}
+    assert locations == {"North Carolina", "Seattle WA"}
 
 
 def test_polish_elephants_are_in_the_crew() -> None:
