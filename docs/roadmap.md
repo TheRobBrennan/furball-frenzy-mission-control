@@ -26,7 +26,12 @@ Once the locally running app is right:
    analytics deploy doc (see `deployment/oracle-vm.md`)
 2. Configure a Cloudflare Tunnel for a `sploosh.ai` subdomain
 3. Subdomain: **`furball-frenzy.sploosh.ai`** (recommended, to be confirmed). Alternatives:
-   `furballs.sploosh.ai`, `mission-control.sploosh.ai`
+   `furballs.sploosh.ai`, `mission-control.sploosh.ai`. Keep it simple for now: if the host ever
+   serves several games, that host becomes the hub, or each game gets its own flat subdomain
+   (a second-level name like `a.b.sploosh.ai` is not covered by Cloudflare's free certificate)
+4. Automatic deploys like hockey analytics: after the first manual deploy, a merge to `main`
+   bumps the version from the PR title with a version-bump PR, then deploys over SSH to the VM
+   and checks the public site (see that repo's `.github/workflows/main-merge.yml`)
 
 ## Then: build the game
 
