@@ -93,3 +93,10 @@ public-safe and confirmed, add it to `crew.py` in the same change.
 | 2026-11-14 | The golf cart | The site shuttle | **proposed** |
 | 2026-11-14 | The lunar rover | The drawing has to look like the real toy the elephants own, from Rob's own photo of them on it, not a guess | confirmed |
 | 2026-11-14 | The lunar rover | The elephants' rover, a tilt-and-steer moon buggy with a tool box up front, twin lights, a sample gripper, and a long antenna, built from a toy space kit, and the game uses every piece in the kit | confirmed |
+| 2026-11-14 | Slash | The Traxxas Slash, a 1/10 scale 2WD radio control truck, Rocky is its full-size version | confirmed |
+| 2026-11-14 | B | A DJI Mini 2 Pro, a brand new family member, Piggy met B for the first time and B took a photo of him | confirmed |
+| 2026-11-14 | Optimus | A DJI Air 2S | confirmed |
+| 2026-11-14 | Blueberry | A 2003 Toyota Camry, dark blue | confirmed |
+| 2026-11-14 | Watson | A 2025 Hyundai Tucson | confirmed |
+| 2026-11-14 | Rufus | A 2016 Hyundai Tucson, the family vehicle of choice until an accident with a boulder that rolled off a mountain, what he is in the game is to be decided | confirmed |
+| 2026-11-14 | Hamlet | Flies the drones, B and Optimus among them | **proposed** |
