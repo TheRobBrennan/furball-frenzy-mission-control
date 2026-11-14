@@ -41,7 +41,11 @@ CREW: list[Character] = [
         role="Mission leads",
         bio=(
             "Space-enthusiast elephants from Poland who want nothing more than to shine "
-            "as international members of the American Space Program."
+            "as international members of the American Space Program. They were on a quest to "
+            "find the perfect home, visiting all the way from Poland for a React Native meetup "
+            "hosted by Software Mansion at Stoup Brewing. After a beer, the shy elephant happily "
+            "flagged down his brother to make sure they and their coins could travel together "
+            "safely and meet their new family in Seattle."
         ),
     ),
     Character(

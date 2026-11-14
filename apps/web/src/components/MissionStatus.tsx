@@ -45,7 +45,7 @@ export default function MissionStatus() {
 
   return (
     <p
-      className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 font-mono text-xs sm:text-sm"
+      className="inline-flex items-center gap-2 font-mono text-xs text-white/80 sm:text-sm"
       role="status"
     >
       <span className={`h-2.5 w-2.5 rounded-full ${dot}`} aria-hidden="true" />

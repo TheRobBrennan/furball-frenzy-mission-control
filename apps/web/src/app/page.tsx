@@ -205,16 +205,41 @@ export default function Home() {
           Mission Control from the Space Needle, Pike Place Market, and Climate Pledge
           Arena, the Kraken Bear&apos;s favorite.
         </p>
-        <ul className="mt-6 flex flex-wrap justify-center gap-3 font-mono text-sm">
-          {["Space Needle", "Pike Place Market", "Climate Pledge Arena"].map((place) => (
-            <li
-              key={place}
-              className="rounded-full border border-white/15 bg-white/5 px-4 py-2"
-            >
-              {place}
-            </li>
-          ))}
-        </ul>
+      </section>
+
+      <section
+        aria-label="The quest for the perfect home"
+        className="mx-auto grid max-w-6xl items-center gap-10 px-6 py-12 lg:grid-cols-2"
+      >
+        <figure
+          className="polaroid mx-auto w-full max-w-xs rounded-md bg-white p-3 pb-5 shadow-2xl shadow-black/60 lg:max-w-sm"
+          style={{ ["--tilt" as string]: "-2deg" }}
+        >
+          <Image
+            src="/images/elephants-at-the-meetup.jpg"
+            alt="A Polish elephant in a white swm t-shirt on a wooden table next to a pint of beer and two Software Mansion coins"
+            width={1200}
+            height={1600}
+            className="aspect-[3/4] w-full rounded-sm object-cover"
+            sizes="(min-width: 1024px) 384px, 320px"
+          />
+          <figcaption className="mt-4 text-center font-mono text-xs font-semibold text-space sm:text-sm">
+            A React Native meetup, with the coins
+          </figcaption>
+        </figure>
+        <div className="space-y-4 text-center lg:text-left">
+          <h2 className="text-3xl font-black sm:text-4xl">The quest for the perfect home</h2>
+          <p className="text-lg text-white/80">
+            The Polish elephants were on a quest to find the perfect home. They traveled
+            all the way from Poland for a React Native meetup hosted by Software Mansion
+            at Stoup Brewing.
+          </p>
+          <p className="text-lg text-white/80">
+            After a beer, the shy elephant happily flagged down his brother to make sure
+            the two of them, and their coins, could travel together safely and meet their
+            new family in Seattle.
+          </p>
+        </div>
       </section>
 
       <section
@@ -228,16 +253,6 @@ export default function Home() {
           three nights of the Fare Thee Well Grateful Dead concerts at Soldier Field.
           Hamley has looked up to him ever since.
         </p>
-        <ul className="mt-5 flex flex-wrap justify-center gap-2 font-mono text-xs uppercase tracking-widest">
-          {["Fare Thee Well", "Soldier Field", "Three nights", "Chicago"].map((chip) => (
-            <li
-              key={chip}
-              className="rounded-full border border-white/20 bg-white/10 px-3 py-1 text-white/90"
-            >
-              {chip}
-            </li>
-          ))}
-        </ul>
         <div className="mt-8 grid gap-6 sm:grid-cols-3">
           {meeting.map((photo) => (
             <figure
@@ -282,7 +297,7 @@ export default function Home() {
                     </span>
                     {member.name}
                     {member.title && (
-                      <span className="rounded-full border border-amber/60 px-2 py-0.5 font-mono text-xs uppercase tracking-widest text-amber">
+                      <span className="font-mono text-xs uppercase tracking-widest text-amber">
                         {member.title}
                       </span>
                     )}

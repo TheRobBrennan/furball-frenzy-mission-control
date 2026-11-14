@@ -101,8 +101,7 @@ Dead concerts at Soldier Field.
 
 - [ ] Rob's own concert photos or ticket stubs from those nights, metadata stripped, reviewed before
       the commit
-- [x] An original tie-dye wash and chips (Fare Thee Well, Soldier Field, Three nights, Chicago) in the
-      meantime
+- [x] An original tie-dye wash in the meantime, no chips, the text already says Fare Thee Well, Soldier Field, and Chicago
 - No band logos, official artwork, or posters, they are trademarked and copyrighted, original styling only
 
 ## Ideas to work in

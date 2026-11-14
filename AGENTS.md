@@ -65,6 +65,8 @@ MacBook Pro and it is easy to forget the phone, so mobile stays top of mind on e
 - **Check every visual change at a phone width** in the running app (`npr start`), for example
   the browser's mobile emulation, not just on the laptop.
 - PR screenshots show the phone width as well as the desktop, see the PR template.
+- **No decorative chips or pills.** Anything shaped like a button or a chip must link somewhere or do
+  something. Plain text labels are fine, fake buttons are not.
 - Keep the first screen (above the fold) good on a phone, the hero image and the title come
   first, nothing important hides behind a hover.
 
