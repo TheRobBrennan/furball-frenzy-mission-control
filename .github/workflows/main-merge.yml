@@ -32,9 +32,13 @@ jobs:
       - name: Determine version bump type
         id: bump-type
         run: |
-          # The merge commit message holds the PR title on its third line
+          # A merge commit holds the PR title on its third line. A squash commit holds it on the
+          # first line, followed by " (#123)".
           COMMIT_MSG=$(git log --format=%B -n 1)
           PR_TITLE=$(echo "$COMMIT_MSG" | sed -n '3p')
+          if ! scripts/ci/classify-pr-title.sh "$PR_TITLE" >/dev/null; then
+            PR_TITLE=$(echo "$COMMIT_MSG" | sed -n '1p' | sed -E 's/ \(#[0-9]+\)$//')
+          fi
           echo "PR title: $PR_TITLE"
           if ! BUMP=$(scripts/ci/classify-pr-title.sh "$PR_TITLE"); then
             echo "Invalid PR title format: $PR_TITLE"
