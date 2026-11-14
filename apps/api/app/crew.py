@@ -18,16 +18,6 @@ class Character(BaseModel):
 
 CREW: list[Character] = [
     Character(
-        slug="polish-elephants",
-        name="The Polish Elephants",
-        location="North Carolina",
-        role="Mission leads",
-        bio=(
-            "Space-enthusiast elephants from Poland who want nothing more than to shine "
-            "as international members of the American Space Program."
-        ),
-    ),
-    Character(
         slug="piggy",
         name="Piggy",
         title="Captain",
@@ -42,6 +32,16 @@ CREW: list[Character] = [
             "teach anyone who wants to learn, furballs and humans alike. Loves road trips and "
             "driving, and is the first to jump at the mention of a road trip or any chance to "
             "sightsee and scope out the area."
+        ),
+    ),
+    Character(
+        slug="polish-elephants",
+        name="The Polish Elephants",
+        location="North Carolina",
+        role="Mission leads",
+        bio=(
+            "Space-enthusiast elephants from Poland who want nothing more than to shine "
+            "as international members of the American Space Program."
         ),
     ),
     Character(

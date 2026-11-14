@@ -40,3 +40,10 @@ def test_piggy_is_a_captain_who_watches_the_elephants_and_the_duck() -> None:
 def test_north_carolina_roster_includes_the_gray_elephant_and_the_little_duck() -> None:
     names = {c["name"] for c in client.get("/crew").json() if c["location"] == "North Carolina"}
     assert {"Piggy", "The Gray Elephant", "The Little Duck"} <= names
+
+
+def test_each_roster_starts_with_its_captain() -> None:
+    crew = client.get("/crew").json()
+    for location in ("North Carolina", "Seattle WA"):
+        first = next(c for c in crew if c["location"] == location)
+        assert first["title"] == "Captain"

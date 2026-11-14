@@ -50,8 +50,8 @@ type Member = { name: string; title?: string };
 
 const crew: Record<string, Member[]> = {
   "North Carolina": [
-    { name: "The Polish Elephants" },
     { name: "Piggy", title: "Captain" },
+    { name: "The Polish Elephants" },
     { name: "Hamley" },
     { name: "Blue Bear" },
     { name: "The Gray Elephant" },
