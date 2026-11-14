@@ -97,7 +97,7 @@ export default function Home() {
         </figure>
 
         <div className="order-2 text-center lg:order-1 lg:text-left">
-          <p className="mb-3 font-mono text-[0.7rem] uppercase tracking-[0.25em] text-ice sm:text-xs">
+          <p className="mb-3 font-mono text-[0.65rem] uppercase tracking-[0.15em] text-ice sm:text-xs sm:tracking-[0.25em]">
             Space Apps 2026 &middot; Mostly classified
           </p>
           <h1 className="text-[clamp(1.75rem,8.5vw,2.25rem)] font-black leading-[1.1] tracking-tight sm:text-6xl lg:text-5xl xl:text-6xl">
@@ -106,7 +106,7 @@ export default function Home() {
               Mission Control
             </span>
           </h1>
-          <p className="mt-5 text-lg text-white/85 sm:text-xl">
+          <p className="mt-5 text-balance text-lg text-white/85 sm:text-xl">
             Two Polish elephants, one lifelong dream: shining in the American Space
             Program. Design the mission that gets them to the Moon.
           </p>
@@ -131,7 +131,7 @@ export default function Home() {
       </section>
 
       <section id="story" className="mx-auto max-w-3xl scroll-mt-6 px-6 pb-12 text-center">
-        <blockquote className="rounded-3xl border border-white/10 bg-white/5 p-8 text-xl leading-relaxed text-white/90 shadow-2xl shadow-black/40 backdrop-blur sm:text-2xl">
+        <blockquote className="rounded-3xl border border-white/10 bg-white/5 p-6 text-left text-lg leading-relaxed text-white/90 shadow-2xl shadow-black/40 backdrop-blur sm:p-8 sm:text-center sm:text-2xl">
           The true heroes of our game follow the adventures, and the misadventures, of
           two space-enthusiast Polish elephants who want nothing more than to be part of
           the American Space Program and to shine as its international members.{" "}
@@ -139,9 +139,9 @@ export default function Home() {
         </blockquote>
       </section>
 
-      <section aria-label="Classified files" className="mx-auto max-w-3xl px-6 pb-12 text-center">
-        <h2 className="text-3xl font-black sm:text-4xl">Classified, by the elephants</h2>
-        <p className="mx-auto mt-4 mb-8 max-w-xl text-lg text-white/80">
+      <section aria-label="Classified files" className="mx-auto max-w-3xl px-6 pb-12 text-left sm:text-center">
+        <h2 className="text-3xl font-black text-balance sm:text-4xl">Classified, by the elephants</h2>
+        <p className="mx-auto mt-4 mb-8 max-w-xl text-base text-pretty text-white/80 sm:text-lg">
           The Polish elephants keep a few things classified, just for the fun of it. A bit of
           humor, a good argument, or the right credentials will do. They love cameras,
           drawings, and every kind of media, and nothing makes them happier than bringing
@@ -195,9 +195,9 @@ export default function Home() {
             The North Carolina crew, gathering before launch
           </figcaption>
         </figure>
-        <div className="space-y-4 text-center lg:text-left">
-          <h2 className="text-3xl font-black sm:text-4xl">Launch site: classified</h2>
-          <p className="text-lg text-white/80">
+        <div className="space-y-4 text-left">
+          <h2 className="text-3xl font-black text-balance sm:text-4xl">Launch site: classified</h2>
+          <p className="text-base text-pretty text-white/80 sm:text-lg">
             The North Carolina crew launches from an undisclosed location. All we can say
             is that it is a lake, and it is right out in their backyard.
           </p>
@@ -209,10 +209,10 @@ export default function Home() {
 
       <section
         aria-label="The Seattle crew"
-        className="mx-auto max-w-4xl px-6 py-12 text-center"
+        className="mx-auto max-w-4xl px-6 py-12 text-left sm:text-center"
       >
-        <h2 className="text-3xl font-black sm:text-4xl">Meanwhile, in Seattle</h2>
-        <p className="mx-auto mt-4 max-w-2xl text-lg text-white/80">
+        <h2 className="text-3xl font-black text-balance sm:text-4xl">Meanwhile, in Seattle</h2>
+        <p className="mx-auto mt-4 max-w-2xl text-base text-pretty text-white/80 sm:text-lg">
           The Seattle crew is bopping around town between missions, keeping tabs on
           Mission Control from the Space Needle, Pike Place Market, and Climate Pledge
           Arena, the Kraken Bear&apos;s favorite.
@@ -239,14 +239,14 @@ export default function Home() {
             A React Native meetup, with the coins
           </figcaption>
         </figure>
-        <div className="space-y-4 text-center lg:text-left">
-          <h2 className="text-3xl font-black sm:text-4xl">The quest for the perfect home</h2>
-          <p className="text-lg text-white/80">
+        <div className="space-y-4 text-left">
+          <h2 className="text-3xl font-black text-balance sm:text-4xl">The quest for the perfect home</h2>
+          <p className="text-base text-pretty text-white/80 sm:text-lg">
             The Polish elephants were on a quest to find the perfect home. They traveled
             all the way from Poland for a React Native meetup hosted by Software Mansion
             at Stoup Brewing.
           </p>
-          <p className="text-lg text-white/80">
+          <p className="text-base text-pretty text-white/80 sm:text-lg">
             After a beer, the shy elephant happily flagged down his brother to make sure
             the two of them, and their coins, could travel together safely and meet their
             new family in Seattle.
@@ -256,10 +256,10 @@ export default function Home() {
 
       <section
         aria-label="How Piggy met Hamley"
-        className="tie-dye mx-auto my-6 max-w-5xl rounded-3xl px-6 py-12 text-center"
+        className="tie-dye mx-auto my-6 max-w-5xl rounded-3xl px-6 py-12 text-left sm:text-center"
       >
-        <h2 className="text-3xl font-black sm:text-4xl">How Piggy met Hamley</h2>
-        <p className="mx-auto mt-4 max-w-2xl text-lg text-white/80">
+        <h2 className="text-3xl font-black text-balance sm:text-4xl">How Piggy met Hamley</h2>
+        <p className="mx-auto mt-4 max-w-2xl text-base text-pretty text-white/80 sm:text-lg">
           Hamley flew in from England with his new family, excited to know he would be
           meeting his big brother for the first time. Piggy and Hamley met in Chicago, over
           three nights of the Fare Thee Well Grateful Dead concerts at Soldier Field.
@@ -288,8 +288,8 @@ export default function Home() {
       </section>
 
       <section id="crew" className="mx-auto max-w-5xl scroll-mt-6 px-6 py-16">
-        <h2 className="text-center text-3xl font-black sm:text-4xl">The crew</h2>
-        <p className="mx-auto mt-3 max-w-xl text-center text-white/70">
+        <h2 className="text-left text-3xl font-black text-balance sm:text-center sm:text-4xl">The crew</h2>
+        <p className="mx-auto mt-3 max-w-xl text-left text-pretty text-white/70 sm:text-center">
           Everyone is in the game, wherever they are. More furballs join along the way.
         </p>
         <div className="mt-10 grid gap-8 sm:grid-cols-2">

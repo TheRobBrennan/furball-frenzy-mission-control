@@ -44,7 +44,7 @@ export default function ClearanceDesk() {
 
   return (
     <div className="mx-auto max-w-2xl rounded-3xl border border-white/10 bg-white/5 p-6 text-left shadow-2xl shadow-black/40 backdrop-blur sm:p-8">
-      <p className="font-mono text-xs uppercase tracking-[0.25em] text-amber">
+      <p className="font-mono text-xs uppercase tracking-[0.15em] text-amber sm:tracking-[0.25em]">
         Classified file: The Polish Elephants
       </p>
       <form onSubmit={submit} className="mt-5 space-y-3">
