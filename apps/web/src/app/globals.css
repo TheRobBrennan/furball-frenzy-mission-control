@@ -146,7 +146,43 @@ body {
   transform: rotate(-12deg);
 }
 
+/* The fleet: wheels turn and the body bobs when a vehicle is hovered or pressed. */
+@keyframes wheel-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes idle-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-1.5px);
+  }
+}
+
+.fleet-wheel {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.fleet-card:hover .fleet-wheel,
+.fleet-card:active .fleet-wheel {
+  animation: wheel-spin 0.9s linear infinite;
+}
+
+.fleet-card:hover .fleet-body,
+.fleet-card:active .fleet-body {
+  animation: idle-bob 0.35s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .fleet-card:hover .fleet-wheel,
+  .fleet-card:active .fleet-wheel,
+  .fleet-card:hover .fleet-body,
+  .fleet-card:active .fleet-body,
   .starfield,
   .polaroid,
   .patch-wobble,
