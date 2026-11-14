@@ -61,6 +61,20 @@ The character notes, traits, and photos live in Rob's vault.
   places and backdrops: the Space Needle, Pike Place Market, and Climate Pledge Arena, a
   favorite of Kraken Bear.
 
+### Gear and toys
+
+The crew's own gear is a source of parts, vehicles, and mission control hardware for the game:
+
+- **Drones:** the DJI Mini 2 Pro, Air 2S, Avata, and DJI FPV, Hamlet is the experienced pilot and
+  the Polish elephants fly along, scouts and aerial survey in the game
+- **Radio control trucks:** Slash, a Traxxas 2WD truck and family member the crew acquired on a
+  road trip to the Oregon coast, a ground vehicle alongside the lunar rover
+- **The 2021 M1 iPad Pro and the 2021 14-inch MacBook Pro:** Mission Control, with Piggy at the helm
+- **Remotes:** Piggy ends up with his paws on every remote, learns the buttons, and teaches anyone
+  who wants to learn, a tutorial voice for the game, for furballs and humans alike
+
+Piggy and Hamley are brothers, Hamley is the first little brother and looks up to Piggy.
+
 ## Architecture
 
 - `apps/api` owns the rules: crew data, parts catalog, launch vehicles, and the mission

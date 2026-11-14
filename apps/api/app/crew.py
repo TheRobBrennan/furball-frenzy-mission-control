@@ -36,7 +36,10 @@ CREW: list[Character] = [
         bio=(
             "Largely oversees the Polish elephants and keeps them out of mischief, when "
             "possible. It is not always a success, and he giggles and helps them get back "
-            "on the right path. He also watches over the little duck."
+            "on the right path. He also watches over the little duck. Hamley's big brother. "
+            "Notoriously winds up at the helm of the iPad Pro and the MacBook Pro, and with his "
+            "paws on every remote, he learns the buttons, controls the device, and is eager to "
+            "teach anyone who wants to learn, furballs and humans alike."
         ),
     ),
     Character(
@@ -44,7 +47,10 @@ CREW: list[Character] = [
         name="Hamley",
         location="North Carolina",
         role="Crew",
-        bio="The pig in the rainbow coat.",
+        bio=(
+            "The pig in the rainbow coat and Piggy's first little brother. They are very close, "
+            "Hamley looks up to Piggy with love and respect and is happy to help in any way he can."
+        ),
     ),
     Character(
         slug="blue-bear",
@@ -75,7 +81,9 @@ CREW: list[Character] = [
         role="Captain and drone pilot",
         bio=(
             "An experienced drone pilot who leads the technological charge for the "
-            "American Space Program along with the Polish elephants."
+            "American Space Program along with the Polish elephants. Piggy and the Polish "
+            "elephants used to have a lot of fun with Hamlet, flying DJI drones, driving radio "
+            "control trucks, and using the iPad Pro for their ideas."
         ),
     ),
     Character(
