@@ -94,6 +94,17 @@ not a stand-in.
   result. Do not commit originals.
 - A public Git history cannot be unpublished, review each image before the commit, not after.
 
+## Imagery from the Chicago shows
+
+A fun bonus for the "How Piggy met Hamley" section: a little imagery from the Fare Thee Well Grateful
+Dead concerts at Soldier Field.
+
+- [ ] Rob's own concert photos or ticket stubs from those nights, metadata stripped, reviewed before
+      the commit
+- [x] An original tie-dye wash and chips (Fare Thee Well, Soldier Field, Three nights, Chicago) in the
+      meantime
+- No band logos, official artwork, or posters, they are trademarked and copyrighted, original styling only
+
 ## Ideas to work in
 
 - **The North Carolina crew launches from an undisclosed location**, the lake right out in their

@@ -54,6 +54,17 @@ body {
   filter: blur(6px);
 }
 
+/* An original tie-dye wash for the Chicago concert section, no band logos or artwork. */
+.tie-dye {
+  background:
+    radial-gradient(circle at 15% 20%, rgba(168, 85, 247, 0.35), transparent 45%),
+    radial-gradient(circle at 85% 25%, rgba(45, 212, 191, 0.28), transparent 45%),
+    radial-gradient(circle at 70% 85%, rgba(251, 146, 60, 0.3), transparent 45%),
+    radial-gradient(circle at 20% 90%, rgba(236, 72, 153, 0.28), transparent 45%),
+    rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
 @keyframes drift {
   from {
     background-position: 0 0;

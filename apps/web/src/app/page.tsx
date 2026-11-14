@@ -219,14 +219,25 @@ export default function Home() {
 
       <section
         aria-label="How Piggy met Hamley"
-        className="mx-auto max-w-5xl px-6 py-12 text-center"
+        className="tie-dye mx-auto my-6 max-w-5xl rounded-3xl px-6 py-12 text-center"
       >
         <h2 className="text-3xl font-black sm:text-4xl">How Piggy met Hamley</h2>
         <p className="mx-auto mt-4 max-w-2xl text-lg text-white/80">
-          Piggy met his first little brother, Hamley, in Chicago, over three nights of the
-          Fare Thee Well Grateful Dead concerts at Soldier Field. Hamley has looked up
-          to him ever since.
+          Hamley flew in from England with his new family, excited to know he would be
+          meeting his big brother for the first time. Piggy and Hamley met in Chicago, over
+          three nights of the Fare Thee Well Grateful Dead concerts at Soldier Field.
+          Hamley has looked up to him ever since.
         </p>
+        <ul className="mt-5 flex flex-wrap justify-center gap-2 font-mono text-xs uppercase tracking-widest">
+          {["Fare Thee Well", "Soldier Field", "Three nights", "Chicago"].map((chip) => (
+            <li
+              key={chip}
+              className="rounded-full border border-white/20 bg-white/10 px-3 py-1 text-white/90"
+            >
+              {chip}
+            </li>
+          ))}
+        </ul>
         <div className="mt-8 grid gap-6 sm:grid-cols-3">
           {meeting.map((photo) => (
             <figure
