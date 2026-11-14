@@ -60,7 +60,7 @@ CREW: list[Character] = [
             "Each has their own iPad Pro and MacBook Pro, and a tabbed binder with colored dividers for their research and journaling",
         ],
         bio=(
-            "Space-enthusiast elephants from Software Mansion in Krakow, Poland who want nothing more than to shine "
+            "Space-enthusiast elephants from Software Mansion in Kraków, Poland who want nothing more than to shine "
             "as international members of the American Space Program. They were on a quest to "
             "find the perfect home, visiting all the way from Poland for a React Native meetup "
             "hosted by Software Mansion at Stoup Brewing. After a beer, the shy elephant happily "

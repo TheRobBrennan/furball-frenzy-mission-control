@@ -30,7 +30,7 @@ public-safe and confirmed, add it to `crew.py` in the same change.
 ### The Polish elephants, mission leads
 | Date | Trait | Status |
 | --- | --- | --- |
-| 2026-11-14 | Hail from Software Mansion in Krakow, Poland | confirmed |
+| 2026-11-14 | Hail from Software Mansion in Kraków, Poland | confirmed |
 | 2026-11-14 | Keep a few things classified for fun, convinced by humor, a good argument, or credentials | confirmed |
 | 2026-11-14 | Love cameras of every kind, the DJI Action 5 Pro and GoPro Hero among them | confirmed |
 | 2026-11-14 | Love bringing ideas to life with images, drawings, and all kinds of media | confirmed |
