@@ -53,6 +53,14 @@ Blue Bear, and others) and Seattle WA (Hamlet the drone pilot, Little Bear, Litt
 Kraken Bear, Fuzzy Black Bear, and the lunar rover). More furballs join along the way.
 The character notes, traits, and photos live in Rob's vault.
 
+### The setting
+
+- **Rockingham, NC:** the main cast launches from an undisclosed location, the lake right
+  out in their backyard.
+- **Seattle WA:** the Seattle cast bops around the city between missions, with landmarks as
+  places and backdrops: the Space Needle, Pike Place Market, and Climate Pledge Arena, a
+  favorite of Kraken Bear.
+
 ## Architecture
 
 - `apps/api` owns the rules: crew data, parts catalog, launch vehicles, and the mission
