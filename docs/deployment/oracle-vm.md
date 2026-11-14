@@ -161,7 +161,7 @@ A merge to `main` bumps the version, merges the bump, and deploys, with `.github
 2. **Merge.** It waits for that PR's checks and merges it.
 3. **Deploy.** A `deploy` job checks out `main`, installs the deploy key from the `furball-frenzy`
    GitHub Environment, runs `./scripts/deploy/deploy-to-oracle.sh up app`, and checks that the public
-   site returns 200. The page footer then shows the new version, the commit, and the deploy time.
+   site returns 200. The page footer then shows the new version, the commit, and the release time.
 
 ### One-time GitHub setup
 
@@ -183,6 +183,6 @@ the VM. The deploy key can only act as `furballdeploy`, which has no sudo and it
 
 ### The footer
 
-The page footer shows `v<version> · <commit> · Deployed <date and time>`, in the visitor's own time
-zone. The version is `package.json`. The commit and the deploy time are baked in when the web image is
+The page footer shows `v<version> · <commit> · Released <date and time>`, in the visitor's own time
+zone. The version is `package.json`. The commit and the release time are baked in when the web image is
 built (`GIT_HASH` and `BUILD_TIME`, set by the deploy script). Local development shows only the version.

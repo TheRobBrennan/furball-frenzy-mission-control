@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { REPO_URL, getVersionInfo } from "@/lib/version";
 
-// Formats the deploy time in the visitor's own time zone, for example "2026.11.14 @ 4:45 PM EST".
+// Formats the release (deploy) time in the visitor's own time zone, for example "2026.11.14 @ 4:45 PM EST".
 // It runs after hydration so the server and the browser never disagree about the zone.
 function formatDeployTime(iso: string): string | null {
   const date = new Date(iso);
@@ -56,7 +56,7 @@ export default function VersionLine() {
           <span aria-hidden="true" className="hidden sm:inline">
             &middot;
           </span>
-          <span className="basis-full sm:basis-auto">Deployed {deployed}</span>
+          <span className="basis-full sm:basis-auto">Released {deployed}</span>
         </>
       )}
     </p>
