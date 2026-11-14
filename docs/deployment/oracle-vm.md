@@ -1,18 +1,19 @@
 # Deploying to the Oracle Cloud VM
 
-**Not done yet.** This is the plan, adapted from the hockey analytics app's
-`docs/deployment/oracle-vm.md` and `cloudflare-tunnel.md`, which run on the same Oracle Cloud VM
-that hosts CIP. Nothing has been created on the VM or in Cloudflare.
+How Furball Frenzy: Mission Control runs on an Oracle Cloud VM at
+`https://furball-frenzy.sploosh.ai/`. Every step has a script, and every script has a manual
+equivalent below, so anyone can replicate this by hand. Adapted from the hockey analytics
+deployment, which runs on the same VM.
 
-## Decisions made
+## Decisions
 
 | Decision | Choice |
 | --- | --- |
-| Public hostname | `furball-frenzy.sploosh.ai` (2026-11-14, one label deep, covered by Cloudflare's free certificate) |
-| Tunnel name | `furball-frenzy` |
-| VM user | `furballdeploy`, its own rootless Docker daemon, no sudo, not in the `docker` group |
-| Public service | `web` only, the web app forwards `/api/*` to the `api` container on the Docker network, so the API is not exposed separately |
-| Host ports | None published in the tunnel overlay, CIP already holds host port 3000 |
+| Public hostname | `furball-frenzy.sploosh.ai`, one label deep, covered by Cloudflare's free certificate |
+| Tunnel | `furball-frenzy`, created from the command line, see [cloudflare-tunnel.md](cloudflare-tunnel.md) |
+| VM user | `furballdeploy`, its own rootless Docker daemon, no sudo, not in the `docker` group, key only |
+| Public service | `web` only, it forwards `/api/*` to the `api` container on the Docker network |
+| Host ports | None. Other projects hold host ports on the VM, the tunnel reaches `web` by service name |
 
 If this host ever serves several games, it becomes the hub, or each game gets its own flat
 subdomain. A two-label name such as `a.furball-frenzy.sploosh.ai` is not covered by the free
@@ -26,42 +27,140 @@ furball-frenzy.sploosh.ai                                  | http://web:3000
                                                            v
                                                   web (Next.js standalone) --/api/*--> api (FastAPI)
 
-   all three run in the `furballdeploy` user's rootless Docker daemon on the VM `sploosh.ai-vm`
+   all three run in the `furballdeploy` user's rootless Docker daemon on the VM
 ```
 
-## One-time setup
+Nothing listens on the VM's public interface for this app. The tunnel is outbound only.
 
-1. **Dedicated SSH key:** `ssh-keygen -t ed25519 -f ~/.ssh/furball_oracle_deploy -N ""`, never reuse
-   another project's key. Only the `.pub` is committed.
-2. **`.env.deploy`** (gitignored): the VM's public IP from the OCI Console, the public hostname, and
-   later the tunnel token.
-3. **Create the `furballdeploy` user and its Docker daemon**, as `cipdeploy` (passwordless sudo) the
-   same way hockey analytics did: create the user, install the key, install `slirp4netns`, enable
-   systemd linger, then install rootless Docker as the new user.
-4. **Cloudflare Tunnel:** in the Cloudflare dashboard, Networking, Tunnels, create `furball-frenzy`,
-   add the public hostname `furball-frenzy.sploosh.ai` pointing at `http://web:3000`, and keep the
-   token out of the repo.
-5. **Compose tunnel overlay** `infra/docker-compose.tunnel.yml`: adds `cloudflared`, publishes no host
-   ports.
-6. **Deploy script** `scripts/deploy/deploy-to-oracle.sh`: sync the code, rebuild on the VM, recreate
-   the containers detached, check the public site.
+## Why this user is locked down
+
+The `furballdeploy` account exists to launch, restart, and update this app's containers and
+nothing else.
+
+- **No sudo, no `docker` group.** Membership in the `docker` group is root-equivalent and would
+  expose every other container on the VM.
+- **Its own rootless Docker daemon.** Containers run as the unprivileged user, in a user
+  namespace. It cannot see or touch another project's containers, images, or volumes.
+- **One SSH key, restricted.** The key cannot forward ports, an agent, or X11. The account has a
+  locked password, so the key is the only way in.
+- **A key just for this project.** Never reuse another project's key. Only the public half is
+  committed.
+- **The tunnel credentials are scoped to one tunnel.** The broad Cloudflare login stays on your
+  machine and is never copied to the VM.
+
+## One-time setup, scripted
+
+```bash
+ssh-keygen -t ed25519 -f ~/.ssh/furball_oracle_deploy -N ""
+cp ~/.ssh/furball_oracle_deploy.pub infra/oracle-cloud/furball_oracle_deploy.pub
+cp .env.deploy.example .env.deploy        # then set FURBALL_VM_IP, from the OCI Console
+npr deploy:provision                      # the user and its rootless Docker daemon
+npr deploy:tunnel                         # the Cloudflare Tunnel and DNS record
+npr deploy                                # build and start everything on the VM
+npr deploy:status                         # containers, plus the HTTP status of the public URL
+```
+
+`npr deploy:provision` needs a bootstrap admin account on the VM with passwordless sudo,
+`vmadmin`, with its own key `~/.ssh/oracle_vm_admin`. It is used only to provision, never by an
+app and never shared with another project's deploy key. Create it once per VM:
+
+```bash
+# on the VM, as the instance's original admin user or from the OCI Console
+sudo useradd -m -s /bin/bash vmadmin
+sudo passwd -l vmadmin
+echo 'vmadmin ALL=(ALL) NOPASSWD:ALL' | sudo tee /etc/sudoers.d/vmadmin
+sudo chmod 440 /etc/sudoers.d/vmadmin && sudo visudo -c
+sudo install -d -m 700 -o vmadmin -g vmadmin /home/vmadmin/.ssh
+echo 'ssh-ed25519 AAAA... oracle vm admin bootstrap' | sudo tee /home/vmadmin/.ssh/authorized_keys
+sudo chown vmadmin:vmadmin /home/vmadmin/.ssh/authorized_keys && sudo chmod 600 /home/vmadmin/.ssh/authorized_keys
+```
+
+Protect the private key with a passphrase and the macOS keychain
+(`ssh-keygen -p -f ~/.ssh/oracle_vm_admin`, then `ssh-add --apple-use-keychain ~/.ssh/oracle_vm_admin`).
+
+## One-time setup, by hand
+
+1. **Create the SSH key**, as above. Keep the private key private.
+2. **Create the user.** On the VM, as an administrator with sudo:
+
+   ```bash
+   sudo useradd -m -s /bin/bash furballdeploy
+   sudo passwd -l furballdeploy
+   sudo apt-get install -y uidmap slirp4netns dbus-user-session
+   sudo loginctl enable-linger furballdeploy
+   ```
+
+   `infra/oracle-cloud/provision-furballdeploy.sh` does all of this and also checks the
+   `subuid` and `subgid` ranges that rootless Docker needs.
+3. **Install the key.** As root, put one line in `/home/furballdeploy/.ssh/authorized_keys` (mode
+   600, the `.ssh` directory mode 700, both owned by `furballdeploy`):
+
+   ```text
+   no-port-forwarding,no-agent-forwarding,no-X11-forwarding ssh-ed25519 AAAA... furball-frenzy deploy
+   ```
+
+4. **Install rootless Docker as the new user.** The Docker packages (`docker-ce-rootless-extras`)
+   must already be on the VM. Log in fresh over SSH as `furballdeploy` so the user gets a systemd
+   session, then:
+
+   ```bash
+   export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+   dockerd-rootless-setuptool.sh install
+   systemctl --user enable --now docker
+   export DOCKER_HOST="unix://$XDG_RUNTIME_DIR/docker.sock"
+   docker version
+   ```
+
+5. **Create the tunnel**, see [cloudflare-tunnel.md](cloudflare-tunnel.md).
+6. **Copy the code and start the stack.** From the repo, `npr deploy:sync`, then on the VM as
+   `furballdeploy`:
+
+   ```bash
+   cd ~/furball-frenzy-mission-control
+   docker compose -p furball-frenzy-prod --env-file .env.deploy \
+     -f infra/docker-compose.yml -f infra/docker-compose.tunnel.yml \
+     --profile tunnel up -d --build
+   ```
+
+## Day to day
+
+| Command | What it does |
+| --- | --- |
+| `npr deploy` | Sync, rebuild, recreate the containers, prune old images |
+| `npr deploy:status` | Container state and the HTTP status of the public site |
+| `npr deploy:logs` | Last 100 log lines, `FOLLOW=1 npr deploy:logs` streams |
+| `npr deploy:restart` | Restart in place, no rebuild |
+| `npr deploy:stop` / `npr deploy:start` | Stop or start without removing anything |
+| `npr deploy:down` | Remove the containers and network, images stay cached |
+
+Add `app` or `tunnel` to act on one side, for example
+`./scripts/deploy/deploy-to-oracle.sh restart tunnel`.
+
+## Troubleshooting
+
+- **`Permission denied (publickey)`:** the deploy key is not the one in `authorized_keys`, or the
+  file permissions on the VM are wrong (`.ssh` 700, `authorized_keys` 600).
+- **Cannot connect to the Docker daemon:** non-interactive SSH does not read `~/.bashrc`, the
+  scripts set `DOCKER_HOST` themselves, a manual session needs the two `export` lines above.
+- **`cloudflared` restarts with `permission denied` on `credentials.json`:** the credentials file is
+  mode 600 and the image's default user cannot read it. The overlay runs the container as `user: "0:0"`,
+  which in a rootless daemon is the deploy user itself, with all capabilities dropped.
+- **Containers stopped after a reboot:** check that linger is on, `loginctl show-user
+  furballdeploy | grep Linger`.
+- **Disk filling up:** `npr deploy` prunes untagged images and trims the build cache. The disk is
+  shared with other projects.
+- **The VM's IP changed:** the address is not static by default, update `FURBALL_VM_IP`.
 
 ## Automatic deploys
 
-After the first manual deploy, add the same flow hockey analytics has in
-`.github/workflows/main-merge.yml`:
+After the first manual deploy, a merge to `main` can deploy by itself, the way hockey analytics
+does with `.github/workflows/main-merge.yml`:
 
 1. A merge to `main` computes the version bump from the PR title (`feat` is minor, `fix` and the
-   rest are patch, `!` is major).
-2. It opens a version-bump PR, waits for the checks, and merges it.
-3. A `deploy` job installs the deploy key from a GitHub Environment (`furball-frenzy`), runs the
-   deploy script, and verifies that the public site returns 200.
+   rest are patch, `!` is major) and opens a version-bump PR.
+2. A `deploy` job installs the deploy key from a GitHub Environment (`furball-frenzy`), runs the
+   deploy script, and checks that the public site returns 200.
 
-The environment holds the secrets `FURBALL_DEPLOY_SSH_KEY` and `FURBALL_VM_IP`. The workflow never
-holds the Cloudflare token, it stays in the settings file already on the VM. Add Required
+The environment holds `FURBALL_DEPLOY_SSH_KEY` and `FURBALL_VM_IP`. The workflow never holds the
+Cloudflare login, the tunnel credentials stay in the file already on the VM. Add Required
 reviewers to the environment if deploys should wait for an approval.
-
-## Before building it
-
-The app should be right locally first, see `docs/roadmap.md`. Then: confirm the VM user name, and
-whether to create a new tunnel (recommended) or share one.

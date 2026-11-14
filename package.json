@@ -15,7 +15,17 @@
     "test": "make test",
     "lint": "make lint",
     "dev:api": "cd apps/api && uv run uvicorn app.main:app --reload --port 8000",
-    "dev:web": "cd apps/web && pnpm dev"
+    "dev:web": "cd apps/web && pnpm dev",
+    "deploy:provision": "./scripts/deploy/provision-vm.sh",
+    "deploy:tunnel": "./scripts/deploy/cloudflare-tunnel.sh",
+    "deploy:sync": "./scripts/deploy/deploy-to-oracle.sh sync",
+    "deploy": "./scripts/deploy/deploy-to-oracle.sh up",
+    "deploy:status": "./scripts/deploy/deploy-to-oracle.sh status",
+    "deploy:logs": "./scripts/deploy/deploy-to-oracle.sh logs",
+    "deploy:stop": "./scripts/deploy/deploy-to-oracle.sh stop",
+    "deploy:start": "./scripts/deploy/deploy-to-oracle.sh start",
+    "deploy:restart": "./scripts/deploy/deploy-to-oracle.sh restart",
+    "deploy:down": "./scripts/deploy/deploy-to-oracle.sh down"
   },
   "engines": {
     "node": ">=24.17.0 <25",
