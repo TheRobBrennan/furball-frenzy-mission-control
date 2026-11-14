@@ -1,9 +1,9 @@
 import Wheel from "./Wheel";
 
-// Rufus, the 2016 Hyundai Tucson: black, rounded, and the family's go-to for every kind of trip.
-// An original drawing, no badges or plates.
+// Rufus, the 2016 Hyundai Tucson: black, rounded, and the family's go-to for every kind of trip. An original drawing, no badges or plates. The back runs long and tall like the real one,
+// the roof carries almost to the tail, and the two doors sit mid-body with a small fixed rear pane.
 const BODY =
-  "M 70,150 L 70,114 Q 70,102 82,98 L 118,90 Q 126,56 152,52 L 248,52 Q 266,52 276,62 L 304,98 L 342,104 Q 362,108 364,126 L 366,150 Z";
+  "M 70,150 L 70,112 L 71,76 Q 73,58 92,53 L 108,50 L 238,50 Q 250,50 256,57 L 286,94 L 344,102 Q 362,106 364,124 L 366,150 Z";
 
 export default function Rufus() {
   return (
@@ -25,25 +25,24 @@ export default function Rufus() {
       <g className="fleet-body">
         <path d={BODY} fill="url(#rufus-paint)" stroke="#050816" strokeWidth="3" strokeLinejoin="round" />
         <g clipPath="url(#rufus-clip)">
-          <circle cx="128" cy="146" r="34" fill="#030509" />
-          <circle cx="302" cy="146" r="34" fill="#030509" />
+          <circle cx="110" cy="146" r="34" fill="#030509" />
+          <circle cx="298" cy="146" r="34" fill="#030509" />
           <rect x="66" y="140" width="304" height="12" fill="#8d97a6" />
         </g>
-        <path d="M 128,90 Q 132,70 148,68 L 154,68 L 154,90 Z" fill="url(#rufus-glass)" stroke="#050816" strokeWidth="2.5" strokeLinejoin="round" />
-        <path d="M 171,64 L 216,64 L 216,90 L 171,90 Z" fill="url(#rufus-glass)" stroke="#050816" strokeWidth="2.5" strokeLinejoin="round" />
-        <path d="M 223,64 L 248,64 Q 256,64 262,70 L 288,90 L 223,90 Z" fill="url(#rufus-glass)" stroke="#050816" strokeWidth="2.5" strokeLinejoin="round" />
-        {/* roof rails, a soft shoulder line, the door seams */}
-        <path d="M 140,47 L 252,47" stroke="#8d97a6" strokeWidth="3" strokeLinecap="round" />
-        <path d="M 76,114 Q 200,104 342,112" stroke="#fff" strokeOpacity="0.28" strokeWidth="2" fill="none" strokeLinecap="round" />
-        <path d="M 167,64 V138 M 219,64 V138" stroke="#1a1d27" strokeWidth="2" />
-        <rect x="192" y="100" width="14" height="4" rx="2" fill="#8d97a6" />
-        <rect x="234" y="100" width="14" height="4" rx="2" fill="#8d97a6" />
+        <path d="M 98,82 L 100,64 Q 102,59 112,58 L 120,58 L 120,82 Z" fill="url(#rufus-glass)" stroke="#050816" strokeWidth="2.5" strokeLinejoin="round" />
+        <path d="M 128,58 L 176,58 L 176,84 L 128,84 Z" fill="url(#rufus-glass)" stroke="#050816" strokeWidth="2.5" strokeLinejoin="round" />
+        <path d="M 184,58 L 236,58 Q 245,58 250,63 L 266,84 L 184,84 Z" fill="url(#rufus-glass)" stroke="#050816" strokeWidth="2.5" strokeLinejoin="round" />
+        <path d="M 106,47 L 242,47" stroke="#8d97a6" strokeWidth="3" strokeLinecap="round" />
+        <path d="M 76,104 L 340,108" stroke="#fff" strokeOpacity="0.3" strokeWidth="2" strokeLinecap="round" />
+        <path d="M 124,58 V112 M 181,58 V128 M 268,88 V126" stroke="#1a1d27" strokeWidth="2" />
+        <rect x="140" y="98" width="14" height="4" rx="2" fill="#8d97a6" />
+        <rect x="196" y="98" width="14" height="4" rx="2" fill="#8d97a6" />
         <path d="M 322,102 L 358,108 L 356,118 L 322,110 Z" fill="#ffe9a8" stroke="#050816" strokeWidth="2" strokeLinejoin="round" />
         <path d="M 342,118 L 364,122 L 365,140 L 340,138 Z" fill="#8d97a6" />
-        <rect x="70" y="108" width="10" height="6" rx="2" fill="#e63946" />
+        <rect x="70" y="76" width="9" height="11" rx="2" fill="#e63946" />
       </g>
-      <Wheel cx={128} cy={146} r={29} rim="#cbd2dc" spoke="#7d8a9e" spokes={5} />
-      <Wheel cx={302} cy={146} r={29} rim="#cbd2dc" spoke="#7d8a9e" spokes={5} />
+      <Wheel cx={110} cy={146} r={29} rim="#cbd2dc" spoke="#7d8a9e" spokes={5} />
+      <Wheel cx={298} cy={146} r={29} rim="#cbd2dc" spoke="#7d8a9e" spokes={5} />
     </svg>
   );
 }
