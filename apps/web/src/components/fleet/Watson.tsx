@@ -30,15 +30,15 @@ export default function Watson() {
           {/* silver lower trim */}
           <rect x="66" y="138" width="304" height="14" fill="#aeb8c6" />
         </g>
-        {/* tinted glass: the rear quarter, the mid door, the front door */}
-        <path d="M 118,90 L 132,64 L 164,62 L 164,90 Z" fill="url(#watson-glass)" stroke="#050816" strokeWidth="2.5" strokeLinejoin="round" />
+        {/* tinted glass: a small fixed rear quarter pane, the mid door, the front door, no rear door */}
+        <path d="M 124,90 L 136,68 L 152,66 L 152,90 Z" fill="url(#watson-glass)" stroke="#050816" strokeWidth="2.5" strokeLinejoin="round" />
         <path d="M 171,62 L 216,62 L 216,90 L 171,90 Z" fill="url(#watson-glass)" stroke="#050816" strokeWidth="2.5" strokeLinejoin="round" />
         <path d="M 223,62 L 246,62 Q 252,62 256,67 L 284,90 L 223,90 Z" fill="url(#watson-glass)" stroke="#050816" strokeWidth="2.5" strokeLinejoin="round" />
         {/* sharp creases and the door seams */}
         <path d="M 76,112 L 340,108" stroke="#fff" strokeOpacity="0.35" strokeWidth="2" strokeLinecap="round" />
         <path d="M 167,62 V136 M 219,62 V136" stroke="#2a3140" strokeWidth="2" />
         <rect x="192" y="100" width="14" height="4" rx="2" fill="#2a3140" />
-        <rect x="140" y="100" width="14" height="4" rx="2" fill="#2a3140" />
+        <rect x="234" y="100" width="14" height="4" rx="2" fill="#2a3140" />
         {/* the front: a hidden light bar and a headlight, the grille */}
         <path d="M 322,100 L 360,106 L 359,111 L 322,105 Z" fill="#e8f6ff" stroke="#050816" strokeWidth="2" strokeLinejoin="round" />
         <path d="M 346,112 L 364,118 L 365,140 L 344,136 Z" fill="#0a0f1c" />

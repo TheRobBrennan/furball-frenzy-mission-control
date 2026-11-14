@@ -29,7 +29,7 @@ export default function Rufus() {
           <circle cx="302" cy="146" r="34" fill="#030509" />
           <rect x="66" y="140" width="304" height="12" fill="#8d97a6" />
         </g>
-        <path d="M 124,90 Q 130,66 152,64 L 164,64 L 164,90 Z" fill="url(#rufus-glass)" stroke="#050816" strokeWidth="2.5" strokeLinejoin="round" />
+        <path d="M 128,90 Q 132,70 148,68 L 154,68 L 154,90 Z" fill="url(#rufus-glass)" stroke="#050816" strokeWidth="2.5" strokeLinejoin="round" />
         <path d="M 171,64 L 216,64 L 216,90 L 171,90 Z" fill="url(#rufus-glass)" stroke="#050816" strokeWidth="2.5" strokeLinejoin="round" />
         <path d="M 223,64 L 248,64 Q 256,64 262,70 L 288,90 L 223,90 Z" fill="url(#rufus-glass)" stroke="#050816" strokeWidth="2.5" strokeLinejoin="round" />
         {/* roof rails, a soft shoulder line, the door seams */}
@@ -37,7 +37,7 @@ export default function Rufus() {
         <path d="M 76,114 Q 200,104 342,112" stroke="#fff" strokeOpacity="0.28" strokeWidth="2" fill="none" strokeLinecap="round" />
         <path d="M 167,64 V138 M 219,64 V138" stroke="#1a1d27" strokeWidth="2" />
         <rect x="192" y="100" width="14" height="4" rx="2" fill="#8d97a6" />
-        <rect x="140" y="100" width="14" height="4" rx="2" fill="#8d97a6" />
+        <rect x="234" y="100" width="14" height="4" rx="2" fill="#8d97a6" />
         <path d="M 322,102 L 358,108 L 356,118 L 322,110 Z" fill="#ffe9a8" stroke="#050816" strokeWidth="2" strokeLinejoin="round" />
         <path d="M 342,118 L 364,122 L 365,140 L 340,138 Z" fill="#8d97a6" />
         <rect x="70" y="108" width="10" height="6" rx="2" fill="#e63946" />
