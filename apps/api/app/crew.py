@@ -76,7 +76,7 @@ CREW: list[Character] = [
         bio=(
             "The pig in the rainbow coat and Piggy's first little brother. They are very close, "
             "Hamley looks up to Piggy with love and respect and is happy to help in any way he can. "
-            "Hamley flew from England with his new family from Hamleys toy store in London, excited to know he would be meeting "
+            "Hamley flew from Hamleys toy store in London, England, with his new family, excited to know he would be meeting "
             "his big brother for the first time. They met in Chicago, over three nights of the "
             "Fare Thee Well Grateful Dead concerts at Soldier Field."
         ),
