@@ -1,6 +1,7 @@
 import Image from "next/image";
 import ClearanceDesk from "@/components/ClearanceDesk";
 import MissionStatus from "@/components/MissionStatus";
+import VersionLine from "@/components/VersionLine";
 
 const photos = [
   {
@@ -324,6 +325,7 @@ export default function Home() {
       <footer className="mx-auto max-w-5xl px-6 pb-12 text-center font-mono text-xs text-white/50">
         Built over the 2026 NASA Space Apps Challenge weekend, Charlotte, NC local
         event. A team of one with a crew of plush explorers.
+        <VersionLine />
       </footer>
     </main>
   );

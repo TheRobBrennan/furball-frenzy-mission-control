@@ -83,11 +83,16 @@ do_sync() {
     --exclude '.env.deploy' \
     --exclude 'infra/cloudflared/credentials.json' \
     ./ "$USER_NAME@$HOST:$REMOTE_DIR/" 2> >(quiet)
-  echo "==> Syncing the compose settings (the host-port and tunnel values only)"
-  tmp_env="$(mktemp)"
-  { grep -E '^(TUNNEL_ID|TUNNEL_NAME)=' "$ENV_FILE" || true; } > "$tmp_env"
-  scp "${SSH_OPTS[@]}" "$tmp_env" "$USER_NAME@$HOST:$REMOTE_DIR/$REMOTE_ENV_FILE" 2> >(quiet)
-  rm -f "$tmp_env"
+  if [ -n "$(env_get TUNNEL_ID)" ]; then
+    echo "==> Syncing the compose settings (TUNNEL_ID and TUNNEL_NAME only)"
+    tmp_env="$(mktemp)"
+    { grep -E '^(TUNNEL_ID|TUNNEL_NAME)=' "$ENV_FILE" || true; } > "$tmp_env"
+    scp "${SSH_OPTS[@]}" "$tmp_env" "$USER_NAME@$HOST:$REMOTE_DIR/$REMOTE_ENV_FILE" 2> >(quiet)
+    rm -f "$tmp_env"
+  else
+    # The GitHub Actions deploy has no TUNNEL_ID, it keeps the settings file already on the VM.
+    echo "==> $ENV_FILE has no TUNNEL_ID, keeping the settings file already on the VM"
+  fi
   if [ -f infra/cloudflared/credentials.json ]; then
     echo "==> Syncing the tunnel credentials (never logged)"
     scp "${SSH_OPTS[@]}" infra/cloudflared/credentials.json "$USER_NAME@$HOST:$REMOTE_DIR/infra/cloudflared/credentials.json" 2> >(quiet)
@@ -104,10 +109,12 @@ case "$CMD" in
   up)
     do_sync
     GIT_HASH="$(git rev-parse HEAD)"
+    # Shown in the page footer as the deploy time. UTC, the browser shows it in the visitor's zone.
+    BUILD_TIME="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
     echo "==> Building and starting ${SERVICE_ARG:-app + tunnel} at ${GIT_HASH:0:7}"
     # Always detached. An attached `docker compose up` over SSH stops every container the moment
     # the session's stdin closes.
-    remote "GIT_HASH=$GIT_HASH $COMPOSE up -d --build $SERVICES"
+    remote "GIT_HASH=$GIT_HASH BUILD_TIME=$BUILD_TIME $COMPOSE up -d --build $SERVICES"
     # Every build leaves old layers and untagged images behind on a disk shared with other
     # projects. Drop the untagged images and keep a 500 MB build cache so the next build stays fast.
     # Never fatal: a failed cleanup must not fail a deploy that already succeeded.

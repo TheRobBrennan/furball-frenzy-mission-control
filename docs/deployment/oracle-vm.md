@@ -153,14 +153,36 @@ Add `app` or `tunnel` to act on one side, for example
 
 ## Automatic deploys
 
-After the first manual deploy, a merge to `main` can deploy by itself, the way hockey analytics
-does with `.github/workflows/main-merge.yml`:
+A merge to `main` bumps the version, merges the bump, and deploys, with `.github/workflows/main-merge.yml`:
 
-1. A merge to `main` computes the version bump from the PR title (`feat` is minor, `fix` and the
-   rest are patch, `!` is major) and opens a version-bump PR.
-2. A `deploy` job installs the deploy key from a GitHub Environment (`furball-frenzy`), runs the
-   deploy script, and checks that the public site returns 200.
+1. **Version bump.** The PR title decides the bump (`feat` is minor, `fix` and the rest are patch,
+   `!` is major, see `scripts/ci/classify-pr-title.sh`). The workflow opens a `chore: bump version`
+   PR that updates `package.json` and `apps/web/package.json`.
+2. **Merge.** It waits for that PR's checks and merges it.
+3. **Deploy.** A `deploy` job checks out `main`, installs the deploy key from the `furball-frenzy`
+   GitHub Environment, runs `./scripts/deploy/deploy-to-oracle.sh up app`, and checks that the public
+   site returns 200. The page footer then shows the new version, the commit, and the release time.
 
-The environment holds `FURBALL_DEPLOY_SSH_KEY` and `FURBALL_VM_IP`. The workflow never holds the
-Cloudflare login, the tunnel credentials stay in the file already on the VM. Add Required
-reviewers to the environment if deploys should wait for an approval.
+### One-time GitHub setup
+
+1. **Let Actions open the bump PR.** Settings, Actions, General, Workflow permissions, tick *Allow
+   GitHub Actions to create and approve pull requests*.
+2. **Create the environment** `furball-frenzy` (Settings, Environments) and limit its deployment branches
+   to `main`. Add Required reviewers if deploys should wait for an approval.
+3. **Add two environment secrets:**
+   - `FURBALL_DEPLOY_SSH_KEY`, the contents of `~/.ssh/furball_oracle_deploy`
+   - `FURBALL_VM_IP`, the VM's public address
+
+   ```bash
+   gh secret set FURBALL_DEPLOY_SSH_KEY --env furball-frenzy < ~/.ssh/furball_oracle_deploy
+   gh secret set FURBALL_VM_IP --env furball-frenzy
+   ```
+
+The workflow never holds the Cloudflare login or the tunnel credentials, they stay in the files already on
+the VM. The deploy key can only act as `furballdeploy`, which has no sudo and its own rootless Docker.
+
+### The footer
+
+The page footer shows `v<version> · <commit> · Released <date and time>`, in the visitor's own time
+zone. The version is `package.json`. The commit and the release time are baked in when the web image is
+built (`GIT_HASH` and `BUILD_TIME`, set by the deploy script). Local development shows only the version.

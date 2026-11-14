@@ -13,6 +13,11 @@ COPY . .
 # API_URL is baked into the rewrite rules at build time, docker compose passes the api service
 ARG API_URL=http://api:8000
 ENV API_URL=$API_URL
+# The commit and the build time are shown in the page footer, set by the deploy script.
+ARG GIT_HASH=dev
+ARG BUILD_TIME=dev
+ENV NEXT_PUBLIC_GIT_HASH=$GIT_HASH \
+    NEXT_PUBLIC_BUILD_TIME=$BUILD_TIME
 RUN pnpm build
 
 FROM node:24.17.0-bookworm-slim AS run
