@@ -47,7 +47,7 @@ public-safe and confirmed, add it to `crew.py` in the same change.
 ### Hamley, North Carolina
 | Date | Trait | Status |
 | --- | --- | --- |
-| 2026-11-14 | Probably from Hamleys toy store in London | **proposed** |
+| 2026-11-14 | From Hamleys toy store in London | confirmed |
 | 2026-11-14 | Piggy's first little brother, looks up to him with love and respect | confirmed |
 | 2026-11-14 | Flew from England with his new family, met Piggy in Chicago | confirmed |
 
@@ -55,7 +55,7 @@ public-safe and confirmed, add it to `crew.py` in the same change.
 | Date | Trait | Status |
 | --- | --- | --- |
 | 2026-11-14 | The teddy bear in the red and white knit sweater | confirmed |
-| 2026-11-14 | Probably from Hamleys toy store in London, like Hamley | **proposed** |
+| 2026-11-14 | From Hamleys toy store in London, like Hamley | confirmed |
 
 ### Hamlet, Captain, Seattle
 | Date | Trait | Status |
