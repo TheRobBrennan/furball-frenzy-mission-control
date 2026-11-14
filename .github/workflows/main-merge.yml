@@ -1,0 +1,167 @@
+name: Main Branch Merge
+
+# A merge to main bumps the version from the PR title, merges the bump, then deploys to the Oracle
+# Cloud VM and checks the public site. Modeled on the hockey analytics workflow, see
+# docs/deployment/oracle-vm.md.
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  version-bump:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    outputs:
+      pr_number: ${{ steps.get_pr.outputs.pr_number }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git for GitHub Actions
+        run: |
+          git config --global user.name "Rob Brennan"
+          git config --global user.email "rob@sploosh.ai"
+
+      - name: Determine version bump type
+        id: bump-type
+        run: |
+          # The merge commit message holds the PR title on its third line
+          COMMIT_MSG=$(git log --format=%B -n 1)
+          PR_TITLE=$(echo "$COMMIT_MSG" | sed -n '3p')
+          echo "PR title: $PR_TITLE"
+          if ! BUMP=$(scripts/ci/classify-pr-title.sh "$PR_TITLE"); then
+            echo "Invalid PR title format: $PR_TITLE"
+            exit 1
+          fi
+          echo "type=$BUMP" >> "$GITHUB_OUTPUT"
+
+      - name: Create version bump branch
+        id: create_branch
+        run: |
+          BRANCH_NAME="version-bump-${{ github.sha }}"
+          git checkout -b "$BRANCH_NAME"
+
+          OLD_VERSION=$(jq -r .version package.json)
+          echo "old_version=${OLD_VERSION}" >> "$GITHUB_OUTPUT"
+
+          BUMP_TYPE=${{ steps.bump-type.outputs.type }}
+          IFS=. read -r MAJOR MINOR PATCH <<< "$OLD_VERSION"
+          case "$BUMP_TYPE" in
+            major) NEW_VERSION="$((MAJOR + 1)).0.0" ;;
+            minor) NEW_VERSION="${MAJOR}.$((MINOR + 1)).0" ;;
+            *)     NEW_VERSION="${MAJOR}.${MINOR}.$((PATCH + 1))" ;;
+          esac
+          echo "new_version=${NEW_VERSION}" >> "$GITHUB_OUTPUT"
+
+          # The root and the web app carry the same version
+          for f in package.json apps/web/package.json; do
+            jq ".version = \"$NEW_VERSION\"" "$f" > temp.json && mv temp.json "$f"
+          done
+
+          git add package.json apps/web/package.json
+          git commit -m "chore: bump version from ${OLD_VERSION} to ${NEW_VERSION} [skip ci]"
+          git push --force-with-lease origin "$BRANCH_NAME" || git push --force origin "$BRANCH_NAME"
+          echo "branch_name=${BRANCH_NAME}" >> "$GITHUB_OUTPUT"
+
+      - name: Create or update the pull request
+        id: get_pr
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BRANCH_NAME="${{ steps.create_branch.outputs.branch_name }}"
+          EXISTING_PR=$(gh pr list --head "$BRANCH_NAME" --json number,url -q '.[0].url')
+          if [ -n "$EXISTING_PR" ]; then
+            PR_NUMBER=$(echo "$EXISTING_PR" | grep -o '[0-9]*$')
+          else
+            PR_URL=$(gh pr create \
+              --title "chore: bump version from ${{ steps.create_branch.outputs.old_version }} to ${{ steps.create_branch.outputs.new_version }}" \
+              --body "Automated version bump triggered by a merge to main. Updates the version in both package.json files." \
+              --base main \
+              --head "$BRANCH_NAME")
+            PR_NUMBER=$(echo "$PR_URL" | grep -o '[0-9]*$')
+          fi
+          echo "pr_number=$PR_NUMBER" >> "$GITHUB_OUTPUT"
+
+  merge-pr:
+    needs: version-bump
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      checks: read
+      statuses: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Wait for checks and merge
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR=${{ needs.version-bump.outputs.pr_number }}
+          timeout=600
+          while [ $timeout -gt 0 ]; do
+            STATUSES=$(gh pr view "$PR" --json statusCheckRollup --jq '.statusCheckRollup.[].state')
+            if echo "$STATUSES" | grep -q "PENDING"; then
+              sleep 10; timeout=$((timeout - 10)); continue
+            fi
+            if echo "$STATUSES" | grep -q "FAILURE"; then
+              echo "Some checks failed"; exit 1
+            fi
+            BRANCH_NAME=$(gh pr view "$PR" --json headRefName --jq '.headRefName')
+            gh pr merge "$PR" --merge
+            git push origin --delete "$BRANCH_NAME"
+            exit 0
+          done
+          echo "Timeout waiting for checks"
+          exit 1
+
+  deploy:
+    needs: merge-pr
+    runs-on: ubuntu-latest
+    # Deploys run unattended. Add Required reviewers to the furball-frenzy environment to gate them.
+    environment: furball-frenzy
+    concurrency:
+      group: deploy-furball-frenzy
+      cancel-in-progress: false
+    permissions:
+      contents: read
+    steps:
+      # main now includes the merged version bump, so the deployed build shows the new version
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Install the deploy key and settings
+        env:
+          FURBALL_DEPLOY_SSH_KEY: ${{ secrets.FURBALL_DEPLOY_SSH_KEY }}
+          FURBALL_VM_IP: ${{ secrets.FURBALL_VM_IP }}
+        run: |
+          mkdir -p ~/.ssh
+          install -m 600 /dev/null ~/.ssh/furball_oracle_deploy
+          printf '%s\n' "$FURBALL_DEPLOY_SSH_KEY" > ~/.ssh/furball_oracle_deploy
+          # No TUNNEL_ID and no credentials here on purpose, the VM keeps its own copies
+          printf 'FURBALL_VM_IP=%s\nFURBALL_PUBLIC_HOSTNAME=furball-frenzy.sploosh.ai\n' "$FURBALL_VM_IP" > .env.deploy
+
+      - name: Deploy the app to the Oracle VM
+        run: ./scripts/deploy/deploy-to-oracle.sh up app
+
+      - name: Verify the public site
+        run: |
+          for i in $(seq 1 12); do
+            code=$(curl -s -o /dev/null --max-time 15 -w '%{http_code}' https://furball-frenzy.sploosh.ai/ || true)
+            echo "Attempt $i: https://furball-frenzy.sploosh.ai/ -> ${code:-000}"
+            [ "$code" = "200" ] && exit 0
+            sleep 10
+          done
+          echo "Site did not return 200 after the deploy"
+          exit 1
