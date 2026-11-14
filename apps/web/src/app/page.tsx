@@ -1,6 +1,7 @@
 import Image from "next/image";
 import ClearanceDesk from "@/components/ClearanceDesk";
 import Fleet from "@/components/fleet/Fleet";
+import SeattleFleet from "@/components/fleet/SeattleFleet";
 import Reveal from "@/components/Reveal";
 import SectionHeading from "@/components/SectionHeading";
 import StarDivider from "@/components/StarDivider";
@@ -237,6 +238,10 @@ export default function Home() {
           </p>
         </SectionHeading>
       </Reveal>
+
+      <div className="border-y border-white/5 bg-white/[0.03]">
+        <SeattleFleet />
+      </div>
 
       <Reveal
         as="section"

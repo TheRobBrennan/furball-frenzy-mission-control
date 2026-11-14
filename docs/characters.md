@@ -24,6 +24,8 @@ public-safe and confirmed, add it to `crew.py` in the same change.
 | 2026-11-14 | Ends up at the helm of the iPad Pro, the MacBook Pro, and every remote, learns the buttons and teaches anyone | confirmed |
 | 2026-11-14 | Loves road trips and driving, first to jump at a chance to sightsee and scope out the area | confirmed |
 | 2026-11-14 | At the wheel of the convertible | **proposed** |
+| 2026-11-14 | Christmas is his favorite time of year, he glows with energy and has a special glow then, most of all when the household is filled with life and love | confirmed |
+| 2026-11-14 | Absolutely loves his Santa hat, a treat for him | confirmed |
 
 ### The Polish elephants, mission leads
 | Date | Trait | Status |
@@ -94,9 +96,14 @@ public-safe and confirmed, add it to `crew.py` in the same change.
 | 2026-11-14 | The lunar rover | The drawing has to look like the real toy the elephants own, from Rob's own photo of them on it, not a guess | confirmed |
 | 2026-11-14 | The lunar rover | The elephants' rover, a tilt-and-steer moon buggy with a tool box up front, twin lights, a sample gripper, and a long antenna, built from a toy space kit, and the game uses every piece in the kit | confirmed |
 | 2026-11-14 | Slash | The Traxxas Slash, a 1/10 scale 2WD radio control truck, Rocky is its full-size version | confirmed |
-| 2026-11-14 | B | A DJI Mini 2 Pro, a brand new family member, Piggy met B for the first time and B took a photo of him | confirmed |
+| 2026-11-14 | B | A DJI Mini 2 Pro, a brand new family member, Piggy met B for the first time and B took a photo of him in a Santa hat | confirmed |
 | 2026-11-14 | Optimus | A DJI Air 2S | confirmed |
+| 2026-11-14 | Blades | A DJI Avata | confirmed |
+| 2026-11-14 | Blurr | A DJI FPV | confirmed |
 | 2026-11-14 | Blueberry | A 2003 Toyota Camry, dark blue | confirmed |
 | 2026-11-14 | Watson | A 2025 Hyundai Tucson | confirmed |
-| 2026-11-14 | Rufus | A 2016 Hyundai Tucson, the family vehicle of choice until an accident with a boulder that rolled off a mountain, what he is in the game is to be decided | confirmed |
+| 2026-11-14 | Rufus | A 2016 Hyundai Tucson, a very loving and incredible vehicle, the go-to for travels of every kind, the far reaches of the Olympic Peninsula, the Oregon coast, California, Las Vegas, Nevada, Yellowstone, Montana, Idaho, and Bend, all over | confirmed |
+| 2026-11-14 | Rufus | The family vehicle of choice until an accident with a boulder that rolled off a mountain, how the game honors him is to be decided, tone is love and gratitude | confirmed |
+| 2026-11-14 | Rufus | Piggy's road-trip partner, the two of them love the open road | **proposed** |
 | 2026-11-14 | Hamlet | Flies the drones, B and Optimus among them | **proposed** |
+| 2026-11-14 | Seattle fleet | The role lines on the page, Slash the scout, Blueberry the daily driver, Watson the newest on the road, Rufus the family legend, B the brand new family member, Optimus the high flyer, Blades the acrobat, Blurr the speed demon | **proposed** |
