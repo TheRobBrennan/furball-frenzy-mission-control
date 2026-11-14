@@ -70,6 +70,8 @@ The crew's own gear is a source of parts, vehicles, and mission control hardware
 - **Radio control trucks:** Slash, a Traxxas 2WD truck and family member the crew acquired on a
   road trip to the Oregon coast, a ground vehicle alongside the lunar rover
 - **The 2021 M1 iPad Pro and the 2021 14-inch MacBook Pro:** Mission Control, with Piggy at the helm
+- **Ableton Push 3 standalone:** the Polish elephants jam with Little Bunny on it in their free time,
+  the game's music and sound could come from their sessions
 - **Remotes:** Piggy ends up with his paws on every remote, learns the buttons, and teaches anyone
   who wants to learn, a tutorial voice for the game, for furballs and humans alike
 
@@ -88,6 +90,19 @@ site survey missions.
 in Chevy blue and the convertible in dark blue, drawn as SVG so they scale on a phone. Only the
 renditions are published, never photos of the real vehicles: no plates, badges, backgrounds, or
 location metadata.
+
+### Tone and the classified files
+
+Whimsy, intrigue, and mischief: the furballs and the American Space Program. The Polish elephants keep
+a few things classified, just for the fun of it, unless they get some convincing, a bit of humor, or
+the right credentials. They love cameras of every kind (phones, the DJI Action 5 Pro, GoPro Hero
+cameras, camera pens and lights), can pull up satellite imagery in real time or close to it, keep
+friendly files and notes on everything they do, and never forget. They love bringing ideas and
+conversations to life with images, drawings, and all kinds of media, and jam with Little Bunny on
+their Ableton Push 3 standalone in their free time. They are playful, never creepy.
+
+In the game, mission details can start as classified dossiers that unlock with charm, a joke, or
+credentials. The landing page has a small clearance desk as a first taste of it.
 
 ## Architecture
 

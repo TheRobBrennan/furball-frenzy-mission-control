@@ -4,7 +4,7 @@ Placeholder data. The full cast, with traits and images, lives in the
 vault notes and moves in here as the game takes shape.
 """
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class Character(BaseModel):
@@ -14,6 +14,7 @@ class Character(BaseModel):
     location: str  # "North Carolina" or "Seattle WA"
     role: str
     bio: str
+    traits: list[str] = Field(default_factory=list)
 
 
 CREW: list[Character] = [
@@ -39,6 +40,21 @@ CREW: list[Character] = [
         name="The Polish Elephants",
         location="North Carolina",
         role="Mission leads",
+        traits=[
+            (
+                "Keeps a few things classified, just for the fun of it: a bit of humor, a good "
+                "argument, or the right credentials will do"
+            ),
+            (
+                "Loves cameras of every kind: phones, the DJI Action 5 Pro, GoPro Hero cameras, "
+                "and camera pens and lights"
+            ),
+            "Loves bringing ideas and conversations to life with images, drawings, and all kinds of media",
+            "Can pull up satellite imagery in real time, or close to it, to show an idea",
+            "Keeps friendly files and notes on everything they do, an elephant never forgets",
+            "Loves jamming with Little Bunny on their Ableton Push 3 standalone in their free time",
+            "Fun and playful, never creepy",
+        ],
         bio=(
             "Space-enthusiast elephants from Poland who want nothing more than to shine "
             "as international members of the American Space Program. They were on a quest to "
@@ -110,8 +126,8 @@ CREW: list[Character] = [
         location="Seattle WA",
         role="Crew",
         bio=(
-            "The Polish elephants' sister, a huge fan of producing music with them and of "
-            "Seahawks football."
+            "The Polish elephants' sister, a huge fan of producing music with them, jamming "
+            "together on their Ableton Push 3 standalone, and of Seahawks football."
         ),
     ),
     Character(

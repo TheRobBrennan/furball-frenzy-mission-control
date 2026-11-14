@@ -53,6 +53,12 @@ Makefile, so `make` works the same way.
 The web app forwards `/api/*` to the FastAPI service (`API_URL`, default
 `http://localhost:8000`, `http://api:8000` inside Docker).
 
+## Tone
+
+Whimsy, intrigue, and mischief: the furballs and the American Space Program. Warm, playful, and
+kind, never creepy. The Polish elephants love cameras, drawings, and all kinds of media, and keep
+a few things classified just for the fun of it, they are playful, not sneaky or surveilling.
+
 ## Mobile first, always
 
 **The site must be responsive and mobile-friendly, without question.** Rob develops on a

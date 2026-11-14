@@ -1,4 +1,5 @@
 import Image from "next/image";
+import ClearanceDesk from "@/components/ClearanceDesk";
 import MissionStatus from "@/components/MissionStatus";
 
 const photos = [
@@ -97,11 +98,11 @@ export default function Home() {
 
         <div className="order-2 text-center lg:order-1 lg:text-left">
           <p className="mb-3 font-mono text-[0.7rem] uppercase tracking-[0.25em] text-ice sm:text-xs">
-            NASA Space Apps 2026 &middot; Space Mission Design Game
+            Space Apps 2026 &middot; Mostly classified
           </p>
-          <h1 className="text-4xl font-black leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
+          <h1 className="text-[clamp(1.75rem,8.5vw,2.25rem)] font-black leading-[1.1] tracking-tight sm:text-6xl lg:text-5xl xl:text-6xl">
             Furball Frenzy:{" "}
-            <span className="bg-gradient-to-r from-amber to-ember bg-clip-text text-transparent">
+            <span className="whitespace-nowrap bg-gradient-to-r from-amber to-ember bg-clip-text text-transparent">
               Mission Control
             </span>
           </h1>
@@ -136,6 +137,17 @@ export default function Home() {
           the American Space Program and to shine as its international members.{" "}
           <span className="font-bold text-amber">Their lifelong dream!</span>
         </blockquote>
+      </section>
+
+      <section aria-label="Classified files" className="mx-auto max-w-3xl px-6 pb-12 text-center">
+        <h2 className="text-3xl font-black sm:text-4xl">Classified, by the elephants</h2>
+        <p className="mx-auto mt-4 mb-8 max-w-xl text-lg text-white/80">
+          The Polish elephants keep a few things classified, just for the fun of it. A bit of
+          humor, a good argument, or the right credentials will do. They love cameras,
+          drawings, and every kind of media, and nothing makes them happier than bringing
+          an idea or a conversation to life.
+        </p>
+        <ClearanceDesk />
       </section>
 
       <section

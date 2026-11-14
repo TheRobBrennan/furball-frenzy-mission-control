@@ -47,3 +47,12 @@ def test_each_roster_starts_with_its_captain() -> None:
     for location in ("North Carolina", "Seattle WA"):
         first = next(c for c in crew if c["location"] == location)
         assert first["title"] == "Captain"
+
+
+def test_polish_elephants_are_playful_camera_lovers_with_a_few_classified_files() -> None:
+    elephants = client.get("/crew/polish-elephants").json()
+    traits = " ".join(elephants["traits"]).lower()
+    assert "classified" in traits
+    assert "camera" in traits
+    assert "satellite" in traits
+    assert "playful" in traits
