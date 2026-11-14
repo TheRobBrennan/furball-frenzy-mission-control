@@ -57,6 +57,7 @@ CREW: list[Character] = [
             "Love to be tied together and stay close, and ride the lunar rover stacked as one, strapped in and sharing a helmet",
             "Use the Bunny system, like all good furballs: safety and silliness first",
             "Proud of their hard work, creativity, and team ethos",
+            "Each has their own iPad Pro and MacBook Pro, and a tabbed binder with colored dividers for their research and journaling",
         ],
         bio=(
             "Space-enthusiast elephants from Poland who want nothing more than to shine "

@@ -194,3 +194,94 @@ body {
     transition: none;
   }
 }
+
+/* Chapters: the "Mission log 01" numbers count up on their own. */
+main {
+  counter-reset: chapter;
+}
+
+.chapter-label {
+  counter-increment: chapter;
+}
+
+.chapter-label::before {
+  content: "Mission log " counter(chapter, decimal-leading-zero);
+}
+
+/* Sections ease in as they scroll into view, see components/Reveal.tsx. */
+[data-reveal="armed"] {
+  opacity: 0;
+  transform: translateY(28px);
+}
+
+[data-reveal="shown"] {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.8s ease-out,
+    transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.chapter-rule {
+  transform-origin: left;
+}
+
+[data-reveal="armed"] .chapter-rule {
+  transform: scaleX(0);
+}
+
+[data-reveal="shown"] .chapter-rule {
+  transform: scaleX(1);
+  transition: transform 0.7s ease-out 0.35s;
+}
+
+@media (min-width: 640px) {
+  .chapter-rule {
+    transform-origin: center;
+  }
+}
+
+[data-reveal="shown"] .reveal-stagger > * {
+  animation: stagger-in 0.7s ease-out both;
+}
+
+[data-reveal="shown"] .reveal-stagger > *:nth-child(2) {
+  animation-delay: 0.08s;
+}
+
+[data-reveal="shown"] .reveal-stagger > *:nth-child(3) {
+  animation-delay: 0.16s;
+}
+
+[data-reveal="shown"] .reveal-stagger > *:nth-child(4) {
+  animation-delay: 0.24s;
+}
+
+[data-reveal="shown"] .reveal-stagger > *:nth-child(5) {
+  animation-delay: 0.32s;
+}
+
+@keyframes stagger-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  [data-reveal] .chapter-rule,
+  [data-reveal] .reveal-stagger > * {
+    animation: none !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}

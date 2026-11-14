@@ -39,6 +39,7 @@ public-safe and confirmed, add it to `crew.py` in the same change.
 | 2026-11-14 | Love to be tied together and stay close, they ride the lunar rover stacked on each other as a single-seater, happily driving | confirmed |
 | 2026-11-14 | Use the Bunny system, like all good furballs, safety and silliness first | confirmed, what the Bunny system means in play is to be defined, my guess is a play on the buddy system |
 | 2026-11-14 | Proud of their hard work, creativity, and team ethos | confirmed |
+| 2026-11-14 | Each has their own iPad Pro and MacBook Pro, and a Trapper Keeper-style notebook or 3-ring binder with colored tabs and dividers covering their research and journaling | Rob's idea, to build into the game |
 
 ### Hamley, North Carolina
 | Date | Trait | Status |
@@ -61,6 +62,12 @@ public-safe and confirmed, add it to `crew.py` in the same change.
 | --- | --- | --- |
 | 2026-11-14 | Kraken Bear springs to life at the call of Se-at-tle KRA-ken BEARRRR | confirmed |
 | 2026-11-14 | Fuzzy Black Bear has an unpictured twin, Fuzzy Brown Bear | confirmed |
+
+## Game ideas, proposed
+
+- **The binder is the game's navigation.** The elephants' tabbed binder, colored dividers and all, becomes the main UI, one tab each for the Brief, Research, Missions, Parts, Journal, and Debrief, so the research and journaling they are proud of is the thing the player flips through. The journal pages are the mission debrief. *Proposed, from Rob's binder idea.*
+- **Piggy borrows their devices.** He already winds up at the helm of the iPad Pro and the MacBook Pro, with their own, he can borrow the elephants' and teach them what the buttons do. *Proposed.*
+- Keep the binder generic, a tabbed 3-ring binder, no brand marks or logos on the public site.
 
 ## All furballs
 | Date | Trait | Status |
@@ -86,3 +93,10 @@ public-safe and confirmed, add it to `crew.py` in the same change.
 | 2026-11-14 | The golf cart | The site shuttle | **proposed** |
 | 2026-11-14 | The lunar rover | The drawing has to look like the real toy the elephants own, from Rob's own photo of them on it, not a guess | confirmed |
 | 2026-11-14 | The lunar rover | The elephants' rover, a tilt-and-steer moon buggy with a tool box up front, twin lights, a sample gripper, and a long antenna, built from a toy space kit, and the game uses every piece in the kit | confirmed |
+| 2026-11-14 | Slash | The Traxxas Slash, a 1/10 scale 2WD radio control truck, Rocky is its full-size version | confirmed |
+| 2026-11-14 | B | A DJI Mini 2 Pro, a brand new family member, Piggy met B for the first time and B took a photo of him | confirmed |
+| 2026-11-14 | Optimus | A DJI Air 2S | confirmed |
+| 2026-11-14 | Blueberry | A 2003 Toyota Camry, dark blue | confirmed |
+| 2026-11-14 | Watson | A 2025 Hyundai Tucson | confirmed |
+| 2026-11-14 | Rufus | A 2016 Hyundai Tucson, the family vehicle of choice until an accident with a boulder that rolled off a mountain, what he is in the game is to be decided | confirmed |
+| 2026-11-14 | Hamlet | Flies the drones, B and Optimus among them | **proposed** |
