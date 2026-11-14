@@ -72,7 +72,11 @@ const crew: Record<string, Member[]> = {
 
 export default function Home() {
   return (
-    <main className="relative isolate flex-1 overflow-hidden bg-gradient-to-b from-space via-space-2 to-space">
+    <main
+      id="top"
+      tabIndex={-1}
+      className="relative isolate flex-1 overflow-hidden bg-gradient-to-b from-space via-space-2 to-space outline-none"
+    >
       <div className="starfield absolute inset-0 -z-10 opacity-70" aria-hidden="true" />
 
       <div
