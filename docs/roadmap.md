@@ -44,6 +44,27 @@ See `game-plan.md` for the loop and the milestones.
 - [ ] Polish, animation, sound, the elephants' story
 - [ ] Submit on the Space Apps Project tab, closes Sunday 2026-11-15 at 11:59pm local time
 
+## After deployment: the classified launch site
+
+Eye candy above the fold: classified-looking satellite imagery of the main cast's launch
+location in North Carolina. The real place must not be identifiable, the site and the repo are
+public.
+
+Guardrails:
+
+- **Never publish real imagery of the actual location.** Use a stand-in: imagery of a different
+  lake, a procedurally generated or illustrated "satellite" view, or heavily degraded and
+  redacted artwork with CLASSIFIED bars, so nothing matches the real shoreline.
+- **No coordinates, labels, street names, or addresses,** and no map tiles or links to a map of
+  the place, in the page, the alt text, the filenames, the API, or the git history.
+- **Strip metadata** from every image before it is committed (EXIF, GPS, XMP), and check the
+  result. Do not commit originals.
+- **Do not combine details.** A town name plus the shape of a lake plus a house can identify a
+  place, keep the public text at "North Carolina" and "an undisclosed lake".
+- A public Git history cannot be unpublished, review each image before the commit, not after.
+- Imagery from public sources (NASA Earth Observatory, Landsat, Sentinel) carries credit
+  requirements, record the source and licence next to the image.
+
 ## Ideas to work in
 
 - **The Rockingham crew launches from an undisclosed location**, the lake right out in their
