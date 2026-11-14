@@ -84,6 +84,11 @@ jump at the mention of a road trip or a chance to sightsee and scope out the are
 are the ground vehicles, rovers and support vehicles, and Piggy's road trips are the scouting and
 site survey missions.
 
+**Public renditions:** the vehicles appear in the game as illustrated renditions, Rocky and the Blazer
+in Chevy blue and the convertible in dark blue, drawn as SVG so they scale on a phone. Only the
+renditions are published, never photos of the real vehicles: no plates, badges, backgrounds, or
+location metadata.
+
 ## Architecture
 
 - `apps/api` owns the rules: crew data, parts catalog, launch vehicles, and the mission

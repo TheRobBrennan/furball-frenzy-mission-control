@@ -53,6 +53,12 @@ The site must be responsive and mobile-friendly, without question. See `CLAUDE.m
 - [ ] Automated responsive checks (Playwright at 375, 768, and 1280, no horizontal overflow) in CI
 - [ ] A phone-first redesign of the top of the page, the hero image is visible on the first screen
 
+## Public renditions of the fleet
+
+- [ ] Illustrated SVG renditions of Rocky, the Blazer, and the convertible, based on Rob's private
+      reference photos. Rocky and the Blazer are Chevy blue, the convertible is dark blue. Only the
+      renditions go public, no plates, badges, backgrounds, or metadata.
+
 ## Banner image options for the launch site
 
 Rob's decision: obfuscated banner imagery of the actual lake.
