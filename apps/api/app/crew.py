@@ -27,7 +27,8 @@ CREW: list[Character] = [
         bio=(
             "Largely oversees the Polish elephants and keeps them out of mischief, when "
             "possible. It is not always a success, and he giggles and helps them get back "
-            "on the right path. He also watches over the little duck. Hamley's big brother. "
+            "on the right path. He also watches over the little duck. Hamley's big brother. He came home from the Puyallup Fair in 2014, "
+            "where he was enjoying an adult beverage. "
             "Notoriously winds up at the helm of the iPad Pro and the MacBook Pro, and with his "
             "paws on every remote, he learns the buttons, controls the device, and is eager to "
             "teach anyone who wants to learn, furballs and humans alike. Loves road trips and "
