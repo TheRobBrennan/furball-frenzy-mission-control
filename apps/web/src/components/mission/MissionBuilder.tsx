@@ -138,16 +138,16 @@ export default function MissionBuilder() {
       </div>
       <div className="space-y-8">
         <section aria-label="Judges, start here" className="rounded-3xl border border-amber/40 bg-amber/10 p-5">
-          <div className="flex flex-wrap items-center gap-4">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
             <button
               type="button"
               data-testid="judges-start"
               onClick={auto === null ? startAuto : stopAuto}
-              className="inline-flex min-h-12 items-center justify-center rounded-full bg-amber px-6 font-bold text-space shadow-lg shadow-amber/20 transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-amber px-6 font-bold text-space shadow-lg shadow-amber/20 transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:w-auto sm:shrink-0"
             >
               {auto === null ? "Judges, start here" : "Stop and design it myself"}
             </button>
-            <p className="min-w-0 flex-1 text-base text-white/85" data-testid="judges-line" aria-live="polite">
+            <p className="min-h-[3.5rem] min-w-0 text-base text-white/85 sm:flex-1" data-testid="judges-line" aria-live="polite">
               {auto === null ? "In 30 seconds, the Polish elephants design a mission and launch it for you." : auto === 0 ? "The Polish elephants roll up their sleeves..." : auto <= judgesPicks.length ? judgesPicks[auto - 1].line : ""}
             </p>
           </div>
