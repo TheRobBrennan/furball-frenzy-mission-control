@@ -77,6 +77,7 @@ Proposed enhancements, roughly by payoff against the judging criteria (Impact, C
 7. **Unlockable classified dossiers:** earn the elephants' secret files by completing missions
 8. **Share a mission link** (slice 6): send a design to a friend to beat
 9. **A Polish language toggle:** small, and very on theme for the Polish elephants
+10. **Easter egg and unlock: the elephants' S10 dragster.** The furballs found a Chevy S10 at the Rockingham house they want to turn into a dragster, on a Corvette frame, with their own rendering and the Helin Racing livery on purpose. Building it is a quest, unlocked by a first successful mission, and it becomes a racer in the dice-race mini-game (the Micro Machines style race on a tabletop track). Both ideas are in `characters.md`
 
 See the vertical slices note in the vault for the sizes and the order.
 
