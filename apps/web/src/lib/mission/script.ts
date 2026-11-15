@@ -43,7 +43,7 @@ export type Scene = {
 
 export const names: Record<Who, string> = {
   piggy: "Piggy",
-  elephants: "The elephants",
+  elephants: "The Polish elephants",
   "gray-elephant": "The Gray Elephant",
   hamley: "Hamley",
   "blue-bear": "Blue Bear",
@@ -389,8 +389,8 @@ export function missionScript(design: Design, result: MissionResult, hold?: numb
         { who: "gray-elephant", text: "The recovery team has us in sight." },
         { who: "elephants", text: "Hi, family! We are home, and we are safe!" },
         { who: "little-bear", text: "Look, everyone is on the dock, waving and cheering for us!" },
-        { who: "piggy", text: "All hands accounted for. Everybody is safe and sound." },
-        { who: "little-duck", text: "That was the best day ever!" },
+        { who: "piggy", text: "All paws, trunks, snouts, and tails accounted for. Everybody is safe and sound." },
+        { who: "little-duck", text: "What a mission! Days of work, and every one of us made it home!" },
       ],
     },
   );

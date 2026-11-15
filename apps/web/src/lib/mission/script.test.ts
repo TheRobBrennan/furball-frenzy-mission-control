@@ -129,6 +129,17 @@ describe("missionScript, a mission that works", () => {
     }
   });
 
+  it("keeps the Polish elephants plural, never I, my, or me, and never says best day ever for a mission of several days", () => {
+    for (const d of [balanced, tooHeavy]) {
+      for (const trouble of [undefined, { cause: 0, outcome: "continue" } as Trouble, { cause: 1, outcome: "abort" } as Trouble]) {
+        const lines = script(d, 1, trouble).flatMap((s) => s.lines);
+        for (const l of lines.filter((x) => x.who === "elephants")) expect(l.text).not.toMatch(/\b(I|I'm|I'll|my|me|myself)\b/);
+        for (const l of lines) expect(l.text).not.toMatch(/best day ever|all hands/i);
+      }
+    }
+    expect(names.elephants).toBe("The Polish elephants");
+  });
+
   it("has no countdown or checks when the launch is scrubbed", () => {
     const control = script(tooHeavy)[0];
     expect(control.countdown).toBeFalsy();

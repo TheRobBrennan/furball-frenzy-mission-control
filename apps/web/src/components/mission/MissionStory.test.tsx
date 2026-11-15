@@ -30,7 +30,7 @@ describe("MissionStory", () => {
     story(balanced);
     expect(screen.getByRole("dialog", { name: /the mission story/i })).toBeInTheDocument();
     expect(screen.getByTestId("scene-title")).toHaveTextContent("Mission Control");
-    for (const name of ["Piggy", "The elephants", "The Gray Elephant", "Hamley", "Blue Bear", "Little Duck"]) expect(screen.getByRole("img", { name })).toBeInTheDocument();
+    for (const name of ["Piggy", "The Polish elephants", "The Gray Elephant", "Hamley", "Blue Bear", "Little Duck"]) expect(screen.getByRole("img", { name })).toBeInTheDocument();
     // No countdown while the checks are being called out.
     advance(500);
     expect(screen.getByTestId("scene-control")).toHaveTextContent("CHECKS");
@@ -75,7 +75,7 @@ describe("MissionStory", () => {
     advance(6000);
     const lines = screen.getByTestId("story-lines").querySelectorAll("p");
     expect(lines.length).toBeGreaterThan(1);
-    expect(lines[0]).toHaveTextContent("Elephants".length ? /The elephants:|Gray|Hamley/ : "");
+    expect(lines[0]).toHaveTextContent("Elephants".length ? /The Polish elephants:|Gray|Hamley/ : "");
     expect(lines[lines.length - 1]).toHaveTextContent("Mission Control is go");
     const stamps = screen.getAllByTestId("stamp");
     expect(stamps).toHaveLength(lines.length);
@@ -154,8 +154,8 @@ describe("MissionStory", () => {
     until("Safe recovery");
     for (let i = 0; i < 60 && !screen.queryByTestId("headcount"); i++) advance(500);
     const headcount = screen.getByTestId("headcount");
-    expect(headcount).toHaveTextContent("All hands accounted for");
-    for (const name of ["Piggy", "The elephants", "The Gray Elephant", "Hamley", "Blue Bear", "Little Duck"]) expect(headcount).toHaveTextContent(`${name}, safe`);
+    expect(headcount).toHaveTextContent("All paws, trunks, snouts, and tails accounted for");
+    for (const name of ["Piggy", "The Polish elephants", "The Gray Elephant", "Hamley", "Blue Bear", "Little Duck"]) expect(headcount).toHaveTextContent(`${name}, safe`);
     expect(screen.getByTestId("scene-recovery")).toBeInTheDocument();
   });
 
