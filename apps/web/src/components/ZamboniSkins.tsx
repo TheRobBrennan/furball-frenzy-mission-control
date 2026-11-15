@@ -43,7 +43,22 @@ function Sparkle({ x, y, s = 1, fill = "#fff" }: { x: number; y: number; s?: num
 // One of the Polish elephants as in the "suited up" photo: a seated gray plush facing the viewer, big
 // floppy ears, a short trunk, and a white swm t-shirt, with a keyring on top. Drawn in a 40 by 46 box,
 // original art.
-function PolishElephant({ x, y, scale = 1, tag = false }: { x: number; y: number; scale?: number; tag?: boolean }) {
+
+// A small waving Polish flag on a pole, white over red, the pole at x and the flag flying to its right.
+function PolishFlag({ x, y, height = 46 }: { x: number; y: number; height?: number }) {
+  const w = 24; // flag width
+  const h = 6.5; // each stripe
+  const wave = (top: number) =>
+    `M ${x},${top} Q ${x + w / 4},${top - 2.5} ${x + w / 2},${top} T ${x + w},${top} V ${top + h} Q ${x + (3 * w) / 4},${top + h + 2.5} ${x + w / 2},${top + h} T ${x},${top + h} Z`;
+  return (
+    <g strokeLinejoin="round" strokeLinecap="round">
+      <line x1={x} y1={y - 2} x2={x} y2={y + height} stroke="#c9ced6" strokeWidth="1.3" />
+      <path d={wave(y)} fill="#ffffff" stroke="#060f33" strokeWidth="0.6" />
+      <path d={wave(y + h)} fill="#dc143c" stroke="#060f33" strokeWidth="0.6" />
+    </g>
+  );
+}
+function PolishElephant({ x, y, scale = 1 }: { x: number; y: number; scale?: number }) {
   return (
     <g transform={`translate(${x},${y}) scale(${scale})`} stroke="#060f33" strokeWidth="1.1" strokeLinejoin="round" strokeLinecap="round">
       <circle cx="27" cy="2.5" r="2.2" fill="none" stroke="#c9ced6" strokeWidth="1" />
@@ -63,7 +78,6 @@ function PolishElephant({ x, y, scale = 1, tag = false }: { x: number; y: number
       <ellipse cx="20" cy="19" rx="4" ry="5.5" fill="#a9afb9" />
       <circle cx="15.5" cy="11" r="1.3" fill="#060f33" stroke="none" />
       <circle cx="24.5" cy="11" r="1.3" fill="#060f33" stroke="none" />
-      {tag && <rect x="34" y="24" width="6" height="8" fill="#ffffff" strokeWidth="0.6" />}
     </g>
   );
 }
@@ -256,10 +270,10 @@ export const skins: Skin[] = [
       <>
         <path d="M 0,102 Q 70,92 140,102 T 282,98 V 126 H 0 Z" fill="#7a4dff" opacity="0.5" />
         <path d="M 0,112 Q 70,104 140,112 T 282,110 V 126 H 0 Z" fill="#7a4dff" opacity="0.8" />
-        <Sparkle x={126} y={30} s={1.2} fill="#b9a3ff" />
         <Sparkle x={236} y={34} s={1} fill="#b9a3ff" />
         <PolishElephant x={34} y={36} scale={1.05} />
-        <PolishElephant x={80} y={36} scale={1.05} tag />
+        <PolishElephant x={80} y={36} scale={1.05} />
+        <PolishFlag x={121} y={24} height={45} />
         <text x="136" y="54" fontSize="22" fontWeight="800" fill="#fff" fontFamily={SANS} textLength="110" lengthAdjust="spacingAndGlyphs" stroke="#060f33" strokeWidth="3" style={outline}>
           Software
         </text>
