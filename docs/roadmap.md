@@ -53,6 +53,34 @@ See `game-plan.md` for the loop and the milestones.
 - [ ] Submit on the Space Apps Project tab, closes Sunday 2026-11-15 at 11:59pm local time, the Team page will not accept a submission after it. Rob is a virtual participant, so local awards and judging do not apply, only the final submission and Global Judging
 - The vertical slices to review and build, slice 1 first, are in the vault note for the weekend plan
 
+## After the first game is deployed
+
+Written Sunday 2026-11-15. The first playable slice is one mission, launch to debrief. Fast follows, in Rob's words:
+
+- [ ] **An immersive launch and mission experience**, compelling and a must-watch, building on the countdown and liftoff sequence
+- [ ] **Sub-tabs on the sections** for things like the fleet and the crew, as the main navigation
+
+Near submission:
+
+- [ ] **Optional user accounts**, persisting data such as saved missions and scores, accounts stay optional
+- [ ] **PostHog** for analytics, mission events, and session replay, with a protected dashboard. Mask the Clearance Desk input and add a consent notice
+- [ ] **Legal pages** linked from the footer, a privacy policy and terms covering analytics and session recording, public text says North Carolina, no town or address
+
+Proposed enhancements, roughly by payoff against the judging criteria (Impact, Creativity, Validity, Relevance, Presentation):
+
+1. **The debrief that teaches** (slice 2): compare a design to real NASA missions with sourced figures and links, the "learn why it worked or failed" part of the brief
+2. **Four furballs, four roles** (slice 3): pass-the-binder multiplayer, which the challenge asks for, with crew traits changing the options
+3. **A "Judges, start here" button:** one click launches a ready-made mission, with a 30 second autoplay where the elephants design it for you
+4. **Dice and mission events** (slice 4): a solar storm or a launch scrub makes margin matter and every run different
+5. **Mars as a second scenario** (slice 5): the same parts with a different answer, no single perfect design
+6. **The flight, drawn** (slice 7): an animated Earth to Moon trajectory with the sketch-to-color treatment
+7. **Unlockable classified dossiers:** earn the elephants' secret files by completing missions
+8. **Share a mission link** (slice 6): send a design to a friend to beat
+9. **A Polish language toggle:** small, and very on theme for the Polish elephants
+10. **Easter egg and unlock: the elephants' S10 dragster.** The furballs found a Chevy S10 at the Rockingham house they want to turn into a dragster, on a Corvette frame, with their own rendering and the Helin Racing livery on purpose. Building it is a quest, unlocked by a first successful mission, and it becomes a racer in the dice-race mini-game (the Micro Machines style race on a tabletop track). Both ideas are in `characters.md`
+
+See the vertical slices note in the vault for the sizes and the order.
+
 ## Principle: mobile first
 
 The site must be responsive and mobile-friendly, without question. See `CLAUDE.md`. Tasks:
