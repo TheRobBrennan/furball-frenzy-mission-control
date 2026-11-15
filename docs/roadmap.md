@@ -1,13 +1,13 @@
 # Roadmap
 
-Written Saturday 2026-11-14, the Space Apps weekend. The order is Rob's.
+Written Saturday 2026-11-14, the Space Apps weekend, and reviewed Sunday 2026-11-15 morning against what has shipped (live at v0.14.x). The order is Rob's.
 
 ## Now: get the app running locally and verified
 
 - [x] Repo, Docker, placeholder landing page, GitHub to Discord webhook
-- [ ] **Discord:** the repo's GitHub webhook posts to `#concourse-2026`, verified with a real event
-- [ ] **`npr` shortcut:** the root `package.json` scripts launch the repo, `npr start` brings up the stack detached, `npr stop` stops it, `npr build` rebuilds from scratch, `npr clean` removes everything built
-- [ ] **Manual check:** open the default page, the API, and the API docs, and confirm there are photos that include all the furballs in North Carolina
+- [ ] **Discord:** the repo's GitHub webhook posts to `#concourse-2026`, verified with a real event. **Not verified:** the webhook is active but its last delivery on 2026-11-15 returned HTTP 400, so check the webhook URL and payload type
+- [x] **`npr` shortcut:** the root `package.json` scripts launch the repo, `npr start` brings up the stack detached, `npr stop` stops it, `npr build` rebuilds from scratch, `npr clean` removes everything built
+- [x] **Manual check:** open the default page, the API, and the API docs, and confirm there are photos that include all the furballs in North Carolina, rechecked 2026-11-15 on a fresh no-cache build, all four URLs return 200
 
 URLs when the stack is up (`npr start`):
 
@@ -18,31 +18,40 @@ URLs when the stack is up (`npr start`):
 | API crew | http://localhost:8000/crew |
 | API docs | http://localhost:8000/docs |
 
-## Next: deploy
+## Done: deploy
 
-Once the locally running app is right:
+Shipped 2026-11-14. The live site is `https://furball-frenzy.sploosh.ai/`, and every merge to `main` bumps the version and deploys.
 
-1. Deploy to the Oracle Cloud VM, a new VM user with rootless Docker, as in the hockey
+1. [x] Deploy to the Oracle Cloud VM, a new VM user with rootless Docker, as in the hockey
    analytics deploy doc (see `deployment/oracle-vm.md`)
-2. Configure a Cloudflare Tunnel for a `sploosh.ai` subdomain
-3. Subdomain: **`furball-frenzy.sploosh.ai`**, decided 2026-11-14. Keep it simple for now: if the host ever
+2. [x] Configure a Cloudflare Tunnel for a `sploosh.ai` subdomain
+3. [x] Subdomain: **`furball-frenzy.sploosh.ai`**, decided 2026-11-14. Keep it simple for now: if the host ever
    serves several games, that host becomes the hub, or each game gets its own flat subdomain
    (a second-level name like `a.b.sploosh.ai` is not covered by Cloudflare's free certificate)
-4. Automatic deploys like hockey analytics: after the first manual deploy, a merge to `main`
-   bumps the version from the PR title with a version-bump PR, then deploys over SSH to the VM
-   and checks the public site (see that repo's `.github/workflows/main-merge.yml`)
+4. [x] Automatic deploys like hockey analytics: a merge to `main` bumps the version from the PR title
+   with a version-bump PR, then deploys over SSH to the VM and checks the public site
+   (`.github/workflows/main-merge.yml`)
+5. [x] **Frozen judging copy**, 2026-11-15: a second stack at
+   `furball-frenzy-nasa-space-apps-challenge-2026.sploosh.ai`, built from the git tag
+   `nasa-space-apps-2026-submission` by the manual Frozen Release Deploy workflow, never touched by a
+   merge to `main`, and locked with `npr deploy:frozen:freeze` once final. See
+   `deployment/frozen-release.md`.
+   - [ ] Tag the submitted commit and run the workflow, then freeze it, before the submission
+   - [ ] Optional: a GitHub tag ruleset on `nasa-space-apps-2026-*` that blocks moving or deleting the tag
 
 ## Then: build the game
 
 See `game-plan.md` for the loop and the milestones.
 
-- [ ] Character data model, traits, and images
+- [x] Character data model, traits, and images, the crew API (`/crew`), the trait ledger (`characters.md`), and the fleet and polaroid art
 - [ ] Parts catalog and launch vehicles
 - [ ] Mission simulation in the API with tests
 - [ ] Mission builder UI
 - [ ] Simulation view and debrief
-- [ ] Polish, animation, sound, the elephants' story
-- [ ] Submit on the Space Apps Project tab, closes Sunday 2026-11-15 at 11:59pm local time
+- [ ] Polish, animation, sound, the elephants' story, much of it is on the landing page already (mission menu, sad elephants, Enhance sound, the Zamboni chase), none of it is in the game yet
+- [ ] A promotional GIF or video shown as a splash pop-up toward final submission, phone friendly, closable, respects reduced motion
+- [ ] Submit on the Space Apps Project tab, closes Sunday 2026-11-15 at 11:59pm local time, the Team page will not accept a submission after it. Rob is a virtual participant, so local awards and judging do not apply, only the final submission and Global Judging
+- The vertical slices to review and build, slice 1 first, are in the vault note for the weekend plan
 
 ## Principle: mobile first
 
@@ -51,13 +60,14 @@ The site must be responsive and mobile-friendly, without question. See `CLAUDE.m
 - [x] Mobile rule in `CLAUDE.md` and `AGENTS.md`, and a PR template that asks for phone-width screenshots
 - [x] First check of the landing page at 375 x 812, no horizontal scroll
 - [ ] Automated responsive checks (Playwright at 375, 768, and 1280, no horizontal overflow) in CI
-- [ ] A phone-first redesign of the top of the page, the hero image is visible on the first screen
+- [x] A phone-first redesign of the top of the page, the hero image is visible on the first screen
 
 ## Public renditions of the fleet
 
-- [ ] Illustrated SVG renditions of Rocky, the Blazer, and the convertible, based on Rob's private
+- [x] Illustrated SVG renditions of Rocky, the Blazer, and the convertible, based on Rob's private
       reference photos. Rocky and the Blazer are Chevy blue, the convertible is dark blue. Only the
-      renditions go public, no plates, badges, backgrounds, or metadata.
+      renditions go public, no plates, badges, backgrounds, or metadata. Done, with Big Blue, the golf
+      cart, the lunar rover, the Seattle fleet, and the drones alongside, in `apps/web/src/components/fleet`.
 
 ## Banner image options for the launch site
 
@@ -72,16 +82,23 @@ Rob's decision: obfuscated banner imagery of the actual lake.
 - Not for the public site: map or satellite screenshots from consumer map apps, their imagery is
   licensed and they show street names.
 
-## Before the deploy: a more exciting page above the fold
+## Done: a more exciting page above the fold
 
-- [ ] Make the top of the page more visually exciting with Rob's own photos from the launch
-      site's surroundings, a stronger hero, motion, and mission-patch styling
-- [ ] The photos are Rob's, review each before the commit, strip metadata, and keep captions and
-      filenames free of place names
+- [x] Make the top of the page more visually exciting with Rob's own photos from the launch
+      site's surroundings, a stronger hero, motion, and mission-patch styling, a rotating polaroid,
+      a mission patch, numbered chapters, and a gentle reveal
+- The photos are Rob's, review each before the commit, strip metadata, and keep captions and
+  filenames free of place names, this stays the rule for every new photo
 
-## After deployment: the classified launch site
+## Done: the classified launch sites
 
-Eye candy above the fold: classified-looking satellite imagery of the main cast's launch
+Shipped 2026-11-14 as the two launch sites, Rockingham, NC and Seattle, WA, each with a recon
+polaroid and an Enhance button that zooms one step deeper, a sound, and a flash. The Rockingham recon
+is the lake from North Carolina's statewide orthoimagery at about 6 inches per pixel, with a
+CLASSIFIED readout and its coordinates withheld. The Seattle recon is Climate Pledge Arena from the
+USGS National Map, with its coordinates and a tilt to 3D.
+
+Original plan: classified-looking satellite imagery of the main cast's launch
 location in North Carolina. Rob's decision (2026-11-14): use actual satellite imagery of the lake,
 not a stand-in.
 
@@ -106,11 +123,20 @@ Dead concerts at Soldier Field.
 
 ## Ideas to work in
 
-- **The North Carolina crew launches from an undisclosed location**, the lake right out in their
+- [x] **The North Carolina crew launches from an undisclosed location**, the lake right out in their
   backyard. The location stays undisclosed, in the game and in the docs.
-- **The Seattle crew bops around the city**, Seattle landmarks as places and backdrops: the
+- [x] **The Seattle crew bops around the city**, Seattle landmarks as places and backdrops: the
   Space Needle, Pike Place Market, and Climate Pledge Arena, a favorite of Kraken Bear.
 - Furballs join along the way, more of the Seattle crew, Fuzzy Brown Bear, and others.
+- **Mini-game: dice races.** Race the toy fleet Micro Machines style on a tabletop racetrack, rolling
+  dice, straight or diagonal, like the Daytona 500 board game. See `characters.md`.
+- **Mini-game: drone races** through gates around the launch sites, with B, Optimus, Blades, and Blurr.
+- **More recon.** More 3D views, and the elephants' own shots later.
+- **The whispering elephants.** One elephant whispers a tip to the other, pointing out features worth
+  finding, like Enhance.
+- **Quest: build the S10 dragster**, see `characters.md`.
+- The Rockingham recon polaroid, the launch sites balanced against each other, and the PLAYMOBIL
+  Starter Pack Space Mission 71734, to build the elephants' lunar rover at the house.
 
 ## README visuals
 - Keep the README exciting off the bat: hero image, phone and desktop screenshots, refreshed with each visual change.
