@@ -766,6 +766,35 @@ main {
   }
 }
 
+/* The page starts with the case closed. The first paint is already closed, so no roller and no
+   transition play until the visitor acts, setBinder removes data-binder-first. */
+html[data-binder-first] .binder,
+html[data-binder-first] .binder::after {
+  transition: none;
+  animation: none;
+}
+
+/* A subtle pulse on the button that opens the case, only while it is closed. */
+@keyframes case-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 183, 3, 0);
+  }
+  50% {
+    box-shadow: 0 0 0 7px rgba(255, 183, 3, 0.3);
+  }
+}
+
+[data-binder="closed"] .case-pulse {
+  animation: case-pulse 2.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-binder="closed"] .case-pulse {
+    animation: none;
+  }
+}
+
 /* The CASE CLOSED stamp: it slams down, holds, and fades. */
 @keyframes case-stamp {
   0% {
