@@ -91,13 +91,13 @@ export default function Home() {
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
             <a
-              href="#story"
+              href="#the-brief"
               className="inline-flex min-h-12 items-center justify-center rounded-full bg-amber px-6 font-bold text-space shadow-lg shadow-amber/20 transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             >
               Start the mission
             </a>
             <a
-              href="#crew"
+              href="#launch-sites"
               className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/30 px-6 font-bold text-white transition hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             >
               Meet the crew
@@ -113,7 +113,7 @@ export default function Home() {
         <div className="binder-inner">
       <StarDivider />
 
-      <Reveal as="section" id="story" className="mx-auto max-w-3xl scroll-mt-20 px-6 py-14 text-center sm:py-20">
+      <Reveal as="section" id="the-brief" className="mx-auto max-w-3xl scroll-mt-20 px-6 py-14 text-center sm:py-20">
         <SectionHeading eyebrow="The mission brief" />
         <blockquote className="mt-8 rounded-3xl border border-white/10 bg-white/5 p-6 text-left text-lg leading-relaxed text-white/90 shadow-2xl shadow-black/40 backdrop-blur sm:p-8 sm:text-center sm:text-2xl">
           The true heroes of our game follow the adventures, and the misadventures, of
@@ -171,7 +171,7 @@ export default function Home() {
 
       <Reveal
         as="section"
-        id="stories"
+        id="origin-stories"
         aria-label="The quest for the perfect home"
         className="mx-auto grid scroll-mt-20 max-w-6xl items-center gap-10 px-6 py-10 sm:py-16 lg:grid-cols-2"
       >

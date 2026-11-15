@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { caseLabel, hashTarget } from "@/lib/binder";
 import SadElephants from "./SadElephants";
 
 type Tab = { id: string; label: string; color: string; side: string };
@@ -9,10 +10,10 @@ type Tab = { id: string; label: string; color: string; side: string };
 // Binder tabs for the page, in page order. The colored edges are the dividers of the elephants' binder.
 const tabs: Tab[] = [
   { id: "top", label: "Cover", color: "border-t-[#f472b6]", side: "border-l-[#f472b6]" },
-  { id: "story", label: "The brief", color: "border-t-[#5ac8fa]", side: "border-l-[#5ac8fa]" },
+  { id: "the-brief", label: "The brief", color: "border-t-[#5ac8fa]", side: "border-l-[#5ac8fa]" },
   { id: "classified", label: "Classified", color: "border-t-[#c792ea]", side: "border-l-[#c792ea]" },
-  { id: "crew", label: "Launch sites", color: "border-t-[#ff7a59]", side: "border-l-[#ff7a59]" },
-  { id: "stories", label: "Origin stories", color: "border-t-[#7ddc8a]", side: "border-l-[#7ddc8a]" },
+  { id: "launch-sites", label: "Launch sites", color: "border-t-[#ff7a59]", side: "border-l-[#ff7a59]" },
+  { id: "origin-stories", label: "Origin stories", color: "border-t-[#7ddc8a]", side: "border-l-[#7ddc8a]" },
 ];
 
 // Every question has three good answers. The elephants let everyone through, it is only whimsy.
@@ -48,8 +49,10 @@ function scrollToId(id: string) {
 export default function MissionNav() {
   const [active, setActive] = useState("top");
   const [menu, setMenu] = useState(false);
-  // Closing the binder folds every section away and leaves the cover and the footer.
-  const [closed, setClosed] = useState(false);
+  // The binder starts closed, only the cover and the footer show until the visitor opens the case.
+  // `opened` remembers that they have, so the button says Reopen after that.
+  const [closed, setClosed] = useState(true);
+  const [opened, setOpened] = useState(false);
   // A red stamp slams down when the case is closed.
   const [stamp, setStamp] = useState(0);
   const [check, setCheck] = useState<{ q: string; a: string[] } | null>(null);
@@ -120,9 +123,35 @@ export default function MissionNav() {
   }, [done]);
 
   const setBinder = useCallback((shut: boolean) => {
+    // The first paint is already closed, with no roller or transition. Once the visitor acts, the
+    // case animates like it always has.
+    delete document.documentElement.dataset.binderFirst;
     document.documentElement.dataset.binder = shut ? "closed" : "open";
     setClosed(shut);
+    if (!shut) setOpened(true);
   }, []);
+
+  // A link such as /#origin-stories opens the case, then scrolls to that section once it has unrolled.
+  // It runs on arrival and whenever the hash changes, for example the hero's Start the mission button.
+  useEffect(() => {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let scroll: number | undefined;
+    const openForHash = () => {
+      const ids = Array.from(document.querySelectorAll(".binder [id]"), (el) => el.id);
+      const target = hashTarget(window.location.hash, ids);
+      if (!target) return;
+      setBinder(false);
+      window.clearTimeout(scroll);
+      scroll = window.setTimeout(() => scrollToId(target), reduced ? 0 : ROLL_MS + 100);
+    };
+    const raf = window.requestAnimationFrame(openForHash);
+    window.addEventListener("hashchange", openForHash);
+    return () => {
+      window.cancelAnimationFrame(raf);
+      window.removeEventListener("hashchange", openForHash);
+      window.clearTimeout(scroll);
+    };
+  }, [setBinder]);
 
   // The binder is a long scroll: closing rolls it up from the bottom, opening unfurls it from the top.
   // The roller rides the bottom edge, and the view follows that edge so the whole thing can be seen.
@@ -273,9 +302,11 @@ export default function MissionNav() {
             <a
               href="#footer"
               onClick={toggleBinder}
-              className="block w-[9.5rem] rounded-t-lg border border-b-0 border-t-4 border-white/10 border-t-[#94a3b8] bg-white/5 px-2 py-2 text-center font-mono text-xs text-white/80 transition-colors hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber"
+              className={`case-pulse block w-[9.5rem] rounded-t-lg border border-b-0 border-t-4 border-white/10 bg-white/5 px-2 py-2 text-center font-mono text-xs text-white/80 transition-colors hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber ${
+                closed && !opened ? "border-t-amber text-white" : "border-t-[#94a3b8]"
+              }`}
             >
-              {closed ? "Reopen the case" : "Close the case"}
+              {caseLabel(closed, opened)}
             </a>
           </li>
         </ul>
@@ -284,7 +315,7 @@ export default function MissionNav() {
           aria-expanded={menu}
           aria-controls="mission-menu-sheet"
           onClick={() => setMenu((v) => !v)}
-          className="mb-2 rounded-lg bg-amber px-3 py-1.5 font-mono text-xs font-semibold text-space sm:hidden"
+          className="case-pulse mb-2 rounded-lg bg-amber px-3 py-1.5 font-mono text-xs font-semibold text-space sm:hidden"
         >
           {menu ? "Close" : "Mission menu"}
         </button>
@@ -312,7 +343,7 @@ export default function MissionNav() {
               onClick={toggleBinder}
               className="block rounded-lg border border-l-4 border-white/10 border-l-[#94a3b8] bg-white/5 px-4 py-3 font-semibold text-white/90"
             >
-              {closed ? "Reopen the case" : "Close the case"}
+              {caseLabel(closed, opened)}
             </a>
           </li>
         </ul>

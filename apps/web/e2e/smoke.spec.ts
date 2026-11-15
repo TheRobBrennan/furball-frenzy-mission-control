@@ -27,3 +27,38 @@ test("Storybook is served at /storybook", async ({ page }) => {
   await expect(page).toHaveURL(/\/storybook\/index\.html/);
   await expect(page).toHaveTitle(/Storybook/);
 });
+
+test("the case starts closed, and opening it shows the sections", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator("html")).toHaveAttribute("data-binder", "closed");
+  await expect(page.locator("#classified")).toBeHidden();
+  await expect(page.locator("#footer")).toBeVisible();
+  await page.evaluate(() => window.scrollTo(0, 0));
+  // On a phone the case button lives in the Mission menu sheet.
+  if (page.viewportSize()!.width < 640) await page.getByRole("button", { name: /mission menu/i }).click();
+  await page.getByRole("link", { name: /^open the case$/i }).click();
+  await expect(page.locator("html")).toHaveAttribute("data-binder", "open");
+  await expect(page.locator("#classified")).toBeVisible({ timeout: 8000 });
+});
+
+test("a link to a section opens the case, and an older link still works", async ({ page }) => {
+  await page.goto("/#origin-stories");
+  await expect(page.locator("html")).toHaveAttribute("data-binder", "open");
+  await page.goto("/?older#stories");
+  await expect(page.locator("html")).toHaveAttribute("data-binder", "open");
+});
+
+test("every binder tab points at a section on the page", async ({ page }) => {
+  await page.goto("/");
+  const hrefs = await page.locator('nav a[href^="#"]').evaluateAll((els) => els.map((el) => el.getAttribute("href")!));
+  const sections = hrefs.filter((h) => h !== "#top" && h !== "#footer");
+  expect(sections.length).toBeGreaterThanOrEqual(4);
+  for (const href of sections) await expect(page.locator(href)).toHaveCount(1);
+});
+
+test("the hero's Start the mission button opens the case", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator("html")).toHaveAttribute("data-binder", "closed");
+  await page.getByRole("link", { name: /start the mission/i }).click();
+  await expect(page.locator("html")).toHaveAttribute("data-binder", "open");
+});

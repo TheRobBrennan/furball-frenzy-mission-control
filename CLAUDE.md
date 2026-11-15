@@ -52,6 +52,10 @@ cd apps/web && pnpm storybook       # Storybook on http://localhost:6006
 cd apps/web && pnpm build-storybook # static build into public/storybook, served at /storybook
 ```
 
+Build principles: quality, simplicity, and modularity. Write the tests as you go, in the same PR as the
+change: pull logic into small pure modules in `src/lib` with a Vitest test, give new components a story, and
+give new flows a Playwright test. Prefer the simple design and no speculative abstractions.
+
 Testing rules: new logic gets a Vitest test, new components get a story, new flows get a Playwright
 test. Storybook ships with the app at `/storybook`, on the live site and on the frozen submission copy,
 see `docs/deployment/frozen-release.md`.
