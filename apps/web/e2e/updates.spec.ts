@@ -48,3 +48,13 @@ test("on the home page the Stay updated box is under the Polaroid on a wide scre
     expect(card!.y).toBeGreaterThan(headline!.y);
   }
 });
+
+test("the hero text starts at the top, level with the Polaroid, not centered against a taller column", async ({ page }) => {
+  test.skip(page.viewportSize()!.width < 1024, "the hero is one column on a phone");
+  await page.addInitScript(() => sessionStorage.setItem("ff-promo-seen", "1"));
+  await page.goto("/");
+  const eyebrow = await page.getByText("Space Apps 2026").first().boundingBox();
+  const polaroid = await page.locator("figure").first().boundingBox();
+  // The first line of text is within 120px of the top of the Polaroid, instead of hundreds of pixels lower.
+  expect(Math.abs(eyebrow!.y - polaroid!.y)).toBeLessThan(120);
+});
