@@ -80,4 +80,10 @@ export type MissionResult = {
   daysOperating: number;
   /** Plain words about the decision that cost the most, for the debrief. */
   biggestLoss: string | null;
+  /** What cost the most science, so the story can teach the matching lesson. Null when little was lost. */
+  lossCause: "power" | "data" | "launch" | null;
+  /** How much of the power the rover needed the array made, 0 to 1. */
+  powerRatio: number;
+  /** How much of what the instruments made the antenna could send home, 0 to 1. */
+  dataRatio: number;
 };

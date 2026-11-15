@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { reducedMotion } from "@/lib/motion";
 import {
   choose,
   commsParts,
@@ -18,8 +19,8 @@ import {
 } from "@/lib/mission";
 import Debrief from "./Debrief";
 import GaugeBar from "./GaugeBar";
-import LaunchSequence from "./LaunchSequence";
 import { primeMissionSound } from "./missionSound";
+import MissionStory from "./MissionStory";
 import PartCard from "./PartCard";
 
 const partStats = (p: Part) => [
@@ -30,8 +31,6 @@ const partStats = (p: Part) => [
   ...(p.downlinkMbPerDay ? [`sends ${p.downlinkMbPerDay} Mb/day`] : []),
   ...(p.science ? [`${p.science} science`] : []),
 ];
-
-const reducedMotion = () => typeof window !== "undefined" && typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 function Step({ n, title, hint, done, children }: { n: number; title: string; hint: string; done: boolean; children: React.ReactNode }) {
   return (
@@ -63,10 +62,6 @@ export default function MissionBuilder() {
   const launch = () => {
     primeMissionSound();
     const r = simulate(design);
-    if (reducedMotion()) {
-      setResult(r);
-      return;
-    }
     pending.current = r;
     setRunning(r);
   };
@@ -151,7 +146,7 @@ export default function MissionBuilder() {
         </div>
       </aside>
 
-      {running && <LaunchSequence result={running} onDone={finishLaunch} />}
+      {running && <MissionStory design={design} result={running} onDone={finishLaunch} />}
 
       {result && (
         <div ref={debrief} className="scroll-mt-16 lg:col-span-2">

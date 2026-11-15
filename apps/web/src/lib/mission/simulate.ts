@@ -19,6 +19,9 @@ export function simulate(design: Design): MissionResult {
       science: 0,
       daysOperating: 0,
       biggestLoss: evaluation.issues[0]?.message ?? null,
+      lossCause: "launch",
+      powerRatio: 0,
+      dataRatio: 0,
     };
   }
 
@@ -48,7 +51,9 @@ export function simulate(design: Design): MissionResult {
   const lossFromPower = 1 - powerRatio * (daysOperating / scenario.daysNeeded);
   const lossFromData = 1 - dataRatio;
   let biggestLoss: string | null = null;
+  let lossCause: MissionResult["lossCause"] = null;
   if (lossFromPower > 0.05 || lossFromData > 0.05) {
+    lossCause = lossFromData >= lossFromPower ? "data" : "power";
     biggestLoss =
       lossFromData >= lossFromPower
         ? `The antenna could send only ${Math.round(t.downlinkMbPerDay)} of the ${Math.round(t.dataMbPerDay)} Mb the instruments made each day, so ${Math.round(lossFromData * 100)}% of the science was lost.`
@@ -65,5 +70,5 @@ export function simulate(design: Design): MissionResult {
       : `Brownout, the rover shut down after ${daysOperating} of ${scenario.daysNeeded} days.`,
   });
 
-  return { launched: true, success: surviving && science >= 60, phases, science, daysOperating, biggestLoss };
+  return { launched: true, success: surviving && science >= 60, phases, science, daysOperating, biggestLoss, lossCause, powerRatio, dataRatio };
 }

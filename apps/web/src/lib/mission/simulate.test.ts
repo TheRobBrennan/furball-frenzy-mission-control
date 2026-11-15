@@ -14,6 +14,9 @@ describe("simulate", () => {
     expect(r.science).toBe(100);
     expect(r.daysOperating).toBe(14);
     expect(r.biggestLoss).toBeNull();
+    expect(r.lossCause).toBeNull();
+    expect(r.powerRatio).toBe(1);
+    expect(r.dataRatio).toBe(1);
     expect(r.phases.map((p) => p.id)).toEqual(["launch", "transit", "landing", "surface"]);
     expect(r.phases.every((p) => p.ok)).toBe(true);
   });
@@ -26,6 +29,7 @@ describe("simulate", () => {
       expect(r.science).toBe(0);
       expect(r.phases).toHaveLength(1);
       expect(r.biggestLoss).toBeTruthy();
+      expect(r.lossCause).toBe("launch");
     }
   });
 
@@ -36,6 +40,8 @@ describe("simulate", () => {
     expect(r.science).toBeLessThan(40);
     expect(r.daysOperating).toBe(14);
     expect(r.biggestLoss).toMatch(/antenna/);
+    expect(r.lossCause).toBe("data");
+    expect(r.dataRatio).toBeLessThan(0.5);
   });
 
   it("browns out early when the array makes too little power, and blames the array", () => {
@@ -46,5 +52,7 @@ describe("simulate", () => {
     expect(r.phases.at(-1)?.ok).toBe(false);
     expect(r.phases.at(-1)?.note).toMatch(/Brownout/);
     expect(r.biggestLoss).toMatch(/solar array/);
+    expect(r.lossCause).toBe("power");
+    expect(r.powerRatio).toBeLessThan(0.6);
   });
 });

@@ -830,56 +830,414 @@ html[data-binder-first] .binder::after {
   }
 }
 
-/* The launch sequence: the rocket shakes on the pad, then lifts off the top of the screen. */
-@keyframes rocket-shake {
+/* The mission story: small, gentle animations for each scene. Every one is off with reduced motion. */
+@keyframes story-liftoff {
   0%,
-  100% {
-    transform: translateX(0);
-  }
-  25% {
-    transform: translateX(-1.5px);
-  }
-  75% {
-    transform: translateX(1.5px);
-  }
-}
-
-@keyframes rocket-lift {
-  0% {
+  22% {
     transform: translateY(0);
   }
   100% {
-    transform: translateY(-120vh);
+    transform: translateY(-300px);
   }
 }
-
-@keyframes rocket-flame {
+@keyframes story-flame {
   0%,
   100% {
     transform: scaleY(1);
   }
   50% {
-    transform: scaleY(1.25);
+    transform: scaleY(1.3);
+  }
+}
+@keyframes story-smoke {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+@keyframes story-land {
+  0% {
+    transform: translateY(-130px);
+  }
+  70%,
+  100% {
+    transform: translateY(0);
+  }
+}
+@keyframes story-dust {
+  0% {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+@keyframes story-sparkle {
+  0% {
+    transform: translate(0, 0) scale(0.4);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(18px, -60px) scale(1.4);
+    opacity: 0;
+  }
+}
+@keyframes story-beam {
+  to {
+    stroke-dashoffset: -28;
+  }
+}
+@keyframes story-hum {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-1.5px);
+  }
+}
+@keyframes story-drive {
+  0% {
+    left: 12%;
+  }
+  50% {
+    left: 58%;
+  }
+  100% {
+    left: 12%;
+  }
+}
+@keyframes story-bounce {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+  25% {
+    transform: translateY(-6%) rotate(2deg);
+  }
+  50% {
+    transform: translateY(0) rotate(-1deg);
+  }
+  75% {
+    transform: translateY(-4%) rotate(3deg);
+  }
+}
+@keyframes story-puff {
+  0% {
+    transform: scale(0.3);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(2.4) translateY(-10px);
+    opacity: 0;
+  }
+}
+@keyframes story-confetti {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  100% {
+    transform: translateY(260px) rotate(360deg);
+  }
+}
+@keyframes story-bulb {
+  0%,
+  100% {
+    transform: translate(200px, 86px) scale(1);
+  }
+  50% {
+    transform: translate(200px, 86px) scale(1.08);
+  }
+}
+@keyframes story-line {
+  from {
+    stroke-dasharray: 600;
+    stroke-dashoffset: 600;
+  }
+  to {
+    stroke-dasharray: 600;
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes story-speak {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
   }
 }
 
-.rocket-shake {
-  animation: rocket-shake 0.12s linear infinite;
+.story-liftoff {
+  animation: story-liftoff calc(3.4s / var(--story-speed, 1)) cubic-bezier(0.5, 0, 0.9, 0.4) forwards;
 }
-
-.rocket-lift {
-  animation: rocket-lift 2.6s cubic-bezier(0.55, 0, 0.9, 0.4) forwards;
+.story-flame {
+  transform-box: fill-box;
+  transform-origin: top center;
+  animation: story-flame 0.14s ease-in-out infinite;
 }
-
-.rocket-flame {
-  transform-origin: 30px 84px;
-  animation: rocket-flame 0.14s ease-in-out infinite;
+.story-smoke {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: story-smoke calc(1.8s / var(--story-speed, 1)) ease-out infinite;
+}
+.story-land {
+  animation: story-land calc(2.8s / var(--story-speed, 1)) ease-out forwards;
+}
+.story-dust {
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+  animation: story-dust calc(1.2s / var(--story-speed, 1)) ease-out forwards;
+}
+.story-sparkle {
+  animation: story-sparkle calc(2s / var(--story-speed, 1)) ease-out infinite;
+}
+.story-beam {
+  animation: story-beam calc(0.9s / var(--story-speed, 1)) linear infinite;
+}
+.story-hum {
+  animation: story-hum calc(0.25s / var(--story-speed, 1)) ease-in-out infinite;
+}
+.story-drive {
+  animation: story-drive calc(4.8s / var(--story-speed, 1)) ease-in-out forwards;
+}
+.story-bounce {
+  animation: story-bounce calc(0.7s / var(--story-speed, 1)) ease-in-out infinite;
+}
+.story-puff {
+  animation: story-puff calc(1.6s / var(--story-speed, 1)) ease-out infinite;
+}
+.story-confetti {
+  animation: story-confetti calc(3.4s / var(--story-speed, 1)) linear infinite;
+}
+.story-bulb {
+  animation: story-bulb calc(1.2s / var(--story-speed, 1)) ease-in-out infinite;
+}
+.story-line {
+  animation: story-line calc(3s / var(--story-speed, 1)) ease-out forwards;
+}
+.story-speaking {
+  animation: story-speak calc(0.6s / var(--story-speed, 1)) ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .rocket-shake,
-  .rocket-lift,
-  .rocket-flame {
+  .story-liftoff,
+  .story-flame,
+  .story-smoke,
+  .story-land,
+  .story-dust,
+  .story-sparkle,
+  .story-beam,
+  .story-hum,
+  .story-drive,
+  .story-bounce,
+  .story-puff,
+  .story-confetti,
+  .story-bulb,
+  .story-line,
+  .story-speaking {
+    animation: none;
+  }
+}
+
+/* The Polish elephants wave to their family, even when they are trying to be discreet. */
+@keyframes story-wave {
+  0%,
+  100% {
+    transform: rotate(-8deg);
+  }
+  50% {
+    transform: rotate(28deg);
+  }
+}
+.story-wave {
+  transform-box: fill-box;
+  transform-origin: 50% 15%;
+  animation: story-wave calc(0.7s / var(--story-speed, 1)) ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .story-wave {
+    animation: none;
+  }
+}
+
+/* Splashdown and recovery: the capsule drifts down under its parachutes, splashes, and bobs by the ship. */
+@keyframes story-fall {
+  from {
+    transform: translateY(-120px);
+  }
+  to {
+    transform: translateY(62px);
+  }
+}
+@keyframes story-sway {
+  0%,
+  100% {
+    transform: rotate(-3deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
+}
+@keyframes story-ripple {
+  0% {
+    transform: scale(0.3);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+@keyframes story-bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(3px) rotate(2deg);
+  }
+}
+@keyframes story-rotor {
+  0%,
+  100% {
+    transform: scaleX(1);
+  }
+  50% {
+    transform: scaleX(0.25);
+  }
+}
+.story-fall {
+  animation: story-fall calc(3.2s / var(--story-speed, 1)) ease-in-out forwards;
+}
+.story-sway {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: story-sway calc(1.4s / var(--story-speed, 1)) ease-in-out infinite;
+}
+.story-ripple {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: story-ripple calc(1.4s / var(--story-speed, 1)) ease-out infinite;
+}
+.story-bob {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: story-bob calc(1.6s / var(--story-speed, 1)) ease-in-out infinite;
+}
+.story-rotor {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: story-rotor calc(0.12s / var(--story-speed, 1)) linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .story-fall,
+  .story-sway,
+  .story-ripple,
+  .story-bob,
+  .story-rotor {
+    animation: none;
+  }
+}
+
+/* Each caption fades in gently, so the words arrive without a jolt. */
+@keyframes story-caption {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.story-caption {
+  animation: story-caption calc(0.8s / var(--story-speed, 1)) ease-out both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .story-caption {
+    animation: none;
+  }
+}
+
+/* Pause: every story animation holds still while the pause button is on. */
+[data-paused="true"] * {
+  animation-play-state: paused !important;
+}
+
+@keyframes story-grumble {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  20% { transform: translateX(-4px) rotate(-3deg); }
+  40% { transform: translateX(4px) rotate(3deg); }
+  60% { transform: translateX(-3px) rotate(-2deg); }
+  80% { transform: translateX(3px) rotate(2deg); }
+}
+.story-grumble {
+  animation: story-grumble calc(0.5s / var(--story-speed, 1)) linear infinite;
+}
+@keyframes story-fix {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-3px) rotate(-6deg); }
+}
+.story-fixing {
+  animation: story-fix calc(0.35s / var(--story-speed, 1)) ease-in-out infinite;
+}
+@keyframes story-happy {
+  0%, 100% { transform: translateY(0) scale(1); }
+  40% { transform: translateY(-14px) scale(1.06); }
+  60% { transform: translateY(0) scale(0.97); }
+}
+.story-happy {
+  animation: story-happy calc(0.6s / var(--story-speed, 1)) ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .story-grumble,
+  .story-fixing,
+  .story-happy {
+    animation: none;
+  }
+}
+
+@keyframes story-alert {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 0.3; }
+}
+.story-alert {
+  animation: story-alert calc(0.6s / var(--story-speed, 1)) ease-in-out infinite;
+}
+@keyframes story-debris {
+  0% { transform: translate(0, 0); opacity: 1; }
+  100% { transform: translate(-90px, 50px); opacity: 0; }
+}
+.story-debris {
+  animation: story-debris calc(1.6s / var(--story-speed, 1)) linear infinite;
+}
+@keyframes story-tear {
+  0% { transform: translateY(0); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translateY(26px); opacity: 0; }
+}
+.story-tear {
+  animation: story-tear calc(1.8s / var(--story-speed, 1)) ease-in infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .story-alert,
+  .story-debris,
+  .story-tear {
     animation: none;
   }
 }

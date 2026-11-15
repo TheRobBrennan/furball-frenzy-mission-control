@@ -12,7 +12,7 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? [["github"], ["html", { open: "never" }]] : "list",
-  use: { baseURL, trace: "on-first-retry", channel },
+  use: { baseURL, trace: "on-first-retry", channel, launchOptions: { args: ["--mute-audio"] } },
   projects: [
     { name: "phone-375", use: { viewport: { width: 375, height: 812 }, isMobile: true, hasTouch: true } },
     { name: "desktop-1280", use: { viewport: { width: 1280, height: 800 } } },

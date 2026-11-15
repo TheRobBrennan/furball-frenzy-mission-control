@@ -3,4 +3,6 @@ export * from "./evaluate";
 export * from "./simulate";
 export * from "./types";
 export * from "./design";
-export * from "./sequence";
+export * from "./script";
+export * from "./pace";
+export * from "./time";

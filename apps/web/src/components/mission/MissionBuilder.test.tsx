@@ -45,11 +45,11 @@ describe("MissionBuilder", () => {
     expect(screen.getByTestId("science")).toHaveTextContent("Science returned: 100%");
   });
 
-  it("plays the launch sequence first, and the debrief comes after it", async () => {
+  it("tells the mission story first, and the debrief comes after it", async () => {
     render(<MissionBuilder />);
     await buildBalanced();
     await userEvent.click(screen.getByTestId("launch"));
-    expect(screen.getByRole("dialog", { name: /launch sequence/i })).toBeInTheDocument();
+    expect(screen.getByRole("dialog", { name: /the mission story/i })).toBeInTheDocument();
     expect(screen.queryByTestId("debrief")).not.toBeInTheDocument();
     await userEvent.click(screen.getByRole("button", { name: /skip to the debrief/i }));
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
