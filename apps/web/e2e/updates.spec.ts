@@ -28,3 +28,13 @@ test("the thank you page opens, for Flodesk to send new subscribers to", async (
   await expect(page.getByRole("link", { name: "Watch a mission" })).toBeInViewport();
   await expect(page.getByTestId("stay-updated")).toHaveCount(0);
 });
+
+test("on the home page the Stay updated box sits just above the footer", async ({ page }) => {
+  await page.addInitScript(() => sessionStorage.setItem("ff-promo-seen", "1"));
+  await page.goto("/");
+  const box = await page.getByTestId("stay-updated").boundingBox();
+  const footer = await page.locator("#footer").boundingBox();
+  expect(box!.y + box!.height).toBeLessThanOrEqual(footer!.y);
+  expect(footer!.y - (box!.y + box!.height)).toBeLessThan(200);
+  await expect(page.getByTestId("stay-updated")).toHaveCount(1);
+});

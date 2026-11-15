@@ -8,6 +8,7 @@ import StarDivider from "@/components/StarDivider";
 import HeroPolaroid from "@/components/HeroPolaroid";
 import ExtLink from "@/components/ExtLink";
 import MissionPatch from "@/components/MissionPatch";
+import StayUpdated from "@/components/StayUpdated";
 import TrailerButton from "@/components/TrailerButton";
 import MissionStatus from "@/components/MissionStatus";
 import VersionLine from "@/components/VersionLine";
@@ -307,6 +308,8 @@ export default function Home() {
 
         </div>
       </div>
+
+      <StayUpdated />
 
       <footer id="footer" className="mx-auto max-w-5xl scroll-mt-20 text-balance px-6 pb-12 text-center font-mono text-xs text-white/50">
         <span className="block">
