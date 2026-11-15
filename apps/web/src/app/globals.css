@@ -829,3 +829,57 @@ html[data-binder-first] .binder::after {
     display: none;
   }
 }
+
+/* The launch sequence: the rocket shakes on the pad, then lifts off the top of the screen. */
+@keyframes rocket-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-1.5px);
+  }
+  75% {
+    transform: translateX(1.5px);
+  }
+}
+
+@keyframes rocket-lift {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-120vh);
+  }
+}
+
+@keyframes rocket-flame {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(1.25);
+  }
+}
+
+.rocket-shake {
+  animation: rocket-shake 0.12s linear infinite;
+}
+
+.rocket-lift {
+  animation: rocket-lift 2.6s cubic-bezier(0.55, 0, 0.9, 0.4) forwards;
+}
+
+.rocket-flame {
+  transform-origin: 30px 84px;
+  animation: rocket-flame 0.14s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rocket-shake,
+  .rocket-lift,
+  .rocket-flame {
+    animation: none;
+  }
+}

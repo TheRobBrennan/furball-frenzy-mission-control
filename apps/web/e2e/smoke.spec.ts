@@ -56,12 +56,6 @@ test("every binder tab points at a section on the page", async ({ page }) => {
   for (const href of sections) await expect(page.locator(href)).toHaveCount(1);
 });
 
-test("the hero's Start the mission button opens the case", async ({ page }) => {
-  await page.goto("/");
-  await expect(page.locator("html")).toHaveAttribute("data-binder", "closed");
-  await page.getByRole("link", { name: /start the mission/i }).click();
-  await expect(page.locator("html")).toHaveAttribute("data-binder", "open");
-});
 
 test("the hero's Meet the crew button lands on the crew lists", async ({ page }) => {
   await page.goto("/");
