@@ -10,6 +10,9 @@ test("the Stay updated box loads nothing from Flodesk until asked, then loads it
   await page.getByTestId("stay-updated").scrollIntoViewIfNeeded();
   await page.waitForTimeout(1500);
   expect(flodesk).toEqual([]);
+  // The invitation reads on one line, at desktop and phone width.
+  const line = await page.getByTestId("stay-updated-line").boundingBox();
+  expect(line!.height).toBeLessThan(30);
   await page.getByTestId("stay-updated-open").click();
   await expect(page.getByTestId("stay-updated-dialog")).toBeVisible();
   await expect(page.getByTestId("stay-updated-close")).toBeInViewport();
