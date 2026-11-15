@@ -4,7 +4,7 @@
 A web game anyone can play. Two Polish elephants, small grey plush from a Polish toy label in Software Mansion t-shirts, love the American Space Program, drones, rockets, the Moon, and Mars. Design a space mission (mass, power, budget, data, communications, time, launch vehicle and orbit check) that gets them to the Moon. They drive a lunar rover (PLAYMOBIL Starter Pack Space Mission 71734; the game uses every piece in the kit).
 
 ## Event
-2026 NASA Space Apps Challenge, Charlotte NC local event, Nov 14-15. Team of one, "Furball Frenzy: Mission Control", with Claude Sonnet 5.5 (Medium) as a valued team member. Theme: whimsy, intrigue, mischief, the furballs and the American Space Program.
+2026 NASA Space Apps Challenge, Charlotte NC local event, Nov 14-15. Team of one, "Furball Frenzy: Mission Control", with Claude Fable 5.2 and Claude Sonnet 5.5 (Medium) as valued team members. Theme: whimsy, intrigue, mischief, the furballs and the American Space Program.
 
 ## Cast
 North Carolina crew:
