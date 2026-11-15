@@ -126,7 +126,7 @@ export const skins: Skin[] = [
   },
   {
     id: "claude",
-    name: "Claude Fable 5.2 and Sonnet 5.5",
+    name: "Claude Sonnet 5.5 and Fable 5.2",
     href: "https://claude.com/product/overview",
     line: "The AI pit crew that helped build this.",
     base: ["#f7f2e8", "#e6dcc6"],
@@ -138,8 +138,11 @@ export const skins: Skin[] = [
         <text x="112" y="62" fontSize="40" fontWeight="600" fill="#1f1d1a" fontFamily={SERIF} textLength="130" lengthAdjust="spacingAndGlyphs">
           Claude
         </text>
-        <text x="114" y="82" fontSize="13" fontStyle="italic" fill="#b4562f" fontFamily={SERIF} textLength="128" lengthAdjust="spacingAndGlyphs">
-          Fable 5.2 + Sonnet 5.5
+        <text x="114" y="76" fontSize="12" fontStyle="italic" fill="#b4562f" fontFamily={SERIF} textLength="76" lengthAdjust="spacingAndGlyphs">
+          Sonnet 5.5
+        </text>
+        <text x="114" y="90" fontSize="12" fontStyle="italic" fill="#b4562f" fontFamily={SERIF} textLength="68" lengthAdjust="spacingAndGlyphs">
+          Fable 5.2
         </text>
       </>
     ),
