@@ -1,5 +1,18 @@
 import { expect, test, type Page } from "@playwright/test";
 
+// Tests run silent, the story plays a voice and sounds through the speakers.
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => {
+    try {
+      localStorage.setItem("ff-story-sound", "off");
+      localStorage.setItem("ff-story-hold", "none");
+      localStorage.setItem("ff-story-trouble", "none");
+    } catch {
+      // No storage, nothing to silence.
+    }
+  });
+});
+
 const pick = (page: Page, name: RegExp) => page.getByRole("button", { name }).click();
 const balanced = [/medium launcher/i, /navigation camera/i, /spectrometer/i, /medium solar array/i, /x-band dish/i];
 
@@ -51,16 +64,46 @@ test("on a phone the gauges stay in view while scrolling through the steps", asy
   await expect(page.getByTestId("gauge-compact-mass")).toBeInViewport();
 });
 
-test("the launch plays a countdown and liftoff, then the debrief arrives and comes into view", async ({ page }) => {
+test("the mission is told by the furballs, then the debrief arrives and comes into view", async ({ page }) => {
   await page.goto("/mission");
   for (const n of balanced) await pick(page, n);
   await page.getByTestId("launch").click();
-  await expect(page.getByTestId("launch-sequence")).toBeVisible();
-  await expect(page.getByTestId("launch-count")).toHaveText("3");
-  await expect(page.getByTestId("launch-count")).toHaveText("Liftoff!", { timeout: 6000 });
-  await expect(page.getByTestId("debrief")).toBeVisible({ timeout: 12_000 });
-  await expect(page.getByTestId("launch-sequence")).toBeHidden();
+  await expect(page.getByTestId("mission-story")).toBeVisible();
+  await expect(page.getByTestId("scene-title")).toHaveText("Mission Control");
+  for (const name of ["Piggy", "The elephants", "The Gray Elephant", "Hamley", "Blue Bear", "Little Duck"]) await expect(page.getByRole("img", { name })).toBeVisible();
+  await expect(page.getByTestId("speed")).toBeVisible();
+  await expect(page.getByTestId("speed-label")).toContainText("Lazy 0.5x");
+  // The default is lazy, so speed it up for the test.
+  await page.getByTestId("speed").fill("2");
+  await page.getByTestId("speed").dispatchEvent("keyup");
+  await expect(page.getByTestId("speed-label")).toContainText("Quick 2x");
+  // The newest message is always on screen, never below the fold.
+  await expect(page.getByTestId("story-lines").locator("p").first()).toBeInViewport();
+  await expect(page.getByTestId("scene-title")).toHaveText("Liftoff", { timeout: 45_000 });
+  await page.getByRole("button", { name: /skip to the debrief/i }).click();
+  await expect(page.getByTestId("debrief")).toBeVisible();
+  await expect(page.getByTestId("mission-story")).toBeHidden();
   await expect(page.getByTestId("debrief")).toBeInViewport();
+});
+
+test("a no-go at the final checks is fixed before the countdown, and trouble in space ends with everyone safe", async ({ page }) => {
+  test.setTimeout(180_000);
+  await page.addInitScript(() => {
+    localStorage.setItem("ff-story-hold", "1");
+    localStorage.setItem("ff-story-trouble", "abort:0");
+  });
+  await page.goto("/mission");
+  for (const n of balanced) await pick(page, n);
+  await page.getByTestId("launch").click();
+  await page.getByTestId("speed").fill("2");
+  await page.getByTestId("speed").dispatchEvent("keyup");
+  await expect(page.getByTestId("check-nogo")).toContainText("Ground station", { timeout: 30_000 });
+  await expect(page.getByTestId("story-lines").locator("p").first()).toBeInViewport();
+  await expect(page.getByTestId("scene-title")).toHaveText("Trouble in space", { timeout: 60_000 });
+  await expect(page.getByTestId("piggy-ipad")).toBeVisible();
+  await expect(page.getByTestId("scene-title")).toHaveText("Turning for home", { timeout: 30_000 });
+  await expect(page.getByTestId("scene-title")).toHaveText("Home safe", { timeout: 60_000 });
+  await expect(page.getByTestId("lesson")).toContainText("Turning back is a good call");
 });
 
 test("the binder tabs are on the home page, not the mission page", async ({ page }) => {

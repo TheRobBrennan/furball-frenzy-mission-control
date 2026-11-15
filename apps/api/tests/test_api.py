@@ -54,5 +54,6 @@ def test_polish_elephants_are_playful_camera_lovers_with_a_few_classified_files(
     traits = " ".join(elephants["traits"]).lower()
     assert "classified" in traits
     assert "camera" in traits
+    assert "waving to their family" in traits
     assert "satellite" in traits
     assert "playful" in traits

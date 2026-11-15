@@ -45,6 +45,7 @@ public-safe and confirmed, add it to `crew.py` in the same change.
 | 2026-11-14 | Love to be tied together and stay close, they ride the lunar rover stacked on each other as a single-seater, happily driving | confirmed |
 | 2026-11-14 | Use the Bunny system, like all good furballs, safety and silliness first | confirmed, what the Bunny system means in play is to be defined, my guess is a play on the buddy system |
 | 2026-11-14 | Proud of their hard work, creativity, and team ethos | confirmed |
+| 2026-11-15 | Even when they are trying to be covert or discreet, they love waving to their family, and they share their happiness, their love of life, and their gratitude | confirmed, Rob |
 | 2026-11-14 | Each has their own iPad Pro and MacBook Pro, and a Trapper Keeper-style notebook or 3-ring binder with colored tabs and dividers covering their research and journaling | Rob's idea, to build into the game |
 
 ### Hamley, North Carolina
