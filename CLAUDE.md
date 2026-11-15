@@ -104,9 +104,16 @@ Mission, item 71734, credited in `docs/game-plan.md`.
 
 ## Deployment
 
-Planned: a new VM user and rootless Docker on Rob's Oracle Cloud VM behind a Cloudflare
-Tunnel, the same pattern as the hockey analytics app. See `docs/deployment/oracle-vm.md`.
-Nothing is deployed yet.
+Live at `https://furball-frenzy.sploosh.ai/`, on Rob's Oracle Cloud VM behind a Cloudflare Tunnel, a
+new VM user with rootless Docker, the same pattern as the hockey analytics app. Every merge to
+`main` bumps the version from the PR title and deploys. See `docs/deployment/oracle-vm.md`.
+
+A second, frozen copy for the NASA Space Apps review lives at
+`https://furball-frenzy-nasa-space-apps-challenge-2026.sploosh.ai/`. It is built from the git tag
+`nasa-space-apps-2026-submission` by the manual **Frozen Release Deploy** workflow, has its own stack,
+tunnel, and folder, is never touched by a merge to `main`, and is locked with `npr deploy:frozen:freeze`
+once final. Never deploy to it from `main`, and never unfreeze it without Rob. See
+`docs/deployment/frozen-release.md`.
 
 ## Notifications
 

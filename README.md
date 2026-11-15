@@ -30,6 +30,10 @@ Animated GIFs of the game loop go here as the app evolves. Keep the README's vis
 | `apps/api` | FastAPI, uv |
 | `infra` | Docker Compose, deployable to an Oracle Cloud VM |
 
+The live site follows `main` at furball-frenzy.sploosh.ai. The code submitted to the NASA Space Apps
+Challenge is frozen at furball-frenzy-nasa-space-apps-challenge-2026.sploosh.ai, see
+[docs/deployment/frozen-release.md](docs/deployment/frozen-release.md).
+
 ## Run it
 
 Needs Docker.

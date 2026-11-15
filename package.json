@@ -25,7 +25,12 @@
     "deploy:stop": "./scripts/deploy/deploy-to-oracle.sh stop",
     "deploy:start": "./scripts/deploy/deploy-to-oracle.sh start",
     "deploy:restart": "./scripts/deploy/deploy-to-oracle.sh restart",
-    "deploy:down": "./scripts/deploy/deploy-to-oracle.sh down"
+    "deploy:down": "./scripts/deploy/deploy-to-oracle.sh down",
+    "deploy:frozen:tunnel": "DEPLOY_ENV_FILE=.env.deploy.nasa-2026 ./scripts/deploy/cloudflare-tunnel.sh",
+    "deploy:frozen": "DEPLOY_ENV_FILE=.env.deploy.nasa-2026 ./scripts/deploy/deploy-to-oracle.sh up",
+    "deploy:frozen:status": "DEPLOY_ENV_FILE=.env.deploy.nasa-2026 ./scripts/deploy/deploy-to-oracle.sh status",
+    "deploy:frozen:freeze": "DEPLOY_ENV_FILE=.env.deploy.nasa-2026 ./scripts/deploy/deploy-to-oracle.sh freeze",
+    "deploy:frozen:unfreeze": "DEPLOY_ENV_FILE=.env.deploy.nasa-2026 ./scripts/deploy/deploy-to-oracle.sh unfreeze"
   },
   "engines": {
     "node": ">=24.17.0 <25",

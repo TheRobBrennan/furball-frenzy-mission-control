@@ -136,6 +136,10 @@ Protect the private key with a passphrase and the macOS keychain
 Add `app` or `tunnel` to act on one side, for example
 `./scripts/deploy/deploy-to-oracle.sh restart tunnel`.
 
+`freeze` and `unfreeze` lock and unlock a stack, `sync` and `up` refuse a frozen one. A second stack,
+the frozen judging copy, is just a different settings file (`DEPLOY_ENV_FILE`), with its own stack
+name, folder, tunnel, and hostname, see [frozen-release.md](frozen-release.md).
+
 ## Troubleshooting
 
 - **`Permission denied (publickey)`:** the deploy key is not the one in `authorized_keys`, or the

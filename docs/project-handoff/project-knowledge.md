@@ -23,7 +23,8 @@ Origin: the elephants visited from Poland for a React Native meetup, on a quest 
 - Clearance desk: type 12+ characters to release a classified file, shorter gets a denial quip.
 - Subdomain: furball-frenzy.sploosh.ai, later hosting several games.
 - Real satellite imagery of the lake is allowed after deployment (public-domain sources like USDA NAIP or USGS lidar preferred), no identifying details.
-- Deploy later to an Oracle Cloud VM behind a Cloudflare Tunnel, auto-deploy like the hockey analytics project. Nothing deployed yet.
+- Deployed to an Oracle Cloud VM behind a Cloudflare Tunnel, auto-deploy on every merge to main like the hockey analytics project.
+- A frozen judging copy of the submitted code runs at furball-frenzy-nasa-space-apps-challenge-2026.sploosh.ai, built from the git tag nasa-space-apps-2026-submission by a manual workflow, never touched by a merge to main, locked after the final deploy. furball-frenzy.sploosh.ai keeps getting updated beyond submission. See docs/deployment/frozen-release.md.
 
 ## Status
-Local placeholder site runs in Docker (`npr start`). Landing page, crew roster API, clearance desk, CI, PR template done. Next: the actual mission-design game loop (see docs/game-plan.md and docs/roadmap.md), Rob's house photos for the hero, fleet SVG renditions, classified dossier unlock, deploy.
+Local placeholder site runs in Docker (`npr start`). Landing page, crew roster API, clearance desk, CI, PR template done. Deployed, with a frozen judging copy. Next: the actual mission-design game loop (see docs/game-plan.md and docs/roadmap.md), Rob's house photos for the hero, fleet SVG renditions, classified dossier unlock.
