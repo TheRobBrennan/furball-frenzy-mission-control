@@ -79,7 +79,7 @@ public-safe and confirmed, add it to `crew.py` in the same change.
 
 - **The binder is the game's navigation.** The elephants' tabbed binder, colored dividers and all, becomes the main UI, one tab each for the Brief, Research, Missions, Parts, Journal, and Debrief, so the research and journaling they are proud of is the thing the player flips through. The journal pages are the mission debrief. *Proposed, from Rob's binder idea.*
 - **Piggy borrows their devices.** He already winds up at the helm of the iPad Pro and the MacBook Pro, with their own, he can borrow the elephants' and teach them what the buttons do. *Proposed.*
-- **The S10 dragster.** The furballs have been peeking around the Rockingham house and found a Chevy S10 they would like to turn into a dragster, on a Corvette frame of all things, they came up with their own rendering. A great quest for the game, drawn as an original toy-style truck with no sponsor names, logos, or badges. *Proposed, from Rob.*
+- **Quest: build the S10 dragster.** The furballs have been peeking around the Rockingham house and found a Chevy S10 they would like to turn into a dragster, on a Corvette frame of all things, they came up with their own rendering. Rob loves the idea of a quest being to build it. The rendering carries the Helin Racing name on purpose, that is intentional for the game, so the livery keeps it. Drawn as an original toy-style truck, no Corvette or Chevrolet badges. *Proposed quest, Rob's pick.*
 - Keep the binder generic, a tabbed 3-ring binder, no brand marks or logos on the public site.
 
 ## All furballs
@@ -98,6 +98,7 @@ public-safe and confirmed, add it to `crew.py` in the same change.
 | 2026-11-14 | The Blazer | Two side doors, a front door and a mid door, no rear door on the side | confirmed |
 | 2026-11-14 | The Blazer | The crew shuttle | **proposed** |
 | 2026-11-14 | The convertible | A dark blue drop-top with a tan interior | confirmed |
+| 2026-11-14 | The convertible | Long and low, dark blue with silver alloy wheels, a tan top and interior, looks like a Chrysler Sebring, the Polish elephants did the recon and took the photos | confirmed |
 | 2026-11-14 | The convertible | The road-trip car, Piggy at the wheel | **proposed** |
 | 2026-11-14 | Mis' Adventure | The RV, named by Rob, a pun on misadventure, in retro script on the side | confirmed |
 | 2026-11-14 | Mis' Adventure | A cream motorhome with navy and slate swoosh stripes, a big window, an awning, a ladder up the back | confirmed |
