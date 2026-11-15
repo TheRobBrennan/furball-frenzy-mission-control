@@ -62,3 +62,11 @@ test("the hero's Start the mission button opens the case", async ({ page }) => {
   await page.getByRole("link", { name: /start the mission/i }).click();
   await expect(page.locator("html")).toHaveAttribute("data-binder", "open");
 });
+
+test("the hero's Meet the crew button lands on the crew lists", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("link", { name: /meet the crew/i }).click();
+  await expect(page.locator("html")).toHaveAttribute("data-binder", "open");
+  await expect(page.locator("#meet-the-crew")).toBeInViewport({ timeout: 10_000 });
+  await expect(page.getByRole("heading", { name: /^crew$/i }).first()).toBeInViewport();
+});

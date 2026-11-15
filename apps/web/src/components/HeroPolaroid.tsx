@@ -57,14 +57,14 @@ const slides: Slide[] = [
   {
     src: "/images/elephants-at-the-meetup.jpg",
     alt: "One of the Polish elephants on a table next to a pint glass and two coins",
-    caption: "Just arrived in Seattle, the elephants at the React Native Seattle Meetup, sharing their expertise over a delicious beverage",
+    caption: "A Polish elephant shares expertise over a delicious beverage at the React Native Seattle Meetup, presented by Software Mansion",
     link: {
-      prefix: "Just arrived in Seattle, the elephants at the ",
+      prefix: "A Polish elephant shares expertise over a delicious beverage at the ",
       href: "https://ti.to/swm/react-native-seattle-meetup",
       text: "React Native Seattle Meetup",
       note: (
         <>
-          , presented by <ExtLink href="https://swmansion.com/" onLight>Software Mansion</ExtLink>, sharing their expertise over a delicious beverage
+          , presented by <ExtLink href="https://swmansion.com/" onLight>Software Mansion</ExtLink>
         </>
       ),
     },
@@ -76,7 +76,7 @@ const slides: Slide[] = [
   {
     src: "/images/developer-on-an-apple-ii.jpg",
     alt: "The developer of this game as a toddler in a white undershirt, sitting at an Apple ][ computer with a small TV monitor on top",
-    caption: "Where it began: the developer, a little 'un, at an Apple ][ in Iowa",
+    caption: "Where it began: the developer at an Apple ][ in Iowa",
     width: 974,
     height: 1009,
     tilt: -2,
