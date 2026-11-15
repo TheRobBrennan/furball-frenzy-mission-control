@@ -74,6 +74,9 @@ test("the mission is told by the furballs, then the debrief arrives and comes in
   await expect(page.getByTestId("scene-title")).toHaveText("Mission Control");
   for (const name of ["Piggy", "The Polish elephants", "The Gray Elephant", "Hamley", "Blue Bear", "Little Duck"]) await expect(page.getByRole("img", { name })).toBeVisible();
   await expect(page.getByTestId("speed")).toBeVisible();
+  // Every control stays on screen, none is cut off at the right edge on a phone.
+  const skip = await page.getByRole("button", { name: /skip to the debrief/i }).boundingBox();
+  expect(skip!.x + skip!.width).toBeLessThanOrEqual(page.viewportSize()!.width);
   await expect(page.getByTestId("speed-label")).toContainText("Lazy 0.5x");
   // The default is lazy, so speed it up for the test.
   await page.getByTestId("speed").fill("2");

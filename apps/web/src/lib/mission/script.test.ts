@@ -140,6 +140,17 @@ describe("missionScript, a mission that works", () => {
     expect(names.elephants).toBe("The Polish elephants");
   });
 
+  it("has Piggy encourage the crew to take all the time they need when a system is no-go, and the elephants wear sealed helmets of their own", () => {
+    const control = script(balanced, 1)[0];
+    const hold = control.lines.find((l) => l.who === "piggy" && /Holding the countdown/.test(l.text))!;
+    expect(hold.text).toMatch(/all the time you need/);
+    expect(hold.text).toMatch(/little ones are safe/);
+    expect(hold.text).not.toMatch(/fix it right/);
+    const lines = script(balanced).flatMap((s) => s.lines).map((l) => l.text).join(" ");
+    expect(lines).not.toMatch(/helmet shared/);
+    expect(lines).toMatch(/helmets on and sealed/);
+  });
+
   it("has no countdown or checks when the launch is scrubbed", () => {
     const control = script(tooHeavy)[0];
     expect(control.countdown).toBeFalsy();

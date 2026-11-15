@@ -56,7 +56,7 @@ describe("PromoSplash", () => {
     window.history.replaceState({}, "", "/");
   });
 
-  it("plays again when a Watch the trailer again button asks, even after it was closed", () => {
+  it("plays again when a watch the trailer again button asks, even after it was closed", () => {
     render(<PromoSplash />);
     advance(1300);
     fireEvent.click(screen.getByTestId("promo-close"));

@@ -36,7 +36,7 @@ test("the buttons read on one line each, at desktop and phone width", async ({ p
   }
 });
 
-test("Watch the trailer again, from the Judges block on the mission page", async ({ page }) => {
+test("watch the trailer again, from the Judges block on the mission page", async ({ page }) => {
   await page.addInitScript(() => sessionStorage.setItem("ff-promo-seen", "1"));
   await page.goto("/mission");
   await page.waitForTimeout(2000);

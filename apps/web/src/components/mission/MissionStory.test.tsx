@@ -149,6 +149,15 @@ describe("MissionStory", () => {
     expect(screen.getByTestId("story-lines")).toHaveTextContent("waving and cheering");
   });
 
+  it("puts each speaker's furball icon to the left of their name in the transcript", () => {
+    story(balanced);
+    advance(1500);
+    const icons = screen.getAllByTestId("line-icon");
+    expect(icons.length).toBeGreaterThan(0);
+    expect(icons[0].nextElementSibling).toHaveTextContent("Piggy:");
+    expect(icons[0].querySelector("svg")).toBeInTheDocument();
+  });
+
   it("brings the crew home with a splashdown and a headcount of everyone safe", () => {
     story(balanced);
     until("Safe recovery");

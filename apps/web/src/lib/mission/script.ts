@@ -112,7 +112,7 @@ function withReadingTime(scenes: Scene[]): Scene[] {
 }
 
 const systems: { who: Who; label: string; go: string; problem: string; fix: string }[] = [
-  { who: "elephants", label: "Rover", go: "Rover checked, helmet shared, we are go.", problem: "No-go! A rover wheel is wobbling.", fix: "Tightened every bolt on the wheel, rover is go again!" },
+  { who: "elephants", label: "Rover", go: "Rover checked, helmets on and sealed, we are go.", problem: "No-go! A rover wheel is wobbling.", fix: "Tightened every bolt on the wheel, rover is go again!" },
   { who: "gray-elephant", label: "Ground station", go: "Ground station is ready, everything is green.", problem: "No-go! The dish is pointing the wrong way.", fix: "Dish turned and locked on, ground station is go again!" },
   { who: "hamley", label: "Comms", go: "Comms are live and clear, we are go.", problem: "No-go! I hear nothing but static.", fix: "Swapped the antenna cable, comms are go again!" },
   { who: "blue-bear", label: "Power", go: "Solar array is stowed and charged, power is go.", problem: "No-go! A solar panel latch is stuck.", fix: "Latch freed and locked, power is go again!" },
@@ -135,7 +135,7 @@ function finalChecks(hold?: number): { lines: Line[]; checks: Check[] } {
     if (i === hold) {
       const noGoLine = lines.length;
       lines.push({ who: s.who, text: s.problem, fx: "nogo" });
-      lines.push({ who: "piggy", text: "Holding the countdown. Take your time, fix it right." });
+      lines.push({ who: "piggy", text: "Holding the countdown. Take all the time you need. We are not going anywhere until we are sure our little ones are safe on this adventure." });
       const fixLine = lines.length;
       lines.push({ who: s.who, text: "Ugh, not now! Wrench out, let me fix this.", fx: "wrench" });
       const goLine = lines.length;
