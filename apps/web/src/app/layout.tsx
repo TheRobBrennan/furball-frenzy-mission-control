@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Overpass } from "next/font/google";
 import BackToTop from "@/components/BackToTop";
+import LegalLinks from "@/components/LegalLinks";
 import ScrollProgress from "@/components/ScrollProgress";
 import "./globals.css";
 
@@ -38,6 +39,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col">
         <ScrollProgress />
         {children}
+        <LegalLinks />
         <BackToTop />
       </body>
     </html>
