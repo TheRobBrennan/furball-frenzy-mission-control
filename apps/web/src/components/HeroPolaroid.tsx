@@ -61,6 +61,15 @@ const slides: Slide[] = [
     position: "50% 72%",
   },
   {
+    src: "/images/developer-on-an-apple-ii.jpg",
+    alt: "The developer of this game as a toddler in a white undershirt, sitting at an Apple ][ computer with a small TV monitor on top",
+    caption: "The developer, a little 'un, on an Apple ][ in Iowa",
+    width: 974,
+    height: 1009,
+    tilt: -2,
+    position: "30% 50%",
+  },
+  {
     src: "/images/piggy-meets-hamley-1.jpg",
     alt: "Piggy, a big pink pig with large eyes, with Hamley, a small pink Steiff pig, tucked in front of him",
     caption: "Piggy meets Hamley for the first time",
