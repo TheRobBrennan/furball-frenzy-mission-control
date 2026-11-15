@@ -11,6 +11,7 @@ import type { ReactNode } from "react";
 export type Skin = {
   id: string;
   name: string;
+  short?: string; // a shorter name for the one-line caption, when the full name would wrap
   href: string; // where a click on the machine goes, in a new tab
   line: string;
   base: [string, string]; // the paint under the wrap, top and bottom
@@ -126,7 +127,8 @@ export const skins: Skin[] = [
   },
   {
     id: "claude",
-    name: "Claude Sonnet 5.5 and Fable 5.2",
+    name: "Claude Sonnet 5.5, Fable 5.2",
+    short: "Claude, two models",
     href: "https://claude.com/product/overview",
     line: "The AI pit crew that helped build this.",
     base: ["#f7f2e8", "#e6dcc6"],
@@ -138,10 +140,10 @@ export const skins: Skin[] = [
         <text x="112" y="62" fontSize="40" fontWeight="600" fill="#1f1d1a" fontFamily={SERIF} textLength="130" lengthAdjust="spacingAndGlyphs">
           Claude
         </text>
-        <text x="114" y="76" fontSize="12" fontStyle="italic" fill="#b4562f" fontFamily={SERIF} textLength="76" lengthAdjust="spacingAndGlyphs">
+        <text x="114" y="77" fontSize="13.5" fontStyle="italic" fill="#b4562f" fontFamily={SERIF} textLength="84" lengthAdjust="spacingAndGlyphs">
           Sonnet 5.5
         </text>
-        <text x="114" y="90" fontSize="12" fontStyle="italic" fill="#b4562f" fontFamily={SERIF} textLength="68" lengthAdjust="spacingAndGlyphs">
+        <text x="114" y="91" fontSize="13.5" fontStyle="italic" fill="#b4562f" fontFamily={SERIF} textLength="76" lengthAdjust="spacingAndGlyphs">
           Fable 5.2
         </text>
       </>

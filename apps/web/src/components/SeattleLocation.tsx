@@ -131,7 +131,7 @@ export default function SeattleLocation() {
             </button>
           </div>
           <figcaption className={caption} aria-live="polite">
-            Zamboni skin: <ExtLink href={skin.href} onLight>{skin.name}</ExtLink>
+            Zamboni skin: <ExtLink href={skin.href} onLight>{skin.short ?? skin.name}</ExtLink>
           </figcaption>
         </figure>
       </div>
