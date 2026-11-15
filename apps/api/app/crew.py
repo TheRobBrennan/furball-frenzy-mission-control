@@ -140,7 +140,11 @@ CREW: list[Character] = [
         name="Kraken Bear",
         location="Seattle WA",
         role="Crew",
-        bio="Springs to life at the call of Se-at-tle KRA-ken BEARRRR.",
+        bio=(
+            "Springs to life at the call of Se-at-tle KRA-ken BEARRRR. A Zamboni nut and an expert "
+            "in Zamboni driving and repair, a skill the elephants keep studying and learning from "
+            "their favorite Zamboni driver and hockey expert."
+        ),
     ),
     Character(
         slug="fuzzy-black-bear",

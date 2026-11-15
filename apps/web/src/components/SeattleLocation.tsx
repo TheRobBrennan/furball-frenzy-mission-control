@@ -2,6 +2,9 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import ExtLink from "./ExtLink";
+import ZamboniModel from "./ZamboniModel";
+import { skins } from "./ZamboniSkins";
 
 // Kraken Bear, a black bear in a plain white hoodie. He fades in, smiles, then runs off. An original
 // drawing, no team logos.
@@ -29,132 +32,168 @@ function KrakenBear() {
   );
 }
 
-// An ice resurfacer, the machine that smooths the rink between periods. An original drawing.
-function Zamboni() {
-  return (
-    <svg viewBox="0 0 112 60" role="img" aria-label="An ice resurfacer" className="h-full w-auto">
-      <rect x="6" y="22" width="76" height="26" rx="5" fill="#e9f2f8" stroke="#050816" strokeWidth="2.5" />
-      <rect x="6" y="36" width="76" height="5" fill="#355464" />
-      <path d="M 78,24 L 78,10 Q 78,6 83,6 L 98,6 Q 104,6 106,12 L 108,24 Z" fill="#e9f2f8" stroke="#050816" strokeWidth="2.5" strokeLinejoin="round" />
-      <path d="M 83,10 L 98,10 L 102,22 L 83,22 Z" fill="#6e8299" stroke="#050816" strokeWidth="2" strokeLinejoin="round" />
-      <rect x="86" y="1" width="8" height="5" rx="2" fill="#ff9f1c" stroke="#050816" strokeWidth="1.5" className="zam-beacon" />
-      <rect x="96" y="30" width="12" height="18" rx="3" fill="#e9f2f8" stroke="#050816" strokeWidth="2.5" />
-      <circle cx="24" cy="50" r="8" fill="#1a1d27" stroke="#050816" strokeWidth="2.5" />
-      <circle cx="24" cy="50" r="3" fill="#9aa8ba" />
-      <circle cx="94" cy="50" r="8" fill="#1a1d27" stroke="#050816" strokeWidth="2.5" />
-      <circle cx="94" cy="50" r="3" fill="#9aa8ba" />
-      <path d="M 4,40 Q -2,44 -6,50" fill="none" stroke="#bfe6f7" strokeWidth="3" strokeLinecap="round" opacity="0.8" />
-    </svg>
-  );
-}
-
-// Seattle's launch site: a satellite look at the arena, in a sonar-and-deep-sea style, with a little
-// show on the ice below it, Kraken Bear appears, smiles, and chases the ice resurfacer off the rink.
+// Seattle's launch site, as two polaroids: a satellite look at the arena in a sonar-and-deep-sea
+// style that Enhance zooms into, and a rink where a Zamboni resurfaces the ice in a rotating set of
+// skins while Kraken Bear follows it, slips, and spins off. The show cycles on its own while it is on
+// screen, and a click on the machine opens that skin's website in a new tab.
 export default function SeattleLocation() {
-  const holder = useRef<HTMLElement>(null);
+  const holder = useRef<HTMLDivElement>(null);
   const [seen, setSeen] = useState(false);
+  const [inView, setInView] = useState(false);
   const [run, setRun] = useState(0);
-  const [tilted, setTilted] = useState(false);
+  // Enhance goes one step deeper each press: a tilt to 3D, then in, then further in.
+  const [level, setLevel] = useState(0);
+  const [flash, setFlash] = useState(0);
+  const [skinIndex, setSkinIndex] = useState(0);
+  // The ice show runs left to right, then right to left, so the skins show on both sides.
+  const [dir, setDir] = useState<"ltr" | "rtl">("ltr");
+  const skin = skins[skinIndex];
+
+  const next = () => {
+    setSeen(true);
+    setSkinIndex((i) => (i + 1) % skins.length);
+    setDir((d) => (d === "ltr" ? "rtl" : "ltr"));
+    setRun((n) => n + 1);
+  };
 
   useEffect(() => {
     const el = holder.current;
     if (!el || !("IntersectionObserver" in window)) {
       setSeen(true);
+      setInView(true);
       return;
     }
     const io = new IntersectionObserver(
       (entries) => {
-        if (entries.some((e) => e.isIntersecting)) {
-          setSeen(true);
-          io.disconnect();
+        for (const e of entries) {
+          setInView(e.isIntersecting);
+          if (e.isIntersecting) setSeen(true);
         }
       },
-      { threshold: 0.5 },
+      { threshold: 0.35 },
     );
     io.observe(el);
     return () => io.disconnect();
   }, []);
 
-  return (
-    <figure ref={holder} className="mt-6">
-      <div className="relative overflow-hidden rounded-2xl border border-[#68a2b9]/50 bg-[#001628]">
-        <div className="relative aspect-[16/10]">
-          <div className={`recon-img absolute inset-0 ${tilted ? "recon-tilt" : ""}`}>
-            <Image
-              src="/images/seattle-center-satellite.jpg"
-              alt="A satellite view of Climate Pledge Arena and Seattle Center, the arena's roof in the middle"
-              fill
-              sizes="(min-width: 1024px) 520px, 90vw"
-              className="object-cover"
-            />
-          </div>
-          {/* a deep-sea tint, a faint grid, and the sonar */}
-          <div aria-hidden="true" className="absolute inset-0 bg-[#00334d]/45 mix-blend-multiply" />
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 opacity-40"
-            style={{
-              backgroundImage:
-                "linear-gradient(rgba(153,217,217,0.35) 1px, transparent 1px), linear-gradient(90deg, rgba(153,217,217,0.35) 1px, transparent 1px)",
-              backgroundSize: "12.5% 12.5%",
-            }}
-          />
-          <div aria-hidden="true" className="sonar absolute left-1/2 top-1/2 h-24 w-24 -translate-x-1/2 -translate-y-1/2">
-            <span className="sonar-ring" />
-            <span className="sonar-ring sonar-ring-2" />
-            <span className="absolute left-1/2 top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#e9072b]" />
-          </div>
-          <div aria-hidden="true" className="absolute left-3 top-3 h-5 w-5 border-l-2 border-t-2 border-[#99d9d9]" />
-          <div aria-hidden="true" className="absolute right-3 top-3 h-5 w-5 border-r-2 border-t-2 border-[#99d9d9]" />
-          <div aria-hidden="true" className="absolute bottom-3 left-3 h-5 w-5 border-b-2 border-l-2 border-[#99d9d9]" />
-          <div aria-hidden="true" className="absolute bottom-3 right-3 h-5 w-5 border-b-2 border-r-2 border-[#99d9d9]" />
-          <p className="absolute left-4 top-4 font-mono text-[0.6rem] uppercase tracking-[0.2em] text-[#99d9d9] sm:text-xs">
-            Sonar contact
-          </p>
-          <p className="absolute bottom-4 left-4 font-mono text-[0.65rem] text-[#e9fbfb] sm:text-sm">
-            47.6221&deg; N, 122.3540&deg; W
-          </p>
-          <p className="absolute bottom-4 right-4 text-right font-mono text-[0.6rem] uppercase tracking-[0.15em] text-[#99d9d9] sm:text-xs">
-            Climate Pledge Arena
-          </p>
-        </div>
+  // While the rink is on screen, the next skin takes the ice when the show is over.
+  useEffect(() => {
+    if (!inView || !seen) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const id = window.setTimeout(next, 16500);
+    return () => window.clearTimeout(id);
+  }, [inView, seen, run]);
 
-        {/* the ice: a rink strip where the show happens */}
-        <div key={run} className={`rink relative h-14 overflow-hidden bg-gradient-to-b from-[#d8eef5] to-[#f3fbfe] sm:h-16 ${seen ? "rink-go" : ""}`}>
-          <div aria-hidden="true" className="absolute inset-x-0 top-1/2 h-px bg-[#e9072b]/50" />
-          <div className="zam absolute bottom-1 h-11 sm:h-12">
-            <Zamboni />
+  const polaroid = "polaroid rounded-md bg-white p-2.5 pb-3 shadow-2xl shadow-black/60";
+  const caption = "mt-2 text-center font-mono text-[0.65rem] font-semibold leading-snug text-space";
+
+  return (
+    <div ref={holder} className="mt-6">
+      <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start sm:justify-center sm:gap-0">
+        {/* the recon polaroid */}
+        <figure className={`${polaroid} relative z-0 w-[66%] sm:w-[41%]`} style={{ ["--tilt" as string]: "-3deg" }}>
+          <div className="relative aspect-[3/4] overflow-hidden rounded-sm bg-[#001628]">
+            <div className={`recon-img absolute inset-0 ${["", "recon-tilt", "recon-zoom2", "recon-zoom3"][level]}`}>
+              <Image
+                src="/images/seattle-center-satellite.jpg"
+                alt="A satellite view of Climate Pledge Arena and Seattle Center, the arena's roof in the middle"
+                fill
+                sizes="(min-width: 1024px) 200px, 60vw"
+                className="object-cover"
+              />
+            </div>
+            <div aria-hidden="true" className="absolute inset-0 bg-[#00334d]/45 mix-blend-multiply" />
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 opacity-40"
+              style={{
+                backgroundImage:
+                  "linear-gradient(rgba(153,217,217,0.35) 1px, transparent 1px), linear-gradient(90deg, rgba(153,217,217,0.35) 1px, transparent 1px)",
+                backgroundSize: "12.5% 12.5%",
+              }}
+            />
+            <div aria-hidden="true" className="sonar absolute left-1/2 top-1/2 h-20 w-20 -translate-x-1/2 -translate-y-1/2">
+              <span className="sonar-ring" />
+              <span className="sonar-ring sonar-ring-2" />
+              <span className="absolute left-1/2 top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#e9072b]" />
+            </div>
+            <div aria-hidden="true" className="absolute left-1.5 top-1.5 h-4 w-4 border-l-2 border-t-2 border-[#99d9d9]" />
+            <div aria-hidden="true" className="absolute bottom-1.5 left-1.5 h-4 w-4 border-b-2 border-l-2 border-[#99d9d9]" />
+            <div aria-hidden="true" className="absolute bottom-1.5 right-1.5 h-4 w-4 border-b-2 border-r-2 border-[#99d9d9]" />
+            {flash > 0 && (
+              <p
+                key={flash}
+                aria-hidden="true"
+                className="enhance-flash pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 text-center font-mono text-lg font-bold tracking-[0.3em] text-[#e9fbfb]"
+              >
+                ENHANCE.
+              </p>
+            )}
+            <button
+              type="button"
+              onClick={() => {
+                if (level >= 3) {
+                  setLevel(0);
+                  setFlash(0);
+                } else {
+                  setLevel(level + 1);
+                  setFlash((n) => n + 1);
+                }
+              }}
+              className="absolute right-1.5 top-1.5 z-10 rounded-md border border-[#99d9d9]/70 bg-[#001628]/80 px-2.5 py-1 font-mono text-[0.7rem] font-semibold text-[#e9fbfb] backdrop-blur-sm hover:bg-[#001628] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#e9072b]"
+            >
+              {level >= 3 ? "Zoom out" : "Enhance"}
+            </button>
+            <p className="absolute bottom-2.5 left-0 right-0 text-center font-mono text-[0.58rem] text-[#e9fbfb]">
+              47.6221&deg; N, 122.3540&deg; W
+            </p>
           </div>
-          <div className="kb absolute bottom-0.5 h-12 sm:h-14">
-            <KrakenBear />
+          <figcaption className={caption}>Climate Pledge Arena, Seattle</figcaption>
+        </figure>
+
+        {/* the ice polaroid */}
+        <figure className={`${polaroid} relative z-10 w-[92%] sm:-ml-[6%] sm:mt-14 sm:w-[60%]`} style={{ ["--tilt" as string]: "2.5deg" }}>
+          <div
+            key={run}
+            className={`rink relative aspect-[16/10] overflow-hidden rounded-sm bg-gradient-to-b from-[#d8eef5] to-[#f3fbfe] ${seen ? "rink-go" : ""}`}
+          >
+            <div className={`absolute inset-0 ${dir === "rtl" ? "-scale-x-100" : ""}`}>
+              <div aria-hidden="true" className="absolute inset-x-0 top-0 h-1.5 bg-[#1d3b52]" />
+              <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-1.5 bg-[#1d3b52]" />
+              <div aria-hidden="true" className="absolute inset-y-1.5 left-[16%] w-1.5 bg-[#2f6fd6]/60" />
+              <div aria-hidden="true" className="wet absolute inset-y-1.5 left-0 right-0 bg-gradient-to-b from-white/80 via-[#bfe6f7]/75 to-white/80 shadow-[inset_0_0_10px_rgba(255,255,255,0.9)]" />
+              <div className="zam absolute top-1/2 h-[64%] -translate-y-1/2">
+                <a
+                  href={skin.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Open ${skin.name} in a new tab`}
+                  title={`Open ${skin.name}`}
+                  className="block h-full cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#e9072b]"
+                >
+                  <ZamboniModel skin={skin} flipText={dir === "rtl"} />
+                </a>
+              </div>
+              <div className="kb absolute top-1/2 h-[46%] -translate-y-1/2">
+                <KrakenBear />
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={next}
+              className="absolute bottom-3 right-2 z-10 rounded-md border border-[#355464]/70 bg-[#001628]/80 px-2.5 py-1 font-mono text-[0.7rem] font-semibold text-[#e9fbfb] hover:bg-[#001628] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#e9072b]"
+            >
+              Chase the Zamboni
+            </button>
           </div>
-        </div>
+          <figcaption className={caption} aria-live="polite">
+            Zamboni skin: <ExtLink href={skin.href} onLight>{skin.name}</ExtLink>
+          </figcaption>
+        </figure>
       </div>
-      <figcaption className="mt-2 flex flex-wrap items-center justify-between gap-2 text-xs text-white/55">
-        <span>
-          Recon by two unnamed Polish elephants. Imagery: USGS The National Map, orthoimagery, refreshed June 2024.
-        </span>
-        <span className="flex gap-2">
-          <button
-            type="button"
-            aria-pressed={tilted}
-            onClick={() => setTilted((v) => !v)}
-            className="rounded-md border border-white/20 px-2 py-1 font-mono text-[0.65rem] text-white/80 hover:bg-white/10"
-          >
-            {tilted ? "Flat view" : "Tilt to 3D"}
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              setSeen(true);
-              setRun((n) => n + 1);
-            }}
-            className="rounded-md border border-white/20 px-2 py-1 font-mono text-[0.65rem] text-white/80 hover:bg-white/10"
-          >
-            Replay the ice
-          </button>
-        </span>
-      </figcaption>
-    </figure>
+      <p className="mt-4 text-center text-xs text-white/55">
+        Recon by two unnamed Polish elephants. Imagery: USGS The National Map, orthoimagery, refreshed June 2024.
+      </p>
+    </div>
   );
 }

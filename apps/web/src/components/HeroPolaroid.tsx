@@ -9,7 +9,7 @@ type Slide = {
   alt: string;
   caption: string;
   // A caption that links out, with a note on who presented it.
-  link?: { href: string; text: string; note: ReactNode };
+  link?: { prefix: string; href: string; text: string; note: ReactNode };
   width: number;
   height: number;
   tilt: number; // degrees
@@ -57,13 +57,14 @@ const slides: Slide[] = [
   {
     src: "/images/elephants-at-the-meetup.jpg",
     alt: "One of the Polish elephants on a table next to a pint glass and two coins",
-    caption: "The React Native Seattle Meetup, with the coins",
+    caption: "Just arrived in Seattle, the elephants at the React Native Seattle Meetup, sharing their expertise over a delicious beverage",
     link: {
+      prefix: "Just arrived in Seattle, the elephants at the ",
       href: "https://ti.to/swm/react-native-seattle-meetup",
-      text: "The React Native Seattle Meetup",
+      text: "React Native Seattle Meetup",
       note: (
         <>
-          presented by <ExtLink href="https://swmansion.com/" onLight>Software Mansion</ExtLink>
+          , presented by <ExtLink href="https://swmansion.com/" onLight>Software Mansion</ExtLink>, sharing their expertise over a delicious beverage
         </>
       ),
     },
@@ -75,7 +76,7 @@ const slides: Slide[] = [
   {
     src: "/images/developer-on-an-apple-ii.jpg",
     alt: "The developer of this game as a toddler in a white undershirt, sitting at an Apple ][ computer with a small TV monitor on top",
-    caption: "The developer, a little 'un, on an Apple ][ in Iowa",
+    caption: "Where it began: the developer, a little 'un, at an Apple ][ in Iowa",
     width: 974,
     height: 1009,
     tilt: -2,
@@ -111,8 +112,8 @@ const slides: Slide[] = [
 ];
 
 const SIZES = "(min-width: 1024px) 448px, (min-width: 640px) 384px, 304px";
-const SWAP_EVERY_MS = 7000;
-const DEVELOP_MS = 1600;
+const SWAP_EVERY_MS = 10000;
+const DEVELOP_MS = 5000;
 
 function shuffled(): number[] {
   const order = slides.map((_, i) => i);
@@ -264,14 +265,15 @@ export default function HeroPolaroid() {
       </button>
       <figcaption
         key={slide.caption}
-        className="photo-caption mt-3 block min-h-[2.5em] text-center font-mono text-xs font-semibold text-space sm:text-sm"
+        className="photo-caption mt-3 block min-h-[3.5em] text-center font-mono text-xs font-semibold text-space sm:text-sm"
       >
         {slide.link ? (
           <>
+            {slide.link.prefix}
             <ExtLink href={slide.link.href} onLight>
               {slide.link.text}
             </ExtLink>
-            , with the coins, {slide.link.note}
+            {slide.link.note}
           </>
         ) : (
           slide.caption

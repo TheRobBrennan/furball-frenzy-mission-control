@@ -186,22 +186,26 @@ export default function Home() {
             sizes="(min-width: 1024px) 384px, 320px"
           />
           <figcaption className="mt-4 text-center font-mono text-xs font-semibold text-space sm:text-sm">
+            Just arrived in Seattle, the elephants at the{" "}
             <ExtLink href="https://ti.to/swm/react-native-seattle-meetup" onLight>
-              The React Native Seattle Meetup
+              React Native Seattle Meetup
             </ExtLink>
-            , with the coins, presented by{" "}
+            , presented by{" "}
             <ExtLink href="https://swmansion.com/" onLight>
               Software Mansion
             </ExtLink>
+            , sharing their app development and technical expertise over a delicious beverage
           </figcaption>
         </figure>
         <div className="space-y-4 text-left">
           <SectionHeading eyebrow="Origin story" title="The quest for the perfect home" align="left">
             <p>
-              The Polish elephants were on a quest to find the perfect home. They traveled
-              all the way from Poland for a <ExtLink href="https://reactnative.dev/">React Native</ExtLink>{" "}
+              The Polish elephants were on a quest to find a suitable home for their dreams
+              and aspirations. They traveled all the way from Poland to share their application
+              development and technical expertise at a <ExtLink href="https://reactnative.dev/">React Native</ExtLink>{" "}
               meetup hosted by <ExtLink href="https://swmansion.com/">Software Mansion</ExtLink> at{" "}
-              <ExtLink href="https://www.stoupbrewing.com/">Stoup Brewing</ExtLink>. Back home,
+              <ExtLink href="https://www.stoupbrewing.com/">Stoup Brewing</ExtLink>, and to find a
+              delicious beverage to enjoy. Back home,
               the elephants hail from Software Mansion in Kraków, Poland.
             </p>
             <p className="mt-4">
@@ -289,9 +293,11 @@ export default function Home() {
         </div>
       </Reveal>
 
-      <footer className="mx-auto max-w-5xl px-6 pb-12 text-center font-mono text-xs text-white/50">
-        Built over the 2026 <ExtLink href="https://www.spaceappschallenge.org/">NASA Space Apps Challenge</ExtLink> weekend, Charlotte, NC local
-        event. A team of one with a crew of curious and playful furballs.
+      <footer className="mx-auto max-w-5xl text-balance px-6 pb-12 text-center font-mono text-xs text-white/50">
+        <span className="block">
+          Built over the 2026 <ExtLink href="https://www.spaceappschallenge.org/">NASA Space Apps Challenge</ExtLink> weekend, Charlotte, NC local event.
+        </span>
+        <span className="mt-1 block">A team of one with a crew of curious and playful furballs.</span>
         <VersionLine />
       </footer>
     </main>

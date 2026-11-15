@@ -8,6 +8,7 @@ type Tab = { id: string; label: string; color: string; side: string };
 
 // Binder tabs for the page, in page order. The colored edges are the dividers of the elephants' binder.
 const tabs: Tab[] = [
+  { id: "top", label: "Cover", color: "border-t-[#f472b6]", side: "border-l-[#f472b6]" },
   { id: "story", label: "The brief", color: "border-t-[#5ac8fa]", side: "border-l-[#5ac8fa]" },
   { id: "classified", label: "Classified", color: "border-t-[#c792ea]", side: "border-l-[#c792ea]" },
   { id: "crew", label: "Launch sites", color: "border-t-[#ff7a59]", side: "border-l-[#ff7a59]" },
@@ -29,15 +30,22 @@ const reactions = [
 const SEEN_KEY = "ff-elephants-cleared";
 
 function scrollToId(id: string) {
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // The top of the page is the very top, so the hero keeps the breathing room it has on first load,
+  // instead of sliding up under the sticky menu.
+  if (id === "top") {
+    window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
+    history.replaceState(null, "", window.location.pathname);
+    return;
+  }
   const el = document.getElementById(id);
   if (!el) return;
-  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   el.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
   history.replaceState(null, "", `#${id}`);
 }
 
 export default function MissionNav() {
-  const [active, setActive] = useState("story");
+  const [active, setActive] = useState("top");
   const [menu, setMenu] = useState(false);
   const [check, setCheck] = useState<{ q: string; a: string[] } | null>(null);
   const [reaction, setReaction] = useState<string | null>(null);
@@ -52,8 +60,9 @@ export default function MissionNav() {
     let frame = 0;
     const update = () => {
       frame = 0;
-      let current = tabs[0].id;
-      for (const t of tabs) {
+      // The cover is where you are until another section reaches the top.
+      let current = "top";
+      for (const t of tabs.slice(1)) {
         const el = document.getElementById(t.id);
         if (el && el.getBoundingClientRect().top <= 140) current = t.id;
       }

@@ -33,6 +33,7 @@ public-safe and confirmed, add it to `crew.py` in the same change.
 | Date | Trait | Status |
 | --- | --- | --- |
 | 2026-11-14 | Hail from Software Mansion in Kraków, Poland | confirmed |
+| 2026-11-14 | Arrived in Seattle looking to share their application development and technical expertise, find a delicious beverage to enjoy, and find a suitable home for their dreams and aspirations | confirmed |
 | 2026-11-14 | Keep a few things classified for fun, convinced by humor, a good argument, or credentials | confirmed |
 | 2026-11-14 | Love cameras of every kind, the DJI Action 5 Pro and GoPro Hero among them | confirmed |
 | 2026-11-14 | Love bringing ideas to life with images, drawings, and all kinds of media | confirmed |
@@ -73,6 +74,8 @@ public-safe and confirmed, add it to `crew.py` in the same change.
 | Date | Trait | Status |
 | --- | --- | --- |
 | 2026-11-14 | Kraken Bear springs to life at the call of Se-at-tle KRA-ken BEARRRR | confirmed |
+| 2026-11-14 | Kraken Bear is a Zamboni nut, an expert in Zamboni driving and repair | confirmed |
+| 2026-11-14 | The elephants keep studying Zamboni driving and repair from their favorite Zamboni driver and hockey expert, a skill Kraken Bear shares | confirmed |
 | 2026-11-14 | Fuzzy Black Bear has an unpictured twin, Fuzzy Brown Bear | confirmed |
 
 ## Game ideas, proposed
@@ -82,6 +85,8 @@ public-safe and confirmed, add it to `crew.py` in the same change.
 - **Mini-game: dice races.** Race the toy fleet Micro Machines style on a tabletop racetrack, rolling dice to move straight ahead or diagonally along the track, in the spirit of a classic dice and grid racing board game. Every vehicle in the fleet, the S10 dragster included, could be a racer. *Proposed, from Rob.*
 - **Mini-game: drone races.** A race for the drones, B, Optimus, Blades, and Blurr, through gates around the launch sites, over the lake at Rockingham and past the landmarks in Seattle, with Hamlet flying and the crew cheering from the ground. *Proposed, from Rob.*
 - **More recon.** Seattle's launch site now has satellite recon of Climate Pledge Arena with a tilt to 3D, credited to two unnamed Polish elephants. Rob would like satellite imagery layered over other 3D views and shots from the elephants themselves, more angles and the elephants' own photos to come. *Proposed, from Rob.*
+- **The whispering elephants.** One Polish elephant whispers a tip to the other, a small animation that points out features worth finding, like Enhance on the satellite recon, chasing the Zamboni, and the Zamboni skins, and links on the machines. Improves discoverability without a tutorial. *Proposed, from Rob.*
+- **Rockingham recon.** A satellite recon polaroid for the Rockingham launch site, in line with the recon from the two Polish elephants, with the coordinates withheld by order of Mission Control. Needs the lake's coordinates from Rob, kept out of the repo, and no labels or street names on the image. *Proposed, from Rob.*
 - **Quest: build the S10 dragster.** The furballs have been peeking around the Rockingham house and found a Chevy S10 they would like to turn into a dragster, on a Corvette frame of all things, they came up with their own rendering. Rob loves the idea of a quest being to build it. The rendering carries the Helin Racing name on purpose, that is intentional for the game, so the livery keeps it. Drawn as an original toy-style truck, no Corvette or Chevrolet badges. *Proposed quest, Rob's pick.*
 - Keep the binder generic, a tabbed 3-ring binder, no brand marks or logos on the public site.
 
