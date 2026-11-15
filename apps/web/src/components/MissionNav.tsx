@@ -28,6 +28,7 @@ const reactions = [
 ];
 
 const SEEN_KEY = "ff-elephants-cleared";
+const ROLL_MS = 2800;
 
 function scrollToId(id: string) {
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -47,6 +48,8 @@ function scrollToId(id: string) {
 export default function MissionNav() {
   const [active, setActive] = useState("top");
   const [menu, setMenu] = useState(false);
+  // Closing the binder folds every section away and leaves the cover and the footer.
+  const [closed, setClosed] = useState(false);
   const [check, setCheck] = useState<{ q: string; a: string[] } | null>(null);
   const [reaction, setReaction] = useState<string | null>(null);
   // After "Let me through", the elephants take it to heart: sad, then maybe forgiven.
@@ -108,9 +111,67 @@ export default function MissionNav() {
     if (ready) sorry.current?.focus();
   }, [ready]);
 
+  const setBinder = useCallback((shut: boolean) => {
+    document.documentElement.dataset.binder = shut ? "closed" : "open";
+    setClosed(shut);
+  }, []);
+
+  // The binder is a long scroll: closing rolls it up from the bottom, opening unfurls it from the top.
+  // The roller rides the bottom edge, and the view follows that edge so the whole thing can be seen.
+  const followRoller = useCallback((ms: number, where: number) => {
+    const binder = document.querySelector(".binder");
+    if (!binder) return;
+    const start = performance.now();
+    const step = (now: number) => {
+      const edge = binder.getBoundingClientRect().bottom;
+      window.scrollTo(0, Math.max(0, window.scrollY + (edge - window.innerHeight * where)));
+      if (now - start < ms) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }, []);
+
+  const toggleBinder = useCallback(
+    (event: React.MouseEvent) => {
+      event.preventDefault();
+      setMenu(false);
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduced) {
+        setBinder(!closed);
+        window.scrollTo(0, 0);
+        return;
+      }
+      if (!closed) {
+        // Start at the bottom of the scroll, then roll it up toward the top.
+        window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "smooth" });
+        window.setTimeout(() => {
+          setBinder(true);
+          followRoller(ROLL_MS, 0.62);
+          window.setTimeout(() => {
+            document.getElementById("footer")?.scrollIntoView({ behavior: "smooth", block: "end" });
+          }, ROLL_MS + 150);
+        }, 750);
+      } else {
+        // Start at the top, then unfurl it downward, and come back to the cover when it lands.
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        window.setTimeout(() => {
+          setBinder(false);
+          followRoller(ROLL_MS, 0.5);
+          window.setTimeout(() => scrollToId("top"), ROLL_MS + 250);
+        }, 500);
+      }
+    },
+    [closed, setBinder, followRoller],
+  );
+
   const go = useCallback((event: React.MouseEvent, id: string) => {
     event.preventDefault();
     setMenu(false);
+    if (closed && id !== "top") {
+      // A tab on a closed binder opens it first.
+      setBinder(false);
+      window.setTimeout(() => scrollToId(id), 2900);
+      return;
+    }
     let seen = false;
     try {
       seen = sessionStorage.getItem(SEEN_KEY) === "1";
@@ -123,7 +184,7 @@ export default function MissionNav() {
       return;
     }
     scrollToId(id);
-  }, []);
+  }, [closed, setBinder]);
 
   const markSeen = () => {
     try {
@@ -195,6 +256,15 @@ export default function MissionNav() {
               </a>
             </li>
           ))}
+          <li className="ml-3">
+            <a
+              href="#footer"
+              onClick={toggleBinder}
+              className="block w-[9.5rem] rounded-t-lg border border-b-0 border-t-4 border-white/10 border-t-[#94a3b8] bg-white/5 px-2 py-2 text-center font-mono text-xs text-white/80 transition-colors hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber"
+            >
+              {closed ? "Open the binder" : "Close the binder"}
+            </a>
+          </li>
         </ul>
         <button
           type="button"
@@ -223,6 +293,15 @@ export default function MissionNav() {
               </a>
             </li>
           ))}
+          <li>
+            <a
+              href="#footer"
+              onClick={toggleBinder}
+              className="block rounded-lg border border-l-4 border-white/10 border-l-[#94a3b8] bg-white/5 px-4 py-3 font-semibold text-white/90"
+            >
+              {closed ? "Open the binder" : "Close the binder"}
+            </a>
+          </li>
         </ul>
       )}
 

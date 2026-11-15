@@ -196,13 +196,13 @@ body {
 
 .recon-zoom2 {
   transform-origin: 50% 50%;
-  transform: scale(2.1);
+  transform: scale(var(--zoom2, 2.1));
   filter: contrast(1.12) saturate(1.15);
 }
 
 .recon-zoom3 {
   transform-origin: 50% 50%;
-  transform: scale(3.7);
+  transform: scale(var(--zoom3, 3.7));
   filter: contrast(1.2) saturate(1.25);
 }
 
@@ -669,5 +669,99 @@ main {
     animation: none !important;
     transform: none !important;
     transition: none !important;
+  }
+}
+
+/* Close the binder: every section rolls up like a window shade, a roller riding the bottom edge,
+   leaving the cover and the footer. Opening rolls it back down. */
+.binder {
+  position: relative;
+  display: grid;
+  grid-template-rows: 1fr;
+  visibility: visible;
+  transition:
+    grid-template-rows 2.8s cubic-bezier(0.45, 0, 0.3, 1),
+    visibility 0s linear 0s;
+}
+
+.binder-inner {
+  min-height: 0;
+  overflow: hidden;
+  opacity: 1;
+  transition: none;
+}
+
+.binder::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -16px;
+  z-index: 5;
+  height: 32px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #343c50 0%, #b9c3d8 26%, #f6f8ff 44%, #9aa6bd 68%, #262d3f 100%);
+  box-shadow:
+    0 10px 22px rgba(0, 0, 0, 0.5),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+  opacity: 0;
+  pointer-events: none;
+}
+
+[data-binder="closed"] .binder {
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  transition:
+    grid-template-rows 2.8s cubic-bezier(0.45, 0, 0.3, 1),
+    visibility 0s linear 2.85s;
+}
+
+[data-binder="closed"] .binder-inner {
+  opacity: 1;
+}
+
+@keyframes roller-up {
+  0% {
+    opacity: 0;
+  }
+  8%,
+  86% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+[data-binder="closed"] .binder::after {
+  animation: roller-up 2.85s linear both;
+}
+
+[data-binder="open"] .binder::after {
+  animation: roller-down 2.85s linear both;
+}
+
+@keyframes roller-down {
+  0% {
+    opacity: 0;
+  }
+  8%,
+  86% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .binder,
+  .binder-inner,
+  [data-binder="closed"] .binder,
+  [data-binder="closed"] .binder-inner {
+    transition: none;
+  }
+  .binder::after {
+    display: none;
   }
 }

@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import ExtLink from "./ExtLink";
+import ReconPolaroid from "./ReconPolaroid";
 import ZamboniModel from "./ZamboniModel";
 import { skins } from "./ZamboniSkins";
 
@@ -41,9 +41,6 @@ export default function SeattleLocation() {
   const [seen, setSeen] = useState(false);
   const [inView, setInView] = useState(false);
   const [run, setRun] = useState(0);
-  // Enhance goes one step deeper each press: a tilt to 3D, then in, then further in.
-  const [level, setLevel] = useState(0);
-  const [flash, setFlash] = useState(0);
   const [skinIndex, setSkinIndex] = useState(0);
   // The ice show runs left to right, then right to left, so the skins show on both sides.
   const [dir, setDir] = useState<"ltr" | "rtl">("ltr");
@@ -88,71 +85,18 @@ export default function SeattleLocation() {
   const caption = "mt-2 text-center font-mono text-[0.65rem] font-semibold leading-snug text-space";
 
   return (
-    <div ref={holder} className="mt-6">
-      <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start sm:justify-center sm:gap-0">
-        {/* the recon polaroid */}
-        <figure className={`${polaroid} relative z-0 w-[66%] sm:w-[41%]`} style={{ ["--tilt" as string]: "-3deg" }}>
-          <div className="relative aspect-[3/4] overflow-hidden rounded-sm bg-[#001628]">
-            <div className={`recon-img absolute inset-0 ${["", "recon-tilt", "recon-zoom2", "recon-zoom3"][level]}`}>
-              <Image
-                src="/images/seattle-center-satellite.jpg"
-                alt="A satellite view of Climate Pledge Arena and Seattle Center, the arena's roof in the middle"
-                fill
-                sizes="(min-width: 1024px) 200px, 60vw"
-                className="object-cover"
-              />
-            </div>
-            <div aria-hidden="true" className="absolute inset-0 bg-[#00334d]/45 mix-blend-multiply" />
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 opacity-40"
-              style={{
-                backgroundImage:
-                  "linear-gradient(rgba(153,217,217,0.35) 1px, transparent 1px), linear-gradient(90deg, rgba(153,217,217,0.35) 1px, transparent 1px)",
-                backgroundSize: "12.5% 12.5%",
-              }}
-            />
-            <div aria-hidden="true" className="sonar absolute left-1/2 top-1/2 h-20 w-20 -translate-x-1/2 -translate-y-1/2">
-              <span className="sonar-ring" />
-              <span className="sonar-ring sonar-ring-2" />
-              <span className="absolute left-1/2 top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#e9072b]" />
-            </div>
-            <div aria-hidden="true" className="absolute left-1.5 top-1.5 h-4 w-4 border-l-2 border-t-2 border-[#99d9d9]" />
-            <div aria-hidden="true" className="absolute bottom-1.5 left-1.5 h-4 w-4 border-b-2 border-l-2 border-[#99d9d9]" />
-            <div aria-hidden="true" className="absolute bottom-1.5 right-1.5 h-4 w-4 border-b-2 border-r-2 border-[#99d9d9]" />
-            {flash > 0 && (
-              <p
-                key={flash}
-                aria-hidden="true"
-                className="enhance-flash pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 text-center font-mono text-lg font-bold tracking-[0.3em] text-[#e9fbfb]"
-              >
-                ENHANCE.
-              </p>
-            )}
-            <button
-              type="button"
-              onClick={() => {
-                if (level >= 3) {
-                  setLevel(0);
-                  setFlash(0);
-                } else {
-                  setLevel(level + 1);
-                  setFlash((n) => n + 1);
-                }
-              }}
-              className="absolute right-1.5 top-1.5 z-10 rounded-md border border-[#99d9d9]/70 bg-[#001628]/80 px-2.5 py-1 font-mono text-[0.7rem] font-semibold text-[#e9fbfb] backdrop-blur-sm hover:bg-[#001628] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#e9072b]"
-            >
-              {level >= 3 ? "Zoom out" : "Enhance"}
-            </button>
-            <p className="absolute bottom-2.5 left-0 right-0 text-center font-mono text-[0.58rem] text-[#e9fbfb]">
-              47.6221&deg; N, 122.3540&deg; W
-            </p>
-          </div>
-          <figcaption className={caption}>Climate Pledge Arena, Seattle</figcaption>
-        </figure>
+    <div ref={holder} className="mt-6 flex flex-col">
+      <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start sm:justify-center sm:gap-0 lg:min-h-[340px]">
+        <ReconPolaroid
+          src="/images/seattle-center-satellite.jpg"
+          alt="A satellite view of Climate Pledge Arena and Seattle Center, the arena's roof in the middle"
+          readout={"47.6221\u00b0 N, 122.3540\u00b0 W"}
+          caption="Climate Pledge Arena"
+          className="z-0 w-[66%] sm:w-[41%]"
+        />
 
         {/* the ice polaroid */}
-        <figure className={`${polaroid} relative z-10 w-[92%] sm:-ml-[6%] sm:mt-14 sm:w-[60%]`} style={{ ["--tilt" as string]: "2.5deg" }}>
+        <figure className={`${polaroid} relative z-10 w-[92%] sm:-ml-[3%] sm:mt-12 sm:w-[60%]`} style={{ ["--tilt" as string]: "2.5deg" }}>
           <div
             key={run}
             className={`rink relative aspect-[16/10] overflow-hidden rounded-sm bg-gradient-to-b from-[#d8eef5] to-[#f3fbfe] ${seen ? "rink-go" : ""}`}
@@ -191,8 +135,10 @@ export default function SeattleLocation() {
           </figcaption>
         </figure>
       </div>
-      <p className="mt-4 text-center text-xs text-white/55">
-        Recon by two unnamed Polish elephants. Imagery: USGS The National Map, orthoimagery, refreshed June 2024.
+      <p className="mx-auto mt-6 max-w-sm text-balance text-center text-xs leading-relaxed text-white/55">
+        Recon by two unnamed Polish elephants.
+        <br />
+        Imagery: USGS The National Map, orthoimagery.
       </p>
     </div>
   );

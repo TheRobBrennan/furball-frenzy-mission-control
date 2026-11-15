@@ -57,6 +57,12 @@ public-safe and confirmed, add it to `crew.py` in the same change.
 ### Little Bear, Seattle
 | Date | Trait | Status |
 | --- | --- | --- |
+| 2026-11-14 | Often called the Bearista, he loves making and brewing the finest coffees | confirmed |
+| 2026-11-14 | His favorite coffee comes from Camano Island | confirmed |
+| 2026-11-14 | Shares his love with every cup he makes for his loved ones | confirmed |
+| 2026-11-14 | Takes a bow several times when his work is appreciated | confirmed |
+| 2026-11-14 | Tumbles several times in the air, then lands on his feet, all smiles | confirmed |
+| 2026-11-14 | A lovable family favorite who brings joy everywhere he goes | confirmed |
 | 2026-11-14 | The teddy bear in the red and white knit sweater | confirmed |
 | 2026-11-14 | From Hamleys toy store in London, like Hamley | confirmed |
 
@@ -86,7 +92,7 @@ public-safe and confirmed, add it to `crew.py` in the same change.
 - **Mini-game: drone races.** A race for the drones, B, Optimus, Blades, and Blurr, through gates around the launch sites, over the lake at Rockingham and past the landmarks in Seattle, with Hamlet flying and the crew cheering from the ground. *Proposed, from Rob.*
 - **More recon.** Seattle's launch site now has satellite recon of Climate Pledge Arena with a tilt to 3D, credited to two unnamed Polish elephants. Rob would like satellite imagery layered over other 3D views and shots from the elephants themselves, more angles and the elephants' own photos to come. *Proposed, from Rob.*
 - **The whispering elephants.** One Polish elephant whispers a tip to the other, a small animation that points out features worth finding, like Enhance on the satellite recon, chasing the Zamboni, and the Zamboni skins, and links on the machines. Improves discoverability without a tutorial. *Proposed, from Rob.*
-- **Rockingham recon.** A satellite recon polaroid for the Rockingham launch site, in line with the recon from the two Polish elephants, with the coordinates withheld by order of Mission Control. Needs the lake's coordinates from Rob, kept out of the repo, and no labels or street names on the image. *Proposed, from Rob.*
+- **Rockingham recon, built.** A satellite recon polaroid of the lake at the Rockingham launch site, from the USGS National Map orthoimagery, in the same sonar style as Seattle's with Enhance, no labels and the coordinates withheld by order of Mission Control. The Polish elephants did the recon. A useful data point Rob wanted kept: NASA's open imagery, Landsat at 15 to 30 meters per pixel, is far too coarse for a lake this small, so the recon uses North Carolina's statewide orthoimagery at about 6 inches per pixel, and the card says so. *Rob's idea.*
 - **Quest: build the S10 dragster.** The furballs have been peeking around the Rockingham house and found a Chevy S10 they would like to turn into a dragster, on a Corvette frame of all things, they came up with their own rendering. Rob loves the idea of a quest being to build it. The rendering carries the Helin Racing name on purpose, that is intentional for the game, so the livery keeps it. Drawn as an original toy-style truck, no Corvette or Chevrolet badges. *Proposed quest, Rob's pick.*
 - Keep the binder generic, a tabbed 3-ring binder, no brand marks or logos on the public site.
 
@@ -121,7 +127,7 @@ public-safe and confirmed, add it to `crew.py` in the same change.
 | 2026-11-14 | The lunar rover | The drawing has to look like the real toy the elephants own, from Rob's own photo of them on it, not a guess | confirmed |
 | 2026-11-14 | The lunar rover | The elephants' rover, a tilt-and-steer moon buggy with a tool box up front, twin lights, a sample gripper, and a long antenna, built from a toy space kit, and the game uses every piece in the kit | confirmed |
 | 2026-11-14 | Slash | The Traxxas Slash, a 1/10 scale 2WD radio control truck, Rocky is its full-size version | confirmed |
-| 2026-11-14 | B | A DJI Mini 2 Pro, a brand new family member, Piggy met B for the first time and B took a photo of him in a Santa hat | confirmed |
+| 2026-11-14 | B | A DJI Mini 2 Pro, the first flying member of the family, Piggy met B for the first time and B took a photo of him in a Santa hat | confirmed |
 | 2026-11-14 | Optimus | A DJI Air 2S | confirmed |
 | 2026-11-14 | Blades | A DJI Avata | confirmed |
 | 2026-11-14 | Blurr | A DJI FPV | confirmed |
@@ -131,4 +137,4 @@ public-safe and confirmed, add it to `crew.py` in the same change.
 | 2026-11-14 | Rufus | The family vehicle of choice until an accident with a boulder that rolled off a mountain, how the game honors him is to be decided, tone is love and gratitude | confirmed |
 | 2026-11-14 | Rufus | Piggy's road-trip partner, the two of them love the open road | **proposed** |
 | 2026-11-14 | Hamlet | Flies the drones, B and Optimus among them | **proposed** |
-| 2026-11-14 | Seattle fleet | The role lines on the page, Slash the scout, Blueberry the daily driver, Watson the newest on the road, Rufus the family legend, B the brand new family member, Optimus the high flyer, Blades the acrobat, Blurr the speed demon | **proposed** |
+| 2026-11-14 | Seattle fleet | The role lines on the page, Slash the scout, Blueberry the daily driver, Watson the newest on the road, Rufus the family legend, B the first flyer, Optimus the high flyer, Blades the acrobat, Blurr the speed demon | **proposed** |

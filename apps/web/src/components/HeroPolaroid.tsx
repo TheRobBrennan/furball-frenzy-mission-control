@@ -113,6 +113,7 @@ const slides: Slide[] = [
 
 const SIZES = "(min-width: 1024px) 448px, (min-width: 640px) 384px, 304px";
 const SWAP_EVERY_MS = 10000;
+const CAPTION_AFTER_MS = 3900;
 const DEVELOP_MS = 5000;
 
 function shuffled(): number[] {
@@ -138,6 +139,10 @@ export default function HeroPolaroid() {
   const posRef = useRef(0);
 
   const current = order[pos];
+  // The caption follows the photo: it fades out when a new photo starts to arrive and fades in once
+  // that photo has been drawn in, so a caption never names a photo that is not on screen yet.
+  const [captionIdx, setCaptionIdx] = useState(0);
+  const [captionHidden, setCaptionHidden] = useState(false);
 
   const showLeaving = useCallback((index: number) => {
     setLeaving(index);
@@ -181,6 +186,19 @@ export default function HeroPolaroid() {
   }, [order, pos]);
 
   useEffect(() => {
+    if (current === captionIdx && !captionHidden) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setCaptionHidden(true);
+    const id = window.setTimeout(() => {
+      setCaptionIdx(current);
+      setCaptionHidden(false);
+    }, reduced ? 0 : CAPTION_AFTER_MS);
+    return () => window.clearTimeout(id);
+    // the caption only needs to react to the photo changing
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [current, reduced]);
+
+  useEffect(() => {
     if (reduced || paused) return;
     const id = setInterval(() => {
       if (!document.hidden) advance();
@@ -196,6 +214,7 @@ export default function HeroPolaroid() {
   }, []);
 
   const slide = slides[current];
+  const captionSlide = slides[captionIdx];
   const layers = leaving !== null && leaving !== current ? [leaving, current] : [current];
 
   return (
@@ -229,7 +248,7 @@ export default function HeroPolaroid() {
         onClick={advance}
         onFocus={() => setPaused(true)}
         onBlur={() => setPaused(false)}
-        aria-label={`Show another photo of the crew. Now showing: ${slide.caption}`}
+        aria-label={`Show another photo of the crew. Now showing: ${captionSlide.caption}`}
         className="block w-full cursor-pointer rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber"
       >
         <span
@@ -264,19 +283,19 @@ export default function HeroPolaroid() {
         </span>
       </button>
       <figcaption
-        key={slide.caption}
-        className="photo-caption mt-3 block min-h-[3.5em] text-center font-mono text-xs font-semibold text-space sm:text-sm"
+        key={captionSlide.caption}
+        className={`photo-caption mt-3 block min-h-[3.5em] transition-opacity duration-300 ${captionHidden ? "opacity-0" : "opacity-100"} text-center font-mono text-xs font-semibold text-space sm:text-sm`}
       >
-        {slide.link ? (
+        {captionSlide.link ? (
           <>
-            {slide.link.prefix}
-            <ExtLink href={slide.link.href} onLight>
-              {slide.link.text}
+            {captionSlide.link.prefix}
+            <ExtLink href={captionSlide.link.href} onLight>
+              {captionSlide.link.text}
             </ExtLink>
-            {slide.link.note}
+            {captionSlide.link.note}
           </>
         ) : (
-          slide.caption
+          captionSlide.caption
         )}
       </figcaption>
     </figure>

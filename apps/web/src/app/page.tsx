@@ -109,6 +109,8 @@ export default function Home() {
         </div>
       </section>
 
+      <div className="binder">
+        <div className="binder-inner">
       <StarDivider />
 
       <Reveal as="section" id="story" className="mx-auto max-w-3xl scroll-mt-20 px-6 py-14 text-center sm:py-20">
@@ -293,11 +295,17 @@ export default function Home() {
         </div>
       </Reveal>
 
-      <footer className="mx-auto max-w-5xl text-balance px-6 pb-12 text-center font-mono text-xs text-white/50">
+        </div>
+      </div>
+
+      <footer id="footer" className="mx-auto max-w-5xl scroll-mt-20 text-balance px-6 pb-12 text-center font-mono text-xs text-white/50">
         <span className="block">
           Built over the 2026 <ExtLink href="https://www.spaceappschallenge.org/">NASA Space Apps Challenge</ExtLink> weekend, Charlotte, NC local event.
         </span>
         <span className="mt-1 block">A team of one with a crew of curious and playful furballs.</span>
+        <span className="mt-1 block">
+          With thanks to our local event host, <ExtLink href="https://www.spaceappsclt.org/">Space Apps Charlotte</ExtLink>.
+        </span>
         <VersionLine />
       </footer>
     </main>

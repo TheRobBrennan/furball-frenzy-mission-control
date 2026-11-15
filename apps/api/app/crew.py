@@ -123,7 +123,21 @@ CREW: list[Character] = [
         name="Little Bear",
         location="Seattle WA",
         role="Crew",
-        bio="The teddy bear in the red and white knit sweater, from Hamleys toy store in London, like Hamley.",
+        bio=(
+            "The teddy bear in the red and white knit sweater, from Hamleys toy store in London, "
+            "like Hamley. Often called the Bearista, he loves making and brewing the finest "
+            "coffees, his favorite from Camano Island, and shares his love with every cup he "
+            "makes for his loved ones. He takes a bow when his work is appreciated, and has been "
+            "known to tumble several times in the air before landing on his feet, all smiles. "
+            "A lovable family favorite who brings joy everywhere he goes."
+        ),
+        traits=[
+            "Bearista, loves making and brewing the finest coffees",
+            "Favorite coffee comes from Camano Island",
+            "Shares his love with every cup for his loved ones",
+            "Takes several bows when his work is appreciated",
+            "Tumbles several times in the air, then lands on his feet, all smiles",
+        ],
     ),
     Character(
         slug="little-bunny",
