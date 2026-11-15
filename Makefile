@@ -32,9 +32,9 @@ logs:  ## Tail logs from all running services
 ps:  ## Show running services
 	$(COMPOSE) ps
 
-test:  ## API tests (native uv) and the web lint and build
+test:  ## API tests (native uv) and the web unit tests, lint, and build
 	cd apps/api && uv run pytest -q
-	cd apps/web && pnpm lint && pnpm build
+	cd apps/web && pnpm test && pnpm lint && pnpm build
 
 lint:  ## Ruff for the API, ESLint for the web app
 	cd apps/api && uv run ruff check .

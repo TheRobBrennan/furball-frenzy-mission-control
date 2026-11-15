@@ -18,7 +18,8 @@ ARG GIT_HASH=dev
 ARG BUILD_TIME=dev
 ENV NEXT_PUBLIC_GIT_HASH=$GIT_HASH \
     NEXT_PUBLIC_BUILD_TIME=$BUILD_TIME
-RUN pnpm build
+# Storybook ships with the app at /storybook, on the live site and on the frozen submission copy
+RUN pnpm build-storybook && pnpm build
 
 FROM node:24.17.0-bookworm-slim AS run
 ENV NODE_ENV=production \

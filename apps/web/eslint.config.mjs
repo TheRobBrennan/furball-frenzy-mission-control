@@ -12,6 +12,11 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Built Storybook, Playwright output
+    "public/storybook/**",
+    "storybook-static/**",
+    "playwright-report/**",
+    "test-results/**",
   ]),
 ]);
 
