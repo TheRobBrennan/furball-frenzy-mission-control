@@ -7,3 +7,5 @@ export * from "./script";
 export * from "./pace";
 export * from "./time";
 export * from "./judges";
+export * from "./debrief";
+export * from "./realMissions";

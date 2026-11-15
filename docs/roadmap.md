@@ -70,7 +70,7 @@ Near submission:
 
 Proposed enhancements, roughly by payoff against the judging criteria (Impact, Creativity, Validity, Relevance, Presentation):
 
-1. **The debrief that teaches** (slice 2): compare a design to real NASA missions with sourced figures and links, the "learn why it worked or failed" part of the brief
+1. [x] **The debrief that teaches** (slice 2, shipped 2026-11-15, six real missions with figures read from NASA pages, see `apps/web/src/lib/mission/realMissions.ts`): compare a design to real NASA missions with sourced figures and links, the "learn why it worked or failed" part of the brief
 2. **Four furballs, four roles** (slice 3): pass-the-binder multiplayer, which the challenge asks for, with crew traits changing the options
 3. **A "Judges, start here" button:** one click launches a ready-made mission, with a 30 second autoplay where the elephants design it for you
 4. **Dice and mission events** (slice 4): a solar storm or a launch scrub makes margin matter and every run different

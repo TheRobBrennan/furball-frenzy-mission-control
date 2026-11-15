@@ -213,7 +213,7 @@ export default function MissionBuilder() {
 
       {result && (
         <div ref={debrief} className="scroll-mt-16 lg:col-span-2">
-          <Debrief result={result} onChange={() => setResult(null)} onReset={() => update(emptyDesign)} />
+          <Debrief result={result} design={design} onChange={() => setResult(null)} onReset={() => update(emptyDesign)} />
         </div>
       )}
     </div>
