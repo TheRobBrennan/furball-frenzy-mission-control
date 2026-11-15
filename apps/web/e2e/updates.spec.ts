@@ -10,9 +10,9 @@ test("the Stay updated box loads nothing from Flodesk until asked, then loads it
   await page.getByTestId("stay-updated").scrollIntoViewIfNeeded();
   await page.waitForTimeout(1500);
   expect(flodesk).toEqual([]);
-  // The invitation reads on one line, at desktop and phone width.
-  const line = await page.getByTestId("stay-updated-line").boundingBox();
-  expect(line!.height).toBeLessThan(30);
+  // Nothing in the invitation is cut off at the right edge, at desktop and phone width.
+  const card = await page.getByTestId("stay-updated").boundingBox();
+  expect(card!.x + card!.width).toBeLessThanOrEqual(page.viewportSize()!.width);
   await page.getByTestId("stay-updated-open").click();
   await expect(page.getByTestId("stay-updated-dialog")).toBeVisible();
   await expect(page.getByTestId("stay-updated-close")).toBeInViewport();
@@ -29,12 +29,22 @@ test("the thank you page opens, for Flodesk to send new subscribers to", async (
   await expect(page.getByTestId("stay-updated")).toHaveCount(0);
 });
 
-test("on the home page the Stay updated box sits just above the footer", async ({ page }) => {
+test("on the home page the Stay updated box is under the Polaroid on a wide screen, and under the headline on a phone", async ({ page }) => {
   await page.addInitScript(() => sessionStorage.setItem("ff-promo-seen", "1"));
   await page.goto("/");
-  const box = await page.getByTestId("stay-updated").boundingBox();
-  const footer = await page.locator("#footer").boundingBox();
-  expect(box!.y + box!.height).toBeLessThanOrEqual(footer!.y);
-  expect(footer!.y - (box!.y + box!.height)).toBeLessThan(200);
-  await expect(page.getByTestId("stay-updated")).toHaveCount(1);
+  const box = page.locator('[data-testid="stay-updated"]:visible');
+  await expect(box).toHaveCount(1);
+  const card = await box.boundingBox();
+  const width = page.viewportSize()!.width;
+  expect(card!.x + card!.width).toBeLessThanOrEqual(width);
+  if (width >= 1024) {
+    // Wide: in the column under the Polaroid, which is on the right.
+    const polaroid = await page.locator("figure").first().boundingBox();
+    expect(card!.y).toBeGreaterThan(polaroid!.y);
+    expect(card!.x).toBeGreaterThanOrEqual(width / 2 - 20);
+  } else {
+    // Phone: after the Start the mission buttons, not before the headline.
+    const headline = await page.getByRole("heading", { level: 1 }).boundingBox();
+    expect(card!.y).toBeGreaterThan(headline!.y);
+  }
 });

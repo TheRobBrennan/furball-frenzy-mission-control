@@ -10,6 +10,9 @@ const channel = process.env.CI ? undefined : "chrome";
 export default defineConfig({
   testDir: "./e2e",
   forbidOnly: !!process.env.CI,
+  // A busy laptop runs slowly, so there is room, and two workers at a time locally.
+  timeout: 60_000,
+  workers: process.env.CI ? undefined : 2,
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? [["github"], ["html", { open: "never" }]] : "list",
   use: { baseURL, trace: "on-first-retry", channel, launchOptions: { args: ["--mute-audio"] } },

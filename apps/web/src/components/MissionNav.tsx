@@ -185,18 +185,18 @@ export default function MissionNav() {
           setBinder(true);
           followRoller(ROLL_MS, 0.62);
           window.setTimeout(() => setStamp((n) => n + 1), ROLL_MS);
-          window.setTimeout(() => {
-            document.getElementById("footer")?.scrollIntoView({ behavior: "smooth", block: "end" });
-          }, ROLL_MS + 150);
+          // Once it is rolled up, the visitor lands back at the top, on the cover.
+          window.setTimeout(() => scrollToId("top"), ROLL_MS + 150);
         }, 750);
       } else {
-        // Start at the top, then unfurl it downward, and come back to the cover when it lands.
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        // Start at the top, then unfurl it downward, and come back to the cover when it lands. Already at the top, it starts at once.
+        const atTop = window.scrollY < 40;
+        if (!atTop) window.scrollTo({ top: 0, behavior: "smooth" });
         window.setTimeout(() => {
           setBinder(false);
           followRoller(ROLL_MS, 0.5);
           window.setTimeout(() => scrollToId("top"), ROLL_MS + 250);
-        }, 500);
+        }, atTop ? 0 : 500);
       }
     },
     [closed, setBinder, followRoller],

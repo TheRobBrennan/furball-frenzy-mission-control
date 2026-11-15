@@ -5,8 +5,8 @@ import TermsPage from "@/app/terms/page";
 import LegalLinks from "./LegalLinks";
 
 describe("the legal pages", () => {
-  it("links the privacy and terms pages from the footer", () => {
-    render(<LegalLinks />);
+  it("links the privacy and terms pages from the footer, inline in the home page footer's own text too", () => {
+    render(<LegalLinks inline />);
     expect(screen.getByRole("link", { name: "Privacy" })).toHaveAttribute("href", "/privacy");
     expect(screen.getByRole("link", { name: "Terms" })).toHaveAttribute("href", "/terms");
   });

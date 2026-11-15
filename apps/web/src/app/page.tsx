@@ -11,6 +11,7 @@ import MissionPatch from "@/components/MissionPatch";
 import StayUpdated from "@/components/StayUpdated";
 import TrailerButton from "@/components/TrailerButton";
 import MissionStatus from "@/components/MissionStatus";
+import LegalLinks from "@/components/LegalLinks";
 import VersionLine from "@/components/VersionLine";
 
 const photos = [
@@ -74,9 +75,13 @@ export default function Home() {
         aria-hidden="true"
       />
 
-      <section className="relative mx-auto grid max-w-6xl items-center gap-8 px-6 pb-12 pt-8 lg:grid-cols-2 lg:gap-12 lg:pb-20 lg:pt-20">
+      <section className="relative mx-auto grid max-w-6xl items-center gap-8 px-6 pb-8 pt-8 lg:grid-cols-2 lg:gap-12 lg:pb-12 lg:pt-20">
         <div className="relative order-1 mx-auto w-full max-w-[19rem] sm:max-w-sm lg:order-2 lg:max-w-md">
           <HeroPolaroid />
+          {/* Under the Polaroid on a wide screen. On a phone it sits under the headline instead, so the headline stays above the fold. */}
+          <div className="hidden lg:block">
+            <StayUpdated compact />
+          </div>
           <MissionPatch className="patch-wobble pointer-events-none absolute -left-4 -top-6 z-10 h-24 w-24 drop-shadow-[0_6px_10px_rgba(0,0,0,0.55)] sm:-left-8 sm:-top-8 sm:h-28 sm:w-28" />
         </div>
 
@@ -117,6 +122,9 @@ export default function Home() {
           </p>
           <div className="mt-6 flex justify-center lg:justify-start">
             <MissionStatus />
+          </div>
+          <div className="mx-auto mt-6 max-w-md lg:hidden">
+            <StayUpdated compact />
           </div>
         </div>
       </section>
@@ -309,14 +317,13 @@ export default function Home() {
         </div>
       </div>
 
-      <StayUpdated />
-
       <footer id="footer" className="mx-auto max-w-5xl scroll-mt-20 text-balance px-6 pb-12 text-center font-mono text-xs text-white/50">
         <span className="block">
           Built over the 2026 <ExtLink href="https://www.spaceappschallenge.org/">NASA Space Apps Challenge</ExtLink> weekend at
           the local event hosted by <ExtLink href="https://www.spaceappsclt.org/">Space Apps Charlotte</ExtLink>.
         </span>
         <span className="mt-1 block">A team of one with a crew of curious and playful furballs.</span>
+        <LegalLinks inline />
         <VersionLine />
       </footer>
     </main>

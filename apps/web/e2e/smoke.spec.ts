@@ -52,6 +52,18 @@ test("the case starts closed, and opening it shows the sections", async ({ page 
   await expect(page.locator("#classified")).toBeVisible({ timeout: 8000 });
 });
 
+test("closing the case brings the visitor back to the top", async ({ page }) => {
+  test.setTimeout(90_000);
+  await page.goto("/#origin-stories");
+  await expect(page.locator("html")).toHaveAttribute("data-binder", "open");
+  await expect(page.locator("#origin-stories")).toBeVisible({ timeout: 10_000 });
+  if (page.viewportSize()!.width < 640) await page.getByRole("button", { name: /mission menu/i }).click();
+  await page.getByRole("link", { name: /^close the case$/i }).click();
+  await expect(page.locator("html")).toHaveAttribute("data-binder", "closed", { timeout: 15_000 });
+  // After the roll-up, the page is back at the top, on the cover.
+  await expect.poll(() => page.evaluate(() => window.scrollY), { timeout: 20_000 }).toBeLessThan(60);
+});
+
 test("a link to a section opens the case, and an older link still works", async ({ page }) => {
   await page.goto("/#origin-stories");
   await expect(page.locator("html")).toHaveAttribute("data-binder", "open");
