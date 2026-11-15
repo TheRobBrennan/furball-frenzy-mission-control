@@ -140,6 +140,9 @@ function Stage({ scene, animate, speed, paused, clock, last, onNext, onDone }: S
                     {stamp.utc} &middot; {stamp.local}
                   </time>
                 )}
+                <span aria-hidden="true" className="mr-1 inline-block h-7 w-7 translate-y-1.5 align-baseline" data-testid="line-icon">
+                  <Furball who={l.who} mood="cheer" label={names[l.who]} className="h-7 w-7" />
+                </span>
                 <span className="font-bold text-amber">{names[l.who]}:</span> {l.text}
               </p>
             );
@@ -326,7 +329,7 @@ export default function MissionStory({ design, result, onDone, clock = () => new
               {scene.title}
             </h2>
           </div>
-          <div className="flex shrink-0 flex-wrap gap-2">
+          <div className="flex min-w-0 flex-wrap gap-2">
             {animate && (
               <button type="button" onClick={() => setPaused((p) => !p)} aria-pressed={paused} data-testid="pause" className="inline-flex min-h-12 shrink-0 items-center justify-center rounded-full border border-white/30 px-4 font-bold text-white transition hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber">
                 {paused ? "Play" : "Pause"}

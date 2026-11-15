@@ -156,7 +156,7 @@ export default function MissionBuilder() {
             </p>
           </div>
           <div className="mt-3 text-base text-white/85">
-            New here? <TrailerButton className="text-amber" />.
+            New here? You can <TrailerButton className="text-amber" />.
           </div>
         </section>
         <Step n={1} title="Pick a launcher" hint="It has to throw the whole rover to the Moon." done={design.vehicleId !== null}>
