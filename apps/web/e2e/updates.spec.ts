@@ -25,8 +25,10 @@ test("the Stay updated box loads nothing from Flodesk until asked, then loads it
 test("the thank you page opens, for Flodesk to send new subscribers to", async ({ page }) => {
   await page.goto("/thanks");
   await expect(page.getByRole("heading", { level: 1, name: "Thank you!" })).toBeVisible();
-  await expect(page.getByRole("link", { name: "Watch a mission" })).toBeInViewport();
+  await expect(page.getByRole("link", { name: "Watch a mission" })).toBeVisible();
   await expect(page.getByTestId("stay-updated")).toHaveCount(0);
+  // The photo of the furballs is on screen, not only text.
+  await expect(page.getByTestId("thanks-photo")).toBeInViewport();
 });
 
 test("on the home page the Stay updated box is under the Polaroid on a wide screen, and under the headline on a phone", async ({ page }) => {
