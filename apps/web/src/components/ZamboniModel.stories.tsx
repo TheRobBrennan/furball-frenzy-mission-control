@@ -17,5 +17,6 @@ export const Sploosh: Story = { args: { skin: skin("sploosh") } };
 export const Claude: Story = { args: { skin: skin("claude") } };
 export const SpaceApps: Story = { args: { skin: skin("spaceapps") } };
 export const Charlotte: Story = { args: { skin: skin("charlotte") } };
+export const SoftwareMansion: Story = { args: { skin: skin("swm") } };
 export const KrakenBear: Story = { args: { skin: skin("kraken-bear") } };
 export const UptownChina: Story = { args: { skin: skin("uptown-china") } };

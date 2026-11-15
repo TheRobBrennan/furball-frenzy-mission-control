@@ -40,6 +40,48 @@ function Sparkle({ x, y, s = 1, fill = "#fff" }: { x: number; y: number; s?: num
   return <path d={`M ${x},${y - 6 * s} Q ${x + 1 * s},${y - 1 * s} ${x + 6 * s},${y} Q ${x + 1 * s},${y + 1 * s} ${x},${y + 6 * s} Q ${x - 1 * s},${y + 1 * s} ${x - 6 * s},${y} Q ${x - 1 * s},${y - 1 * s} ${x},${y - 6 * s} Z`} fill={fill} />;
 }
 
+// One of the Polish elephants as in the "suited up" photo: a seated gray plush facing the viewer, big
+// floppy ears, a short trunk, and a white swm t-shirt, with a keyring on top. Drawn in a 40 by 46 box,
+// original art.
+
+// A small waving Polish flag on a pole, white over red, the pole at x and the flag flying to its right.
+function PolishFlag({ x, y, height = 46 }: { x: number; y: number; height?: number }) {
+  const w = 24; // flag width
+  const h = 6.5; // each stripe
+  const wave = (top: number) =>
+    `M ${x},${top} Q ${x + w / 4},${top - 2.5} ${x + w / 2},${top} T ${x + w},${top} V ${top + h} Q ${x + (3 * w) / 4},${top + h + 2.5} ${x + w / 2},${top + h} T ${x},${top + h} Z`;
+  return (
+    <g strokeLinejoin="round" strokeLinecap="round">
+      <line x1={x} y1={y - 2} x2={x} y2={y + height} stroke="#c9ced6" strokeWidth="1.3" />
+      <path d={wave(y)} fill="#ffffff" stroke="#060f33" strokeWidth="0.6" />
+      <path d={wave(y + h)} fill="#dc143c" stroke="#060f33" strokeWidth="0.6" />
+    </g>
+  );
+}
+function PolishElephant({ x, y, scale = 1 }: { x: number; y: number; scale?: number }) {
+  return (
+    <g transform={`translate(${x},${y}) scale(${scale})`} stroke="#060f33" strokeWidth="1.1" strokeLinejoin="round" strokeLinecap="round">
+      <circle cx="27" cy="2.5" r="2.2" fill="none" stroke="#c9ced6" strokeWidth="1" />
+      <ellipse cx="6" cy="14" rx="6.5" ry="8" fill="#a9afb9" />
+      <ellipse cx="34" cy="14" rx="6.5" ry="8" fill="#a9afb9" />
+      <ellipse cx="7" cy="14" rx="3.2" ry="5.2" fill="#c2c7cf" strokeWidth="0.5" />
+      <ellipse cx="33" cy="14" rx="3.2" ry="5.2" fill="#c2c7cf" strokeWidth="0.5" />
+      <ellipse cx="7" cy="40" rx="6.5" ry="5" fill="#bfc4cc" />
+      <ellipse cx="33" cy="40" rx="6.5" ry="5" fill="#bfc4cc" />
+      <ellipse cx="4.5" cy="30" rx="4.5" ry="6" fill="#bfc4cc" />
+      <ellipse cx="35.5" cy="30" rx="4.5" ry="6" fill="#bfc4cc" />
+      <rect x="9" y="22" width="22" height="17" rx="6" fill="#f2f4f8" />
+      <text x="20" y="33.5" textAnchor="middle" fontSize="6" fontWeight="800" fill="#2646c8" fontFamily={SANS} stroke="none">
+        swm
+      </text>
+      <circle cx="20" cy="13" r="10" fill="#bfc4cc" />
+      <ellipse cx="20" cy="19" rx="4" ry="5.5" fill="#a9afb9" />
+      <circle cx="15.5" cy="11" r="1.3" fill="#060f33" stroke="none" />
+      <circle cx="24.5" cy="11" r="1.3" fill="#060f33" stroke="none" />
+    </g>
+  );
+}
+
 // The Claude spark: an uneven burst of rounded rays in clay.
 function ClaudeSpark({ cx, cy, r }: { cx: number; cy: number; r: number }) {
   const rays = [1, 0.7, 0.92, 0.62, 1, 0.74, 0.9, 0.66, 0.98, 0.72, 0.88, 0.64];
@@ -215,6 +257,29 @@ export const skins: Skin[] = [
           <path d="M 0,126 V 98 H 14 V 86 H 26 V 98 H 40 V 80 L 46,68 L 52,80 V 98 H 66 V 90 H 84 V 98 H 100 V 76 H 112 V 98 H 128 V 88 H 150 V 98 H 166 V 72 L 174,60 L 182,72 V 98 H 200 V 84 H 218 V 98 H 236 V 90 H 254 V 98 H 282 V 126 Z" />
         </g>
         <rect x="0" y="100" width="282" height="26" fill="#1155cc" />
+      </>
+    ),
+  },
+  {
+    id: "swm",
+    name: "Software Mansion",
+    href: "https://swmansion.com/",
+    line: "Where the Polish elephants hail from, in Kraków.",
+    base: ["#0f2260", "#060f33"],
+    wrap: (
+      <>
+        <path d="M 0,102 Q 70,92 140,102 T 282,98 V 126 H 0 Z" fill="#7a4dff" opacity="0.5" />
+        <path d="M 0,112 Q 70,104 140,112 T 282,110 V 126 H 0 Z" fill="#7a4dff" opacity="0.8" />
+        <Sparkle x={236} y={34} s={1} fill="#b9a3ff" />
+        <PolishElephant x={34} y={36} scale={1.05} />
+        <PolishElephant x={80} y={36} scale={1.05} />
+        <PolishFlag x={121} y={24} height={45} />
+        <text x="136" y="54" fontSize="22" fontWeight="800" fill="#fff" fontFamily={SANS} textLength="110" lengthAdjust="spacingAndGlyphs" stroke="#060f33" strokeWidth="3" style={outline}>
+          Software
+        </text>
+        <text x="136" y="76" fontSize="20" fontWeight="800" fill="#b9a3ff" fontFamily={SANS} textLength="110" lengthAdjust="spacingAndGlyphs" stroke="#060f33" strokeWidth="3" style={outline}>
+          Mansion
+        </text>
       </>
     ),
   },
