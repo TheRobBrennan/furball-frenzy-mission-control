@@ -1,3 +1,4 @@
+import MissionNav from "@/components/MissionNav";
 import Image from "next/image";
 import ClearanceDesk from "@/components/ClearanceDesk";
 import HomeBases from "@/components/fleet/HomeBases";
@@ -57,6 +58,8 @@ const meeting = [
 
 export default function Home() {
   return (
+    <>
+    <MissionNav />
     <main
       id="top"
       tabIndex={-1}
@@ -91,7 +94,7 @@ export default function Home() {
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
             <a
-              href="#the-brief"
+              href="/mission"
               className="inline-flex min-h-12 items-center justify-center rounded-full bg-amber px-6 font-bold text-space shadow-lg shadow-amber/20 transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             >
               Start the mission
@@ -306,5 +309,6 @@ export default function Home() {
         <VersionLine />
       </footer>
     </main>
+    </>
   );
 }
