@@ -40,23 +40,30 @@ function Sparkle({ x, y, s = 1, fill = "#fff" }: { x: number; y: number; s?: num
   return <path d={`M ${x},${y - 6 * s} Q ${x + 1 * s},${y - 1 * s} ${x + 6 * s},${y} Q ${x + 1 * s},${y + 1 * s} ${x},${y + 6 * s} Q ${x - 1 * s},${y + 1 * s} ${x - 6 * s},${y} Q ${x - 1 * s},${y - 1 * s} ${x},${y - 6 * s} Z`} fill={fill} />;
 }
 
-// One of the Polish elephants, a small gray cartoon with a red and white flag tag hanging from its ear.
-// Drawn in a 40 by 34 box, original art.
-function PolishElephant({ x, y, scale = 1, flip = false }: { x: number; y: number; scale?: number; flip?: boolean }) {
+// One of the Polish elephants as in the "suited up" photo: a seated gray plush facing the viewer, big
+// floppy ears, a short trunk, and a white swm t-shirt, with a keyring on top. Drawn in a 40 by 46 box,
+// original art.
+function PolishElephant({ x, y, scale = 1, tag = false }: { x: number; y: number; scale?: number; tag?: boolean }) {
   return (
-    <g transform={`translate(${x},${y}) scale(${flip ? -scale : scale},${scale}) translate(${flip ? -40 : 0},0)`} stroke="#0a1a4a" strokeWidth="1.2" strokeLinejoin="round" strokeLinecap="round">
-      <path d="M 36,17 Q 41,20 38,27" fill="none" stroke="#aab0ba" strokeWidth="2.4" />
-      <path d="M 3,19 Q -3,26 4,31" fill="none" stroke="#c3c8d0" strokeWidth="4.5" />
-      <ellipse cx="22" cy="20" rx="14" ry="9" fill="#c3c8d0" />
-      {[13, 19, 26, 31].map((lx) => (
-        <rect key={lx} x={lx} y="25" width="4" height="8" rx="1.5" fill="#aab0ba" />
-      ))}
-      <circle cx="9" cy="15" r="7" fill="#c3c8d0" />
-      <ellipse cx="13" cy="15" rx="5" ry="6.5" fill="#a9afb9" />
-      <circle cx="8" cy="13" r="1.1" fill="#0a1a4a" stroke="none" />
-      <path d="M 12,21 V 24" stroke="#ffffff" strokeWidth="0.8" />
-      <rect x="9.5" y="24" width="5" height="2.2" fill="#ffffff" strokeWidth="0.6" />
-      <rect x="9.5" y="26.2" width="5" height="2.2" fill="#dc143c" strokeWidth="0.6" />
+    <g transform={`translate(${x},${y}) scale(${scale})`} stroke="#060f33" strokeWidth="1.1" strokeLinejoin="round" strokeLinecap="round">
+      <circle cx="27" cy="2.5" r="2.2" fill="none" stroke="#c9ced6" strokeWidth="1" />
+      <ellipse cx="6" cy="14" rx="6.5" ry="8" fill="#a9afb9" />
+      <ellipse cx="34" cy="14" rx="6.5" ry="8" fill="#a9afb9" />
+      <ellipse cx="7" cy="14" rx="3.2" ry="5.2" fill="#c2c7cf" strokeWidth="0.5" />
+      <ellipse cx="33" cy="14" rx="3.2" ry="5.2" fill="#c2c7cf" strokeWidth="0.5" />
+      <ellipse cx="7" cy="40" rx="6.5" ry="5" fill="#bfc4cc" />
+      <ellipse cx="33" cy="40" rx="6.5" ry="5" fill="#bfc4cc" />
+      <ellipse cx="4.5" cy="30" rx="4.5" ry="6" fill="#bfc4cc" />
+      <ellipse cx="35.5" cy="30" rx="4.5" ry="6" fill="#bfc4cc" />
+      <rect x="9" y="22" width="22" height="17" rx="6" fill="#f2f4f8" />
+      <text x="20" y="33.5" textAnchor="middle" fontSize="6" fontWeight="800" fill="#2646c8" fontFamily={SANS} stroke="none">
+        swm
+      </text>
+      <circle cx="20" cy="13" r="10" fill="#bfc4cc" />
+      <ellipse cx="20" cy="19" rx="4" ry="5.5" fill="#a9afb9" />
+      <circle cx="15.5" cy="11" r="1.3" fill="#060f33" stroke="none" />
+      <circle cx="24.5" cy="11" r="1.3" fill="#060f33" stroke="none" />
+      {tag && <rect x="34" y="24" width="6" height="8" fill="#ffffff" strokeWidth="0.6" />}
     </g>
   );
 }
@@ -251,12 +258,12 @@ export const skins: Skin[] = [
         <path d="M 0,112 Q 70,104 140,112 T 282,110 V 126 H 0 Z" fill="#7a4dff" opacity="0.8" />
         <Sparkle x={126} y={30} s={1.2} fill="#b9a3ff" />
         <Sparkle x={236} y={34} s={1} fill="#b9a3ff" />
-        <PolishElephant x={34} y={40} scale={1.35} />
-        <PolishElephant x={84} y={48} scale={1.1} flip />
-        <text x="134" y="54" fontSize="22" fontWeight="800" fill="#fff" fontFamily={SANS} textLength="112" lengthAdjust="spacingAndGlyphs" stroke="#060f33" strokeWidth="3" style={outline}>
+        <PolishElephant x={34} y={36} scale={1.05} />
+        <PolishElephant x={80} y={36} scale={1.05} tag />
+        <text x="136" y="54" fontSize="22" fontWeight="800" fill="#fff" fontFamily={SANS} textLength="110" lengthAdjust="spacingAndGlyphs" stroke="#060f33" strokeWidth="3" style={outline}>
           Software
         </text>
-        <text x="134" y="76" fontSize="20" fontWeight="800" fill="#b9a3ff" fontFamily={SANS} textLength="112" lengthAdjust="spacingAndGlyphs" stroke="#060f33" strokeWidth="3" style={outline}>
+        <text x="136" y="76" fontSize="20" fontWeight="800" fill="#b9a3ff" fontFamily={SANS} textLength="110" lengthAdjust="spacingAndGlyphs" stroke="#060f33" strokeWidth="3" style={outline}>
           Mansion
         </text>
       </>
