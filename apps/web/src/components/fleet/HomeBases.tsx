@@ -1,4 +1,6 @@
 import Image from "next/image";
+import ReconPolaroid from "../ReconPolaroid";
+import SeattleLocation from "../SeattleLocation";
 import type { ReactNode } from "react";
 import ExtLink from "../ExtLink";
 import Reveal from "../Reveal";
@@ -45,19 +47,19 @@ const homeWheels: Ride[] = [
   {
     name: "Mis' Adventure",
     role: "The basecamp on wheels",
-    blurb: "Where the crew bunks down on road trips and long site surveys. Every trip comes with a story, and a few misadventures.",
+    blurb: "Where the crew bunks down on road trips, and every trip comes with a story.",
     art: <MisAdventure />,
   },
   {
     name: "Big Blue",
-    role: "The prized member of the lineup",
+    role: "The prized pickup",
     blurb: "A lifted blue and silver pickup with a chrome roll bar and big mud tires, the pride of the Rockingham lineup.",
     art: <BigBlue />,
   },
   {
     name: "The golf cart",
     role: "The site shuttle",
-    blurb: "Zips the crew around the whole property, launch site to home base, with a back seat that faces the way you came.",
+    blurb: "Zips the crew around the whole property, with a back seat that faces the way you came.",
     art: <GolfCart />,
   },
 ];
@@ -85,7 +87,7 @@ const seattleWheels: Ride[] = [
     name: "Rufus",
     role: "The family legend",
     blurb:
-      "A very loving and incredible vehicle, the go-to for every trip: the Olympic Peninsula, the Oregon coast, California, Vegas, Yellowstone, Montana, Idaho, Bend, all over. He retired after an unfortunate run-in with a boulder that rolled off a mountain, and the whole fleet salutes him.",
+      "A very loving and incredible vehicle, the go-to for every trip, from the Olympic Peninsula and the Oregon coast to Yellowstone and Bend. He retired after a boulder rolled off a mountain, and the whole fleet salutes him.",
     art: <Rufus />,
   },
 ];
@@ -93,8 +95,8 @@ const seattleWheels: Ride[] = [
 const seattleWings: Ride[] = [
   {
     name: "B",
-    role: "The brand new family member",
-    blurb: <>A <ExtLink href="https://www.dji.com/mini-2">DJI Mini 2 Pro</ExtLink>, small and light. Piggy met B for the first time in his Santa hat, and B took a photo of him.</>,
+    role: "The first flyer",
+    blurb: <>A <ExtLink href="https://www.dji.com/mini-2">DJI Mini 2 Pro</ExtLink>, the first flying member of the family. Piggy met B in his Santa hat, and B took a photo of him.</>,
     art: <MiniDrone />,
   },
   {
@@ -132,11 +134,12 @@ const seattleCrew: Member[] = [
   { name: "Little Bunny" },
   { name: "Kraken Bear" },
   { name: "Fuzzy Black Bear" },
+  { name: "Fuzzy Brown Bear" },
 ];
 
 function Roster({ members }: { members: Member[] }) {
   return (
-    <>
+    <div>
       <h4 className="mt-8 font-mono text-xs uppercase tracking-[0.25em] text-ice">Crew</h4>
       <ul className="mt-3 grid gap-x-6 gap-y-2 text-lg sm:grid-cols-2">
         {members.map((m) => (
@@ -153,13 +156,13 @@ function Roster({ members }: { members: Member[] }) {
           </li>
         ))}
       </ul>
-    </>
+    </div>
   );
 }
 
 function Rides({ label, rides, compact = false }: { label: string; rides: Ride[]; compact?: boolean }) {
   return (
-    <>
+    <div>
       <h4 className="mt-8 font-mono text-xs uppercase tracking-[0.25em] text-ice">{label}</h4>
       <ul className="reveal-stagger mt-3 grid grid-cols-1 gap-4 min-[420px]:grid-cols-2">
         {rides.map((r, i) => (
@@ -180,7 +183,29 @@ function Rides({ label, rides, compact = false }: { label: string; rides: Ride[]
           </li>
         ))}
       </ul>
-    </>
+    </div>
+  );
+}
+
+function MoonTile() {
+  return (
+    <div>
+      <h4 className="mt-8 font-mono text-xs uppercase tracking-[0.25em] text-ice">Moon</h4>
+      <div className="fleet-card mt-3 grid items-center gap-4 rounded-2xl border border-amber/60 bg-white/5 p-3 text-left min-[420px]:grid-cols-[8.5rem_1fr]">
+        <div className="mx-auto h-52 w-full max-w-[8.5rem] overflow-hidden rounded-xl bg-gradient-to-b from-space-2 to-space p-2 [&_svg]:mx-auto [&_svg]:h-full [&_svg]:w-auto [&_svg]:max-w-full">
+          <LunarRover />
+        </div>
+        <div>
+          <p className="font-mono text-[0.6rem] uppercase tracking-[0.2em] text-amber">The elephants&apos; pride and joy</p>
+          <h5 className="mt-0.5 text-lg font-bold">The lunar rover</h5>
+          <p className="mt-1 text-xs leading-relaxed text-white/80">
+            A tilt-and-steer moon buggy with big knobbly tires. Both Polish elephants ride it at once, one stacked on the
+            other on the single seat, tied together, the Bunny system, safety and silliness first.
+          </p>
+          <p className="mt-2 text-xs text-white/60">Proud of their hard work, creativity, and team ethos.</p>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -200,12 +225,16 @@ function Site({
   children: ReactNode;
 }) {
   return (
-    <article className={`flex flex-col rounded-3xl border border-white/10 p-6 shadow-xl shadow-black/30 sm:p-8 ${tint}`}>
-      <p className="font-mono text-[0.65rem] uppercase tracking-[0.25em] text-amber sm:text-xs">Launch site {number}</p>
-      <h3 className="mt-2 text-3xl font-black sm:text-4xl">
-        {place} <span className="text-white/50">&middot; {state}</span>
-      </h3>
-      <div className="mt-3 text-white/85">{intro}</div>
+    <article
+      className={`flex flex-col rounded-3xl border border-white/10 p-6 shadow-xl shadow-black/30 sm:p-8 lg:row-span-5 lg:grid lg:grid-rows-subgrid ${tint}`}
+    >
+      <div>
+        <p className="font-mono text-[0.65rem] uppercase tracking-[0.25em] text-amber sm:text-xs">Launch site {number}</p>
+        <h3 className="mt-2 text-3xl font-black sm:text-4xl">
+          {place} <span className="text-white/50">&middot; {state}</span>
+        </h3>
+        <div className="mt-3 text-white/85">{intro}</div>
+      </div>
       {children}
     </article>
   );
@@ -216,9 +245,9 @@ export default function HomeBases() {
     <div className="border-y border-white/5 bg-white/[0.03]">
       <Reveal as="section" id="crew" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-14 sm:py-20" aria-labelledby="home-bases-heading">
         <SectionHeading id="home-bases-heading" eyebrow="Two launch sites" title="Where the crew lives">
-          <p>Everyone is in the game, wherever they are. Each launch site has its crew, its wheels, and its stories. More furballs join along the way.</p>
+          <p>Everyone is in the game, wherever they are. Each launch site has its crew, its rides on the land and in the air, and its stories. More furballs join along the way.</p>
         </SectionHeading>
-        <div className="mt-10 grid gap-8 lg:grid-cols-2">
+        <div className="mt-10 grid gap-8 lg:grid-cols-2 lg:grid-rows-[repeat(5,auto)] lg:gap-y-0">
           <Site
             number="one"
             place="Rockingham"
@@ -231,24 +260,46 @@ export default function HomeBases() {
               </p>
             }
           >
-            <figure
-              className="polaroid mx-auto mt-6 w-full max-w-xs rounded-md bg-white p-3 pb-4 shadow-2xl shadow-black/60"
-              style={{ ["--tilt" as string]: "1.5deg" }}
-            >
-              <Image
-                src="/images/north-carolina-crew.jpg"
-                alt="Blue Bear, the two Polish elephants, a larger elephant, a pink rubber duck, and a NASCAR race car piled together on a bed"
-                width={2000}
-                height={1500}
-                className="aspect-[4/3] w-full rounded-sm object-cover"
-                sizes="(min-width: 1024px) 320px, 80vw"
-              />
-              <figcaption className="mt-3 text-center font-mono text-xs font-semibold text-space">
-                The North Carolina crew, gathering before launch
-              </figcaption>
-            </figure>
+            <div className="mt-6 flex flex-col">
+              <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start sm:justify-center sm:gap-0 lg:min-h-[340px]">
+                <ReconPolaroid
+                  src="/images/rockingham-lake-recon-hires.jpg"
+                  alt="A satellite view of a small lake filling the frame, with slivers of woods and a few clearings along its shore"
+                  readout="Classified"
+                  caption="The lake"
+                  orientation="landscape"
+                  zoom={[1.4, 2]}
+                  info="The sharpest public view of this lake comes from North Carolina's statewide imagery, about 6 inches per pixel. NASA's Landsat sees 15 to 30 meters per pixel, so a lake this size would be just a few pixels wide."
+                  className="z-0 w-[92%] sm:w-[60%]"
+                  tilt="-2.5deg"
+                />
+                <figure
+                  className="polaroid relative z-10 w-[66%] rounded-md bg-white p-2.5 pb-3 shadow-2xl shadow-black/60 sm:-ml-[3%] sm:mt-12 sm:w-[41%]"
+                  style={{ ["--tilt" as string]: "3deg" }}
+                >
+                  <Image
+                    src="/images/north-carolina-crew.jpg"
+                    alt="Blue Bear, the two Polish elephants, a larger elephant, a pink rubber duck, and a NASCAR race car piled together on a bed"
+                    width={2000}
+                    height={1500}
+                    className="aspect-[3/4] w-full rounded-sm object-cover object-[22%_50%]"
+                    sizes="(min-width: 1024px) 200px, 60vw"
+                  />
+                  <figcaption className="mt-2 text-center font-mono text-[0.65rem] font-semibold leading-snug text-space">
+                    The crew, before launch
+                  </figcaption>
+                </figure>
+              </div>
+              <p className="mx-auto mt-6 max-w-sm text-balance text-center text-xs leading-relaxed text-white/55">
+                Recon by two unnamed Polish elephants.
+                <br />
+                Imagery: NC OneMap statewide orthoimagery, about 6 inches per pixel. NASA&apos;s Landsat sees 15 to 30 meters
+                per pixel, so this lake would be just a few pixels wide.
+              </p>
+            </div>
             <Roster members={carolinaCrew} />
-            <Rides label="Wheels" rides={homeWheels} />
+            <Rides label="Land" rides={homeWheels} />
+            <MoonTile />
           </Site>
           <Site
             number="two"
@@ -264,34 +315,12 @@ export default function HomeBases() {
               </p>
             }
           >
+            <SeattleLocation />
             <Roster members={seattleCrew} />
-            <Rides label="Wheels" rides={seattleWheels} />
-            <Rides label="Wings" rides={seattleWings} compact />
+            <Rides label="Land" rides={seattleWheels} />
+            <Rides label="Air" rides={seattleWings} compact />
           </Site>
         </div>
-      <div className="fleet-card mt-12 grid items-center gap-8 rounded-3xl border border-amber/60 bg-white/5 p-6 text-left shadow-xl shadow-black/30 backdrop-blur sm:p-8 md:grid-cols-[minmax(0,15rem)_1fr]">
-        <div className="mx-auto w-full max-w-[13rem] rounded-2xl bg-gradient-to-b from-space-2 to-space p-4 md:max-w-none">
-          <LunarRover />
-        </div>
-        <div>
-          <p className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-amber">
-            The elephants&apos; pride and joy
-          </p>
-          <h3 className="mt-1 text-2xl font-bold sm:text-3xl">The lunar rover</h3>
-          <p className="mt-3 leading-relaxed text-white/85">
-            A tilt-and-steer moon buggy with big knobbly tires, a tool box up front, twin lights on
-            each side, and a little display for the road ahead.
-          </p>
-          <p className="mt-3 leading-relaxed text-white/85">
-            Both Polish elephants ride it at once, one stacked on the other on the single seat,
-            happily driving. They love to be tied together and stay close, that is the Bunny system,
-            like all good furballs: safety and silliness first.
-          </p>
-          <p className="mt-3 text-sm text-white/65">
-            Proud of their hard work, their creativity, and their team ethos.
-          </p>
-        </div>
-      </div>
       </Reveal>
     </div>
   );

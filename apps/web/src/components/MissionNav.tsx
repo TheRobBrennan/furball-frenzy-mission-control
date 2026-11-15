@@ -8,6 +8,7 @@ type Tab = { id: string; label: string; color: string; side: string };
 
 // Binder tabs for the page, in page order. The colored edges are the dividers of the elephants' binder.
 const tabs: Tab[] = [
+  { id: "top", label: "Cover", color: "border-t-[#f472b6]", side: "border-l-[#f472b6]" },
   { id: "story", label: "The brief", color: "border-t-[#5ac8fa]", side: "border-l-[#5ac8fa]" },
   { id: "classified", label: "Classified", color: "border-t-[#c792ea]", side: "border-l-[#c792ea]" },
   { id: "crew", label: "Launch sites", color: "border-t-[#ff7a59]", side: "border-l-[#ff7a59]" },
@@ -27,18 +28,30 @@ const reactions = [
 ];
 
 const SEEN_KEY = "ff-elephants-cleared";
+const ROLL_MS = 2800;
 
 function scrollToId(id: string) {
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // The top of the page is the very top, so the hero keeps the breathing room it has on first load,
+  // instead of sliding up under the sticky menu.
+  if (id === "top") {
+    window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
+    history.replaceState(null, "", window.location.pathname);
+    return;
+  }
   const el = document.getElementById(id);
   if (!el) return;
-  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   el.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
   history.replaceState(null, "", `#${id}`);
 }
 
 export default function MissionNav() {
-  const [active, setActive] = useState("story");
+  const [active, setActive] = useState("top");
   const [menu, setMenu] = useState(false);
+  // Closing the binder folds every section away and leaves the cover and the footer.
+  const [closed, setClosed] = useState(false);
+  // A red stamp slams down when the case is closed.
+  const [stamp, setStamp] = useState(0);
   const [check, setCheck] = useState<{ q: string; a: string[] } | null>(null);
   const [reaction, setReaction] = useState<string | null>(null);
   // After "Let me through", the elephants take it to heart: sad, then maybe forgiven.
@@ -52,8 +65,9 @@ export default function MissionNav() {
     let frame = 0;
     const update = () => {
       frame = 0;
-      let current = tabs[0].id;
-      for (const t of tabs) {
+      // The cover is where you are until another section reaches the top.
+      let current = "top";
+      for (const t of tabs.slice(1)) {
         const el = document.getElementById(t.id);
         if (el && el.getBoundingClientRect().top <= 140) current = t.id;
       }
@@ -99,9 +113,69 @@ export default function MissionNav() {
     if (ready) sorry.current?.focus();
   }, [ready]);
 
+  const setBinder = useCallback((shut: boolean) => {
+    document.documentElement.dataset.binder = shut ? "closed" : "open";
+    setClosed(shut);
+  }, []);
+
+  // The binder is a long scroll: closing rolls it up from the bottom, opening unfurls it from the top.
+  // The roller rides the bottom edge, and the view follows that edge so the whole thing can be seen.
+  const followRoller = useCallback((ms: number, where: number) => {
+    const binder = document.querySelector(".binder");
+    if (!binder) return;
+    const start = performance.now();
+    const step = (now: number) => {
+      const edge = binder.getBoundingClientRect().bottom;
+      window.scrollTo(0, Math.max(0, window.scrollY + (edge - window.innerHeight * where)));
+      if (now - start < ms) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }, []);
+
+  const toggleBinder = useCallback(
+    (event: React.MouseEvent) => {
+      event.preventDefault();
+      setMenu(false);
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduced) {
+        if (!closed) setStamp((n) => n + 1);
+        setBinder(!closed);
+        window.scrollTo(0, 0);
+        return;
+      }
+      if (!closed) {
+        // Start at the bottom of the scroll, then roll it up toward the top.
+        window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "smooth" });
+        window.setTimeout(() => {
+          setBinder(true);
+          followRoller(ROLL_MS, 0.62);
+          window.setTimeout(() => setStamp((n) => n + 1), ROLL_MS);
+          window.setTimeout(() => {
+            document.getElementById("footer")?.scrollIntoView({ behavior: "smooth", block: "end" });
+          }, ROLL_MS + 150);
+        }, 750);
+      } else {
+        // Start at the top, then unfurl it downward, and come back to the cover when it lands.
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        window.setTimeout(() => {
+          setBinder(false);
+          followRoller(ROLL_MS, 0.5);
+          window.setTimeout(() => scrollToId("top"), ROLL_MS + 250);
+        }, 500);
+      }
+    },
+    [closed, setBinder, followRoller],
+  );
+
   const go = useCallback((event: React.MouseEvent, id: string) => {
     event.preventDefault();
     setMenu(false);
+    if (closed && id !== "top") {
+      // A tab on a closed binder opens it first.
+      setBinder(false);
+      window.setTimeout(() => scrollToId(id), 2900);
+      return;
+    }
     let seen = false;
     try {
       seen = sessionStorage.getItem(SEEN_KEY) === "1";
@@ -114,7 +188,7 @@ export default function MissionNav() {
       return;
     }
     scrollToId(id);
-  }, []);
+  }, [closed, setBinder]);
 
   const markSeen = () => {
     try {
@@ -159,6 +233,7 @@ export default function MissionNav() {
   }, [finish]);
 
   return (
+    <>
     <nav
       aria-label="Mission menu"
       className="sticky top-0 z-40 border-b border-white/10 bg-space/85 backdrop-blur"
@@ -186,6 +261,15 @@ export default function MissionNav() {
               </a>
             </li>
           ))}
+          <li className="ml-3">
+            <a
+              href="#footer"
+              onClick={toggleBinder}
+              className="block w-[9.5rem] rounded-t-lg border border-b-0 border-t-4 border-white/10 border-t-[#94a3b8] bg-white/5 px-2 py-2 text-center font-mono text-xs text-white/80 transition-colors hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber"
+            >
+              {closed ? "Reopen the case" : "Close the case"}
+            </a>
+          </li>
         </ul>
         <button
           type="button"
@@ -214,6 +298,15 @@ export default function MissionNav() {
               </a>
             </li>
           ))}
+          <li>
+            <a
+              href="#footer"
+              onClick={toggleBinder}
+              className="block rounded-lg border border-l-4 border-white/10 border-l-[#94a3b8] bg-white/5 px-4 py-3 font-semibold text-white/90"
+            >
+              {closed ? "Reopen the case" : "Close the case"}
+            </a>
+          </li>
         </ul>
       )}
 
@@ -319,5 +412,18 @@ export default function MissionNav() {
         </div>
       )}
     </nav>
+      {stamp > 0 && (
+        <div
+          key={stamp}
+          aria-hidden="true"
+          onAnimationEnd={() => setStamp(0)}
+          className="case-stamp pointer-events-none fixed left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2"
+        >
+          <span className="block -rotate-6 whitespace-nowrap rounded-md border-[6px] border-[#e9072b] px-6 py-2 font-mono text-3xl font-black uppercase tracking-[0.2em] text-[#e9072b] sm:text-6xl">
+            Case closed
+          </span>
+        </div>
+      )}
+    </>
   );
 }
