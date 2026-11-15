@@ -21,3 +21,9 @@ test("the mission menu is reachable", async ({ page, isMobile }) => {
     await expect(page.getByRole("link", { name: /launch sites/i }).first()).toBeVisible();
   }
 });
+
+test("Storybook is served at /storybook", async ({ page }) => {
+  await page.goto("/storybook");
+  await expect(page).toHaveURL(/\/storybook\/index\.html/);
+  await expect(page).toHaveTitle(/Storybook/);
+});
