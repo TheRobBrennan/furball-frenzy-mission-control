@@ -106,6 +106,13 @@ export default function Home() {
               Meet the crew
             </a>
           </div>
+          <p className="mt-4 text-center text-base text-white/85 lg:text-left">
+            Judging this?{" "}
+            <a href="/mission?judges=1" className="font-bold text-amber underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white">
+              Start here
+            </a>{" "}
+            and watch the elephants design and launch a mission in about 30 seconds.
+          </p>
           <div className="mt-6 flex justify-center lg:justify-start">
             <MissionStatus />
           </div>
