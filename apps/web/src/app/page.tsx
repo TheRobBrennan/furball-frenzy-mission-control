@@ -262,7 +262,13 @@ export default function Home() {
             sizes="(min-width: 1024px) 384px, 320px"
           />
           <figcaption className="mt-4 text-center font-mono text-xs font-semibold text-space sm:text-sm">
-            A React Native meetup, with the coins
+            <ExtLink href="https://ti.to/swm/react-native-seattle-meetup" onLight>
+              The React Native Seattle Meetup
+            </ExtLink>
+            , with the coins, presented by{" "}
+            <ExtLink href="https://swmansion.com/" onLight>
+              Software Mansion
+            </ExtLink>
           </figcaption>
         </figure>
         <div className="space-y-4 text-left">
