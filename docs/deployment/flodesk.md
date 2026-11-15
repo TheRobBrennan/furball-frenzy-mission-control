@@ -3,7 +3,7 @@
 The "Stay updated" box lets folks join a Flodesk list for news about the Furball Frenzy and the adventures of the Polish elephants and family. It is on by default with the form id from Flodesk's embed code (`6afa20d07c61c44f4b4fe6cc`, public by design, in `apps/web/src/lib/updates.ts`).
 
 ## How it works
-- The box shows above the footer on every page and after a mission debrief.
+- The box sits just above the footer on the home page and under the builder on the mission page.
 - Nothing loads from Flodesk until a visitor presses "Send me the updates". Then Flodesk's universal script loads from `assets.flodesk.com` (the same loader as Flodesk's header snippet) and the form appears inside the box.
 - No email address ever touches this site, and just visiting sends nothing to Flodesk.
 

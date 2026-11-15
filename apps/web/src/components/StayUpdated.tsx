@@ -37,7 +37,7 @@ export default function StayUpdated({ id = formId() }: { id?: string | null }) {
   };
   return (
     <>
-      <section aria-label="Stay updated" data-testid="stay-updated" className="mx-auto my-6 w-[calc(100%-2rem)] max-w-2xl rounded-2xl border border-amber/40 bg-amber/10 p-5 text-center">
+      <section aria-label="Stay updated" data-testid="stay-updated" className="mx-auto mb-10 mt-12 w-[calc(100%-2rem)] max-w-2xl rounded-2xl border border-amber/40 bg-amber/10 p-5 text-center">
         <h2 className="text-xl font-black text-white">Stay updated</h2>
         <p data-testid="stay-updated-line" className="mt-1 whitespace-nowrap text-base text-white/85">Adventures in your inbox.</p>
         <button

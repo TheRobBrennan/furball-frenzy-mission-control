@@ -1,4 +1,3 @@
-import StayUpdated from "@/components/StayUpdated";
 import { compareToReal, leftOnTable, type Design, type MissionResult } from "@/lib/mission";
 
 /** What happened, phase by phase, how much science got home, and what cost the most. */
@@ -82,7 +81,6 @@ export default function Debrief({ result, design, onChange, onReset }: { result:
           Start over
         </button>
       </div>
-      <StayUpdated />
     </section>
   );
 }

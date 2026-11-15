@@ -4,7 +4,6 @@ import AnalyticsConsent from "@/components/AnalyticsConsent";
 import BackToTop from "@/components/BackToTop";
 import LegalLinks from "@/components/LegalLinks";
 import PromoSplash from "@/components/PromoSplash";
-import StayUpdated from "@/components/StayUpdated";
 import ScrollProgress from "@/components/ScrollProgress";
 import "./globals.css";
 
@@ -42,7 +41,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col">
         <ScrollProgress />
         {children}
-        <StayUpdated />
         <LegalLinks />
         <AnalyticsConsent />
         <PromoSplash />

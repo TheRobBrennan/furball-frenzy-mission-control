@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import MissionBuilder from "@/components/mission/MissionBuilder";
+import StayUpdated from "@/components/StayUpdated";
 
 export const metadata: Metadata = {
   title: "Design the mission | Furball Frenzy: Mission Control",
@@ -23,6 +24,7 @@ export default function MissionPage() {
       <div className="mt-8">
         <MissionBuilder />
       </div>
+      <StayUpdated />
     </main>
   );
 }
