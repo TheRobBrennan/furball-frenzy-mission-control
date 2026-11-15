@@ -10,6 +10,13 @@ on:
       - main
   workflow_dispatch:
 
+# One run at a time. Two PRs merged back to back each start a run, and the second version bump used to
+# be made from an older main, so it conflicted with the first (2026-11-15). Runs now queue, and each bump
+# is made from the latest main.
+concurrency:
+  group: main-merge
+  cancel-in-progress: false
+
 jobs:
   version-bump:
     runs-on: ubuntu-latest
@@ -21,6 +28,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          # The latest main, not the commit that triggered this run, so a queued run bumps on top of the
+          # bump an earlier run already merged. The PR title still comes from the triggering commit.
+          ref: main
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -34,7 +44,7 @@ jobs:
         run: |
           # A merge commit holds the PR title on its third line. A squash commit holds it on the
           # first line, followed by " (#123)".
-          COMMIT_MSG=$(git log --format=%B -n 1)
+          COMMIT_MSG=$(git log --format=%B -n 1 ${{ github.sha }})
           PR_TITLE=$(echo "$COMMIT_MSG" | sed -n '3p')
           if ! scripts/ci/classify-pr-title.sh "$PR_TITLE" >/dev/null; then
             PR_TITLE=$(echo "$COMMIT_MSG" | sed -n '1p' | sed -E 's/ \(#[0-9]+\)$//')
