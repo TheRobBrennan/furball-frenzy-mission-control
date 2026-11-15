@@ -1,12 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import ExtLink from "@/components/ExtLink";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 
 type Slide = {
   src: string;
   alt: string;
   caption: string;
+  // A caption that links out, with a note on who presented it.
+  link?: { href: string; text: string; note: ReactNode };
   width: number;
   height: number;
   tilt: number; // degrees
@@ -54,7 +57,16 @@ const slides: Slide[] = [
   {
     src: "/images/elephants-at-the-meetup.jpg",
     alt: "One of the Polish elephants on a table next to a pint glass and two coins",
-    caption: "A React Native meetup, with the coins",
+    caption: "The React Native Seattle Meetup, with the coins",
+    link: {
+      href: "https://ti.to/swm/react-native-seattle-meetup",
+      text: "The React Native Seattle Meetup",
+      note: (
+        <>
+          presented by <ExtLink href="https://swmansion.com/" onLight>Software Mansion</ExtLink>
+        </>
+      ),
+    },
     width: 1200,
     height: 1600,
     tilt: -2,
@@ -249,13 +261,22 @@ export default function HeroPolaroid() {
             );
           })}
         </span>
-        <span
-          key={slide.caption}
-          className="photo-caption mt-3 block min-h-[2.5em] text-center font-mono text-xs font-semibold text-space sm:text-sm"
-        >
-          {slide.caption}
-        </span>
       </button>
+      <figcaption
+        key={slide.caption}
+        className="photo-caption mt-3 block min-h-[2.5em] text-center font-mono text-xs font-semibold text-space sm:text-sm"
+      >
+        {slide.link ? (
+          <>
+            <ExtLink href={slide.link.href} onLight>
+              {slide.link.text}
+            </ExtLink>
+            , with the coins, {slide.link.note}
+          </>
+        ) : (
+          slide.caption
+        )}
+      </figcaption>
     </figure>
   );
 }
