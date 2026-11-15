@@ -7,6 +7,7 @@ test.beforeEach(async ({ page }) => {
       localStorage.setItem("ff-story-sound", "off");
       localStorage.setItem("ff-story-hold", "none");
       localStorage.setItem("ff-story-trouble", "none");
+      sessionStorage.setItem("ff-promo-seen", "1");
     } catch {
       // No storage, nothing to silence.
     }

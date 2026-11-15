@@ -1,5 +1,16 @@
 import { expect, test } from "@playwright/test";
 
+// The trailer pop-up has its own test, the others skip it.
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => {
+    try {
+      sessionStorage.setItem("ff-promo-seen", "1");
+    } catch {
+      // No storage, nothing to skip.
+    }
+  });
+});
+
 test("the landing page loads with the project title", async ({ page }) => {
   await page.goto("/");
   await expect(page).toHaveTitle(/Furball Frenzy/);
@@ -72,3 +83,4 @@ test("the privacy and terms pages open from the footer on the home page", async 
   await page.getByRole("navigation", { name: "Legal" }).getByRole("link", { name: "Terms" }).click();
   await expect(page.getByRole("heading", { level: 1, name: "Terms" })).toBeVisible();
 });
+

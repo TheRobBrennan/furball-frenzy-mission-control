@@ -8,6 +8,7 @@ import StarDivider from "@/components/StarDivider";
 import HeroPolaroid from "@/components/HeroPolaroid";
 import ExtLink from "@/components/ExtLink";
 import MissionPatch from "@/components/MissionPatch";
+import PromoSplash from "@/components/PromoSplash";
 import MissionStatus from "@/components/MissionStatus";
 import VersionLine from "@/components/VersionLine";
 
@@ -60,6 +61,7 @@ export default function Home() {
   return (
     <>
     <MissionNav />
+    <PromoSplash />
     <main
       id="top"
       tabIndex={-1}
