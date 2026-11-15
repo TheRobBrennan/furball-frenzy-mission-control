@@ -32,7 +32,9 @@ export default function PromoSplash() {
 
   // It appears a moment after the page loads, unless the visitor has already seen it this visit.
   useEffect(() => {
-    if (seen()) return;
+    // The link /?trailer plays it again, even in a visit that already saw it.
+    const forced = new URLSearchParams(window.location.search).has("trailer");
+    if (seen() && !forced) return;
     const t = window.setTimeout(() => setOpen(true), 1200);
     return () => window.clearTimeout(t);
   }, []);
@@ -102,14 +104,14 @@ export default function PromoSplash() {
           <a
             href="/mission?judges=1"
             onClick={close}
-            className="inline-flex min-h-12 flex-1 items-center justify-center rounded-full bg-amber px-6 text-center font-bold text-space shadow-lg shadow-amber/20 transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            className="inline-flex min-h-12 flex-1 items-center justify-center whitespace-nowrap rounded-full bg-amber px-6 text-center font-bold text-space shadow-lg shadow-amber/20 transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
-            Watch a mission, 30 seconds
+            Watch a mission
           </a>
           <a
             href="/mission"
             onClick={close}
-            className="inline-flex min-h-12 flex-1 items-center justify-center rounded-full border border-white/30 px-6 text-center font-bold text-white transition hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            className="inline-flex min-h-12 flex-1 items-center justify-center whitespace-nowrap rounded-full border border-white/30 px-6 text-center font-bold text-white transition hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             Design it myself
           </a>

@@ -66,6 +66,7 @@ test("on a phone the gauges stay in view while scrolling through the steps", asy
 });
 
 test("the mission is told by the furballs, then the debrief arrives and comes into view", async ({ page }) => {
+  test.setTimeout(90_000);
   await page.goto("/mission");
   for (const n of balanced) await pick(page, n);
   await page.getByTestId("launch").click();

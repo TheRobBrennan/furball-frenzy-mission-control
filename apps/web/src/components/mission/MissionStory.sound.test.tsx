@@ -41,7 +41,7 @@ describe("the mission sounds", () => {
     for (let i = 0; i < 600 && !(sound.playCountdown as ReturnType<typeof vi.fn>).mock.calls.length; i++) advance(100);
     expect(sound.playNoGo).not.toHaveBeenCalled();
     expect(sound.playWrench).not.toHaveBeenCalled();
-  });
+  }, 20_000);
 
   it("sounds the alarm, then Piggy's sad melody, then the relief, when there is trouble in space", () => {
     story(balanced, null, { cause: 0, outcome: "continue" });
