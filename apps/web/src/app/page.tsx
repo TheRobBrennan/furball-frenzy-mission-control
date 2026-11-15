@@ -284,6 +284,39 @@ export default function Home() {
 
       <Reveal
         as="section"
+        aria-label="Piggy at the Puyallup Fair"
+        className="mx-auto grid max-w-6xl items-center gap-10 px-6 py-10 sm:py-16 lg:grid-cols-2"
+      >
+        <div className="order-2 space-y-4 text-left lg:order-1">
+          <SectionHeading eyebrow="Origin story" title="Piggy and the fair" align="left">
+            <p>
+              Piggy came from the Puyallup Fair in 2014, and he was enjoying an adult beverage
+              when he was picked up. Big eyes, big ears, and a very good straw.
+            </p>
+          </SectionHeading>
+        </div>
+        <figure
+          className="polaroid order-1 mx-auto w-full max-w-xs rounded-md bg-white p-3 pb-5 shadow-2xl shadow-black/60 lg:order-2 lg:max-w-sm"
+          style={{ ["--tilt" as string]: "2.5deg" }}
+        >
+          <Image
+            src="/images/piggy-at-the-fair-2014.jpg"
+            alt="Piggy, a pink plush pig with big eyes and big ears, sipping a red drink through a straw from a red cup"
+            width={900}
+            height={1275}
+            className="aspect-[3/4] w-full rounded-sm object-cover"
+            sizes="(min-width: 1024px) 384px, 320px"
+          />
+          <figcaption className="mt-4 text-center font-mono text-xs font-semibold text-space sm:text-sm">
+            Piggy in 2014, fresh from the fair
+          </figcaption>
+        </figure>
+      </Reveal>
+
+      <StarDivider />
+
+      <Reveal
+        as="section"
         aria-label="How Piggy met Hamley"
         className="mx-auto my-6 max-w-5xl px-4 sm:px-6"
       >
