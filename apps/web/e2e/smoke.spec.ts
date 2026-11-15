@@ -64,3 +64,11 @@ test("the hero's Meet the crew button lands on the crew lists", async ({ page })
   await expect(page.locator("#meet-the-crew")).toBeInViewport({ timeout: 10_000 });
   await expect(page.getByRole("heading", { name: /^crew$/i }).first()).toBeInViewport();
 });
+
+test("the privacy and terms pages open from the footer on the home page", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("navigation", { name: "Legal" }).getByRole("link", { name: "Privacy" }).click();
+  await expect(page.getByRole("heading", { level: 1, name: "Privacy" })).toBeVisible();
+  await page.getByRole("navigation", { name: "Legal" }).getByRole("link", { name: "Terms" }).click();
+  await expect(page.getByRole("heading", { level: 1, name: "Terms" })).toBeVisible();
+});
