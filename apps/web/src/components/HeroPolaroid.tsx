@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image, { getImageProps } from "next/image";
 import ExtLink from "@/components/ExtLink";
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 
@@ -113,7 +113,8 @@ const slides: Slide[] = [
 
 const SIZES = "(min-width: 1024px) 448px, (min-width: 640px) 384px, 304px";
 const SWAP_EVERY_MS = 10000;
-const CAPTION_AFTER_MS = 3900;
+// The caption waits for the photo's own reveal to finish, this is only the fallback if that never fires.
+const CAPTION_FALLBACK_MS = 6200;
 const DEVELOP_MS = 5000;
 
 function shuffled(): number[] {
@@ -170,29 +171,72 @@ export default function HeroPolaroid() {
     };
   }, [showLeaving]);
 
-  const advance = useCallback(() => {
+  // A photo is fetched the way the page itself will ask for it, same srcset and sizes, so it is already
+  // in the cache when it is shown. The transition never starts on a photo that is not ready, which is
+  // what used to leave the old photo on screen while the new caption appeared.
+  const loaded = useRef<Set<number>>(new Set());
+  const preload = useCallback((index: number) => {
+    if (loaded.current.has(index)) return Promise.resolve();
+    return new Promise<void>((resolve) => {
+      const slideToLoad = slides[index];
+      const { props } = getImageProps({ src: slideToLoad.src, alt: "", width: slideToLoad.width, height: slideToLoad.height, sizes: SIZES });
+      const img = new window.Image();
+      img.sizes = props.sizes ?? "";
+      if (props.srcSet) img.srcset = props.srcSet;
+      img.src = String(props.src);
+      let done = false;
+      const finish = () => {
+        if (done) return;
+        done = true;
+        loaded.current.add(index);
+        resolve();
+      };
+      if (typeof img.decode === "function") img.decode().then(finish, finish);
+      else {
+        img.onload = finish;
+        img.onerror = finish;
+      }
+      window.setTimeout(finish, 4000);
+    });
+  }, []);
+
+  const advancing = useRef(false);
+  const advance = useCallback(async () => {
+    if (advancing.current) return;
+    advancing.current = true;
     const from = posRef.current;
     const to = (from + 1) % order.length;
+    await preload(order[to]);
     posRef.current = to;
     showLeaving(order[from]);
     setPos(to);
-  }, [order, showLeaving]);
+    advancing.current = false;
+  }, [order, showLeaving, preload]);
 
-  // The next photo is fetched ahead of time so it can develop the moment it is shown.
+  // Keep the photo after the next one warm too.
   useEffect(() => {
-    const next = slides[order[(pos + 1) % order.length]];
-    const img = new window.Image();
-    img.src = `/_next/image?url=${encodeURIComponent(next.src)}&w=640&q=75`;
-  }, [order, pos]);
+    void preload(order[(pos + 1) % order.length]);
+  }, [order, pos, preload]);
+
+  // One place decides when the caption changes: the caption names the photo on screen, so it lets go of the
+  // old name as soon as a new photo starts to arrive and takes the new name when that photo has finished
+  // drawing in. The reveal animation ending is the signal, the timer is only a safety net.
+  const currentRef = useRef(current);
+  useEffect(() => {
+    currentRef.current = current;
+  }, [current]);
+  const settleCaption = useCallback((index: number) => {
+    // A reveal that ends after the visitor has already moved on must not rename the photo on screen.
+    if (index !== currentRef.current) return;
+    setCaptionIdx(index);
+    setCaptionHidden(false);
+  }, []);
 
   useEffect(() => {
-    if (current === captionIdx && !captionHidden) return;
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setCaptionHidden(true);
-    const id = window.setTimeout(() => {
-      setCaptionIdx(current);
-      setCaptionHidden(false);
-    }, reduced ? 0 : CAPTION_AFTER_MS);
+    setCaptionHidden((hidden) => (current === captionIdx ? hidden : true));
+    if (current === captionIdx) return;
+    const id = window.setTimeout(() => settleCaption(current), reduced ? 0 : CAPTION_FALLBACK_MS);
     return () => window.clearTimeout(id);
     // the caption only needs to react to the photo changing
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -276,27 +320,39 @@ export default function HeroPolaroid() {
             return (
               <span key={s.src} className="absolute inset-0 block">
                 {image("tom-sketch", "")}
-                <span className="tom-color absolute inset-0 block">{image("", s.alt)}</span>
+                <span
+                  className="tom-color absolute inset-0 block"
+                  onAnimationEnd={(event) => {
+                    if (event.animationName === "tom-reveal") settleCaption(index);
+                  }}
+                >
+                  {image("", s.alt)}
+                </span>
               </span>
             );
           })}
         </span>
       </button>
+      {/* The figcaption fades out and in. The span inside plays the arrival animation, and an animation would
+          override the fade if they were the same element, which is what kept the old caption on screen. */}
       <figcaption
-        key={captionSlide.caption}
-        className={`photo-caption mt-3 block min-h-[3.5em] transition-opacity duration-300 ${captionHidden ? "opacity-0" : "opacity-100"} text-center font-mono text-xs font-semibold text-space sm:text-sm`}
+        className={`mt-3 block min-h-[3.5em] text-center font-mono text-xs font-semibold text-space transition-opacity duration-300 sm:text-sm ${
+          captionHidden ? "opacity-0" : "opacity-100"
+        }`}
       >
-        {captionSlide.link ? (
-          <>
-            {captionSlide.link.prefix}
-            <ExtLink href={captionSlide.link.href} onLight>
-              {captionSlide.link.text}
-            </ExtLink>
-            {captionSlide.link.note}
-          </>
-        ) : (
-          captionSlide.caption
-        )}
+        <span key={captionSlide.caption} className="photo-caption block">
+          {captionSlide.link ? (
+            <>
+              {captionSlide.link.prefix}
+              <ExtLink href={captionSlide.link.href} onLight>
+                {captionSlide.link.text}
+              </ExtLink>
+              {captionSlide.link.note}
+            </>
+          ) : (
+            captionSlide.caption
+          )}
+        </span>
       </figcaption>
     </figure>
   );
