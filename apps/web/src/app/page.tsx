@@ -75,7 +75,7 @@ export default function Home() {
         aria-hidden="true"
       />
 
-      <section className="relative mx-auto grid max-w-6xl items-center gap-8 px-6 pb-8 pt-8 lg:grid-cols-2 lg:gap-12 lg:pb-12 lg:pt-20">
+      <section className="relative mx-auto grid max-w-6xl gap-8 px-6 pb-8 pt-8 lg:grid-cols-2 lg:items-start lg:gap-12 lg:pb-12 lg:pt-16">
         <div className="relative order-1 mx-auto w-full max-w-[19rem] sm:max-w-sm lg:order-2 lg:max-w-md">
           <HeroPolaroid />
           {/* Under the Polaroid on a wide screen. On a phone it sits under the headline instead, so the headline stays above the fold. */}
