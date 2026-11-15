@@ -1,7 +1,6 @@
 import Image from "next/image";
 import ClearanceDesk from "@/components/ClearanceDesk";
-import Fleet from "@/components/fleet/Fleet";
-import SeattleFleet from "@/components/fleet/SeattleFleet";
+import HomeBases from "@/components/fleet/HomeBases";
 import Reveal from "@/components/Reveal";
 import SectionHeading from "@/components/SectionHeading";
 import StarDivider from "@/components/StarDivider";
@@ -55,26 +54,6 @@ const meeting = [
     caption: "Window seats",
   },
 ];
-
-type Member = { name: string; title?: string };
-
-const crew: Record<string, Member[]> = {
-  "North Carolina": [
-    { name: "Piggy", title: "Captain" },
-    { name: "The Polish Elephants" },
-    { name: "Hamley" },
-    { name: "Blue Bear" },
-    { name: "The Gray Elephant" },
-    { name: "The Little Duck" },
-  ],
-  "Seattle WA": [
-    { name: "Hamlet", title: "Captain" },
-    { name: "Little Bear" },
-    { name: "Little Bunny" },
-    { name: "Kraken Bear" },
-    { name: "Fuzzy Black Bear" },
-  ],
-};
 
 export default function Home() {
   return (
@@ -186,63 +165,7 @@ export default function Home() {
 
       <StarDivider />
 
-      <Reveal
-        as="section"
-        aria-label="The North Carolina crew"
-        className="mx-auto grid max-w-6xl items-center gap-10 px-6 py-14 sm:py-20 lg:grid-cols-2"
-      >
-        <figure
-          className="polaroid mx-auto w-full max-w-xl rounded-md bg-white p-3 pb-5 shadow-2xl shadow-black/60"
-          style={{ ["--tilt" as string]: "1.5deg" }}
-        >
-          <Image
-            src="/images/north-carolina-crew.jpg"
-            alt="Blue Bear, the two Polish elephants, a larger elephant, a pink rubber duck, and a NASCAR race car piled together on a bed"
-            width={2000}
-            height={1500}
-            className="aspect-[4/3] w-full rounded-sm object-cover"
-            sizes="(min-width: 1024px) 576px, 90vw"
-          />
-          <figcaption className="mt-4 text-center font-mono text-sm font-semibold text-space">
-            The North Carolina crew, gathering before launch
-          </figcaption>
-        </figure>
-        <div className="space-y-4 text-left">
-          <SectionHeading eyebrow="Home base" title="Launch site: classified" align="left">
-            <p>
-              The North Carolina crew launches from an undisclosed location. All we can say
-              is that it is a lake, and it is right out in their backyard.
-            </p>
-          </SectionHeading>
-          <p className="font-mono text-sm text-ice">
-            Coordinates withheld by order of Mission Control
-          </p>
-        </div>
-      </Reveal>
-
-      <div className="border-y border-white/5 bg-white/[0.03]">
-        <Fleet />
-      </div>
-
-      <StarDivider />
-
-      <Reveal
-        as="section"
-        aria-label="The Seattle crew"
-        className="mx-auto max-w-4xl px-6 py-14 text-left sm:py-20 sm:text-center"
-      >
-        <SectionHeading eyebrow="Meanwhile" title="Meanwhile, in Seattle">
-          <p>
-            The Seattle crew is bopping around town between missions, keeping tabs on
-            Mission Control from the <ExtLink href="https://www.spaceneedle.com/">Space Needle</ExtLink>, Pike Place Market, and{" "}
-            <ExtLink href="https://climatepledgearena.com/">Climate Pledge Arena</ExtLink>, Kraken Bear&apos;s favorite.
-          </p>
-        </SectionHeading>
-      </Reveal>
-
-      <div className="border-y border-white/5 bg-white/[0.03]">
-        <SeattleFleet />
-      </div>
+      <HomeBases />
 
       <Reveal
         as="section"
@@ -365,39 +288,9 @@ export default function Home() {
         </div>
       </Reveal>
 
-      <div className="mt-10 border-y border-white/5 bg-white/[0.03]">
-        <Reveal as="section" id="crew" className="mx-auto max-w-5xl scroll-mt-6 px-6 py-14 sm:py-20">
-          <SectionHeading eyebrow="The roster" title="The crew">
-            <p>Everyone is in the game, wherever they are. More furballs join along the way.</p>
-          </SectionHeading>
-          <div className="reveal-stagger mt-10 grid gap-8 sm:grid-cols-2">
-            {Object.entries(crew).map(([place, names]) => (
-              <div key={place} className="rounded-2xl border border-white/10 bg-white/5 p-6">
-                <h3 className="font-mono text-sm uppercase tracking-widest text-ice">{place}</h3>
-                <ul className="mt-4 space-y-2 text-lg">
-                  {names.map((member) => (
-                    <li key={member.name} className="flex items-center gap-3">
-                      <span className="text-amber" aria-hidden="true">
-                        &#9733;
-                      </span>
-                      {member.name}
-                      {member.title && (
-                        <span className="font-mono text-xs uppercase tracking-widest text-amber">
-                          {member.title}
-                        </span>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </Reveal>
-      </div>
-
       <footer className="mx-auto max-w-5xl px-6 pb-12 text-center font-mono text-xs text-white/50">
         Built over the 2026 <ExtLink href="https://www.spaceappschallenge.org/">NASA Space Apps Challenge</ExtLink> weekend, Charlotte, NC local
-        event. A team of one with a crew of plush explorers.
+        event. A team of one with a crew of curious and playful furballs.
         <VersionLine />
       </footer>
     </main>

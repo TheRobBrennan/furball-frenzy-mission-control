@@ -102,6 +102,7 @@ public-safe and confirmed, add it to `crew.py` in the same change.
 | 2026-11-14 | Mis' Adventure | The basecamp on wheels for road trips and long site surveys | **proposed** |
 | 2026-11-14 | The golf cart | Dark blue with a rear-facing back seat, for getting around the whole property | confirmed |
 | 2026-11-14 | The golf cart | A gas-powered E-Z-GO Valor | confirmed |
+| 2026-11-14 | The golf cart | Lifted, with big knobby tires on black and silver wheels, a flat black roof, a tinted fold-down windshield, a front bench, a rear seat that flips to face backward, and a rear deck | confirmed |
 | 2026-11-14 | The golf cart | The site shuttle | **proposed** |
 | 2026-11-14 | The '72 Chevelle | A classic 1972 Chevelle in the family, to draw once there is a color and a photo | confirmed |
 | 2026-11-14 | The lunar rover | The drawing has to look like the real toy the elephants own, from Rob's own photo of them on it, not a guess | confirmed |
