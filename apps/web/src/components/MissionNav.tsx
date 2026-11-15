@@ -57,7 +57,9 @@ export default function MissionNav() {
   // After "Let me through", the elephants take it to heart: sad, then maybe forgiven.
   const [feelings, setFeelings] = useState<null | "sad" | "forgiven" | "sniffle">(null);
   const [ready, setReady] = useState(false);
+  const [done, setDone] = useState(false);
   const sorry = useRef<HTMLButtonElement>(null);
+  const onward = useRef<HTMLButtonElement>(null);
   const firstAnswer = useRef<HTMLButtonElement>(null);
 
   // Which tab is lit follows where the visitor is on the page.
@@ -112,6 +114,10 @@ export default function MissionNav() {
   useEffect(() => {
     if (ready) sorry.current?.focus();
   }, [ready]);
+
+  useEffect(() => {
+    if (done) onward.current?.focus();
+  }, [done]);
 
   const setBinder = useCallback((shut: boolean) => {
     document.documentElement.dataset.binder = shut ? "closed" : "open";
@@ -184,6 +190,8 @@ export default function MissionNav() {
     }
     if (id === "classified" && !seen) {
       setReaction(null);
+      setFeelings(null);
+      setDone(false);
       setCheck(checkpoints[Math.floor(Math.random() * checkpoints.length)]);
       return;
     }
@@ -198,21 +206,21 @@ export default function MissionNav() {
     }
   };
 
-  const finish = useCallback((delay: number) => {
-    window.setTimeout(() => {
-      setCheck(null);
-      setReaction(null);
-      setFeelings(null);
-      setReady(false);
-      scrollToId("classified");
-    }, delay);
+  // The elephants' last word stays up until the visitor has read it and chooses to go on.
+  const proceed = useCallback(() => {
+    setCheck(null);
+    setReaction(null);
+    setFeelings(null);
+    setReady(false);
+    setDone(false);
+    scrollToId("classified");
   }, []);
 
   const answer = useCallback(() => {
     markSeen();
     setReaction(reactions[Math.floor(Math.random() * reactions.length)]);
-    finish(1100);
-  }, [finish]);
+    setDone(true);
+  }, []);
 
   // "Let me through" is a little rude, and the elephants are sensitive about it.
   const rude = useCallback(() => {
@@ -223,14 +231,14 @@ export default function MissionNav() {
   const apologize = useCallback(() => {
     markSeen();
     setFeelings("forgiven");
-    finish(1800);
-  }, [finish]);
+    setDone(true);
+  }, []);
 
   const goAnyway = useCallback(() => {
     markSeen();
     setFeelings("sniffle");
-    finish(1500);
-  }, [finish]);
+    setDone(true);
+  }, []);
 
   return (
     <>
@@ -348,6 +356,16 @@ export default function MissionNav() {
                   {feelings === "sniffle" && (
                     <p className="fade-line mt-3 text-sm text-white/70">*sniffle* Go on, then. We understand.</p>
                   )}
+                  {done && (
+                    <button
+                      ref={onward}
+                      type="button"
+                      onClick={proceed}
+                      className="fade-line mt-4 block w-full rounded-lg border border-amber/60 bg-amber/15 px-3 py-2 text-left text-sm font-semibold text-amber hover:bg-amber/25"
+                    >
+                      Open the files
+                    </button>
+                  )}
                   {feelings === "sad" && ready && (
                     <div className="fade-line mt-4 flex flex-col gap-2">
                       <button
@@ -369,9 +387,17 @@ export default function MissionNav() {
                   )}
                 </div>
               ) : reaction ? (
-                <p className="mt-2 text-white/90" role="status">
-                  {reaction}
-                </p>
+                <div className="mt-2" role="status">
+                  <p className="text-white/90">{reaction}</p>
+                  <button
+                    ref={onward}
+                    type="button"
+                    onClick={proceed}
+                    className="fade-line mt-4 block w-full rounded-lg border border-amber/60 bg-amber/15 px-3 py-2 text-left text-sm font-semibold text-amber hover:bg-amber/25"
+                  >
+                    Open the files
+                  </button>
+                </div>
               ) : (
                 <>
                   <p className="mt-2 font-semibold">{check.q}</p>
