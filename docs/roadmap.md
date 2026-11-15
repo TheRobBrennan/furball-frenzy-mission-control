@@ -49,7 +49,7 @@ See `game-plan.md` for the loop and the milestones.
 - [ ] Mission builder UI
 - [ ] Simulation view and debrief
 - [ ] Polish, animation, sound, the elephants' story, much of it is on the landing page already (mission menu, sad elephants, Enhance sound, the Zamboni chase), none of it is in the game yet
-- [ ] A promotional GIF or video shown as a splash pop-up toward final submission, phone friendly, closable, respects reduced motion
+- [x] A promotional trailer shown as a splash pop-up (shipped 2026-11-15, drawn from the scene art, no video file) toward final submission, phone friendly, closable, respects reduced motion
 - [ ] Submit on the Space Apps Project tab, closes Sunday 2026-11-15 at 11:59pm local time, the Team page will not accept a submission after it. Rob is a virtual participant, so local awards and judging do not apply, only the final submission and Global Judging
 - The vertical slices to review and build, slice 1 first, are in the vault note for the weekend plan
 
@@ -63,8 +63,8 @@ Written Sunday 2026-11-15. The first playable slice is one mission, launch to de
 Near submission:
 
 - [ ] **Optional user accounts**, persisting data such as saved missions and scores, accounts stay optional
-- [ ] **PostHog** for analytics, mission events, and session replay, with a protected dashboard. Mask the Clearance Desk input and add a consent notice
-- [ ] **Legal pages** linked from the footer, a privacy policy and terms covering analytics and session recording, public text says North Carolina, no town or address
+- [x] **PostHog** (code shipped, dark until a project key is set, see `docs/deployment/analytics.md`) for analytics, mission events, and session replay, with a protected dashboard. Mask the Clearance Desk input and add a consent notice
+- [x] **Legal pages** (shipped 2026-11-15) linked from the footer, a privacy policy and terms covering analytics and session recording, public text says North Carolina, no town or address
 
 Proposed enhancements, roughly by payoff against the judging criteria (Impact, Creativity, Validity, Relevance, Presentation):
 

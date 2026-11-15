@@ -21,6 +21,7 @@ import {
 } from "@/lib/mission";
 import Debrief from "./Debrief";
 import GaugeBar from "./GaugeBar";
+import { track } from "@/lib/analytics";
 import { primeMissionSound } from "./missionSound";
 import MissionStory from "./MissionStory";
 import PartCard from "./PartCard";
@@ -64,6 +65,7 @@ export default function MissionBuilder() {
   const launch = () => {
     primeMissionSound();
     const r = simulate(design);
+    track("mission_launched", { success: r.success, launched: r.launched, science: r.science, loss: r.lossCause });
     pending.current = r;
     setRunning(r);
   };
@@ -85,6 +87,7 @@ export default function MissionBuilder() {
     setResult(null);
     setDesign(emptyDesign);
     setAuto(0);
+    track("judges_started");
   }, []);
   useEffect(() => {
     if (new URLSearchParams(window.location.search).has("judges")) {
