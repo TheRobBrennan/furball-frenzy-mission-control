@@ -765,3 +765,38 @@ main {
     display: none;
   }
 }
+
+/* The CASE CLOSED stamp: it slams down, holds, and fades. */
+@keyframes case-stamp {
+  0% {
+    opacity: 0;
+    scale: 2.4;
+  }
+  14% {
+    opacity: 0.95;
+    scale: 1;
+  }
+  20% {
+    scale: 1.06;
+  }
+  26% {
+    scale: 1;
+  }
+  80% {
+    opacity: 0.95;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.case-stamp {
+  animation: case-stamp 2.6s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .case-stamp {
+    animation: none;
+    display: none;
+  }
+}

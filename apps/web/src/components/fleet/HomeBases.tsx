@@ -47,19 +47,19 @@ const homeWheels: Ride[] = [
   {
     name: "Mis' Adventure",
     role: "The basecamp on wheels",
-    blurb: "Where the crew bunks down on road trips and long site surveys. Every trip comes with a story, and a few misadventures.",
+    blurb: "Where the crew bunks down on road trips, and every trip comes with a story.",
     art: <MisAdventure />,
   },
   {
     name: "Big Blue",
-    role: "The prized member of the lineup",
+    role: "The prized pickup",
     blurb: "A lifted blue and silver pickup with a chrome roll bar and big mud tires, the pride of the Rockingham lineup.",
     art: <BigBlue />,
   },
   {
     name: "The golf cart",
     role: "The site shuttle",
-    blurb: "Zips the crew around the whole property, launch site to home base, with a back seat that faces the way you came.",
+    blurb: "Zips the crew around the whole property, with a back seat that faces the way you came.",
     art: <GolfCart />,
   },
 ];
@@ -87,7 +87,7 @@ const seattleWheels: Ride[] = [
     name: "Rufus",
     role: "The family legend",
     blurb:
-      "A very loving and incredible vehicle, the go-to for every trip: the Olympic Peninsula, the Oregon coast, California, Vegas, Yellowstone, Montana, Idaho, Bend, all over. He retired after an unfortunate run-in with a boulder that rolled off a mountain, and the whole fleet salutes him.",
+      "A very loving and incredible vehicle, the go-to for every trip, from the Olympic Peninsula and the Oregon coast to Yellowstone and Bend. He retired after a boulder rolled off a mountain, and the whole fleet salutes him.",
     art: <Rufus />,
   },
 ];
@@ -187,6 +187,28 @@ function Rides({ label, rides, compact = false }: { label: string; rides: Ride[]
   );
 }
 
+function MoonTile() {
+  return (
+    <div>
+      <h4 className="mt-8 font-mono text-xs uppercase tracking-[0.25em] text-ice">Moon</h4>
+      <div className="fleet-card mt-3 grid items-center gap-4 rounded-2xl border border-amber/60 bg-white/5 p-3 text-left min-[420px]:grid-cols-[8.5rem_1fr]">
+        <div className="mx-auto h-52 w-full max-w-[8.5rem] overflow-hidden rounded-xl bg-gradient-to-b from-space-2 to-space p-2 [&_svg]:mx-auto [&_svg]:h-full [&_svg]:w-auto [&_svg]:max-w-full">
+          <LunarRover />
+        </div>
+        <div>
+          <p className="font-mono text-[0.6rem] uppercase tracking-[0.2em] text-amber">The elephants&apos; pride and joy</p>
+          <h5 className="mt-0.5 text-lg font-bold">The lunar rover</h5>
+          <p className="mt-1 text-xs leading-relaxed text-white/80">
+            A tilt-and-steer moon buggy with big knobbly tires. Both Polish elephants ride it at once, one stacked on the
+            other on the single seat, tied together, the Bunny system, safety and silliness first.
+          </p>
+          <p className="mt-2 text-xs text-white/60">Proud of their hard work, creativity, and team ethos.</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function Site({
   number,
   place,
@@ -277,7 +299,7 @@ export default function HomeBases() {
             </div>
             <Roster members={carolinaCrew} />
             <Rides label="Land" rides={homeWheels} />
-            <div aria-hidden="true" className="hidden lg:block" />
+            <MoonTile />
           </Site>
           <Site
             number="two"
@@ -299,29 +321,6 @@ export default function HomeBases() {
             <Rides label="Air" rides={seattleWings} compact />
           </Site>
         </div>
-      <div className="fleet-card mt-12 grid items-center gap-8 rounded-3xl border border-amber/60 bg-white/5 p-6 text-left shadow-xl shadow-black/30 backdrop-blur sm:p-8 md:grid-cols-[minmax(0,15rem)_1fr]">
-        <div className="mx-auto w-full max-w-[13rem] rounded-2xl bg-gradient-to-b from-space-2 to-space p-4 md:max-w-none">
-          <LunarRover />
-        </div>
-        <div>
-          <p className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-amber">
-            The elephants&apos; pride and joy
-          </p>
-          <h3 className="mt-1 text-2xl font-bold sm:text-3xl">The lunar rover</h3>
-          <p className="mt-3 leading-relaxed text-white/85">
-            A tilt-and-steer moon buggy with big knobbly tires, a tool box up front, twin lights on
-            each side, and a little display for the road ahead.
-          </p>
-          <p className="mt-3 leading-relaxed text-white/85">
-            Both Polish elephants ride it at once, one stacked on the other on the single seat,
-            happily driving. They love to be tied together and stay close, that is the Bunny system,
-            like all good furballs: safety and silliness first.
-          </p>
-          <p className="mt-3 text-sm text-white/65">
-            Proud of their hard work, their creativity, and their team ethos.
-          </p>
-        </div>
-      </div>
       </Reveal>
     </div>
   );
