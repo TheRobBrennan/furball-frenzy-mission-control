@@ -76,7 +76,7 @@ const slides: Slide[] = [
   {
     src: "/images/developer-on-an-apple-ii.jpg",
     alt: "The developer of this game as a toddler in a white undershirt, sitting at an Apple ][ computer with a small TV monitor on top",
-    caption: "Where it began: the developer at an Apple ][ in Iowa",
+    caption: "Where it began: an Apple ][ in Iowa",
     width: 974,
     height: 1009,
     tilt: -2,
