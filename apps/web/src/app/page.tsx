@@ -8,7 +8,7 @@ import StarDivider from "@/components/StarDivider";
 import HeroPolaroid from "@/components/HeroPolaroid";
 import ExtLink from "@/components/ExtLink";
 import MissionPatch from "@/components/MissionPatch";
-import PromoSplash from "@/components/PromoSplash";
+import TrailerButton from "@/components/TrailerButton";
 import MissionStatus from "@/components/MissionStatus";
 import VersionLine from "@/components/VersionLine";
 
@@ -61,7 +61,6 @@ export default function Home() {
   return (
     <>
     <MissionNav />
-    <PromoSplash />
     <main
       id="top"
       tabIndex={-1}
@@ -113,7 +112,7 @@ export default function Home() {
             <a href="/mission?judges=1" className="font-bold text-amber underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white">
               Start here
             </a>{" "}
-            and watch the elephants design and launch a mission in about 30 seconds.
+            and watch the elephants design and launch a mission in about 30 seconds, or <TrailerButton className="text-amber" />.
           </p>
           <div className="mt-6 flex justify-center lg:justify-start">
             <MissionStatus />

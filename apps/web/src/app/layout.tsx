@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Overpass } from "next/font/google";
 import AnalyticsConsent from "@/components/AnalyticsConsent";
 import BackToTop from "@/components/BackToTop";
 import LegalLinks from "@/components/LegalLinks";
+import PromoSplash from "@/components/PromoSplash";
 import ScrollProgress from "@/components/ScrollProgress";
 import "./globals.css";
 
@@ -42,6 +43,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {children}
         <LegalLinks />
         <AnalyticsConsent />
+        <PromoSplash />
         <BackToTop />
       </body>
     </html>

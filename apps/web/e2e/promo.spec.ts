@@ -35,3 +35,14 @@ test("the buttons read on one line each, at desktop and phone width", async ({ p
     expect(box!.height).toBeLessThan(64);
   }
 });
+
+test("Watch the trailer again, from the Judges block on the mission page", async ({ page }) => {
+  await page.addInitScript(() => sessionStorage.setItem("ff-promo-seen", "1"));
+  await page.goto("/mission");
+  await page.waitForTimeout(2000);
+  await expect(page.getByTestId("promo")).toBeHidden();
+  await page.getByTestId("trailer-again").click();
+  await expect(page.getByTestId("promo")).toBeVisible();
+  await page.getByTestId("promo-close").click();
+  await expect(page.getByTestId("promo")).toBeHidden();
+});

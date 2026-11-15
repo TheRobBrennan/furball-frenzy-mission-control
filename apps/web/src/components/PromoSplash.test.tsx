@@ -1,6 +1,6 @@
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import PromoSplash, { CAPTION_MS, PROMO_KEY } from "./PromoSplash";
+import PromoSplash, { CAPTION_MS, openTrailer, PROMO_KEY } from "./PromoSplash";
 
 const advance = (ms: number) => act(() => void vi.advanceTimersByTime(ms));
 
@@ -54,6 +54,16 @@ describe("PromoSplash", () => {
     advance(1300);
     expect(screen.getByTestId("promo")).toBeInTheDocument();
     window.history.replaceState({}, "", "/");
+  });
+
+  it("plays again when a Watch the trailer again button asks, even after it was closed", () => {
+    render(<PromoSplash />);
+    advance(1300);
+    fireEvent.click(screen.getByTestId("promo-close"));
+    expect(screen.queryByTestId("promo")).not.toBeInTheDocument();
+    act(() => openTrailer());
+    expect(screen.getByTestId("promo")).toBeInTheDocument();
+    expect(screen.getByTestId("promo-line")).toHaveTextContent("Two Polish elephants.");
   });
 
   it("puts focus on the close button when it opens", () => {
