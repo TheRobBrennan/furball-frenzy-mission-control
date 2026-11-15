@@ -155,8 +155,8 @@ function finalChecks(hold?: number): { lines: Line[]; checks: Check[] } {
 export type Trouble = { cause: number; outcome: "continue" | "abort" };
 const troubles = [
   { alarm: "Alarm! A tiny meteoroid just hit the hull!", scare: "It is so loud! Is the spacecraft going to be okay?", fix: "Patched the hull, pressure is holding steady." },
-  { alarm: "Alarm! A solar flare is surging past us!", scare: "Everything is flickering! I am scared!", fix: "Shielded the cabin, the flare has passed." },
-  { alarm: "Alarm! The cabin pressure is dropping!", scare: "I cannot hear the air! Please, somebody help!", fix: "Sealed the leak, pressure is back to normal." },
+  { alarm: "Alarm! A solar flare is surging past us!", scare: "Everything is flickering! We are scared!", fix: "Shielded the cabin, the flare has passed." },
+  { alarm: "Alarm! The cabin pressure is dropping!", scare: "We cannot hear the air! Please, somebody help!", fix: "Sealed the leak, pressure is back to normal." },
 ];
 
 /** How often something goes wrong in space, and how often that means turning back. */
