@@ -11,8 +11,12 @@ test("the Stay updated box loads nothing from Flodesk until asked, then loads it
   await page.waitForTimeout(1500);
   expect(flodesk).toEqual([]);
   await page.getByTestId("stay-updated-open").click();
+  await expect(page.getByTestId("stay-updated-dialog")).toBeVisible();
+  await expect(page.getByTestId("stay-updated-close")).toBeInViewport();
   await expect(page.getByTestId("stay-updated-form")).toBeVisible();
   await expect(page.locator("script[src*='assets.flodesk.com/universal']").first()).toBeAttached();
+  await page.getByTestId("stay-updated-close").click();
+  await expect(page.getByTestId("stay-updated-dialog")).toBeHidden();
 });
 
 test("the thank you page opens, for Flodesk to send new subscribers to", async ({ page }) => {
