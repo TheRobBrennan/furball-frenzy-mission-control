@@ -79,12 +79,14 @@ public-safe and confirmed, add it to `crew.py` in the same change.
 
 - **The binder is the game's navigation.** The elephants' tabbed binder, colored dividers and all, becomes the main UI, one tab each for the Brief, Research, Missions, Parts, Journal, and Debrief, so the research and journaling they are proud of is the thing the player flips through. The journal pages are the mission debrief. *Proposed, from Rob's binder idea.*
 - **Piggy borrows their devices.** He already winds up at the helm of the iPad Pro and the MacBook Pro, with their own, he can borrow the elephants' and teach them what the buttons do. *Proposed.*
+- **The S10 dragster.** The furballs have been peeking around the Rockingham house and found a Chevy S10 they would like to turn into a dragster, on a Corvette frame of all things, they came up with their own rendering. A great quest for the game, drawn as an original toy-style truck with no sponsor names, logos, or badges. *Proposed, from Rob.*
 - Keep the binder generic, a tabbed 3-ring binder, no brand marks or logos on the public site.
 
 ## All furballs
 | Date | Trait | Status |
 | --- | --- | --- |
 | 2026-11-14 | Use the Bunny system, safety and silliness first | confirmed |
+| 2026-11-14 | Careful to enjoy hot tub time only with Cherry Cokes and moonshine cherries in their furball Yeti cups | confirmed |
 
 ## The fleet
 
@@ -104,6 +106,8 @@ public-safe and confirmed, add it to `crew.py` in the same change.
 | 2026-11-14 | The golf cart | A gas-powered E-Z-GO Valor | confirmed |
 | 2026-11-14 | The golf cart | Lifted, with big knobby tires on black and silver wheels, a flat black roof, a tinted fold-down windshield, a front bench, a rear seat that flips to face backward, and a rear deck | confirmed |
 | 2026-11-14 | The golf cart | The site shuttle | **proposed** |
+| 2026-11-14 | Big Blue | A lifted blue and silver full-size pickup with a chrome roll bar behind the cab, a long bed, and big mud tires on polished wheels | confirmed |
+| 2026-11-14 | Big Blue | The prized member of the lineup | confirmed |
 | 2026-11-14 | The '72 Chevelle | A classic 1972 Chevelle in the family, to draw once there is a color and a photo | confirmed |
 | 2026-11-14 | The lunar rover | The drawing has to look like the real toy the elephants own, from Rob's own photo of them on it, not a guess | confirmed |
 | 2026-11-14 | The lunar rover | The elephants' rover, a tilt-and-steer moon buggy with a tool box up front, twin lights, a sample gripper, and a long antenna, built from a toy space kit, and the game uses every piece in the kit | confirmed |

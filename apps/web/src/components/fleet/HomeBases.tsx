@@ -4,6 +4,7 @@ import ExtLink from "../ExtLink";
 import Reveal from "../Reveal";
 import SectionHeading from "../SectionHeading";
 import AirDrone from "./AirDrone";
+import BigBlue from "./BigBlue";
 import Blazer from "./Blazer";
 import Blueberry from "./Blueberry";
 import Cinewhoop from "./Cinewhoop";
@@ -46,6 +47,12 @@ const homeWheels: Ride[] = [
     role: "The basecamp on wheels",
     blurb: "Where the crew bunks down on road trips and long site surveys. Every trip comes with a story, and a few misadventures.",
     art: <MisAdventure />,
+  },
+  {
+    name: "Big Blue",
+    role: "The prized member of the lineup",
+    blurb: "A lifted blue and silver pickup with a chrome roll bar and big mud tires, the pride of the Rockingham lineup.",
+    art: <BigBlue />,
   },
   {
     name: "The golf cart",
