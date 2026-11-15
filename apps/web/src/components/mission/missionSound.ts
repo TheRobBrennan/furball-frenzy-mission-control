@@ -101,9 +101,11 @@ export function playCountdown(text: string) {
     if (!c) return;
     const t = c.currentTime + 0.01;
     const lift = text === "LIFTOFF";
+    const splash = text === "SPLASH";
     if (lift) tone(c, t, 440, 1760, 0.5, "square", 0.03);
+    else if (splash) tone(c, t, 1200, 400, 0.4, "triangle", 0.04);
     else tone(c, t, 880, 880, 0.12, "square", 0.03);
-    speak(lift ? "Liftoff!" : text === "3" ? "Three" : text === "2" ? "Two" : "One", lift ? 0.8 : 0.6);
+    speak(lift ? "Liftoff!" : splash ? "Splashdown!" : text === "3" ? "Three" : text === "2" ? "Two" : "One", lift || splash ? 0.8 : 0.6);
   });
 }
 

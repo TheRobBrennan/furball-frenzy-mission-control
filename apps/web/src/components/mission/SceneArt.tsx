@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import type { SceneKind } from "@/lib/mission";
 import LunarRover from "@/components/fleet/LunarRover";
 
-type Props = { kind: SceneKind; mood: "cheer" | "worry" | "learn"; beam?: number; countText?: string; animate: boolean; speed?: number; paused?: boolean };
+type Props = { kind: SceneKind; mood: "cheer" | "worry" | "learn"; beam?: number; countText?: string; fall?: number; animate: boolean; speed?: number; paused?: boolean };
 
 const stars = Array.from({ length: 26 }, (_, i) => ({ x: (i * 53 + 17) % 400, y: (i * 37 + 9) % 150, r: i % 5 === 0 ? 1.6 : 0.9 }));
 
@@ -51,7 +51,7 @@ function Rocket({ animate, x = 200 }: { animate: boolean; x?: number }) {
   );
 }
 
-export default function SceneArt({ kind, mood, beam = 1, countText, animate, speed = 1, paused = false }: Props) {
+export default function SceneArt({ kind, mood, beam = 1, countText, fall, animate, speed = 1, paused = false }: Props) {
   // The drifting spacecraft is a built-in SVG animation, which has its own pause.
   const svg = useRef<SVGSVGElement>(null);
   useEffect(() => {
@@ -195,7 +195,7 @@ export default function SceneArt({ kind, mood, beam = 1, countText, animate, spe
 
         {kind === "splashdown" && (
           <>
-            <g className={animate ? "story-fall" : ""} transform={animate ? undefined : "translate(0,50)"}>
+            <g style={{ transform: `translateY(${fall === undefined ? 50 : -120 + 182 * fall}px)`, transition: "transform 0.1s linear" }}>
               <g className={animate ? "story-sway" : ""}>
                 <path d="M 150,56 Q 200,-14 250,56 Z" fill="#fb5607" stroke="#060f33" strokeWidth="2" strokeLinejoin="round" />
                 <path d="M 118,76 Q 148,32 176,76 Z" fill="#f2f4f8" stroke="#060f33" strokeWidth="2" strokeLinejoin="round" />
@@ -205,9 +205,14 @@ export default function SceneArt({ kind, mood, beam = 1, countText, animate, spe
               <path d="M 190,118 H 210 L 216,138 H 184 Z" fill="#f2f4f8" stroke="#060f33" strokeWidth="2" strokeLinejoin="round" />
               <circle cx="200" cy="127" r="3.5" fill="#8ecae6" stroke="#060f33" strokeWidth="1.5" />
             </g>
-            {[0, 1, 2].map((i) => (
-              <ellipse key={i} cx="200" cy="198" rx="22" ry="5" fill="none" stroke="#e6f1ff" strokeWidth="2" opacity="0" className={animate ? "story-ripple" : ""} style={{ animationDelay: `calc(${2.8 + i * 0.35}s / var(--story-speed, 1))` }} />
+            {(!animate || countText === "SPLASH") &&
+              [0, 1, 2].map((i) => (
+                <ellipse key={i} cx="200" cy="198" rx="22" ry="5" fill="none" stroke="#e6f1ff" strokeWidth="2" opacity={animate ? 0 : 0.7} className={animate ? "story-ripple" : ""} style={{ animationDelay: `calc(${i * 0.35}s / var(--story-speed, 1))` }} />
+              ))}
+            {animate && countText === "SPLASH" && Array.from({ length: 16 }, (_, i) => (
+              <rect key={i} x={(i * 25) % 400} y={-10} width="6" height="10" fill={["#ffb703", "#fb5607", "#8ecae6", "#34d399", "#f472b6"][i % 5]} className="story-confetti" style={{ animationDelay: `${(i % 7) * 0.2}s` }} />
             ))}
+            {countText && <text x="200" y="36" textAnchor="middle" fontSize={countText.length > 2 ? 26 : 40} fontWeight="900" fill="#ffb703" fontFamily="ui-monospace, monospace">{countText}</text>}
           </>
         )}
 

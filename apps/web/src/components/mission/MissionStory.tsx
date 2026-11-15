@@ -45,7 +45,7 @@ function Stage({ scene, animate, speed, paused, clock, last, onNext, onDone }: S
   // The countdown waits until the last check is in and Piggy has called the all clear.
   const steps = useMemo(() => {
     const from = scene.countdown ? scaled(countdownStart(scene), speed) : 0;
-    return ["3", "2", "1", "LIFTOFF"].map((t, i) => ({ t, at: from + i * scaled(COUNT_STEP_MS, speed) }));
+    return ["3", "2", "1", scene.countWord ?? "LIFTOFF"].map((t, i) => ({ t, at: from + i * scaled(COUNT_STEP_MS, speed) }));
   }, [scene, speed]);
   const counted = animate && scene.countdown ? steps.filter((s) => s.at <= elapsed).at(-1) : undefined;
   // Where each system stands: waiting, no-go, being fixed, or go. A no-go holds everything until it is go again.
@@ -56,7 +56,7 @@ function Stage({ scene, animate, speed, paused, clock, last, onNext, onDone }: S
   };
   const states = scene.checks?.map((c) => ({ c, state: stateOf(c) })) ?? [];
   const onHold = states.some((s) => s.state === "nogo" || s.state === "fixing");
-  const countText = counted?.t ?? (onHold || (scene.kind === "control" && scene.mood === "worry") ? "HOLD" : scene.countdown ? "CHECKS" : undefined);
+  const countText = counted?.t ?? (onHold || (scene.kind === "control" && scene.mood === "worry") ? "HOLD" : scene.countdown ? (scene.kind === "control" ? "CHECKS" : "RE-ENTRY") : undefined);
 
   // Each message is stamped with the real time it appeared, so the transcript reads like a mission log.
   const [stamps, setStamps] = useState<Date[]>(() => (animate ? [] : scene.lines.map(() => clock())));
@@ -101,10 +101,15 @@ function Stage({ scene, animate, speed, paused, clock, last, onNext, onDone }: S
   }, [fx, heldFor]);
 
   // The splash lands about two thirds of the way through the splashdown scene.
-  const splashed = animate && scene.kind === "splashdown" && elapsed >= total * 0.66;
+  const splashed = animate && counted?.t === "SPLASH";
   useEffect(() => {
-    if (splashed) playSplash();
+    if (splashed) {
+      playSplash();
+      playFixed();
+    }
   }, [splashed]);
+  // The capsule comes down as the countdown runs, and lands on the last word.
+  const fall = animate && scene.kind === "splashdown" ? Math.min(1, elapsed / Math.max(1, steps[3].at)) : undefined;
 
   // The sounds under a scene start when it does, and the ambience stops when it ends.
   useEffect(() => {
@@ -120,7 +125,7 @@ function Stage({ scene, animate, speed, paused, clock, last, onNext, onDone }: S
   const speaking = scene.lines[lineIdx]?.who;
   return (
     <div className="space-y-4">
-      <SceneArt kind={scene.kind} mood={scene.mood} beam={scene.beam} countText={countText} animate={animate} speed={speed} paused={paused} />
+      <SceneArt kind={scene.kind} mood={scene.mood} beam={scene.beam} countText={countText} fall={fall} animate={animate} speed={speed} paused={paused} />
       {/* The transcript sits right under the picture, so the newest message is always on screen. */}
       <div aria-live="polite" aria-relevant="additions" className="max-h-[40vh] min-h-[5.5rem] space-y-2 overflow-y-auto" data-testid="story-lines">
         {shown

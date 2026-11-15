@@ -119,6 +119,16 @@ describe("missionScript, a mission that works", () => {
     expect(chooseTrouble(() => calm.shift()!)).toEqual({ cause: 0, outcome: "continue" });
   });
 
+  it("counts down to splashdown, 3, 2, 1, SPLASH, after the crew braces, on every mission that comes home", () => {
+    for (const trouble of [undefined, { cause: 1, outcome: "abort" } as Trouble]) {
+      const splash = script(balanced, undefined, trouble).find((s) => s.kind === "splashdown")!;
+      expect(splash.countdown).toBe(true);
+      expect(splash.countWord).toBe("SPLASH");
+      expect(splash.lines.at(-1)?.text).toMatch(/countdown/i);
+      expect(splash.ms).toBeGreaterThanOrEqual(countdownStart(splash) + 3 * COUNT_STEP_MS);
+    }
+  });
+
   it("has no countdown or checks when the launch is scrubbed", () => {
     const control = script(tooHeavy)[0];
     expect(control.countdown).toBeFalsy();

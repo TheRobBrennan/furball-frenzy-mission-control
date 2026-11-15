@@ -53,6 +53,15 @@ describe("the mission sounds", () => {
     expect(order(sound.playSad)).toBeLessThan(order(sound.playFixed));
   });
 
+  it("counts down to splashdown with the voice, then the splash and a cheer", () => {
+    story(balanced);
+    for (let i = 0; i < 4000 && !(sound.playSplash as ReturnType<typeof vi.fn>).mock.calls.length; i++) advance(100);
+    const words = (sound.playCountdown as ReturnType<typeof vi.fn>).mock.calls.map((c) => c[0]);
+    expect(words).toEqual(["3", "2", "1", "LIFTOFF", "3", "2", "1", "SPLASH"]);
+    expect(sound.playSplash).toHaveBeenCalledTimes(1);
+    expect(sound.playFixed).toHaveBeenCalledTimes(1);
+  });
+
   it("makes the buzzer, wrench, and cheer sounds, in order, when a system is no-go", () => {
     story(balanced, 1);
     for (let i = 0; i < 800 && !(sound.playCountdown as ReturnType<typeof vi.fn>).mock.calls.length; i++) advance(100);

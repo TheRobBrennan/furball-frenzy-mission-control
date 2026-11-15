@@ -138,6 +138,17 @@ describe("MissionStory", () => {
     expect(screen.getByTestId("lesson")).toHaveTextContent("Turning back is a good call");
   });
 
+  it("counts down to splashdown, lands on SPLASH, and celebrates with a reunion", () => {
+    story(balanced);
+    until("Splashdown");
+    expect(screen.getByTestId("scene-splashdown")).toHaveTextContent("RE-ENTRY");
+    for (let i = 0; i < 300 && !/SPLASH/.test(screen.getByTestId("scene-splashdown").textContent ?? ""); i++) advance(100);
+    expect(screen.getByTestId("scene-splashdown")).toHaveTextContent("SPLASH");
+    until("Safe recovery");
+    for (let i = 0; i < 100 && !screen.queryByText(/waving and cheering/); i++) advance(500);
+    expect(screen.getByTestId("story-lines")).toHaveTextContent("waving and cheering");
+  });
+
   it("brings the crew home with a splashdown and a headcount of everyone safe", () => {
     story(balanced);
     until("Safe recovery");

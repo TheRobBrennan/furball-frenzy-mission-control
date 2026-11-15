@@ -35,6 +35,8 @@ export type Scene = {
   checks?: Check[];
   /** True when the scene ends in the 3, 2, 1, liftoff countdown, which starts once every check is in. */
   countdown?: boolean;
+  /** The word that ends the countdown. Defaults to LIFTOFF, and SPLASH ends the one before splashdown. */
+  countWord?: string;
   /** Piggy's iPad with the photo of the Polish elephants: tearful in trouble, smiling once it is over. */
   photo?: "sad" | "happy";
 };
@@ -365,10 +367,13 @@ export function missionScript(design: Design, result: MissionResult, hold?: numb
       mood: "cheer",
       ok: true,
       ms: PLAY_MS.splashdown,
+      countdown: true,
+      countWord: "SPLASH",
       lines: [
         { who: "piggy", text: "Re-entry! Hold on to your helmets, everybody!" },
         { who: "hamley", text: "Three parachutes are out. Beautiful canopies." },
-        { who: "blue-bear", text: "Splashdown! Right on target in the ocean." },
+        { who: "blue-bear", text: "The heat shield did its job. Almost home!" },
+        { who: "piggy", text: "Brace yourselves. Splashdown countdown starting!" },
       ],
     },
     {
@@ -383,6 +388,7 @@ export function missionScript(design: Design, result: MissionResult, hold?: numb
       lines: [
         { who: "gray-elephant", text: "The recovery team has us in sight." },
         { who: "elephants", text: "Hi, family! We are home, and we are safe!" },
+        { who: "little-bear", text: "Look, everyone is on the dock, waving and cheering for us!" },
         { who: "piggy", text: "All hands accounted for. Everybody is safe and sound." },
         { who: "little-duck", text: "That was the best day ever!" },
       ],
