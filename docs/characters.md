@@ -139,3 +139,8 @@ public-safe and confirmed, add it to `crew.py` in the same change.
 | 2026-11-14 | Rufus | Piggy's road-trip partner, the two of them love the open road | **proposed** |
 | 2026-11-14 | Hamlet | Flies the drones, B and Optimus among them | **proposed** |
 | 2026-11-14 | Seattle fleet | The role lines on the page, Slash the scout, Blueberry the daily driver, Watson the newest on the road, Rufus the family legend, B the first flyer, Optimus the high flyer, Blades the acrobat, Blurr the speed demon | **proposed** |
+
+## Voice notes
+- The Polish elephants are two, so they always say "we", "us", and "our", never "I", "my", or "me". They are named The Polish elephants in captions.
+- Headcounts read "all paws, trunks, snouts, and tails accounted for".
+- A mission spans several days, so nobody calls it the best day ever.

@@ -14,9 +14,9 @@ describe("Furball", () => {
   });
 
   it("has the Polish elephants wave only when asked to", () => {
-    const { container, rerender } = render(<Furball who="elephants" label="The elephants" />);
+    const { container, rerender } = render(<Furball who="elephants" label="The Polish elephants" />);
     expect(container.querySelectorAll(".story-wave")).toHaveLength(0);
-    rerender(<Furball who="elephants" label="The elephants" waving />);
+    rerender(<Furball who="elephants" label="The Polish elephants" waving />);
     expect(container.querySelectorAll(".story-wave")).toHaveLength(2);
   });
 
