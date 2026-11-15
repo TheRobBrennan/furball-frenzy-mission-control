@@ -1,11 +1,16 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Furball from "@/components/characters/Furballs";
 import SceneArt from "@/components/mission/SceneArt";
 import { reducedMotion } from "@/lib/motion";
 
 export const PROMO_KEY = "ff-promo-seen";
+export const TRAILER_EVENT = "ff-trailer";
+
+/** Plays the trailer from anywhere on the site, for a button that says watch it again. */
+export const openTrailer = () => window.dispatchEvent(new Event(TRAILER_EVENT));
 
 const captions = ["Two Polish elephants.", "One lifelong dream.", "A rover bound for the Moon.", "Design the mission that gets them there."];
 
@@ -25,6 +30,9 @@ const seen = (): boolean => {
  * It closes with the button, Escape, or a click outside, it is phone friendly, and with reduced motion it is still, with every line shown.
  */
 export default function PromoSplash() {
+  // It pops up by itself on the home page only. A button anywhere can play it, through openTrailer.
+  const pathname = usePathname();
+  const home = pathname === null || pathname === "/";
   const [open, setOpen] = useState(false);
   const [still] = useState(() => reducedMotion());
   const [line, setLine] = useState(0);
@@ -34,9 +42,18 @@ export default function PromoSplash() {
   useEffect(() => {
     // The link /?trailer plays it again, even in a visit that already saw it.
     const forced = new URLSearchParams(window.location.search).has("trailer");
-    if (seen() && !forced) return;
+    if (!home || (seen() && !forced)) return;
     const t = window.setTimeout(() => setOpen(true), 1200);
     return () => window.clearTimeout(t);
+  }, [home]);
+
+  useEffect(() => {
+    const again = () => {
+      setLine(0);
+      setOpen(true);
+    };
+    window.addEventListener(TRAILER_EVENT, again);
+    return () => window.removeEventListener(TRAILER_EVENT, again);
   }, []);
 
   const close = useCallback(() => {

@@ -25,6 +25,7 @@ import { track } from "@/lib/analytics";
 import { primeMissionSound } from "./missionSound";
 import MissionStory from "./MissionStory";
 import PartCard from "./PartCard";
+import TrailerButton from "@/components/TrailerButton";
 
 const partStats = (p: Part) => [
   `${p.massKg} kg`,
@@ -153,6 +154,9 @@ export default function MissionBuilder() {
             <p className="min-h-[3.5rem] min-w-0 text-base text-white/85 sm:flex-1" data-testid="judges-line" aria-live="polite">
               {auto === null ? "In 30 seconds, the Polish elephants design a mission and launch it for you." : auto === 0 ? "The Polish elephants roll up their sleeves..." : auto <= judgesPicks.length ? judgesPicks[auto - 1].line : ""}
             </p>
+          </div>
+          <div className="mt-3 text-base text-white/85">
+            New here? <TrailerButton className="text-amber" />.
           </div>
         </section>
         <Step n={1} title="Pick a launcher" hint="It has to throw the whole rover to the Moon." done={design.vehicleId !== null}>
