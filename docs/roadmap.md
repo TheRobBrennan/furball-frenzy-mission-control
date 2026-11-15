@@ -62,7 +62,7 @@ Written Sunday 2026-11-15. The first playable slice is one mission, launch to de
 
 Near submission:
 
-- [x] **Soon: Flodesk email sign-up** (code shipped 2026-11-15, dark until Rob sets the form link, see `docs/deployment/flodesk.md`), added 2026-11-15 at Rob's request, sooner rather than later. A friendly "stay updated on the Furball Frenzy and the adventures of the Polish elephants and family" form that adds email addresses to a Flodesk list. Needs a Flodesk account and form (Rob creates those, an embed or form link), then a small sign-up box in the footer and after the debrief, with a consent line, a line on the privacy page, and nothing stored on our side. Public text stays at North Carolina.
+- [x] **Soon: Flodesk email sign-up** (shipped 2026-11-15 with Rob's form, `docs/deployment/flodesk.md`), added 2026-11-15 at Rob's request, sooner rather than later. A friendly "stay updated on the Furball Frenzy and the adventures of the Polish elephants and family" form that adds email addresses to a Flodesk list. Needs a Flodesk account and form (Rob creates those, an embed or form link), then a small sign-up box in the footer and after the debrief, with a consent line, a line on the privacy page, and nothing stored on our side. Public text stays at North Carolina.
 
 - [ ] **Optional user accounts**, persisting data such as saved missions and scores, accounts stay optional
 - [x] **PostHog** (code shipped, dark until a project key is set, see `docs/deployment/analytics.md`) for analytics, mission events, and session replay, with a protected dashboard. Mask the Clearance Desk input and add a consent notice

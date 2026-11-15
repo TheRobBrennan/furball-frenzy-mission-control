@@ -1,14 +1,23 @@
 import { expect, test } from "@playwright/test";
 
-// Needs a build with a form link, so it runs only when asked: E2E_FLODESK=1, against a build made with FLODESK_FORM_URL set.
-test.skip(!process.env.E2E_FLODESK, "needs a build with FLODESK_FORM_URL set");
-
-test("the Stay updated box links to the Flodesk form in a new tab, on the home page and the mission page", async ({ page }) => {
+test("the Stay updated box loads nothing from Flodesk until asked, then loads its form script", async ({ page }) => {
+  const flodesk: string[] = [];
+  page.on("request", (r) => {
+    if (/flodesk\.com/.test(r.url())) flodesk.push(r.url());
+  });
   await page.addInitScript(() => sessionStorage.setItem("ff-promo-seen", "1"));
-  for (const path of ["/", "/mission"]) {
-    await page.goto(path);
-    const link = page.getByRole("link", { name: /send me the updates/i });
-    await expect(link).toHaveAttribute("href", /^https:\/\/([a-z0-9-]+\.)?flodesk\.com\//);
-    await expect(link).toHaveAttribute("target", "_blank");
-  }
+  await page.goto("/mission");
+  await page.getByTestId("stay-updated").scrollIntoViewIfNeeded();
+  await page.waitForTimeout(1500);
+  expect(flodesk).toEqual([]);
+  await page.getByTestId("stay-updated-open").click();
+  await expect(page.getByTestId("stay-updated-form")).toBeVisible();
+  await expect(page.locator("script[src*='assets.flodesk.com/universal']").first()).toBeAttached();
+});
+
+test("the thank you page opens, for Flodesk to send new subscribers to", async ({ page }) => {
+  await page.goto("/thanks");
+  await expect(page.getByRole("heading", { level: 1, name: "Thank you!" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Watch a mission" })).toBeInViewport();
+  await expect(page.getByTestId("stay-updated")).toHaveCount(0);
 });
