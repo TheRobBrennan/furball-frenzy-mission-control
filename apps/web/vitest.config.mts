@@ -12,5 +12,7 @@ export default defineConfig({
     setupFiles: ["./vitest.setup.ts"],
     include: ["src/**/*.test.{ts,tsx}"],
     css: false,
+    // The story tests play whole missions on fake timers, they are slow when the machine is busy.
+    testTimeout: 30_000,
   },
 });

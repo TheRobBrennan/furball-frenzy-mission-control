@@ -16,10 +16,12 @@ describe("StayUpdated", () => {
     expect(screen.queryByTestId("stay-updated")).not.toBeInTheDocument();
   });
 
-  it("says it in one short line", () => {
+  it("invites folks to the news, missions, games, and mischief of the furballs and the Polish elephants, with the crew waving", () => {
     render(<StayUpdated id="6afa20d07c61c44f4b4fe6cc" />);
-    expect(screen.getByTestId("stay-updated-line")).toHaveTextContent("Adventures in your inbox.");
-    expect(screen.getByTestId("stay-updated-line").className).toContain("whitespace-nowrap");
+    expect(screen.getByRole("heading", { name: "Join the furball crew" })).toBeInTheDocument();
+    expect(screen.getByTestId("stay-updated-line")).toHaveTextContent("latest news, missions, games, and mischievous adventures of the furballs and those two Polish elephants");
+    expect(screen.getByTestId("stay-updated-crew").children).toHaveLength(6);
+    expect(screen.getByTestId("stay-updated")).toHaveTextContent("never spam");
   });
 
   it("loads nothing from Flodesk until the visitor asks, then shows the form in a pop-up", async () => {
@@ -29,8 +31,8 @@ describe("StayUpdated", () => {
     fireEvent.click(screen.getByTestId("stay-updated-open"));
     await frame();
     const box = screen.getByTestId("stay-updated-form");
-    expect(screen.getByRole("dialog", { name: /sign up for updates/i })).toBeInTheDocument();
-    expect(screen.getByTestId("stay-updated-dialog")).toHaveTextContent("Your email goes to Flodesk");
+    expect(screen.getByRole("dialog", { name: /sign up for the dispatches/i })).toBeInTheDocument();
+    expect(screen.getByTestId("stay-updated-dialog")).toHaveTextContent("quick email to confirm it is really you");
     expect(document.head.querySelectorAll("script[src*='assets.flodesk.com']")).toHaveLength(2);
     expect((window as W).fd?.q).toEqual([["form", { formId: "6afa20d07c61c44f4b4fe6cc", containerEl: `#${box.id}` }]]);
     expect(screen.getByTestId("stay-updated-close")).toHaveFocus();
