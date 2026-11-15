@@ -33,6 +33,11 @@ export default function PrivacyPage() {
         <li>It may also record a replay of your session, how the page looked and where you clicked. Text you type into fields is masked and never recorded.</li>
         <li>We use it only to improve the game. You can change your mind at any time by clearing this site&apos;s data in your browser.</li>
       </ul>
+      <h2>Updates by email, only if you sign up</h2>
+      <p>
+        If a Stay updated box is shown and you use it, your email address goes to Flodesk, the email service we use, and is used only to send you updates about the
+        Furball Frenzy and the adventures of the Polish elephants and family. This site never sees or stores your address. Unsubscribe from any email, any time.
+      </p>
       <h2>Children</h2>
       <p>The game is for everyone, and we ask for nothing personal from anyone.</p>
       <h2>Questions</h2>
