@@ -35,6 +35,7 @@ describe("StayUpdated", () => {
     expect(screen.getByTestId("stay-updated-dialog")).toHaveTextContent("quick email to confirm it is really you");
     expect(document.head.querySelectorAll("script[src*='assets.flodesk.com']")).toHaveLength(2);
     expect((window as W).fd?.q).toEqual([["form", { formId: "6afa20d07c61c44f4b4fe6cc", containerEl: `#${box.id}` }]]);
+    expect(screen.getByTestId("stay-updated-loading")).toHaveTextContent("warming up the sign-up form");
     expect(screen.getByTestId("stay-updated-close")).toHaveFocus();
   });
 

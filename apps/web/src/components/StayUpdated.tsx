@@ -85,7 +85,7 @@ export default function StayUpdated({ id = formId(), compact = false }: { id?: s
             aria-label="Sign up for the dispatches"
             data-testid="stay-updated-dialog"
             onClick={(e) => e.stopPropagation()}
-            className="relative max-h-full w-full max-w-md overflow-y-auto rounded-3xl border border-white/20 bg-space-2 p-3 shadow-2xl shadow-black/60 sm:p-4"
+            className="relative max-h-full w-full max-w-lg overflow-y-auto rounded-3xl border border-white/20 bg-space-2 p-3 shadow-2xl shadow-black/60 sm:p-4"
           >
             <button
               ref={closeButton}
@@ -93,11 +93,17 @@ export default function StayUpdated({ id = formId(), compact = false }: { id?: s
               data-testid="stay-updated-close"
               onClick={close}
               aria-label="Close"
-              className="absolute right-3 top-3 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full bg-black/10 text-xl font-bold text-black hover:bg-black/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber"
+              className="absolute right-3 top-3 z-20 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-xl font-bold text-white hover:bg-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber"
             >
               &times;
             </button>
-            <div id={container} data-testid="stay-updated-form" className="min-h-40 overflow-hidden rounded-2xl bg-white text-black" />
+            {/* A friendly line shows behind the form while Flodesk loads, and the form, which has its own navy background, covers it. */}
+            <div className="relative min-h-52">
+              <p data-testid="stay-updated-loading" className="absolute inset-0 flex items-center justify-center text-center text-base text-white/70 motion-safe:animate-pulse">
+                The furballs are warming up the sign-up form...
+              </p>
+              <div id={container} data-testid="stay-updated-form" className="relative min-h-52 overflow-hidden rounded-2xl" />
+            </div>
             <p className="mt-3 px-2 text-center text-xs text-white/70">
               We send a quick email to confirm it is really you. Your email goes to Flodesk, our email service, and nowhere else. See the privacy page.
             </p>
