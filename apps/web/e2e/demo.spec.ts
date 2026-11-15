@@ -1,5 +1,14 @@
 import { expect, test } from "@playwright/test";
 
+test("the 7 slide deck PDF is at a public link", async ({ request }) => {
+  const file = await request.get("/demo/furball-frenzy-deck.pdf");
+  expect(file.status()).toBe(200);
+  expect(file.headers()["content-type"]).toContain("application/pdf");
+  const body = await file.body();
+  // A PDF with seven pages, one object per page.
+  expect((body.toString("latin1").match(/\/Type\s*\/Page[^s]/g) ?? []).length).toBe(7);
+});
+
 test("the demo video is at a public link, is under 30 seconds, and plays", async ({ page, request }) => {
   await page.addInitScript(() => sessionStorage.setItem("ff-promo-seen", "1"));
   const file = await request.get("/demo/furball-frenzy-30s.mp4");
