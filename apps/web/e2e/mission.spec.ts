@@ -87,6 +87,7 @@ test("the mission is told by the furballs, then the debrief arrives and comes in
   await expect(page.getByTestId("scene-title")).toHaveText("Liftoff", { timeout: 45_000 });
   await page.getByRole("button", { name: /skip to the debrief/i }).click();
   await expect(page.getByTestId("debrief")).toBeVisible();
+  await expect(page.getByTestId("real-mission")).toContainText("Your rover is most like a real one");
   await expect(page.getByTestId("mission-story")).toBeHidden();
   await expect(page.getByTestId("debrief")).toBeInViewport();
 });

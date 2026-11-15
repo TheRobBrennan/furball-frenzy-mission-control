@@ -14,7 +14,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Success: Story = { args: { result: simulate(balanced) } };
-export const LostScienceToTheAntenna: Story = { args: { result: simulate(dataStarved) } };
-export const BrownedOut: Story = { args: { result: simulate(powerStarved) } };
-export const StuckOnThePad: Story = { args: { result: simulate(tooHeavy) } };
+export const Success: Story = { args: { result: simulate(balanced), design: balanced } };
+export const LostScienceToTheAntenna: Story = { args: { result: simulate(dataStarved), design: dataStarved } };
+export const BrownedOut: Story = { args: { result: simulate(powerStarved), design: powerStarved } };
+export const StuckOnThePad: Story = { args: { result: simulate(tooHeavy), design: tooHeavy } };

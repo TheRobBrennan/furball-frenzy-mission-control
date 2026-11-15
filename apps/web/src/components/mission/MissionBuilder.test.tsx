@@ -140,4 +140,13 @@ describe("MissionBuilder", () => {
       expect(screen.getByTestId("judges-start")).toHaveTextContent("Stop and design it myself");
     });
   });
+
+  it("compares the finished mission to a real NASA rover, with a source link, and says what was left on the table", async () => {
+    render(<MissionBuilder />);
+    await buildBalanced();
+    await launch();
+    expect(screen.getByTestId("real-mission")).toHaveTextContent("Your rover is most like a real one");
+    expect(screen.getByTestId("real-mission").querySelector("a[href^='https://']")).toBeInTheDocument();
+    expect(screen.getByTestId("left-on-table")).toBeInTheDocument();
+  });
 });
