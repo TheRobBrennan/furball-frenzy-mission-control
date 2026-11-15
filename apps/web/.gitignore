@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# storybook static build, served at /storybook, built by `pnpm build-storybook`
+/public/storybook/
+/storybook-static/
+/test-results/
+/playwright-report/

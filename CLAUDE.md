@@ -45,7 +45,16 @@ make up         # same as start but in the foreground, Ctrl+C stops
 
 cd apps/api && uv run pytest -q
 cd apps/web && pnpm dev       # native dev, set API_URL if the api is not on localhost:8000
+
+cd apps/web && pnpm test            # Vitest unit and component tests, `pnpm test:watch` to watch
+cd apps/web && pnpm e2e             # Playwright at 375 and 1280 wide, E2E_BASE_URL=http://localhost:3000 tests a running site
+cd apps/web && pnpm storybook       # Storybook on http://localhost:6006
+cd apps/web && pnpm build-storybook # static build into public/storybook, served at /storybook
 ```
+
+Testing rules: new logic gets a Vitest test, new components get a story, new flows get a Playwright
+test. Storybook ships with the app at `/storybook`, on the live site and on the frozen submission copy,
+see `docs/deployment/frozen-release.md`.
 
 `npr` is Rob's shell alias for `npm run`. The scripts in the root `package.json` wrap the
 Makefile, so `make` works the same way.

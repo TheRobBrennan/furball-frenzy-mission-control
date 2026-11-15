@@ -20,7 +20,8 @@ git config --global commit.gpgsign true
 ## Before opening a PR
 
 ```bash
-make test
+make test           # API tests, then the web unit tests, lint, and build
+cd apps/web && pnpm e2e   # Playwright, needs the app running or `pnpm build` first
 ```
 
 A PR that changes what the game looks like shows the change in its description, before and

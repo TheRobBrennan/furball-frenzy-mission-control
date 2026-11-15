@@ -67,3 +67,9 @@ exactly which code the frozen copy holds.
 
 A GitHub tag ruleset on `nasa-space-apps-2026-*` that blocks updates and deletion stops the tag from
 being moved after the freeze. It is a repository setting, so it is Rob's to turn on.
+
+## Storybook
+
+The static Storybook build is copied into `public/storybook` by `pnpm build-storybook`, which the web Docker
+image runs before the app build. It is served at `/storybook/` on both sites, so the frozen copy holds the
+component stories as they were at the submitted commit.
