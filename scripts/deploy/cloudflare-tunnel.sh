@@ -12,14 +12,16 @@
 # Usage:
 #   ./scripts/deploy/cloudflare-tunnel.sh
 #
-# Reads TUNNEL_NAME and FURBALL_PUBLIC_HOSTNAME from .env.deploy. Writes TUNNEL_ID to .env.deploy
+# Reads TUNNEL_NAME and FURBALL_PUBLIC_HOSTNAME from .env.deploy, or from DEPLOY_ENV_FILE for the
+# frozen judging copy (docs/deployment/frozen-release.md). Writes TUNNEL_ID to .env.deploy
 # and the tunnel's credentials to infra/cloudflared/credentials.json (gitignored, mode 600). The
 # credentials file is scoped to this one tunnel, the VM only ever gets that file.
 #
 set -euo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")/../.."
 
-ENV_FILE=".env.deploy"
+ENV_FILE="${DEPLOY_ENV_FILE:-.env.deploy}"
+CRED_FILE="$(grep -m1 "^FURBALL_CRED_FILE=" "$ENV_FILE" 2>/dev/null | cut -d= -f2- || true)"; CRED_FILE="${CRED_FILE:-infra/cloudflared/credentials.json}"
 [ -f "$ENV_FILE" ] || { echo "No $ENV_FILE, copy .env.deploy.example first." >&2; exit 1; }
 command -v cloudflared >/dev/null || { echo "Install cloudflared first: brew install cloudflared" >&2; exit 1; }
 
@@ -82,8 +84,8 @@ fi
 
 CRED="$HOME/.cloudflared/$ID.json"
 [ -f "$CRED" ] || { echo "The tunnel exists but $CRED is not on this machine. Delete the tunnel in the dashboard and re-run, or restore the file." >&2; exit 1; }
-mkdir -p infra/cloudflared
-install -m 600 "$CRED" infra/cloudflared/credentials.json
+mkdir -p "$(dirname "$CRED_FILE")"
+install -m 600 "$CRED" "$CRED_FILE"
 
 echo "==> Routing $HOSTNAME_PUBLIC to the tunnel (DNS record)"
 OUT="$(cloudflared tunnel route dns --overwrite-dns "$NAME" "$HOSTNAME_PUBLIC" 2>&1)" || true
@@ -93,7 +95,7 @@ printf '%s\n' "$OUT" | grep -v -i 'outdated'
 if ! printf '%s\n' "$OUT" | grep -q -E "(Added CNAME $HOSTNAME_PUBLIC which|$HOSTNAME_PUBLIC is already configured)"; then
   echo "The DNS record was not created as exactly $HOSTNAME_PUBLIC, this login is for the wrong zone." >&2
   if [ "$CREATED" = 1 ]; then cloudflared tunnel delete "$NAME" >/dev/null 2>&1 && echo "Deleted the tunnel this run created." >&2; fi
-  rm -f infra/cloudflared/credentials.json
+  rm -f "$CRED_FILE"
   echo "A stray DNS record may remain in the other zone, check it in the Cloudflare dashboard." >&2
   exit 1
 fi
@@ -104,4 +106,4 @@ printf 'TUNNEL_ID=%s\n' "$ID" >> "$tmp"
 cat "$tmp" > "$ENV_FILE"; chmod 600 "$ENV_FILE"
 
 echo "==> Done. Tunnel $NAME ($ID) routes https://$HOSTNAME_PUBLIC/ to the web container."
-echo "    Credentials saved to infra/cloudflared/credentials.json (not committed). Next: npr deploy"
+echo "    Credentials saved to $CRED_FILE (not committed). Next: npr deploy"

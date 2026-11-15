@@ -28,4 +28,4 @@ next-env.d.ts
 .vscode/
 
 # deploy secrets, never committed
-infra/cloudflared/credentials.json
+infra/cloudflared/credentials*.json

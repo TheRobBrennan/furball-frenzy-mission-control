@@ -18,11 +18,18 @@
 #   down       Remove containers and the network (images stay cached).
 #   status     Container state on the VM, plus an HTTP check of the public URL.
 #   logs       Last 100 lines of logs (add FOLLOW=1 to stream).
+#   freeze     Lock the stack: sync and up refuse to touch it until `unfreeze`. For the judging copy.
+#   unfreeze   Remove the lock.
 #
 # service (optional):  app | tunnel, default is both. `app` is web and api together.
 #
 # Settings come from .env.deploy (see .env.deploy.example): FURBALL_VM_IP, FURBALL_PUBLIC_HOSTNAME,
 # TUNNEL_ID. DEPLOY_ENV_FILE points at a different local settings file.
+#
+# A second, independent stack (the frozen judging copy, docs/deployment/frozen-release.md) is just a
+# different settings file, with its own FURBALL_STACK (compose project), FURBALL_REMOTE_DIR_NAME
+# (folder on the VM), FURBALL_CRED_FILE (local tunnel credentials), tunnel, and hostname:
+#   DEPLOY_ENV_FILE=.env.deploy.nasa-2026 ./scripts/deploy/deploy-to-oracle.sh up
 #
 set -euo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")/../.."
@@ -45,7 +52,10 @@ PUBLIC_HOSTNAME="$(env_get FURBALL_PUBLIC_HOSTNAME)"
 
 KEY="${FURBALL_DEPLOY_KEY:-$HOME/.ssh/furball_oracle_deploy}"
 USER_NAME="furballdeploy"
-REMOTE_DIR="/home/$USER_NAME/furball-frenzy-mission-control"
+STACK="$(env_get FURBALL_STACK)"; STACK="${STACK:-furball-frenzy-prod}"
+REMOTE_DIR_NAME="$(env_get FURBALL_REMOTE_DIR_NAME)"; REMOTE_DIR_NAME="${REMOTE_DIR_NAME:-furball-frenzy-mission-control}"
+CRED_FILE="$(env_get FURBALL_CRED_FILE)"; CRED_FILE="${CRED_FILE:-infra/cloudflared/credentials.json}"
+REMOTE_DIR="/home/$USER_NAME/$REMOTE_DIR_NAME"
 [ -f "$KEY" ] || { echo "Missing deploy key at $KEY, see docs/deployment/oracle-vm.md, step 1." >&2; exit 1; }
 
 SSH_OPTS=(-i "$KEY" -o StrictHostKeyChecking=accept-new -o BatchMode=yes -o ConnectTimeout=10)
@@ -54,7 +64,7 @@ ssh_vm() { ssh "${SSH_OPTS[@]}" "$USER_NAME@$HOST" "$@" 2> >(quiet); }
 
 # Non-interactive SSH does not read ~/.bashrc, so point the docker CLI at this user's own daemon.
 REMOTE_ENV='export XDG_RUNTIME_DIR=/run/user/$(id -u) DOCKER_HOST=unix:///run/user/$(id -u)/docker.sock'
-COMPOSE="docker compose -p furball-frenzy-prod --env-file $REMOTE_ENV_FILE \
+COMPOSE="docker compose -p $STACK --env-file $REMOTE_ENV_FILE \
 -f infra/docker-compose.yml -f infra/docker-compose.tunnel.yml --profile tunnel"
 
 case "$SERVICE_ARG" in
@@ -66,7 +76,21 @@ esac
 
 remote() { ssh_vm "$REMOTE_ENV; cd $REMOTE_DIR && $*"; }
 
+# A frozen stack (the judging copy) is locked by a FROZEN file in its folder on the VM. rsync below
+# excludes that file, so a sync can never delete it.
+check_not_frozen() {
+  if ssh_vm "test -f $REMOTE_DIR/FROZEN"; then
+    echo "$STACK is FROZEN: $(ssh_vm "cat $REMOTE_DIR/FROZEN")" >&2
+    if [ "${FORCE_UNFREEZE:-}" != 1 ]; then
+      echo "Refusing to change it. Run the 'unfreeze' command first, or set FORCE_UNFREEZE=1 for one deliberate update." >&2
+      exit 1
+    fi
+    echo "==> FORCE_UNFREEZE=1, updating the frozen stack anyway" >&2
+  fi
+}
+
 do_sync() {
+  check_not_frozen
   echo "==> Syncing code to $USER_NAME@$HOST:$REMOTE_DIR (no .git, no node_modules, no secrets)"
   ssh_vm "mkdir -p $REMOTE_DIR/infra/cloudflared"
   rsync -az --delete \
@@ -81,7 +105,9 @@ do_sync() {
     --exclude '.DS_Store' \
     --exclude '.env' \
     --exclude '.env.deploy' \
-    --exclude 'infra/cloudflared/credentials.json' \
+    --exclude '.env.deploy.*' \
+    --exclude 'FROZEN' \
+    --exclude 'infra/cloudflared/credentials*.json' \
     ./ "$USER_NAME@$HOST:$REMOTE_DIR/" 2> >(quiet)
   if [ -n "$(env_get TUNNEL_ID)" ]; then
     echo "==> Syncing the compose settings (TUNNEL_ID and TUNNEL_NAME only)"
@@ -93,12 +119,12 @@ do_sync() {
     # The GitHub Actions deploy has no TUNNEL_ID, it keeps the settings file already on the VM.
     echo "==> $ENV_FILE has no TUNNEL_ID, keeping the settings file already on the VM"
   fi
-  if [ -f infra/cloudflared/credentials.json ]; then
+  if [ -f "$CRED_FILE" ]; then
     echo "==> Syncing the tunnel credentials (never logged)"
-    scp "${SSH_OPTS[@]}" infra/cloudflared/credentials.json "$USER_NAME@$HOST:$REMOTE_DIR/infra/cloudflared/credentials.json" 2> >(quiet)
+    scp "${SSH_OPTS[@]}" "$CRED_FILE" "$USER_NAME@$HOST:$REMOTE_DIR/infra/cloudflared/credentials.json" 2> >(quiet)
     ssh_vm "chmod 600 $REMOTE_DIR/infra/cloudflared/credentials.json"
   else
-    echo "==> No infra/cloudflared/credentials.json locally, keeping the one already on the VM"
+    echo "==> No $CRED_FILE locally, keeping the credentials already on the VM"
   fi
 }
 
@@ -122,12 +148,19 @@ case "$CMD" in
     remote "docker image prune -f >/dev/null && docker builder prune -f --reserved-space 500MB | tail -1; df -h / | tail -1" \
       || echo "Cleanup skipped (deploy itself succeeded)."
     ;;
+  freeze)
+    ssh_vm "cd $REMOTE_DIR && printf 'frozen %s at %s\n' \"\$(date -u +%Y-%m-%dT%H:%M:%SZ)\" \"$(git rev-parse HEAD)\" > FROZEN && cat FROZEN"
+    ;;
+  unfreeze)
+    ssh_vm "rm -f $REMOTE_DIR/FROZEN" && echo "$STACK is unfrozen."
+    ;;
   stop)    remote "$COMPOSE stop $SERVICES" ;;
   start)   remote "$COMPOSE start $SERVICES" ;;
   restart) remote "$COMPOSE restart $SERVICES" ;;
   down)    remote "$COMPOSE down" ;;
   status)
     remote "$COMPOSE ps -a"
+    ssh_vm "cat $REMOTE_DIR/FROZEN 2>/dev/null || echo 'not frozen'"
     if [ -n "$PUBLIC_HOSTNAME" ]; then
       echo
       code="$(curl -s -o /dev/null --max-time 15 -w '%{http_code}' "https://$PUBLIC_HOSTNAME/" || true)"

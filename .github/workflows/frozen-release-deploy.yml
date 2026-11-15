@@ -1,0 +1,65 @@
+name: Frozen Release Deploy
+
+# Deploys a tagged release to the frozen judging copy of the site, a second stack on the Oracle VM
+# with its own tunnel and hostname, so furball-frenzy.sploosh.ai can keep moving with main. Manual
+# only. A merge to main never touches this stack. See docs/deployment/frozen-release.md.
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Git tag to deploy, for example nasa-space-apps-2026-submission"
+        required: true
+        default: nasa-space-apps-2026-submission
+      freeze:
+        description: "Lock the stack after the deploy, so nothing else can change it"
+        type: boolean
+        default: false
+
+jobs:
+  deploy-frozen:
+    runs-on: ubuntu-latest
+    # Same environment, and secrets, as the main deploy. Add Required reviewers to gate it.
+    environment: furball-frenzy
+    concurrency:
+      group: deploy-furball-frenzy-nasa-2026
+      cancel-in-progress: false
+    permissions:
+      contents: read
+    env:
+      FROZEN_HOSTNAME: furball-frenzy-nasa-space-apps-challenge-2026.sploosh.ai
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: refs/tags/${{ inputs.tag }}
+          fetch-depth: 0
+
+      - name: Install the deploy key and settings
+        env:
+          FURBALL_DEPLOY_SSH_KEY: ${{ secrets.FURBALL_DEPLOY_SSH_KEY }}
+          FURBALL_VM_IP: ${{ secrets.FURBALL_VM_IP }}
+        run: |
+          mkdir -p ~/.ssh
+          install -m 600 /dev/null ~/.ssh/furball_oracle_deploy
+          printf '%s\n' "$FURBALL_DEPLOY_SSH_KEY" > ~/.ssh/furball_oracle_deploy
+          # No TUNNEL_ID and no credentials here on purpose, the VM keeps its own copies
+          printf 'FURBALL_VM_IP=%s\nFURBALL_PUBLIC_HOSTNAME=%s\nFURBALL_STACK=furball-frenzy-nasa-2026\nFURBALL_REMOTE_DIR_NAME=furball-frenzy-nasa-2026\nFURBALL_CRED_FILE=infra/cloudflared/credentials-nasa-2026.json\n' \
+            "$FURBALL_VM_IP" "$FROZEN_HOSTNAME" > .env.deploy.nasa-2026
+
+      - name: Deploy the tag to the frozen stack
+        run: DEPLOY_ENV_FILE=.env.deploy.nasa-2026 ./scripts/deploy/deploy-to-oracle.sh up app
+
+      - name: Verify the public site
+        run: |
+          for i in $(seq 1 12); do
+            code=$(curl -s -o /dev/null --max-time 15 -w '%{http_code}' "https://$FROZEN_HOSTNAME/" || true)
+            echo "Attempt $i: https://$FROZEN_HOSTNAME/ -> ${code:-000}"
+            [ "$code" = "200" ] && exit 0
+            sleep 10
+          done
+          echo "Site did not return 200 after the deploy"
+          exit 1
+
+      - name: Freeze the stack
+        if: ${{ inputs.freeze }}
+        run: DEPLOY_ENV_FILE=.env.deploy.nasa-2026 ./scripts/deploy/deploy-to-oracle.sh freeze

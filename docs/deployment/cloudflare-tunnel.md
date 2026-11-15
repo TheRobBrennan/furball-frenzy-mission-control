@@ -93,3 +93,10 @@ The dashboard (Networking, Tunnels) shows **Healthy** once the connector is up.
 - **The dashboard instead of the command line:** create a tunnel there, add a published
   application route to `http://web:3000`, and run the connector with the dashboard's token
   (`tunnel run --token ...`) in place of the credentials file.
+
+## A second tunnel for the frozen judging copy
+
+`npr deploy:frozen:tunnel` creates a separate tunnel, `furball-frenzy-nasa-2026`, and the record for
+`furball-frenzy-nasa-space-apps-challenge-2026.sploosh.ai`, with its credentials in
+`infra/cloudflared/credentials-nasa-2026.json`. Same login file, same zone check. See
+[frozen-release.md](frozen-release.md).
