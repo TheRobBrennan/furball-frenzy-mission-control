@@ -20,6 +20,10 @@ ARG POSTHOG_HOST=https://us.i.posthog.com
 ENV NEXT_PUBLIC_POSTHOG_KEY=$POSTHOG_KEY \
     NEXT_PUBLIC_POSTHOG_HOST=$POSTHOG_HOST
 
+# The Flodesk sign-up form link, from Flodesk's Share option. Leave it empty and no sign-up box shows.
+ARG FLODESK_FORM_URL=
+ENV NEXT_PUBLIC_FLODESK_FORM_URL=$FLODESK_FORM_URL
+
 ARG GIT_HASH=dev
 ARG BUILD_TIME=dev
 ENV NEXT_PUBLIC_GIT_HASH=$GIT_HASH \
