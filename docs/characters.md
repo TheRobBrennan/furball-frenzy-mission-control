@@ -18,6 +18,8 @@ public-safe and confirmed, add it to `crew.py` in the same change.
 ### Piggy, Captain, North Carolina
 | Date | Trait | Status |
 | --- | --- | --- |
+| 2026-11-14 | Came from the Puyallup Fair, got him in 2014 | confirmed |
+| 2026-11-14 | Was enjoying an adult beverage at the fair when he was picked up | confirmed |
 | 2026-11-14 | Oversees the Polish elephants and keeps them out of mischief when possible, giggles and helps them back on the path | confirmed |
 | 2026-11-14 | Watches over the little duck | confirmed |
 | 2026-11-14 | Hamley's big brother, they used to play together in Seattle | confirmed |
@@ -30,6 +32,7 @@ public-safe and confirmed, add it to `crew.py` in the same change.
 ### The Polish elephants, mission leads
 | Date | Trait | Status |
 | --- | --- | --- |
+| 2026-11-14 | Hail from Software Mansion in Kraków, Poland | confirmed |
 | 2026-11-14 | Keep a few things classified for fun, convinced by humor, a good argument, or credentials | confirmed |
 | 2026-11-14 | Love cameras of every kind, the DJI Action 5 Pro and GoPro Hero among them | confirmed |
 | 2026-11-14 | Love bringing ideas to life with images, drawings, and all kinds of media | confirmed |
@@ -46,8 +49,15 @@ public-safe and confirmed, add it to `crew.py` in the same change.
 ### Hamley, North Carolina
 | Date | Trait | Status |
 | --- | --- | --- |
+| 2026-11-14 | From Hamleys toy store in London | confirmed |
 | 2026-11-14 | Piggy's first little brother, looks up to him with love and respect | confirmed |
 | 2026-11-14 | Flew from England with his new family, met Piggy in Chicago | confirmed |
+
+### Little Bear, Seattle
+| Date | Trait | Status |
+| --- | --- | --- |
+| 2026-11-14 | The teddy bear in the red and white knit sweater | confirmed |
+| 2026-11-14 | From Hamleys toy store in London, like Hamley | confirmed |
 
 ### Hamlet, Captain, Seattle
 | Date | Trait | Status |

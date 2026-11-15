@@ -27,7 +27,8 @@ CREW: list[Character] = [
         bio=(
             "Largely oversees the Polish elephants and keeps them out of mischief, when "
             "possible. It is not always a success, and he giggles and helps them get back "
-            "on the right path. He also watches over the little duck. Hamley's big brother. "
+            "on the right path. He also watches over the little duck. Hamley's big brother. He came home from the Puyallup Fair in 2014, "
+            "where he was enjoying an adult beverage. "
             "Notoriously winds up at the helm of the iPad Pro and the MacBook Pro, and with his "
             "paws on every remote, he learns the buttons, controls the device, and is eager to "
             "teach anyone who wants to learn, furballs and humans alike. Loves road trips and "
@@ -60,7 +61,7 @@ CREW: list[Character] = [
             "Each has their own iPad Pro and MacBook Pro, and a tabbed binder with colored dividers for their research and journaling",
         ],
         bio=(
-            "Space-enthusiast elephants from Poland who want nothing more than to shine "
+            "Space-enthusiast elephants from Software Mansion in Kraków, Poland who want nothing more than to shine "
             "as international members of the American Space Program. They were on a quest to "
             "find the perfect home, visiting all the way from Poland for a React Native meetup "
             "hosted by Software Mansion at Stoup Brewing. After a beer, the shy elephant happily "
@@ -76,7 +77,7 @@ CREW: list[Character] = [
         bio=(
             "The pig in the rainbow coat and Piggy's first little brother. They are very close, "
             "Hamley looks up to Piggy with love and respect and is happy to help in any way he can. "
-            "Hamley flew from England with his new family, excited to know he would be meeting "
+            "Hamley flew from Hamleys toy store in London, England, with his new family, excited to know he would be meeting "
             "his big brother for the first time. They met in Chicago, over three nights of the "
             "Fare Thee Well Grateful Dead concerts at Soldier Field."
         ),
@@ -122,7 +123,7 @@ CREW: list[Character] = [
         name="Little Bear",
         location="Seattle WA",
         role="Crew",
-        bio="The teddy bear in the red and white knit sweater.",
+        bio="The teddy bear in the red and white knit sweater, from Hamleys toy store in London, like Hamley.",
     ),
     Character(
         slug="little-bunny",
