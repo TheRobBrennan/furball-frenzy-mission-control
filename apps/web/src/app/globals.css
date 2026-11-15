@@ -188,6 +188,88 @@ body {
   animation: caption-in 0.7s ease-out 0.5s both;
 }
 
+/* The elephants' hurt feelings: slow drooping, tears that roll, a trunk that sniffles. */
+@keyframes tear-fall {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.95;
+  }
+  100% {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+}
+
+.tear {
+  animation: tear-fall 1.9s ease-in infinite;
+}
+
+.tear-2 {
+  animation-delay: 0.9s;
+}
+
+@keyframes quiver {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(1.2px);
+  }
+}
+
+.quiver {
+  animation: quiver 0.28s ease-in-out infinite;
+}
+
+@keyframes eye-shine {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+.eye-shine {
+  animation: eye-shine 1.6s ease-in-out infinite;
+}
+
+@keyframes elephant-droop {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(3px) rotate(-1.5deg);
+  }
+}
+
+.elephant-sad {
+  animation: elephant-droop 3.2s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.fade-line {
+  animation: fade-up 0.7s ease-out both;
+}
+
 /* Each photo has its own tilt, the frame settles into it. */
 .hero-photo {
   transform: rotate(calc(var(--photo-tilt, 0deg) * -0.25));
@@ -253,8 +335,16 @@ body {
   .photo-develop,
   .photo-caption,
   .tom-sketch,
-  .tom-color {
+  .tom-color,
+  .tear,
+  .quiver,
+  .eye-shine,
+  .elephant-sad,
+  .fade-line {
     animation: none;
+  }
+  .tear {
+    opacity: 0.9;
   }
   .tom-sketch {
     display: none;
