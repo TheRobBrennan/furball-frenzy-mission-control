@@ -197,7 +197,7 @@ function Stage({ scene, animate, speed, paused, clock, last, onNext, onDone }: S
       </div>
       {scene.headcount && heldFor >= 3 && (
         <section aria-label="Headcount" data-testid="headcount" className="rounded-2xl border border-emerald-300/40 bg-emerald-400/10 p-4">
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-emerald-300">All hands accounted for</p>
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-emerald-300">All paws, trunks, snouts, and tails accounted for</p>
           <ul className="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-base text-white">
             {scene.headcount.map((who) => (
               <li key={who}>

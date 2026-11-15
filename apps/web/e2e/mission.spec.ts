@@ -70,7 +70,7 @@ test("the mission is told by the furballs, then the debrief arrives and comes in
   await page.getByTestId("launch").click();
   await expect(page.getByTestId("mission-story")).toBeVisible();
   await expect(page.getByTestId("scene-title")).toHaveText("Mission Control");
-  for (const name of ["Piggy", "The elephants", "The Gray Elephant", "Hamley", "Blue Bear", "Little Duck"]) await expect(page.getByRole("img", { name })).toBeVisible();
+  for (const name of ["Piggy", "The Polish elephants", "The Gray Elephant", "Hamley", "Blue Bear", "Little Duck"]) await expect(page.getByRole("img", { name })).toBeVisible();
   await expect(page.getByTestId("speed")).toBeVisible();
   await expect(page.getByTestId("speed-label")).toContainText("Lazy 0.5x");
   // The default is lazy, so speed it up for the test.
