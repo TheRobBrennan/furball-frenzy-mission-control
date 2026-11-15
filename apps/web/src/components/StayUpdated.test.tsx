@@ -16,6 +16,12 @@ describe("StayUpdated", () => {
     expect(screen.queryByTestId("stay-updated")).not.toBeInTheDocument();
   });
 
+  it("says it in one short line", () => {
+    render(<StayUpdated id="6afa20d07c61c44f4b4fe6cc" />);
+    expect(screen.getByTestId("stay-updated-line")).toHaveTextContent("Adventures in your inbox.");
+    expect(screen.getByTestId("stay-updated-line").className).toContain("whitespace-nowrap");
+  });
+
   it("loads nothing from Flodesk until the visitor asks, then shows the form in a pop-up", async () => {
     render(<StayUpdated id="6afa20d07c61c44f4b4fe6cc" />);
     expect(document.head.querySelectorAll("script[src*='flodesk']")).toHaveLength(0);

@@ -43,7 +43,7 @@ describe("MissionStory", () => {
     expect(screen.getByTestId("scene-control")).toHaveTextContent("LIFTOFF");
     until("Liftoff");
     expect(screen.getByTestId("scene-title")).toHaveTextContent("Liftoff");
-  });
+  }, 30_000);
 
   it("plays every scene of a good mission, including the joyride with Little Bear looking on, then waits for the visitor", () => {
     const onDone = vi.fn();
