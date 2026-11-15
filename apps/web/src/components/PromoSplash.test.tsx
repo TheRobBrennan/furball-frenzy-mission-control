@@ -47,6 +47,15 @@ describe("PromoSplash", () => {
     expect(screen.queryByTestId("promo")).not.toBeInTheDocument();
   });
 
+  it("plays again from the link /?trailer, even in a visit that already saw it", () => {
+    window.sessionStorage.setItem(PROMO_KEY, "1");
+    window.history.replaceState({}, "", "/?trailer");
+    render(<PromoSplash />);
+    advance(1300);
+    expect(screen.getByTestId("promo")).toBeInTheDocument();
+    window.history.replaceState({}, "", "/");
+  });
+
   it("puts focus on the close button when it opens", () => {
     render(<PromoSplash />);
     advance(1300);
