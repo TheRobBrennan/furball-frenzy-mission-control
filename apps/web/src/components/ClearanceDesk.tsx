@@ -1,12 +1,28 @@
 "use client";
 
 import { useState } from "react";
+import ExtLink from "@/components/ExtLink";
 
 const files = [
-  "Cameras: phones, the DJI Action 5 Pro, GoPro Hero cameras, and camera pens and lights, all for capturing the fun.",
-  "Imagery: a knack for pulling up satellite imagery in real time, or close to it, to bring an idea to life.",
-  "Records: friendly files and notes on everything they do. An elephant never forgets.",
-  "Hobbies: drawing, documenting, illustrating ideas and conversations, and jamming with Little Bunny on their Ableton Push 3 standalone.",
+  {
+    text: "Cameras: phones, the DJI Action 5 Pro, GoPro Hero cameras, and camera pens and lights, all for capturing the fun.",
+    node: (
+      <>
+        Cameras: phones, the <ExtLink href="https://www.dji.com/osmo-action-5-pro">DJI Action 5 Pro</ExtLink>, GoPro Hero cameras, and camera pens and lights, all for capturing the fun.
+      </>
+    ),
+  },
+  { text: "Imagery: a knack for pulling up satellite imagery in real time, or close to it, to bring an idea to life.", node: "Imagery: a knack for pulling up satellite imagery in real time, or close to it, to bring an idea to life." },
+  { text: "Records: friendly files and notes on everything they do. An elephant never forgets.", node: "Records: friendly files and notes on everything they do. An elephant never forgets." },
+  {
+    text: "Hobbies: drawing, documenting, illustrating ideas and conversations, and jamming with Little Bunny on their Ableton Push 3 standalone.",
+    node: (
+      <>
+        Hobbies: drawing, documenting, illustrating ideas and conversations, and jamming with Little Bunny on their{" "}
+        <ExtLink href="https://www.ableton.com/en/push/">Ableton Push 3</ExtLink> standalone.
+      </>
+    ),
+  },
 ];
 
 const denials = [
@@ -71,13 +87,13 @@ export default function ClearanceDesk() {
       </p>
       <ul className="mt-4 space-y-3 text-white/90">
         {files.slice(0, released).map((file) => (
-          <li key={file} className="border-l-2 border-amber pl-3">
-            {file}
+          <li key={file.text} className="border-l-2 border-amber pl-3">
+            {file.node}
           </li>
         ))}
         {files.slice(released).map((file) => (
-          <li key={file} className="border-l-2 border-white/10 pl-3 text-white/30" aria-hidden="true">
-            <span className="select-none bg-white/20 text-transparent">{file}</span>
+          <li key={file.text} className="border-l-2 border-white/10 pl-3 text-white/30" aria-hidden="true">
+            <span className="select-none bg-white/20 text-transparent">{file.text}</span>
           </li>
         ))}
       </ul>

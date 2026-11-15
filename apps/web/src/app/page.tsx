@@ -6,6 +6,7 @@ import Reveal from "@/components/Reveal";
 import SectionHeading from "@/components/SectionHeading";
 import StarDivider from "@/components/StarDivider";
 import HeroPolaroid from "@/components/HeroPolaroid";
+import ExtLink from "@/components/ExtLink";
 import MissionPatch from "@/components/MissionPatch";
 import MissionStatus from "@/components/MissionStatus";
 import VersionLine from "@/components/VersionLine";
@@ -97,7 +98,7 @@ export default function Home() {
 
         <div className="order-2 text-center lg:order-1 lg:text-left">
           <p className="mb-3 font-mono text-[0.65rem] uppercase tracking-[0.15em] text-ice sm:text-xs sm:tracking-[0.25em]">
-            Space Apps 2026 &middot; Mostly classified
+            <ExtLink href="https://www.spaceappschallenge.org/">Space Apps 2026</ExtLink> &middot; Mostly classified
           </p>
           <h1 className="text-[clamp(1.75rem,8.5vw,2.25rem)] font-black leading-[1.1] tracking-tight sm:text-6xl lg:text-5xl xl:text-6xl">
             Furball Frenzy:{" "}
@@ -233,8 +234,8 @@ export default function Home() {
         <SectionHeading eyebrow="Meanwhile" title="Meanwhile, in Seattle">
           <p>
             The Seattle crew is bopping around town between missions, keeping tabs on
-            Mission Control from the Space Needle, Pike Place Market, and Climate Pledge
-            Arena, the Kraken Bear&apos;s favorite.
+            Mission Control from the <ExtLink href="https://www.spaceneedle.com/">Space Needle</ExtLink>, Pike Place Market, and{" "}
+            <ExtLink href="https://climatepledgearena.com/">Climate Pledge Arena</ExtLink>, Kraken Bear&apos;s favorite.
           </p>
         </SectionHeading>
       </Reveal>
@@ -268,8 +269,10 @@ export default function Home() {
           <SectionHeading eyebrow="Origin story" title="The quest for the perfect home" align="left">
             <p>
               The Polish elephants were on a quest to find the perfect home. They traveled
-              all the way from Poland for a React Native meetup hosted by Software Mansion
-              at Stoup Brewing.
+              all the way from Poland for a <ExtLink href="https://reactnative.dev/">React Native</ExtLink>{" "}
+              meetup hosted by <ExtLink href="https://swmansion.com/">Software Mansion</ExtLink> at{" "}
+              <ExtLink href="https://www.stoupbrewing.com/">Stoup Brewing</ExtLink>. Back home,
+              the elephants hail from Software Mansion in Kraków, Poland.
             </p>
             <p className="mt-4">
               After a beer, the shy elephant happily flagged down his brother to make sure
@@ -290,9 +293,13 @@ export default function Home() {
         <div className="tie-dye rounded-3xl px-6 py-12 text-left sm:py-16 sm:text-center">
           <SectionHeading eyebrow="Family" title="How Piggy met Hamley">
             <p>
-              Hamley flew in from England with his new family, excited to know he would be
+              Hamley flew in from Hamleys toy store in London, England, with his new family, excited to know he would be
               meeting his big brother for the first time. Piggy and Hamley met in Chicago, over
-              three nights of the Fare Thee Well Grateful Dead concerts at Soldier Field.
+              three nights of the{" "}
+              <ExtLink href="https://en.wikipedia.org/wiki/Fare_Thee_Well:_Celebrating_50_Years_of_the_Grateful_Dead">
+                Fare Thee Well Grateful Dead concerts
+              </ExtLink>{" "}
+              at <ExtLink href="https://www.soldierfield.com/">Soldier Field</ExtLink>.
               Hamley has looked up to him ever since.
             </p>
           </SectionHeading>
@@ -350,7 +357,7 @@ export default function Home() {
       </div>
 
       <footer className="mx-auto max-w-5xl px-6 pb-12 text-center font-mono text-xs text-white/50">
-        Built over the 2026 NASA Space Apps Challenge weekend, Charlotte, NC local
+        Built over the 2026 <ExtLink href="https://www.spaceappschallenge.org/">NASA Space Apps Challenge</ExtLink> weekend, Charlotte, NC local
         event. A team of one with a crew of plush explorers.
         <VersionLine />
       </footer>

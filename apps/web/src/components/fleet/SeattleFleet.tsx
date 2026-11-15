@@ -1,3 +1,4 @@
+import ExtLink from "@/components/ExtLink";
 import type { ReactNode } from "react";
 import Reveal from "../Reveal";
 import SectionHeading from "../SectionHeading";
@@ -10,7 +11,7 @@ import Rufus from "./Rufus";
 import Slash from "./Slash";
 import Watson from "./Watson";
 
-type Ride = { name: string; role: string; blurb: string; art: ReactNode };
+type Ride = { name: string; role: string; blurb: ReactNode; art: ReactNode };
 
 // The role lines are proposals until Rob confirms each one, see docs/characters.md.
 const ground: Ride[] = [
@@ -45,25 +46,25 @@ const air: Ride[] = [
   {
     name: "B",
     role: "The brand new family member",
-    blurb: "A DJI Mini 2 Pro, small and light. Piggy met B for the first time in his Santa hat, and B took a photo of him.",
+    blurb: <>A <ExtLink href="https://www.dji.com/mini-2">DJI Mini 2 Pro</ExtLink>, small and light. Piggy met B for the first time in his Santa hat, and B took a photo of him.</>,
     art: <MiniDrone />,
   },
   {
     name: "Optimus",
     role: "The high flyer",
-    blurb: "A DJI Air 2S with a big camera that sees the big picture.",
+    blurb: <>A <ExtLink href="https://www.dji.com/air-2s">DJI Air 2S</ExtLink> with a big camera that sees the big picture.</>,
     art: <AirDrone />,
   },
   {
     name: "Blades",
     role: "The acrobat",
-    blurb: "A DJI Avata, tucked inside its round guards so it can dart through the tightest spaces.",
+    blurb: <>A <ExtLink href="https://www.dji.com/avata">DJI Avata</ExtLink>, tucked inside its round guards so it can dart through the tightest spaces.</>,
     art: <Cinewhoop />,
   },
   {
     name: "Blurr",
     role: "The speed demon",
-    blurb: "A DJI FPV, fast and fearless, with the camera up front and the battery on its back.",
+    blurb: <>A <ExtLink href="https://www.dji.com/fpv">DJI FPV</ExtLink>, fast and fearless, with the camera up front and the battery on its back.</>,
     art: <FpvDrone />,
   },
 ];
