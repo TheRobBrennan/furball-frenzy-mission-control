@@ -20,9 +20,9 @@ ARG POSTHOG_HOST=https://us.i.posthog.com
 ENV NEXT_PUBLIC_POSTHOG_KEY=$POSTHOG_KEY \
     NEXT_PUBLIC_POSTHOG_HOST=$POSTHOG_HOST
 
-# The Flodesk sign-up form link, from Flodesk's Share option. Leave it empty and no sign-up box shows.
-ARG FLODESK_FORM_URL=
-ENV NEXT_PUBLIC_FLODESK_FORM_URL=$FLODESK_FORM_URL
+# Optional: another Flodesk form id, or none to hide the sign-up box. Empty uses the default in src/lib/updates.ts.
+ARG FLODESK_FORM_ID=
+ENV NEXT_PUBLIC_FLODESK_FORM_ID=$FLODESK_FORM_ID
 
 ARG GIT_HASH=dev
 ARG BUILD_TIME=dev
