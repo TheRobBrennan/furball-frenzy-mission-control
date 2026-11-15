@@ -97,7 +97,7 @@ export default function Home() {
               Start the mission
             </a>
             <a
-              href="#launch-sites"
+              href="#meet-the-crew"
               className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/30 px-6 font-bold text-white transition hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             >
               Meet the crew
@@ -188,7 +188,7 @@ export default function Home() {
             sizes="(min-width: 1024px) 384px, 320px"
           />
           <figcaption className="mt-4 text-center font-mono text-xs font-semibold text-space sm:text-sm">
-            Just arrived in Seattle, the elephants at the{" "}
+            A Polish elephant shares expertise over a delicious beverage at the{" "}
             <ExtLink href="https://ti.to/swm/react-native-seattle-meetup" onLight>
               React Native Seattle Meetup
             </ExtLink>
@@ -196,7 +196,6 @@ export default function Home() {
             <ExtLink href="https://swmansion.com/" onLight>
               Software Mansion
             </ExtLink>
-            , sharing their app development and technical expertise over a delicious beverage
           </figcaption>
         </figure>
         <div className="space-y-4 text-left">

@@ -137,10 +137,10 @@ const seattleCrew: Member[] = [
   { name: "Fuzzy Brown Bear" },
 ];
 
-function Roster({ members }: { members: Member[] }) {
+function Roster({ members, anchorId }: { members: Member[]; anchorId?: string }) {
   return (
     <div>
-      <h4 className="mt-8 font-mono text-xs uppercase tracking-[0.25em] text-ice">Crew</h4>
+      <h4 id={anchorId} className="mt-8 scroll-mt-24 font-mono text-xs uppercase tracking-[0.25em] text-ice">Crew</h4>
       <ul className="mt-3 grid gap-x-6 gap-y-2 text-lg sm:grid-cols-2">
         {members.map((m) => (
           <li key={m.name} className="flex items-baseline gap-2">
@@ -297,7 +297,7 @@ export default function HomeBases() {
                 per pixel, so this lake would be just a few pixels wide.
               </p>
             </div>
-            <Roster members={carolinaCrew} />
+            <Roster members={carolinaCrew} anchorId="meet-the-crew" />
             <Rides label="Land" rides={homeWheels} />
             <MoonTile />
           </Site>
