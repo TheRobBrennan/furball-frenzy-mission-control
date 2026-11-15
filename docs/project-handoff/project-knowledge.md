@@ -15,7 +15,7 @@ North Carolina crew:
 Seattle WA crew (in the game too):
 - Hamlet, second Captain, experienced drone pilot, leads the tech charge with the elephants.
 - Little Bear, Little Bunny (a she, music and Seahawks fan), Kraken Bear (springs to life at the Kraken goal call), Fuzzy Black Bear (unpictured twin, Fuzzy Brown Bear, may join later).
-Fleet at the North Carolina home base: Rocky (Chevy blue truck), a Chevy blue Blazer, a dark blue convertible, an RV, a golf cart. Public text says "a fleet of vehicles and a big property".
+Fleet at the North Carolina home base: Rocky (Chevy blue truck), a Chevy blue Blazer, a dark blue convertible, an RV, a golf cart. Public text says "a fleet of vehicles and a big property", the launch site is named Rockingham, NC.
 Origin: the elephants visited from Poland for a React Native meetup, on a quest for the perfect home, and met their new family in Seattle.
 
 ## Decisions
