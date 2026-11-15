@@ -109,6 +109,70 @@ body {
   animation: develop 1.6s ease-out both;
 }
 
+/* The Take On Me arrival: a jittery pencil sketch of the photo, then the real photo sweeps in
+   across it along a wobbly diagonal edge, and the sketch fades away. */
+.tom-sketch {
+  filter: url(#tom-pencil);
+  animation:
+    tom-sketch-life 2.9s linear both,
+    tom-jitter 0.36s steps(1) infinite;
+}
+
+@keyframes tom-sketch-life {
+  0% {
+    opacity: 0;
+  }
+  10%,
+  86% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes tom-jitter {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate(1.4px, -1.2px) rotate(0.2deg);
+  }
+}
+
+.tom-color {
+  -webkit-mask-image: linear-gradient(115deg, #000 0%, #000 46%, transparent 54%, transparent 100%);
+  mask-image: linear-gradient(115deg, #000 0%, #000 46%, transparent 54%, transparent 100%);
+  -webkit-mask-size: 300% 100%;
+  mask-size: 300% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  animation:
+    tom-reveal 2.4s cubic-bezier(0.5, 0, 0.3, 1) 0.45s both,
+    tom-warp 2.9s linear both;
+}
+
+@keyframes tom-reveal {
+  from {
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+  }
+  to {
+    -webkit-mask-position: 0% 0;
+    mask-position: 0% 0;
+  }
+}
+
+@keyframes tom-warp {
+  0%,
+  96% {
+    filter: url(#tom-wobble);
+  }
+  100% {
+    filter: none;
+  }
+}
+
 @keyframes caption-in {
   from {
     opacity: 0;
@@ -187,8 +251,17 @@ body {
   .polaroid,
   .patch-wobble,
   .photo-develop,
-  .photo-caption {
+  .photo-caption,
+  .tom-sketch,
+  .tom-color {
     animation: none;
+  }
+  .tom-sketch {
+    display: none;
+  }
+  .tom-color {
+    -webkit-mask-image: none;
+    mask-image: none;
   }
   .hero-photo {
     transition: none;

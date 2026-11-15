@@ -192,6 +192,25 @@ export default function HeroPolaroid() {
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
+      <svg width="0" height="0" aria-hidden="true" focusable="false" className="absolute">
+        <defs>
+          {/* Edges of the photo, dark pencil lines on white paper. */}
+          <filter id="tom-pencil" colorInterpolationFilters="sRGB">
+            <feColorMatrix type="matrix" values="0.33 0.33 0.33 0 0 0.33 0.33 0.33 0 0 0.33 0.33 0.33 0 0 0 0 0 1 0" />
+            <feConvolveMatrix order="3" kernelMatrix="-1 -1 -1 -1 8 -1 -1 -1 -1" divisor="1" bias="0" preserveAlpha="true" />
+            <feComponentTransfer>
+              <feFuncR type="linear" slope="-6" intercept="1" />
+              <feFuncG type="linear" slope="-6" intercept="1" />
+              <feFuncB type="linear" slope="-6" intercept="1" />
+            </feComponentTransfer>
+          </filter>
+          {/* A rippling edge for the sweep, the photo wavers until it settles. */}
+          <filter id="tom-wobble" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.018 0.03" numOctaves="2" seed="3" result="n" />
+            <feDisplacementMap in="SourceGraphic" in2="n" scale="26" xChannelSelector="R" yChannelSelector="G" />
+          </filter>
+        </defs>
+      </svg>
       <button
         type="button"
         onClick={advance}
@@ -207,18 +226,26 @@ export default function HeroPolaroid() {
           {layers.map((index) => {
             const s = slides[index];
             const isNew = index === current && layers.length === 2;
-            return (
+            const image = (extra: string, alt: string) => (
               <Image
-                key={s.src}
                 src={s.src}
-                alt={index === current ? s.alt : ""}
+                alt={alt}
                 width={s.width}
                 height={s.height}
                 priority={index === 0}
                 sizes={SIZES}
                 style={{ objectPosition: s.position }}
-                className={`absolute inset-0 h-full w-full object-cover ${isNew ? "photo-develop" : ""}`}
+                className={`absolute inset-0 h-full w-full object-cover ${extra}`}
               />
+            );
+            if (!isNew) return <span key={s.src}>{image("", index === current ? s.alt : "")}</span>;
+            // The new photo arrives like the a-ha "Take On Me" video: first a pencil sketch of
+            // it, then the real photo sweeps in across the drawing along a wobbly edge.
+            return (
+              <span key={s.src} className="absolute inset-0 block">
+                {image("tom-sketch", "")}
+                <span className="tom-color absolute inset-0 block">{image("", s.alt)}</span>
+              </span>
             );
           })}
         </span>
