@@ -1,4 +1,5 @@
 import Image from "next/image";
+import SeattleLocation from "../SeattleLocation";
 import type { ReactNode } from "react";
 import ExtLink from "../ExtLink";
 import Reveal from "../Reveal";
@@ -264,6 +265,7 @@ export default function HomeBases() {
               </p>
             }
           >
+            <SeattleLocation />
             <Roster members={seattleCrew} />
             <Rides label="Wheels" rides={seattleWheels} />
             <Rides label="Wings" rides={seattleWings} compact />

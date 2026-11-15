@@ -188,6 +188,161 @@ body {
   animation: caption-in 0.7s ease-out 0.5s both;
 }
 
+/* The recon image tilts back into a 3D look, like a camera swinging down to an angle. */
+.recon-img {
+  transform-origin: 50% 75%;
+  transition: transform 1.2s ease-in-out;
+}
+
+.recon-tilt {
+  transform: perspective(620px) rotateX(46deg) scale(1.45) translateY(-6%);
+}
+
+/* Seattle's sonar: rings that ping out from the arena. */
+@keyframes sonar-ping {
+  0% {
+    transform: scale(0.15);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+.sonar-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  border: 2px solid #99d9d9;
+  animation: sonar-ping 3s ease-out infinite;
+}
+
+.sonar-ring-2 {
+  animation-delay: 1.5s;
+}
+
+/* The rink show: Kraken Bear fades in, smiles, then chases the ice resurfacer off the ice. */
+.kb,
+.zam {
+  opacity: 0;
+}
+
+.kb {
+  left: 6%;
+}
+
+.zam {
+  left: 44%;
+}
+
+@keyframes kb-in {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes zam-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes kb-chase {
+  from {
+    left: 6%;
+  }
+  to {
+    left: 112%;
+  }
+}
+
+@keyframes zam-drive {
+  from {
+    left: 44%;
+  }
+  to {
+    left: 116%;
+  }
+}
+
+@keyframes kb-run-bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-4px) rotate(4deg);
+  }
+}
+
+@keyframes kb-neutral-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes kb-smile-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes beacon {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+.kb-smile {
+  opacity: 0;
+}
+
+.rink-go .zam {
+  animation:
+    zam-in 0.6s ease-out 0.3s both,
+    zam-drive 3.2s cubic-bezier(0.55, 0, 0.9, 0.6) 3.1s both;
+}
+
+.rink-go .kb {
+  animation:
+    kb-in 1.2s ease-out 0.7s both,
+    kb-chase 3.4s cubic-bezier(0.55, 0, 0.9, 0.6) 3.8s both;
+}
+
+.rink-go .kb-bob {
+  animation: kb-run-bob 0.32s ease-in-out 3.8s 11;
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+
+.rink-go .kb-neutral {
+  animation: kb-neutral-out 0.3s ease-out 1.9s both;
+}
+
+.rink-go .kb-smile {
+  animation: kb-smile-in 0.3s ease-out 1.9s both;
+}
+
+.rink-go .zam-beacon {
+  animation: beacon 0.7s ease-in-out infinite;
+}
+
 /* The elephants' hurt feelings: slow drooping, tears that roll, a trunk that sniffles. */
 @keyframes tear-fall {
   0% {
@@ -336,6 +491,14 @@ body {
   .photo-caption,
   .tom-sketch,
   .tom-color,
+  .sonar-ring,
+  .recon-img,
+  .rink-go .kb,
+  .rink-go .zam,
+  .rink-go .kb-bob,
+  .rink-go .kb-neutral,
+  .rink-go .kb-smile,
+  .rink-go .zam-beacon,
   .tear,
   .quiver,
   .eye-shine,
@@ -345,6 +508,20 @@ body {
   }
   .tear {
     opacity: 0.9;
+  }
+  .kb,
+  .zam {
+    opacity: 1;
+  }
+  .kb-neutral {
+    opacity: 0;
+  }
+  .kb-smile {
+    opacity: 1;
+  }
+  .sonar-ring {
+    opacity: 0.5;
+    transform: scale(0.9);
   }
   .tom-sketch {
     display: none;
