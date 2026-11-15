@@ -40,6 +40,27 @@ function Sparkle({ x, y, s = 1, fill = "#fff" }: { x: number; y: number; s?: num
   return <path d={`M ${x},${y - 6 * s} Q ${x + 1 * s},${y - 1 * s} ${x + 6 * s},${y} Q ${x + 1 * s},${y + 1 * s} ${x},${y + 6 * s} Q ${x - 1 * s},${y + 1 * s} ${x - 6 * s},${y} Q ${x - 1 * s},${y - 1 * s} ${x},${y - 6 * s} Z`} fill={fill} />;
 }
 
+// One of the Polish elephants, a small gray cartoon with a red and white flag tag hanging from its ear.
+// Drawn in a 40 by 34 box, original art.
+function PolishElephant({ x, y, scale = 1, flip = false }: { x: number; y: number; scale?: number; flip?: boolean }) {
+  return (
+    <g transform={`translate(${x},${y}) scale(${flip ? -scale : scale},${scale}) translate(${flip ? -40 : 0},0)`} stroke="#0a1a4a" strokeWidth="1.2" strokeLinejoin="round" strokeLinecap="round">
+      <path d="M 36,17 Q 41,20 38,27" fill="none" stroke="#aab0ba" strokeWidth="2.4" />
+      <path d="M 3,19 Q -3,26 4,31" fill="none" stroke="#c3c8d0" strokeWidth="4.5" />
+      <ellipse cx="22" cy="20" rx="14" ry="9" fill="#c3c8d0" />
+      {[13, 19, 26, 31].map((lx) => (
+        <rect key={lx} x={lx} y="25" width="4" height="8" rx="1.5" fill="#aab0ba" />
+      ))}
+      <circle cx="9" cy="15" r="7" fill="#c3c8d0" />
+      <ellipse cx="13" cy="15" rx="5" ry="6.5" fill="#a9afb9" />
+      <circle cx="8" cy="13" r="1.1" fill="#0a1a4a" stroke="none" />
+      <path d="M 12,21 V 24" stroke="#ffffff" strokeWidth="0.8" />
+      <rect x="9.5" y="24" width="5" height="2.2" fill="#ffffff" strokeWidth="0.6" />
+      <rect x="9.5" y="26.2" width="5" height="2.2" fill="#dc143c" strokeWidth="0.6" />
+    </g>
+  );
+}
+
 // The Claude spark: an uneven burst of rounded rays in clay.
 function ClaudeSpark({ cx, cy, r }: { cx: number; cy: number; r: number }) {
   const rays = [1, 0.7, 0.92, 0.62, 1, 0.74, 0.9, 0.66, 0.98, 0.72, 0.88, 0.64];
@@ -215,6 +236,29 @@ export const skins: Skin[] = [
           <path d="M 0,126 V 98 H 14 V 86 H 26 V 98 H 40 V 80 L 46,68 L 52,80 V 98 H 66 V 90 H 84 V 98 H 100 V 76 H 112 V 98 H 128 V 88 H 150 V 98 H 166 V 72 L 174,60 L 182,72 V 98 H 200 V 84 H 218 V 98 H 236 V 90 H 254 V 98 H 282 V 126 Z" />
         </g>
         <rect x="0" y="100" width="282" height="26" fill="#1155cc" />
+      </>
+    ),
+  },
+  {
+    id: "swm",
+    name: "Software Mansion",
+    href: "https://swmansion.com/",
+    line: "Where the Polish elephants hail from, in Kraków.",
+    base: ["#0f2260", "#060f33"],
+    wrap: (
+      <>
+        <path d="M 0,102 Q 70,92 140,102 T 282,98 V 126 H 0 Z" fill="#7a4dff" opacity="0.5" />
+        <path d="M 0,112 Q 70,104 140,112 T 282,110 V 126 H 0 Z" fill="#7a4dff" opacity="0.8" />
+        <Sparkle x={126} y={30} s={1.2} fill="#b9a3ff" />
+        <Sparkle x={236} y={34} s={1} fill="#b9a3ff" />
+        <PolishElephant x={34} y={40} scale={1.35} />
+        <PolishElephant x={84} y={48} scale={1.1} flip />
+        <text x="134" y="54" fontSize="22" fontWeight="800" fill="#fff" fontFamily={SANS} textLength="112" lengthAdjust="spacingAndGlyphs" stroke="#060f33" strokeWidth="3" style={outline}>
+          Software
+        </text>
+        <text x="134" y="76" fontSize="20" fontWeight="800" fill="#b9a3ff" fontFamily={SANS} textLength="112" lengthAdjust="spacingAndGlyphs" stroke="#060f33" strokeWidth="3" style={outline}>
+          Mansion
+        </text>
       </>
     ),
   },

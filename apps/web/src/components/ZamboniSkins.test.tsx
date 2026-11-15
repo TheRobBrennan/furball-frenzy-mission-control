@@ -4,8 +4,8 @@ import ZamboniModel from "./ZamboniModel";
 import { skins } from "./ZamboniSkins";
 
 describe("the Zamboni skins", () => {
-  it("has the six skins, each with a unique id", () => {
-    expect(skins).toHaveLength(6);
+  it("has the seven skins, each with a unique id", () => {
+    expect(skins).toHaveLength(7);
     expect(new Set(skins.map((s) => s.id)).size).toBe(skins.length);
   });
 
@@ -18,6 +18,13 @@ describe("the Zamboni skins", () => {
     expect(claude?.name).toContain("Sonnet 5.5");
     expect(claude?.name).toContain("Fable 5.2");
     expect((claude?.short ?? claude?.name ?? "").length).toBeLessThanOrEqual(20);
+  });
+
+  it("has a Software Mansion skin that links to their site and credits the elephants' home", () => {
+    const swm = skins.find((s) => s.id === "swm");
+    expect(swm?.name).toBe("Software Mansion");
+    expect(swm?.href).toBe("https://swmansion.com/");
+    expect(swm?.line).toMatch(/Polish elephants/);
   });
 
   it("paints each skin on the model with an accessible name", () => {
