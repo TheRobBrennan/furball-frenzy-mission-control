@@ -111,7 +111,7 @@ export default function Home() {
 
       <StarDivider />
 
-      <Reveal as="section" id="story" className="mx-auto max-w-3xl scroll-mt-6 px-6 py-14 text-center sm:py-20">
+      <Reveal as="section" id="story" className="mx-auto max-w-3xl scroll-mt-20 px-6 py-14 text-center sm:py-20">
         <SectionHeading eyebrow="The mission brief" />
         <blockquote className="mt-8 rounded-3xl border border-white/10 bg-white/5 p-6 text-left text-lg leading-relaxed text-white/90 shadow-2xl shadow-black/40 backdrop-blur sm:p-8 sm:text-center sm:text-2xl">
           The true heroes of our game follow the adventures, and the misadventures, of
@@ -123,7 +123,7 @@ export default function Home() {
 
       <StarDivider />
 
-      <Reveal as="section" aria-label="Classified files" className="mx-auto max-w-3xl px-6 py-14 text-left sm:py-20 sm:text-center">
+      <Reveal as="section" id="classified" aria-label="Classified files" className="mx-auto max-w-3xl scroll-mt-20 px-6 py-14 text-left sm:py-20 sm:text-center">
         <SectionHeading eyebrow="Clearance required" title="Classified, by the elephants">
           <p>
             The Polish elephants keep a few things classified, just for the fun of it. A bit of
@@ -169,8 +169,9 @@ export default function Home() {
 
       <Reveal
         as="section"
+        id="stories"
         aria-label="The quest for the perfect home"
-        className="mx-auto grid max-w-6xl items-center gap-10 px-6 py-10 sm:py-16 lg:grid-cols-2"
+        className="mx-auto grid scroll-mt-20 max-w-6xl items-center gap-10 px-6 py-10 sm:py-16 lg:grid-cols-2"
       >
         <figure
           className="polaroid mx-auto w-full max-w-xs rounded-md bg-white p-3 pb-5 shadow-2xl shadow-black/60 lg:max-w-sm"

@@ -214,7 +214,7 @@ function Site({
 export default function HomeBases() {
   return (
     <div className="border-y border-white/5 bg-white/[0.03]">
-      <Reveal as="section" id="crew" className="mx-auto max-w-6xl scroll-mt-6 px-6 py-14 sm:py-20" aria-labelledby="home-bases-heading">
+      <Reveal as="section" id="crew" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-14 sm:py-20" aria-labelledby="home-bases-heading">
         <SectionHeading id="home-bases-heading" eyebrow="Two launch sites" title="Where the crew lives">
           <p>Everyone is in the game, wherever they are. Each launch site has its crew, its wheels, and its stories. More furballs join along the way.</p>
         </SectionHeading>
