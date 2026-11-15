@@ -8,6 +8,8 @@ import {
   emptyDesign,
   evaluate,
   instruments,
+  JUDGES_PICK_MS,
+  judgesPicks,
   powerParts,
   scenario,
   simulate,
@@ -65,6 +67,45 @@ export default function MissionBuilder() {
     pending.current = r;
     setRunning(r);
   };
+  // The automatic launch needs the design the picks just built, so it reads the latest through a ref.
+  const launchRef = useRef(launch);
+  useEffect(() => {
+    launchRef.current = launch;
+  });
+
+  // "Judges, start here": the elephants pick every part, one at a time, then launch. Any click stops it.
+  const [auto, setAuto] = useState<number | null>(null);
+  const timer = useRef<number | undefined>(undefined);
+  const stopAuto = useCallback(() => {
+    window.clearTimeout(timer.current);
+    setAuto(null);
+  }, []);
+  const startAuto = useCallback(() => {
+    primeMissionSound();
+    setResult(null);
+    setDesign(emptyDesign);
+    setAuto(0);
+  }, []);
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).has("judges")) {
+      const t = window.setTimeout(startAuto, 0);
+      return () => window.clearTimeout(t);
+    }
+  }, [startAuto]);
+  useEffect(() => {
+    if (auto === null) return;
+    // Each pick lands as its step comes up, and after the last one the mission launches by itself.
+    timer.current = window.setTimeout(() => {
+      if (auto < judgesPicks.length) {
+        setDesign((d) => judgesPicks[auto].apply(d));
+        setAuto(auto + 1);
+      } else {
+        setAuto(null);
+        launchRef.current();
+      }
+    }, auto === 0 ? 600 : JUDGES_PICK_MS);
+    return () => window.clearTimeout(timer.current);
+  }, [auto]);
 
   const finishLaunch = useCallback(() => {
     setResult(pending.current);
@@ -96,6 +137,21 @@ export default function MissionBuilder() {
         ))}
       </div>
       <div className="space-y-8">
+        <section aria-label="Judges, start here" className="rounded-3xl border border-amber/40 bg-amber/10 p-5">
+          <div className="flex flex-wrap items-center gap-4">
+            <button
+              type="button"
+              data-testid="judges-start"
+              onClick={auto === null ? startAuto : stopAuto}
+              className="inline-flex min-h-12 items-center justify-center rounded-full bg-amber px-6 font-bold text-space shadow-lg shadow-amber/20 transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            >
+              {auto === null ? "Judges, start here" : "Stop and design it myself"}
+            </button>
+            <p className="min-w-0 flex-1 text-base text-white/85" data-testid="judges-line" aria-live="polite">
+              {auto === null ? "In 30 seconds, the Polish elephants design a mission and launch it for you." : auto === 0 ? "The Polish elephants roll up their sleeves..." : auto <= judgesPicks.length ? judgesPicks[auto - 1].line : ""}
+            </p>
+          </div>
+        </section>
         <Step n={1} title="Pick a launcher" hint="It has to throw the whole rover to the Moon." done={design.vehicleId !== null}>
           {vehicles.map((v) => (
             <PartCard key={v.id} name={v.name} blurb={v.blurb} stats={[`throws ${v.capacityKg} kg`, `$${v.costM}M`]} selected={design.vehicleId === v.id} onSelect={() => update(choose(design, "vehicleId", v.id))} />

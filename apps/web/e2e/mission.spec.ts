@@ -106,6 +106,17 @@ test("a no-go at the final checks is fixed before the countdown, and trouble in 
   await expect(page.getByTestId("lesson")).toContainText("Turning back is a good call");
 });
 
+test("Judges, start here: from the home page link, the elephants design a mission and launch it by themselves", async ({ page }) => {
+  test.setTimeout(120_000);
+  await page.goto("/");
+  await page.getByRole("link", { name: "Start here" }).click();
+  await expect(page).toHaveURL(/\/mission\?judges=1/);
+  await expect(page.getByTestId("judges-line")).toContainText("medium launcher");
+  await expect(page.getByTestId("mission-story")).toBeVisible({ timeout: 30_000 });
+  await page.getByRole("button", { name: /skip to the debrief/i }).click();
+  await expect(page.getByTestId("debrief")).toBeVisible();
+});
+
 test("the binder tabs are on the home page, not the mission page", async ({ page }) => {
   await page.goto("/mission");
   await expect(page.getByRole("navigation", { name: /mission menu/i })).toHaveCount(0);

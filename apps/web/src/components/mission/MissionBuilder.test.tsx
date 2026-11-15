@@ -1,6 +1,6 @@
-import { render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import MissionBuilder from "./MissionBuilder";
 
 const pick = (name: RegExp) => userEvent.click(screen.getByRole("button", { name }));
@@ -96,5 +96,48 @@ describe("MissionBuilder", () => {
     await launch();
     expect(screen.getByTestId("biggest-loss")).toHaveTextContent(/antenna/i);
     expect(screen.getByRole("heading", { name: /fell short/i })).toBeInTheDocument();
+  });
+
+  describe("Judges, start here", () => {
+    afterEach(() => {
+      vi.useRealTimers();
+      window.history.replaceState({}, "", "/");
+    });
+    const advance = (ms: number) => act(() => void vi.advanceTimersByTime(ms));
+
+    it("has the elephants pick every part, one at a time with a sentence each, then launch by themselves", () => {
+      vi.useFakeTimers();
+      render(<MissionBuilder />);
+      fireEvent.click(screen.getByTestId("judges-start"));
+      expect(screen.getByTestId("judges-start")).toHaveTextContent("Stop and design it myself");
+      advance(700);
+      expect(screen.getByTestId("judges-line")).toHaveTextContent("medium launcher");
+      expect(screen.getByTestId("step-1-done")).toBeInTheDocument();
+      for (let i = 0; i < 4; i++) advance(2600);
+      expect(screen.getByTestId("judges-line")).toHaveTextContent("X-band dish");
+      expect(screen.getByTestId("launch")).toBeEnabled();
+      advance(2600);
+      expect(screen.getByTestId("mission-story")).toBeInTheDocument();
+    });
+
+    it("stops when the visitor wants to design it themselves, and leaves the parts picked so far", () => {
+      vi.useFakeTimers();
+      render(<MissionBuilder />);
+      fireEvent.click(screen.getByTestId("judges-start"));
+      advance(700);
+      fireEvent.click(screen.getByTestId("judges-start"));
+      for (let i = 0; i < 10; i++) advance(3000);
+      expect(screen.queryByTestId("mission-story")).not.toBeInTheDocument();
+      expect(screen.getByTestId("judges-start")).toHaveTextContent("Judges, start here");
+      expect(screen.getByTestId("launch")).toBeDisabled();
+    });
+
+    it("starts by itself from the link on the home page", () => {
+      vi.useFakeTimers();
+      window.history.replaceState({}, "", "/mission?judges=1");
+      render(<MissionBuilder />);
+      advance(100);
+      expect(screen.getByTestId("judges-start")).toHaveTextContent("Stop and design it myself");
+    });
   });
 });
