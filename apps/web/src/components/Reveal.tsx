@@ -23,6 +23,9 @@ export default function Reveal({ as = "section", className, children, ...rest }:
     const el = ref.current;
     if (!el) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // On a phone nothing is hidden for a reveal at all. The sections sit inside a case that opens and closes, and iOS Safari can leave a
+    // hidden section blank for good, which looked like a screenful of empty space between the photos.
+    if (window.innerWidth < 1024) return;
     if (el.getBoundingClientRect().top < window.innerHeight * 0.92) return;
     // Only blocks below the fold are armed, and that can only be known in the browser.
     setState("armed");

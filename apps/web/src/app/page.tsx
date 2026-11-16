@@ -68,7 +68,7 @@ export default function Home() {
       tabIndex={-1}
       className="relative isolate flex-1 overflow-hidden bg-gradient-to-b from-space via-space-2 to-space outline-none"
     >
-      <div className="starfield absolute inset-0 -z-10 opacity-70" aria-hidden="true" />
+      <div className="starfield fixed inset-0 -z-10 opacity-70" aria-hidden="true" />
 
       <div
         className="glow-planet pointer-events-none absolute -right-24 -top-24 -z-10 h-72 w-72 rounded-full sm:h-96 sm:w-96"
@@ -162,7 +162,7 @@ export default function Home() {
       <Reveal
         as="section"
         aria-label="The Polish elephants"
-        className="reveal-stagger mx-auto grid max-w-6xl gap-10 px-6 py-10 sm:grid-cols-2 sm:py-14 lg:grid-cols-3"
+        className="reveal-stagger mx-auto grid max-w-6xl gap-4 px-6 py-8 sm:grid-cols-2 sm:gap-10 sm:py-14 lg:grid-cols-3"
       >
         {photos.map((photo) => (
           <figure
@@ -193,7 +193,7 @@ export default function Home() {
         as="section"
         id="origin-stories"
         aria-label="The quest for the perfect home"
-        className="mx-auto grid scroll-mt-20 max-w-6xl items-center gap-10 px-6 py-10 sm:py-16 lg:grid-cols-2"
+        className="mx-auto grid scroll-mt-20 max-w-6xl items-center gap-6 px-6 py-8 sm:gap-10 sm:py-16 lg:grid-cols-2"
       >
         <figure
           className="polaroid mx-auto w-full max-w-xs rounded-md bg-white p-3 pb-5 shadow-2xl shadow-black/60 lg:max-w-sm"
@@ -243,7 +243,7 @@ export default function Home() {
       <Reveal
         as="section"
         aria-label="Piggy at the Puyallup Fair"
-        className="mx-auto grid max-w-6xl items-center gap-10 px-6 py-10 sm:py-16 lg:grid-cols-2"
+        className="mx-auto grid max-w-6xl items-center gap-6 px-6 py-8 sm:gap-10 sm:py-16 lg:grid-cols-2"
       >
         <div className="order-2 space-y-4 text-left lg:order-1">
           <SectionHeading eyebrow="Origin story" title="Piggy and the fair" align="left">
