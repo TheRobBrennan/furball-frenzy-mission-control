@@ -42,6 +42,13 @@ export default function DemoPage() {
         >
           Design it yourself
         </Link>
+        <a
+          href="/demo/furball-frenzy-deck.pdf"
+          data-testid="deck-link"
+          className="inline-flex min-h-12 items-center justify-center whitespace-nowrap rounded-full border border-white/30 px-6 font-bold text-white transition hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+        >
+          The 7 slide deck, PDF
+        </a>
       </div>
     </main>
   );
