@@ -54,6 +54,10 @@ The tunnel script uses the project's own login file and stops unless it is for t
 4. When it is final, run the workflow with **freeze** ticked, or `npr deploy:frozen:freeze` from the
    same checkout. A `FROZEN` file with the time and commit lands on the VM.
 
+## Updating a frozen copy on purpose
+
+Run the workflow with **unfreeze** and **freeze** both ticked: it removes the lock, deploys the tag, checks the public URL, and locks the stack again. Do this only for a deliberate fix, such as a bug that judges would hit, and move the tag to the commit that holds the fix first.
+
 ## What the lock does
 
 While `FROZEN` exists, `sync` and `up` refuse to touch the stack. `rsync` excludes the file, so a sync
