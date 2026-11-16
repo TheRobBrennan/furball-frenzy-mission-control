@@ -29,6 +29,13 @@ html {
   }
 }
 
+/* On a phone a long smooth scroll over a very tall page shows blank frames while it travels, so jumps are instant. */
+@media (max-width: 639px) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 body {
   background: var(--space);
   color: var(--foreground);
@@ -754,7 +761,7 @@ main {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
+@media (prefers-reduced-motion: reduce), (max-width: 639px) {
   .binder,
   .binder-inner,
   [data-binder="closed"] .binder,
@@ -763,6 +770,23 @@ main {
   }
   .binder::after {
     display: none;
+  }
+}
+
+/* iOS Safari goes blank on a very tall page that keeps repainting big layers. On a phone the starfield is one screen tall and still, and the
+   photos stop floating, so there is nothing animating over fifteen thousand pixels of page. */
+@media (max-width: 1023px) {
+  .starfield,
+  .polaroid {
+    animation: none;
+  }
+}
+
+/* On a phone, and for anyone with reduced motion, nothing waits to be revealed. */
+@media (max-width: 1023px) {
+  [data-reveal="armed"] {
+    opacity: 1;
+    transform: none;
   }
 }
 

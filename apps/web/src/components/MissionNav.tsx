@@ -31,18 +31,22 @@ const reactions = [
 const SEEN_KEY = "ff-elephants-cleared";
 const ROLL_MS = 2800;
 
+/** On a phone, or with reduced motion, the case opens at once: no roller, no long wait, nothing for iOS Safari to fight with. */
+const quick = (): boolean => window.innerWidth < 640 || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/** Scrolls to a section, or to the very top. On a phone it jumps, because iOS Safari cancels a smooth scroll the moment the menu above it collapses. */
 function scrollToId(id: string) {
-  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const reduced = quick();
   // The top of the page is the very top, so the hero keeps the breathing room it has on first load,
   // instead of sliding up under the sticky menu.
   if (id === "top") {
-    window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
+    window.scrollTo({ top: 0, behavior: reduced ? "instant" : "smooth" });
     history.replaceState(null, "", window.location.pathname);
     return;
   }
   const el = document.getElementById(id);
   if (!el) return;
-  el.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
+  el.scrollIntoView({ behavior: reduced ? "instant" : "smooth", block: "start" });
   history.replaceState(null, "", `#${id}`);
 }
 
@@ -142,7 +146,7 @@ export default function MissionNav() {
       if (!target) return;
       setBinder(false);
       window.clearTimeout(scroll);
-      scroll = window.setTimeout(() => scrollToId(target), reduced ? 0 : ROLL_MS + 100);
+      scroll = window.setTimeout(() => scrollToId(target), reduced || quick() ? 80 : ROLL_MS + 100);
     };
     const raf = window.requestAnimationFrame(openForHash);
     window.addEventListener("hashchange", openForHash);
@@ -171,8 +175,7 @@ export default function MissionNav() {
     (event: React.MouseEvent) => {
       event.preventDefault();
       setMenu(false);
-      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      if (reduced) {
+      if (quick()) {
         if (!closed) setStamp((n) => n + 1);
         setBinder(!closed);
         window.scrollTo(0, 0);
@@ -208,7 +211,7 @@ export default function MissionNav() {
     if (closed && id !== "top") {
       // A tab on a closed binder opens it first.
       setBinder(false);
-      window.setTimeout(() => scrollToId(id), 2900);
+      window.setTimeout(() => scrollToId(id), quick() ? 80 : 2900);
       return;
     }
     let seen = false;
@@ -224,7 +227,8 @@ export default function MissionNav() {
       setCheck(checkpoints[Math.floor(Math.random() * checkpoints.length)]);
       return;
     }
-    scrollToId(id);
+    // After the menu has closed and the page has settled, so the scroll is not cancelled by the layout changing under it.
+    window.setTimeout(() => scrollToId(id), 80);
   }, [closed, setBinder]);
 
   const markSeen = () => {
