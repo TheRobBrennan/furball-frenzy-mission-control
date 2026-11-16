@@ -11,6 +11,10 @@ on:
         description: "Git tag to deploy, for example nasa-space-apps-2026-submission"
         required: true
         default: nasa-space-apps-2026-submission
+      unfreeze:
+        description: "First remove the lock, for one deliberate update of a stack that is already frozen"
+        type: boolean
+        default: false
       freeze:
         description: "Lock the stack after the deploy, so nothing else can change it"
         type: boolean
@@ -45,6 +49,10 @@ jobs:
           # No TUNNEL_ID and no credentials here on purpose, the VM keeps its own copies
           printf 'FURBALL_VM_IP=%s\nFURBALL_PUBLIC_HOSTNAME=%s\nFURBALL_STACK=furball-frenzy-nasa-2026\nFURBALL_REMOTE_DIR_NAME=furball-frenzy-nasa-2026\nFURBALL_CRED_FILE=infra/cloudflared/credentials-nasa-2026.json\n' \
             "$FURBALL_VM_IP" "$FROZEN_HOSTNAME" > .env.deploy.nasa-2026
+
+      - name: Unfreeze the stack for this one update
+        if: ${{ inputs.unfreeze }}
+        run: DEPLOY_ENV_FILE=.env.deploy.nasa-2026 ./scripts/deploy/deploy-to-oracle.sh unfreeze
 
       - name: Deploy the tag to the frozen stack
         run: DEPLOY_ENV_FILE=.env.deploy.nasa-2026 ./scripts/deploy/deploy-to-oracle.sh up app
