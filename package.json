@@ -33,7 +33,7 @@
     "deploy:frozen:unfreeze": "DEPLOY_ENV_FILE=.env.deploy.nasa-2026 ./scripts/deploy/deploy-to-oracle.sh unfreeze"
   },
   "engines": {
-    "node": ">=24.17.0 <25",
+    "node": ">=26.13.1 <27",
     "pnpm": ">=10.11"
   }
 }

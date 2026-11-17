@@ -1,9 +1,10 @@
 # Production image for the Next.js web app, a standalone server build.
 # Pinned to the same Node and pnpm as the repo (.nvmrc, packageManager).
-FROM node:24.17.0-bookworm-slim AS deps
+FROM node:26.13.1-bookworm-slim AS deps
 ENV PNPM_HOME=/pnpm \
     PATH=/pnpm:$PATH
-RUN corepack enable && corepack prepare pnpm@10.11.1 --activate
+# Node 25+ no longer bundles Corepack, install it first
+RUN npm install -g corepack && corepack enable && corepack prepare pnpm@10.11.1 --activate
 WORKDIR /app
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN pnpm install --frozen-lockfile
@@ -31,7 +32,7 @@ ENV NEXT_PUBLIC_GIT_HASH=$GIT_HASH \
 # Storybook ships with the app at /storybook, on the live site and on the frozen submission copy
 RUN pnpm build-storybook && pnpm build
 
-FROM node:24.17.0-bookworm-slim AS run
+FROM node:26.13.1-bookworm-slim AS run
 ENV NODE_ENV=production \
     PORT=3000 \
     HOSTNAME=0.0.0.0
