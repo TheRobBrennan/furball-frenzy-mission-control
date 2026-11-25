@@ -171,3 +171,25 @@ Dead concerts at Soldier Field.
 ## README visuals
 - Keep the README exciting off the bat: hero image, phone and desktop screenshots, refreshed with each visual change.
 - Add animated GIFs of the game loop (launch, rover drive, clearance desk) as they come to life, keep each under a few MB.
+
+## Operations
+
+Added 2026-11-25, carried over from items 5 to 7 of the `sploosh-ai-web` roadmap.
+
+### Analytics
+
+- [ ] PostHog code is shipped and dark. **Rob decides:** set a project key (`deployment/analytics.md`) or remove
+      it, and check the privacy page matches
+
+### VM disk
+
+- [ ] Report current disk use on the VM, and **ask Rob before any wider cleanup**
+- [ ] If it is tight, grow the boot volume in the OCI Console, then the filesystem
+- [ ] Optional: a weekly cleanup timer, once Rob approves running it unattended
+
+### Later
+
+- [ ] Uptime monitoring for the live and frozen sites
+- [ ] Major dependency upgrades, one PR each (check Next.js support before TypeScript 7)
+- [ ] Convert any remaining `<img>` tags to `next/image`
+- [ ] Remove old local branches, after checking they are merged
