@@ -193,3 +193,8 @@ Added 2026-11-25, carried over from items 5 to 7 of the `sploosh-ai-web` roadmap
 - [ ] Major dependency upgrades, one PR each (check Next.js support before TypeScript 7)
 - [ ] Convert any remaining `<img>` tags to `next/image`
 - [ ] Remove old local branches, after checking they are merged
+
+### Repository links in `package.json`
+
+- [ ] Add `repository`, `bugs`, and `homepage` to the root `package.json`, so `npm repo`, `npm bugs`, and
+      `npm docs` open the GitHub repo, its issues, and the project page
