@@ -13,6 +13,7 @@ budget, data, and communications, and see how every choice shapes the result.
 - Team page: <https://www.spaceappschallenge.org/2026/find-a-team/furball-frenzy-mission-control/>
 - Challenge: <https://www.spaceappschallenge.org/2026/challenges/space-mission-design-game/>
 - Game plan: [docs/game-plan.md](docs/game-plan.md)
+- Monitoring and analytics: [docs/deployment/monitoring-and-analytics.md](docs/deployment/monitoring-and-analytics.md)
 
 ## See it
 
