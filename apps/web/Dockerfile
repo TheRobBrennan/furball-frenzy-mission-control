@@ -15,12 +15,6 @@ COPY . .
 ARG API_URL=http://api:8000
 ENV API_URL=$API_URL
 # The commit and the build time are shown in the page footer, set by the deploy script.
-# The PostHog project key is public by design. Leave it empty and analytics stay off and no notice shows.
-ARG POSTHOG_KEY=
-ARG POSTHOG_HOST=https://us.i.posthog.com
-ENV NEXT_PUBLIC_POSTHOG_KEY=$POSTHOG_KEY \
-    NEXT_PUBLIC_POSTHOG_HOST=$POSTHOG_HOST
-
 # Optional: another Flodesk form id, or none to hide the sign-up box. Empty uses the default in src/lib/updates.ts.
 ARG FLODESK_FORM_ID=
 ENV NEXT_PUBLIC_FLODESK_FORM_ID=$FLODESK_FORM_ID

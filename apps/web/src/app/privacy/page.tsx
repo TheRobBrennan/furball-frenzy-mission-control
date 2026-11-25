@@ -5,7 +5,7 @@ export const metadata: Metadata = { title: "Privacy | Furball Frenzy: Mission Co
 
 export default function PrivacyPage() {
   return (
-    <LegalPage title="Privacy" updated="2026-11-15">
+    <LegalPage title="Privacy" updated="2026-11-25">
       <p>
         Furball Frenzy: Mission Control is a small game built by one person over the 2026 NASA Space Apps Challenge weekend, with a crew of furballs based in North
         Carolina. This page says plainly what the site does with information about you.
@@ -21,18 +21,9 @@ export default function PrivacyPage() {
       <ul>
         <li>The story speed and whether sound is on.</li>
         <li>Whether you have already cleared the elephants from the case, so it does not ask again in the same visit.</li>
-        <li>Your answer to the analytics question below.</li>
       </ul>
-      <h2>Analytics and session replay, only if you say yes</h2>
-      <p>
-        To learn which parts of the game are fun and which are confusing, the site can use PostHog, a product analytics service. It is off until you choose Yes in the
-        notice at the bottom of the page. If you choose No, nothing is recorded and the notice does not come back.
-      </p>
-      <ul>
-        <li>If you choose Yes, PostHog records which pages you open and which mission events happen, such as a launch and its result.</li>
-        <li>It may also record a replay of your session, how the page looked and where you clicked. Text you type into fields is masked and never recorded.</li>
-        <li>We use it only to improve the game. You can change your mind at any time by clearing this site&apos;s data in your browser.</li>
-      </ul>
+      <h2>No analytics</h2>
+      <p>The site does not use analytics or record sessions.</p>
       <h2>Updates by email, only if you sign up</h2>
       <p>
         If a Stay updated box is shown and you use it, your email address goes to Flodesk, the email service we use, and is used only to send you updates about the

@@ -65,8 +65,8 @@ Near submission:
 - [x] **Soon: Flodesk email sign-up** (shipped 2026-11-15 with Rob's form, `docs/deployment/flodesk.md`), added 2026-11-15 at Rob's request, sooner rather than later. A friendly "stay updated on the Furball Frenzy and the adventures of the Polish elephants and family" form that adds email addresses to a Flodesk list. Needs a Flodesk account and form (Rob creates those, an embed or form link), then a small sign-up box in the footer and after the debrief, with a consent line, a line on the privacy page, and nothing stored on our side. Public text stays at North Carolina.
 
 - [ ] **Optional user accounts**, persisting data such as saved missions and scores, accounts stay optional
-- [x] **PostHog** (code shipped, dark until a project key is set, see `docs/deployment/analytics.md`) for analytics, mission events, and session replay, with a protected dashboard. Mask the Clearance Desk input and add a consent notice
-- [x] **Legal pages** (shipped 2026-11-15) linked from the footer, a privacy policy and terms covering analytics and session recording, public text says North Carolina, no town or address
+- [x] **PostHog** removed 2026-11-25, the site has no analytics
+- [x] **Legal pages** (shipped 2026-11-15) linked from the footer, a privacy policy and terms, public text says North Carolina, no town or address
 
 Proposed enhancements, roughly by payoff against the judging criteria (Impact, Creativity, Validity, Relevance, Presentation):
 
@@ -178,8 +178,7 @@ Added 2026-11-25, carried over from items 5 to 7 of the `sploosh-ai-web` roadmap
 
 ### Analytics
 
-- [ ] PostHog code is shipped and dark. **Rob decides:** set a project key (`deployment/analytics.md`) or remove
-      it, and check the privacy page matches
+- [x] PostHog removed 2026-11-25, the site has no analytics
 
 ### VM disk
 
@@ -198,3 +197,8 @@ Added 2026-11-25, carried over from items 5 to 7 of the `sploosh-ai-web` roadmap
 
 - [ ] Add `repository`, `bugs`, and `homepage` to the root `package.json`, so `npm repo`, `npm bugs`, and
       `npm docs` open the GitHub repo, its issues, and the project page
+
+### Footer version card
+
+- [ ] Make the footer version text read like the Hockey Analytics card: `vX.Y.Z`, then
+      `Released YYYY.MM.DD @ time` in the visitor's time zone, with a link to the repository

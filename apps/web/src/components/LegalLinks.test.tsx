@@ -11,11 +11,10 @@ describe("the legal pages", () => {
     expect(screen.getByRole("link", { name: "Terms" })).toHaveAttribute("href", "/terms");
   });
 
-  it("says plainly that analytics and replay are off until the visitor agrees, and that typed text is masked", () => {
+  it("says plainly that there are no analytics or session recordings", () => {
     render(<PrivacyPage />);
     expect(screen.getByRole("heading", { level: 1, name: "Privacy" })).toBeInTheDocument();
-    expect(screen.getByText(/off until you choose Yes/i)).toBeInTheDocument();
-    expect(screen.getByText(/masked and never recorded/i)).toBeInTheDocument();
+    expect(screen.getByText(/does not use analytics or record sessions/i)).toBeInTheDocument();
   });
 
   it("keeps the public text to North Carolina, with no street, town, or address", () => {
