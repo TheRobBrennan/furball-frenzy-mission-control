@@ -202,3 +202,8 @@ Added 2026-11-25, carried over from items 5 to 7 of the `sploosh-ai-web` roadmap
 
 - [ ] Make the footer version text read like the Hockey Analytics card: `vX.Y.Z`, then
       `Released YYYY.MM.DD @ time` in the visitor's time zone, with a link to the repository
+
+### Separate deploy workflows
+
+- [ ] Give deployment its own workflow so each deploy shows as its own run in the Actions list, not as a job
+      inside Main Branch Merge. See `sploosh-ai-web` (`deploy-production.yml`) for the pattern
