@@ -90,6 +90,15 @@ describe("page-view capture", () => {
     expect(send.mock.calls.map(([, request]) => JSON.parse(request.body).properties.scene)).toEqual(["mission_control", "liftoff", "mission_control"]);
   });
 
+  it("sends every edit, even one that repeats an earlier one", () => {
+    const send = setup();
+    const track = missionFunnel("manual");
+    const edit = { event: "mission_part_changed", category: "launcher", action: "add", from: "", to: "small" } as const;
+    track(edit);
+    track(edit);
+    expect(send).toHaveBeenCalledTimes(2);
+  });
+
   it("honors a mid-mission opt-out without replaying any skipped events", () => {
     const send = setup();
     const track = missionFunnel("manual");

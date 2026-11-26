@@ -52,6 +52,15 @@ describe("MissionBuilder", () => {
     expect(screen.getByTestId("science")).toHaveTextContent("Science returned: 100%");
   });
 
+  it("tracks each edit to the design", async () => {
+    render(<MissionBuilder />);
+    await pick(/medium launcher/i);
+    await pick(/heavy launcher/i);
+    const track = vi.mocked(missionFunnel).mock.results[0].value;
+    expect(track).toHaveBeenCalledWith({ event: "mission_part_changed", category: "launcher", action: "add", from: "", to: "medium" });
+    expect(track).toHaveBeenCalledWith({ event: "mission_part_changed", category: "launcher", action: "replace", from: "medium", to: "heavy" });
+  });
+
   it("tracks the scene that played and how the story ended", async () => {
     render(<MissionBuilder />);
     await buildBalanced();

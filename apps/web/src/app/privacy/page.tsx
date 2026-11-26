@@ -14,7 +14,7 @@ export default function PrivacyPage() {
       <ul>
         <li>There are no accounts, so no names, emails, or passwords.</li>
         <li>We do not sell or share information about you with advertisers.</li>
-        <li>The mission you design stays in your browser. Anything you type to convince the elephants stays on your device.</li>
+        <li>Your mission design is not saved on our server. Anything you type to convince the elephants stays on your device.</li>
       </ul>
       <h2>What stays on your device</h2>
       <p>The site remembers a few choices in your browser, these choices stay on your device:</p>
@@ -26,7 +26,7 @@ export default function PrivacyPage() {
       <p>
         On the live site, anonymous page views and mission progress events are enabled by default when analytics is configured. PostHog receives the page path,
         progress such as reaching launch, which story scenes play and how the story ends, and random IDs kept in browser memory until you reload or close the page.
-        Your part selections stay on your device. We respect Do Not Track and use no analytics cookies or session recordings.
+        It also receives which catalog parts you add, remove or swap, and whether the design is over a limit or ready to launch. We respect Do Not Track and use no analytics cookies or session recordings.
         Use Settings to turn analytics off or on. Your choice is saved in this browser for future visits.
       </p>
       <h2>Updates by email, only if you sign up</h2>

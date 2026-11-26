@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { missionFunnel } from "@/lib/analytics";
+import { designChanges } from "@/lib/mission/changes";
 import { reducedMotion } from "@/lib/motion";
 import {
   choose,
@@ -168,6 +169,16 @@ export default function MissionBuilder() {
     observer.observe(element);
     return () => observer.disconnect();
   }, [result]);
+
+  // Report what each edit changed, the player's or the judges demo's. Starting over is not an edit.
+  const previous = useRef(emptyDesign);
+  useEffect(() => {
+    const before = previous.current;
+    previous.current = design;
+    if (design === before || design === emptyDesign) return;
+    const track = journey(auto === null ? "manual" : "judges");
+    for (const change of designChanges(before, design)) track(change);
+  }, [design, auto, journey]);
 
   // Any change to the design clears an old debrief, it would no longer describe what is on screen.
   const update = (next: Design) => {
