@@ -205,5 +205,5 @@ Added 2026-11-25, carried over from items 5 to 7 of the `sploosh-ai-web` roadmap
 
 ### Separate deploy workflows
 
-- [ ] Give deployment its own workflow so each deploy shows as its own run in the Actions list, not as a job
+- [x] Give deployment its own workflow so each deploy shows as its own run in the Actions list, not as a job
       inside Main Branch Merge. See `sploosh-ai-web` (`deploy-production.yml`) for the pattern

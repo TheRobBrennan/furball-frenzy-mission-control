@@ -1,7 +1,7 @@
 name: Main Branch Merge
 
-# A merge to main bumps the version from the PR title, merges the bump, then deploys to the Oracle
-# Cloud VM and checks the public site. Modeled on the hockey analytics workflow, see
+# A merge to main bumps the version from the PR title, merges the bump, then starts Deploy Production,
+# which deploys to the Oracle Cloud VM and checks the public site. Modeled on the hockey analytics workflow, see
 # docs/deployment/oracle-vm.md.
 
 on:
@@ -138,44 +138,17 @@ jobs:
           echo "Timeout waiting for checks"
           exit 1
 
-  deploy:
+  # A version-bump merge made with GITHUB_TOKEN does not trigger workflows, so production is started
+  # from here once that merge is in. workflow_dispatch is the exception GitHub allows, and it gives the
+  # deploy its own run in the Actions list.
+  start-production-deploy:
+    name: Start Deploy Production
     needs: merge-pr
     runs-on: ubuntu-latest
-    # Deploys run unattended. Add Required reviewers to the furball-frenzy environment to gate them.
-    environment: furball-frenzy
-    concurrency:
-      group: deploy-furball-frenzy
-      cancel-in-progress: false
     permissions:
-      contents: read
+      actions: write
     steps:
-      # main now includes the merged version bump, so the deployed build shows the new version
-      - uses: actions/checkout@v4
-        with:
-          ref: main
-          fetch-depth: 0
-
-      - name: Install the deploy key and settings
+      - name: Start the Deploy Production workflow
         env:
-          FURBALL_DEPLOY_SSH_KEY: ${{ secrets.FURBALL_DEPLOY_SSH_KEY }}
-          FURBALL_VM_IP: ${{ secrets.FURBALL_VM_IP }}
-        run: |
-          mkdir -p ~/.ssh
-          install -m 600 /dev/null ~/.ssh/furball_oracle_deploy
-          printf '%s\n' "$FURBALL_DEPLOY_SSH_KEY" > ~/.ssh/furball_oracle_deploy
-          # No TUNNEL_ID and no credentials here on purpose, the VM keeps its own copies
-          printf 'FURBALL_VM_IP=%s\nFURBALL_PUBLIC_HOSTNAME=furball-frenzy.sploosh.ai\n' "$FURBALL_VM_IP" > .env.deploy
-
-      - name: Deploy the app to the Oracle VM
-        run: ./scripts/deploy/deploy-to-oracle.sh up app
-
-      - name: Verify the public site
-        run: |
-          for i in $(seq 1 12); do
-            code=$(curl -s -o /dev/null --max-time 15 -w '%{http_code}' https://furball-frenzy.sploosh.ai/ || true)
-            echo "Attempt $i: https://furball-frenzy.sploosh.ai/ -> ${code:-000}"
-            [ "$code" = "200" ] && exit 0
-            sleep 10
-          done
-          echo "Site did not return 200 after the deploy"
-          exit 1
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh workflow run deploy-production.yml --ref main --repo "$GITHUB_REPOSITORY"

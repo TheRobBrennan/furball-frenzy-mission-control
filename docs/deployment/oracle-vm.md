@@ -157,15 +157,16 @@ name, folder, tunnel, and hostname, see [frozen-release.md](frozen-release.md).
 
 ## Automatic deploys
 
-A merge to `main` bumps the version, merges the bump, and deploys, with `.github/workflows/main-merge.yml`:
+A merge to `main` bumps the version and merges the bump with `.github/workflows/main-merge.yml`, which then
+starts `.github/workflows/deploy-production.yml`:
 
 1. **Version bump.** The PR title decides the bump (`feat` is minor, `fix` and the rest are patch,
    `!` is major, see `scripts/ci/classify-pr-title.sh`). The workflow opens a `chore: bump version`
    PR that updates `package.json` and `apps/web/package.json`.
 2. **Merge.** It waits for that PR's checks and merges it.
-3. **Deploy.** A `deploy` job checks out `main`, installs the deploy key from the `furball-frenzy`
+3. **Deploy.** The **Deploy Production** workflow, its own run in the Actions list, checks out `main`, installs the deploy key from the `furball-frenzy`
    GitHub Environment, runs `./scripts/deploy/deploy-to-oracle.sh up app`, and checks that the public
-   site returns 200. The page footer then shows the new version, the commit, and the release time.
+   site returns 200. It can also be run by hand from the Actions tab. The page footer then shows the new version, the commit, and the release time.
 
 ### One-time GitHub setup
 
