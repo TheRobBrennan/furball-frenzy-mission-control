@@ -4,6 +4,14 @@
   "private": true,
   "description": "Furball Frenzy: Mission Control, a web game for the 2026 NASA Space Apps Challenge",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheRobBrennan/furball-frenzy-mission-control.git"
+  },
+  "bugs": {
+    "url": "https://github.com/TheRobBrennan/furball-frenzy-mission-control/issues"
+  },
+  "homepage": "https://github.com/TheRobBrennan/furball-frenzy-mission-control#readme",
   "scripts": {
     "start": "make up-d",
     "stop": "make down",
