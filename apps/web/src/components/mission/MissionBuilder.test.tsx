@@ -57,8 +57,8 @@ describe("MissionBuilder", () => {
     await pick(/medium launcher/i);
     await pick(/heavy launcher/i);
     const track = vi.mocked(missionFunnel).mock.results[0].value;
-    expect(track).toHaveBeenCalledWith({ event: "mission_part_changed", category: "launcher", action: "add", from: "", to: "medium" });
-    expect(track).toHaveBeenCalledWith({ event: "mission_part_changed", category: "launcher", action: "replace", from: "medium", to: "heavy" });
+    expect(track).toHaveBeenCalledWith({ event: "mission_part_changed", category: "launcher", action: "add", from: "", to: "medium", restores_launch: false });
+    expect(track).toHaveBeenCalledWith({ event: "mission_part_changed", category: "launcher", action: "replace", from: "medium", to: "heavy", restores_launch: false });
   });
 
   it("tracks the scene that played and how the story ended", async () => {

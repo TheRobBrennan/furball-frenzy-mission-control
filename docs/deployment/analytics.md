@@ -43,7 +43,7 @@ Each effective edit sends these, with `builder_id` and `mode`. Values are catalo
 
 | Event | Properties |
 | --- | --- |
-| `mission_part_changed` | `category`, `action` (add, remove, replace), `from`, `to` |
+| `mission_part_changed` | `category`, `action` (add, remove, replace), `from`, `to`, `restores_launch` (this edit took a locked design to ready) |
 | `mission_limit_changed` | `limit` (mass, budget, power, data), `direction`, `blocks_launch` |
 | `mission_launch_blockers_changed` | `added`, `cleared`, `remaining` (comma-separated issue codes), `ready` |
 
