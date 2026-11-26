@@ -22,6 +22,7 @@
     "ps": "make ps",
     "test": "make test",
     "lint": "make lint",
+    "posthog:live": "./scripts/posthog-live.sh",
     "dev:api": "cd apps/api && uv run uvicorn app.main:app --reload --port 8000",
     "dev:web": "cd apps/web && pnpm dev",
     "deploy:provision": "./scripts/deploy/provision-vm.sh",

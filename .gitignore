@@ -22,6 +22,9 @@ dist/
 .pnpm-store/
 next-env.d.ts
 
+# downloaded tools
+.tools/
+
 # os / editor
 .DS_Store
 .idea/

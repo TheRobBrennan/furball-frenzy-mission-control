@@ -23,6 +23,16 @@ network panel, confirm the payload contains the approved fields and no requests 
 opting out, reloading or navigating. Confirm URL opt-in restores capture. Check the Settings
 control at phone width and confirm the frozen site sends nothing.
 
+## Watch events live in the terminal
+
+From the repo root, `npm run posthog:live` runs PostHog's
+[posthog-live](https://posthog.com/docs/activity#terminal-live-events-posthog-live) viewer. The
+first run downloads a pinned, checksum-verified build into `.tools/`. Switch PostHog to the Furball
+Frenzy project in your browser, then authorize when it opens. The sign-in is cached for a week in
+`~/.posthog/livestream.json`. Pass filters after `--`, for example
+`npm run posthog:live -- --event-type mission_scene_viewed,mission_run_finished`.
+Inside the viewer, `p` pauses, `f` filters by event, Enter shows an event's details, `q` quits.
+
 ## Mission launch funnel
 
 Use these six stages in order, leaving out `mission_scene_viewed`, in a PostHog funnel. Apply `mode = manual` to the
