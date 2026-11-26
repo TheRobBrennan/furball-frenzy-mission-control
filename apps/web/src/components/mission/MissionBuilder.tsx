@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { missionFunnel } from "@/lib/analytics";
 import { reducedMotion } from "@/lib/motion";
 import {
   choose,
@@ -22,7 +23,7 @@ import {
 import Debrief from "./Debrief";
 import GaugeBar from "./GaugeBar";
 import { primeMissionSound } from "./missionSound";
-import MissionStory from "./MissionStory";
+import MissionStory, { type PlaybackEnding } from "./MissionStory";
 import PartCard from "./PartCard";
 import TrailerButton from "@/components/TrailerButton";
 
@@ -62,9 +63,25 @@ export default function MissionBuilder() {
   const debrief = useRef<HTMLDivElement>(null);
   const evaluation = useMemo(() => evaluate(design), [design]);
 
-  const launch = () => {
+  const journeys = useRef<Partial<Record<"manual" | "judges", ReturnType<typeof missionFunnel>>>>({});
+  const attempts = useRef({ manual: 0, judges: 0 });
+  const lastRun = useRef<{ track: ReturnType<typeof missionFunnel>; attempt: number } | null>(null);
+  const journey = useCallback((mode: "manual" | "judges") => {
+    const track = journeys.current[mode] ??= missionFunnel(mode);
+    track({ event: "mission_builder_viewed" });
+    return track;
+  }, []);
+
+  const launch = (mode: "manual" | "judges") => {
     primeMissionSound();
     const r = simulate(design);
+    const track = journey(mode);
+    const run = { track, attempt: ++attempts.current[mode] };
+    lastRun.current = run;
+    if (r.launched) {
+      track({ event: "mission_launch_eligible" });
+      track({ event: "mission_launch_started", attempt: run.attempt });
+    }
     pending.current = r;
     setRunning(r);
   };
@@ -85,42 +102,73 @@ export default function MissionBuilder() {
     primeMissionSound();
     setResult(null);
     setDesign(emptyDesign);
+    journey("judges");
     setAuto(0);
-  }, []);
+  }, [journey]);
   useEffect(() => {
-    if (new URLSearchParams(window.location.search).has("judges")) {
-      const t = window.setTimeout(startAuto, 0);
-      return () => window.clearTimeout(t);
-    }
-  }, [startAuto]);
+    const timer = window.setTimeout(() => {
+      if (new URLSearchParams(window.location.search).has("judges")) startAuto();
+      else journey("manual");
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, [journey, startAuto]);
   useEffect(() => {
     if (auto === null) return;
     // Each pick lands as its step comes up, and after the last one the mission launches by itself.
+    if (auto > 0) journey("judges")({ event: "mission_design_started" });
+    if (evaluation.canLaunch) journey("judges")({ event: "mission_launch_eligible" });
     timer.current = window.setTimeout(() => {
       if (auto < judgesPicks.length) {
         setDesign((d) => judgesPicks[auto].apply(d));
         setAuto(auto + 1);
       } else {
         setAuto(null);
-        launchRef.current();
+        launchRef.current("judges");
       }
     }, auto === 0 ? 600 : JUDGES_PICK_MS);
     return () => window.clearTimeout(timer.current);
-  }, [auto]);
+  }, [auto, evaluation.canLaunch, journey]);
 
-  const finishLaunch = useCallback(() => {
-    setResult(pending.current);
+  const finishLaunch = useCallback((playback: PlaybackEnding) => {
+    const mission = pending.current;
+    const run = lastRun.current;
+    if (mission && run) {
+      run.track({
+        event: "mission_run_finished",
+        attempt: run.attempt,
+        playback,
+        outcome: !mission.launched ? "blocked" : mission.success ? "success" : "unsuccessful",
+      });
+    }
+    setResult(mission);
     pending.current = null;
     setRunning(null);
   }, []);
 
   // The debrief is below the fold, so bring it into view when it appears.
   useEffect(() => {
-    if (result) debrief.current?.scrollIntoView?.({ behavior: reducedMotion() ? "auto" : "smooth", block: "start" });
+    const element = debrief.current;
+    const run = lastRun.current;
+    if (!result || !element || !run) return;
+    element.scrollIntoView?.({ behavior: reducedMotion() ? "auto" : "smooth", block: "start" });
+    if (typeof IntersectionObserver === "undefined") return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry?.isIntersecting) {
+        run.track({ event: "mission_debrief_viewed", attempt: run.attempt });
+        observer.disconnect();
+      }
+    });
+    observer.observe(element);
+    return () => observer.disconnect();
   }, [result]);
 
   // Any change to the design clears an old debrief, it would no longer describe what is on screen.
   const update = (next: Design) => {
+    if (next !== emptyDesign && auto === null) {
+      const track = journey("manual");
+      track({ event: "mission_design_started" });
+      if (evaluate(next).canLaunch) track({ event: "mission_launch_eligible" });
+    }
     setDesign(next);
     setResult(null);
   };
@@ -198,7 +246,7 @@ export default function MissionBuilder() {
             data-testid="launch"
             disabled={!evaluation.canLaunch}
             aria-describedby={evaluation.canLaunch ? undefined : "launch-issues"}
-            onClick={launch}
+            onClick={() => launch("manual")}
             className={`inline-flex min-h-12 w-full items-center justify-center rounded-full bg-amber px-6 font-bold text-space shadow-lg shadow-amber/20 transition enabled:hover:brightness-110 ${evaluation.canLaunch && !result ? "motion-safe:animate-pulse" : ""} disabled:cursor-not-allowed disabled:bg-white/15 disabled:text-white/50 disabled:shadow-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white`}
           >
             {evaluation.canLaunch ? "Launch" : "Launch locked"}

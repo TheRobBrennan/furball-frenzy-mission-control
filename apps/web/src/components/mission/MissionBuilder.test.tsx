@@ -1,7 +1,14 @@
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { missionFunnel } from "@/lib/analytics";
 import MissionBuilder from "./MissionBuilder";
+
+vi.mock("@/lib/analytics", () => ({ missionFunnel: vi.fn(() => vi.fn()) }));
+afterEach(() => {
+  vi.clearAllMocks();
+  vi.unstubAllGlobals();
+});
 
 const pick = (name: RegExp) => userEvent.click(screen.getByRole("button", { name }));
 
@@ -54,6 +61,28 @@ describe("MissionBuilder", () => {
     await userEvent.click(screen.getByRole("button", { name: /skip to the debrief/i }));
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     expect(screen.getByTestId("debrief")).toBeInTheDocument();
+  });
+
+  it("records the manual launch stages and only counts the debrief once it enters view", async () => {
+    let reportVisibility: IntersectionObserverCallback | undefined;
+    const observer = { observe: vi.fn(), disconnect: vi.fn() };
+    vi.stubGlobal("IntersectionObserver", function mockObserver(callback: IntersectionObserverCallback) {
+      reportVisibility = callback;
+      return observer;
+    });
+    render(<MissionBuilder />);
+    await buildBalanced();
+    await launch();
+    const track = vi.mocked(missionFunnel).mock.results[0].value;
+    expect(missionFunnel).toHaveBeenCalledExactlyOnceWith("manual");
+    expect(track).toHaveBeenCalledWith({ event: "mission_design_started" });
+    expect(track).toHaveBeenCalledWith({ event: "mission_launch_eligible" });
+    expect(track).toHaveBeenCalledWith({ event: "mission_launch_started", attempt: 1 });
+    expect(track).toHaveBeenCalledWith({ event: "mission_run_finished", attempt: 1, playback: "skipped", outcome: "success" });
+    expect(track).not.toHaveBeenCalledWith({ event: "mission_debrief_viewed", attempt: 1 });
+    act(() => reportVisibility?.([{ isIntersecting: true } as IntersectionObserverEntry], observer as unknown as IntersectionObserver));
+    expect(track).toHaveBeenCalledWith({ event: "mission_debrief_viewed", attempt: 1 });
+    expect(observer.disconnect).toHaveBeenCalled();
   });
 
   it("ticks each step as it is completed", async () => {
@@ -118,6 +147,9 @@ describe("MissionBuilder", () => {
       expect(screen.getByTestId("launch")).toBeEnabled();
       advance(2600);
       expect(screen.getByTestId("mission-story")).toBeInTheDocument();
+      const judgesIndex = vi.mocked(missionFunnel).mock.calls.findIndex(([mode]) => mode === "judges");
+      const track = vi.mocked(missionFunnel).mock.results[judgesIndex].value;
+      expect(track).toHaveBeenCalledWith({ event: "mission_launch_started", attempt: 1 });
     });
 
     it("stops when the visitor wants to design it themselves, and leaves the parts picked so far", () => {

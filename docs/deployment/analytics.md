@@ -22,3 +22,27 @@ website project. Verify a website visit appears only in the website project. In 
 network panel, confirm the payload contains the approved fields and no requests go out after
 opting out, reloading or navigating. Confirm URL opt-in restores capture. Check the Settings
 control at phone width and confirm the frozen site sends nothing.
+
+## Mission launch funnel
+
+Use these six stages in order in a PostHog funnel. Apply `mode = manual` to the
+insight and hold `builder_id` constant to keep stages from different builders from joining.
+Duplicate the insight with `mode = judges` to inspect demo traffic.
+
+| Event | Trigger |
+| --- | --- |
+| `mission_builder_viewed` | The mission builder opens, or the player enters judges mode |
+| `mission_design_started` | First effective edit or first automatic judges pick |
+| `mission_launch_eligible` | The design first passes its launch checks |
+| `mission_launch_started` | The simulation confirms a launch |
+| `mission_run_finished` | The player completes or skips the playback |
+| `mission_debrief_viewed` | The debrief first enters the viewport after an attempt |
+
+Each event has a random builder ID for the current page and mode. Launch, finish, and debrief
+events carry a one-based attempt number. Finish carries simulation outcome and playback ending
+independently. A skipped story can have a successful simulation. The payload contains only
+these fields and the existing site metadata. No part selections or free text are sent.
+
+After deploy, run a manual mission and a judges demo, then repeat with analytics off. Check
+the event order and fields in the Furball project, and save the manual launch funnel after
+confirming that judges traffic stays out of it.

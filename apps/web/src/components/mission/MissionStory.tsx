@@ -242,7 +242,9 @@ function Stage({ scene, animate, speed, paused, clock, last, onNext, onDone }: S
  * surface, a little joyride in the rover, and the wrap. A mission that goes wrong ends with the crew
  * discovering the learning point. It plays by itself, or one tap at a time with reduced motion.
  */
-export default function MissionStory({ design, result, onDone, clock = () => new Date(), hold, trouble }: { design: Design; result: MissionResult; onDone: () => void; clock?: () => Date; hold?: number | null; trouble?: Trouble | null }) {
+export type PlaybackEnding = "completed" | "skipped";
+
+export default function MissionStory({ design, result, onDone, clock = () => new Date(), hold, trouble }: { design: Design; result: MissionResult; onDone: (ending: PlaybackEnding) => void; clock?: () => Date; hold?: number | null; trouble?: Trouble | null }) {
   // Now and then a system reports no-go at the final checks. It is decided once, at random, unless a test says otherwise.
   const [chosenHold] = useState(() => {
     const set = hold === undefined ? holdOverride() : hold;
@@ -302,16 +304,16 @@ export default function MissionStory({ design, result, onDone, clock = () => new
     done.current = onDone;
   }, [onDone]);
 
-  const finish = useCallback(() => {
+  const finish = useCallback((ending: PlaybackEnding) => {
     if (finished.current) return;
     finished.current = true;
-    done.current();
+    done.current(ending);
   }, []);
   const next = useCallback(() => setIndex((i) => i + 1), []);
   const last = scenes.length - 1;
 
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && finish();
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && finish("skipped");
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [finish]);
@@ -339,7 +341,7 @@ export default function MissionStory({ design, result, onDone, clock = () => new
               Sound {soundOn ? "on" : "off"}
             </button>
             {Math.min(index, last) < last && (
-              <button type="button" onClick={finish} className="inline-flex min-h-12 shrink-0 items-center justify-center rounded-full border border-white/30 px-5 font-bold text-white transition hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber">
+              <button type="button" onClick={() => finish("skipped")} className="inline-flex min-h-12 shrink-0 items-center justify-center rounded-full border border-white/30 px-5 font-bold text-white transition hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber">
                 Skip to the debrief
               </button>
             )}
@@ -373,7 +375,7 @@ export default function MissionStory({ design, result, onDone, clock = () => new
             <span key={s.id} className={`h-1.5 flex-1 rounded-full ${i <= index ? "bg-amber" : "bg-white/15"}`} />
           ))}
         </div>
-        <Stage key={`${scene.id}-${speed}`} scene={scene} animate={animate} speed={speed} paused={paused} clock={clock} last={Math.min(index, last) === last} onNext={next} onDone={finish} />
+        <Stage key={`${scene.id}-${speed}`} scene={scene} animate={animate} speed={speed} paused={paused} clock={clock} last={Math.min(index, last) === last} onNext={next} onDone={() => finish("completed")} />
       </div>
     </div>
   );

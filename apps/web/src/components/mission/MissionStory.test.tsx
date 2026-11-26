@@ -55,7 +55,7 @@ describe("MissionStory", () => {
     expect(onDone).not.toHaveBeenCalled();
     expect(screen.getByTestId("lesson")).toHaveTextContent("What worked");
     fireEvent.click(screen.getByRole("button", { name: /see the debrief/i }));
-    expect(onDone).toHaveBeenCalledOnce();
+    expect(onDone).toHaveBeenCalledExactlyOnceWith("completed");
   });
 
   it("shows the captions one by one, and keeps them on screen as a transcript", () => {
@@ -188,7 +188,7 @@ describe("MissionStory", () => {
     fireEvent.click(screen.getByRole("button", { name: /skip to the debrief/i }));
     fireEvent.keyDown(window, { key: "Escape" });
     playThrough();
-    expect(onDone).toHaveBeenCalledOnce();
+    expect(onDone).toHaveBeenCalledExactlyOnceWith("skipped");
   });
 
   it("with reduced motion waits for a tap on Next, and shows every line at once", () => {
