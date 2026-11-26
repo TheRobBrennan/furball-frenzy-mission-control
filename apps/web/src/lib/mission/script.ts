@@ -224,7 +224,7 @@ export function missionScript(design: Design, result: MissionResult, hold?: numb
     const code = evaluate(design).issues[0]?.code ?? "no-vehicle";
     return withReadingTime([
       {
-        id: "control",
+        id: "mission_control",
         kind: "control",
         title: "Mission Control",
         mood: "worry",
@@ -237,7 +237,7 @@ export function missionScript(design: Design, result: MissionResult, hold?: numb
         ],
       },
       {
-        id: "wrap",
+        id: "debrief_summary",
         kind: "wrap",
         title: "What we learned",
         mood: "learn",
@@ -251,7 +251,7 @@ export function missionScript(design: Design, result: MissionResult, hold?: numb
 
   const scenes: Scene[] = [
     {
-      id: "control",
+      id: "mission_control",
       kind: "control",
       title: "Mission Control",
       mood: "cheer",
@@ -397,7 +397,7 @@ export function missionScript(design: Design, result: MissionResult, hold?: numb
 
   if (abort) {
     scenes.push({
-      id: "wrap",
+      id: "debrief_summary",
       kind: "wrap",
       title: "Home safe",
       mood: "learn",
@@ -414,7 +414,7 @@ export function missionScript(design: Design, result: MissionResult, hold?: numb
   }
 
   scenes.push({
-    id: "wrap",
+    id: "debrief_summary",
     kind: "wrap",
     title: result.success ? "Mission success!" : "What we learned",
     mood: result.success ? "cheer" : "learn",

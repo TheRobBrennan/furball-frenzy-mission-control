@@ -88,7 +88,7 @@ describe("missionScript, a mission that works", () => {
   it("can run into trouble in space, then fix it and carry on to the Moon", () => {
     const scenes = script(balanced, undefined, { cause: 0, outcome: "continue" });
     const kinds = scenes.map((s) => s.id);
-    expect(kinds.slice(0, 6)).toEqual(["control", "liftoff", "transit", "emergency", "resolution", "landing"]);
+    expect(kinds.slice(0, 6)).toEqual(["mission_control", "liftoff", "transit", "emergency", "resolution", "landing"]);
     const [alert, resolved] = [scenes[3], scenes[4]];
     expect(alert.lines[0].fx).toBe("alarm");
     expect(alert.photo).toBe("sad");
@@ -102,7 +102,7 @@ describe("missionScript, a mission that works", () => {
 
   it("can turn for home instead: no landing on the Moon, but everyone comes home safe", () => {
     const scenes = script(balanced, undefined, { cause: 2, outcome: "abort" });
-    expect(scenes.map((s) => s.id)).toEqual(["control", "liftoff", "transit", "emergency", "resolution", "splashdown", "recovery", "wrap"]);
+    expect(scenes.map((s) => s.id)).toEqual(["mission_control", "liftoff", "transit", "emergency", "resolution", "splashdown", "recovery", "debrief_summary"]);
     expect(scenes[4].title).toBe("Turning for home");
     expect(scenes.find((s) => s.kind === "recovery")?.headcount).toEqual(NC_CREW);
     const wrap = scenes.at(-1)!;

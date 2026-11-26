@@ -67,11 +67,11 @@ describe("page-view capture", () => {
     const send = setup();
     const track = missionFunnel("manual");
     const view = (attempt: number, scene: string) => track({ event: "mission_scene_viewed", attempt, scene, position: 1, total: 8 });
-    view(1, "control");
-    view(1, "control");
+    view(1, "mission_control");
+    view(1, "mission_control");
     view(1, "liftoff");
-    view(2, "control");
-    expect(send.mock.calls.map(([, request]) => JSON.parse(request.body).properties.scene)).toEqual(["control", "liftoff", "control"]);
+    view(2, "mission_control");
+    expect(send.mock.calls.map(([, request]) => JSON.parse(request.body).properties.scene)).toEqual(["mission_control", "liftoff", "mission_control"]);
   });
 
   it("honors a mid-mission opt-out without replaying any skipped events", () => {
