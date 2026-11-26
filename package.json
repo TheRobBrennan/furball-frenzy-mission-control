@@ -1,6 +1,6 @@
 {
   "name": "furball-frenzy-mission-control",
-  "version": "0.36.0",
+  "version": "0.36.1",
   "private": true,
   "description": "Furball Frenzy: Mission Control, a web game for the 2026 NASA Space Apps Challenge",
   "license": "MIT",
