@@ -16,13 +16,13 @@ export default function LegalLinks({ inline = false }: { inline?: boolean }) {
   const links = (
     <>
       <Link href="/privacy" className={link}>
-        Privacy
+        Privacy policy
       </Link>
       <span aria-hidden="true" className="mx-2 text-white/30">
         &middot;
       </span>
       <Link href="/terms" className={link}>
-        Terms
+        Terms of use
       </Link>
     </>
   );

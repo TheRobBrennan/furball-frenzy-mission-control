@@ -23,6 +23,7 @@ services:
       args:
         API_URL: http://api:8000
         FLODESK_FORM_ID: ${FLODESK_FORM_ID:-}
+        FURBALL_POSTHOG_TOKEN: ${FURBALL_POSTHOG_TOKEN:-}
         GIT_HASH: ${GIT_HASH:-dev}
         BUILD_TIME: ${BUILD_TIME:-dev}
     ports:

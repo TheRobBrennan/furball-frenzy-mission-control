@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+import AnalyticsPageviews from "@/components/AnalyticsPageviews";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Overpass } from "next/font/google";
 import BackToTop from "@/components/BackToTop";
@@ -38,6 +40,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} ${overpass.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <Suspense><AnalyticsPageviews /></Suspense>
         <ScrollProgress />
         {children}
         <LegalLinks />

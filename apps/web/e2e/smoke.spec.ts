@@ -88,11 +88,26 @@ test("the hero's Meet the crew button lands on the crew lists", async ({ page })
   await expect(page.getByRole("heading", { name: /^crew$/i }).first()).toBeInViewport();
 });
 
+test("the home footer shows the release time in a metadata-enabled build", async ({ page }) => {
+  const buildTime = process.env.NEXT_PUBLIC_BUILD_TIME;
+  test.skip(!buildTime, "enable build metadata to exercise the release footer");
+  await page.goto("/");
+
+  const date = await page.evaluate((time) => {
+    const parts = new Intl.DateTimeFormat("en-US", {
+      year: "numeric", month: "2-digit", day: "2-digit",
+    }).formatToParts(new Date(time!));
+    return ["year", "month", "day"].map((type) => parts.find((part) => part.type === type)?.value).join(".");
+  }, buildTime);
+
+  await expect(page.getByTestId("version-line")).toContainText(new RegExp(String.raw`Released ${date.replaceAll(".", "[.]")} @ \d{1,2}:\d{2} [AP]M`));
+});
+
 test("the privacy and terms pages open from the footer on the home page", async ({ page }) => {
   await page.goto("/");
-  await page.getByRole("navigation", { name: "Legal" }).getByRole("link", { name: "Privacy" }).click();
+  await page.getByRole("navigation", { name: "Legal" }).getByRole("link", { name: "Privacy policy", exact: true }).click();
   await expect(page.getByRole("heading", { level: 1, name: "Privacy" })).toBeVisible();
-  await page.getByRole("navigation", { name: "Legal" }).getByRole("link", { name: "Terms" }).click();
+  await page.getByRole("navigation", { name: "Legal" }).getByRole("link", { name: "Terms of use", exact: true }).click();
   await expect(page.getByRole("heading", { level: 1, name: "Terms" })).toBeVisible();
 });
 

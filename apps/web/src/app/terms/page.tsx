@@ -5,13 +5,15 @@ export const metadata: Metadata = { title: "Terms | Furball Frenzy: Mission Cont
 
 export default function TermsPage() {
   return (
-    <LegalPage title="Terms" updated="2026-11-15">
+    <LegalPage title="Terms" updated="2026-11-25">
       <p>By using this site you agree to these short terms. They are written for a small, friendly game.</p>
       <h2>What this is</h2>
       <p>
         Furball Frenzy: Mission Control is a game made for fun and for learning, built for the 2026 NASA Space Apps Challenge. It is not affiliated with, endorsed by,
         or sponsored by NASA or the Space Apps Challenge.
       </p>
+      <h2>Content note</h2>
+      <p>The game includes mild adult themes, including occasional depictions of characters drinking beer. The depictions are lighthearted and non-explicit.</p>
       <h2>It is a game, not engineering advice</h2>
       <p>
         The numbers in the mission builder are simplified and made up to teach how a mission trades mass, power, cost, and data. Do not use them to design a real

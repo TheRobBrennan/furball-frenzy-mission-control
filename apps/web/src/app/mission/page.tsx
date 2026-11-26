@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import GamePageNav from "@/components/GamePageNav";
 import MissionBuilder from "@/components/mission/MissionBuilder";
 import StayUpdated from "@/components/StayUpdated";
 
@@ -11,9 +11,7 @@ export const metadata: Metadata = {
 export default function MissionPage() {
   return (
     <main id="top" className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6 sm:py-12">
-      <Link href="/" className="font-mono text-xs uppercase tracking-[0.2em] text-ice underline-offset-4 hover:underline">
-        &larr; Mission Control
-      </Link>
+      <GamePageNav />
       <header className="mt-4 max-w-2xl">
         <h1 className="text-3xl font-black leading-tight text-white sm:text-5xl">Design the mission</h1>
         <p className="mt-3 text-lg text-white/80">
