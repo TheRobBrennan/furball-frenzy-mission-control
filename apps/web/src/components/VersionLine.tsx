@@ -32,33 +32,44 @@ export default function VersionLine() {
   }, [deployedAt]);
 
   return (
-    <p
+    <div
       data-testid="version-line"
-      className="mt-3 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-[11px] text-white/40"
+      className="mx-auto mt-4 max-w-xs overflow-hidden rounded-xl border border-white/10 bg-white/5 text-left"
     >
-      <span>v{version}</span>
-      {gitHash && (
-        <>
-          <span aria-hidden="true">&middot;</span>
-          <a
-            href={`${REPO_URL}/commit/${gitHash}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            title="View this commit on GitHub"
-            className="underline decoration-white/20 underline-offset-2 hover:text-white/70"
-          >
-            {gitHash.slice(0, 7)}
-          </a>
-        </>
-      )}
-      {deployed && (
-        <>
-          <span aria-hidden="true" className="hidden sm:inline">
-            &middot;
-          </span>
-          <span className="basis-full sm:basis-auto">Released {deployed}</span>
-        </>
-      )}
-    </p>
+      <a
+        href={REPO_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        title="View the repository on GitHub"
+        className="flex min-h-11 items-center justify-between gap-3 p-3 hover:bg-white/5"
+      >
+        <span className="leading-tight">
+          <span className="block text-sm font-semibold text-white/80">Furball Frenzy</span>
+          <span className="block text-white/50">Mission Control on GitHub</span>
+        </span>
+        <span aria-hidden="true">&#8599;</span>
+      </a>
+      <div className="space-y-1 border-t border-white/10 px-3 py-2.5 text-[11px] leading-tight text-white/50">
+        <p>
+          v{version}
+          {gitHash && (
+            <>
+              {" "}
+              &middot;{" "}
+              <a
+                href={`${REPO_URL}/commit/${gitHash}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="View this commit on GitHub"
+                className="underline decoration-white/20 underline-offset-2 hover:text-white/70"
+              >
+                {gitHash.slice(0, 7)}
+              </a>
+            </>
+          )}
+        </p>
+        {deployed && <p>Released {deployed}</p>}
+      </div>
+    </div>
   );
 }

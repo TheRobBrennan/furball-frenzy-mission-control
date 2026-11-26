@@ -200,7 +200,7 @@ Added 2026-11-25, carried over from items 5 to 7 of the `sploosh-ai-web` roadmap
 
 ### Footer version card
 
-- [ ] Make the footer version text read like the Hockey Analytics card: `vX.Y.Z`, then
+- [x] Make the footer version text read like the Hockey Analytics card: `vX.Y.Z`, then
       `Released YYYY.MM.DD @ time` in the visitor's time zone, with a link to the repository
 
 ### Separate deploy workflows
