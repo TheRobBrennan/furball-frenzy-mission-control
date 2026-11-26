@@ -79,7 +79,8 @@ function capture(event: "$pageview" | MissionStage["event"], properties: Record<
       api_key: token,
       event,
       distinct_id: visitId,
-      properties: { ...properties, $host: productionHost, $process_person_profile: false },
+      // PostHog's URL / Screen column reads $current_url. It is built from the allowlisted path, never the address bar.
+      properties: { ...properties, $current_url: `https://${productionHost}${properties.$pathname}`, $host: productionHost, $process_person_profile: false },
     }),
   }).catch(() => {
     // The game works independently of analytics delivery.

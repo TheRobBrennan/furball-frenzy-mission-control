@@ -28,8 +28,15 @@ describe("page-view capture", () => {
       api_key: "test-token",
       event: "$pageview",
       distinct_id: expect.any(String),
-      properties: { $pathname: "/mission", $host: "furball-frenzy.sploosh.ai", $process_person_profile: false },
+      properties: { $pathname: "/mission", $current_url: "https://furball-frenzy.sploosh.ai/mission", $host: "furball-frenzy.sploosh.ai", $process_person_profile: false },
     });
+  });
+
+  it("gives mission events a URL without anything from the address bar", () => {
+    const send = setup();
+    Object.assign(window.location, { search: "?email=private", hash: "#secret" });
+    missionFunnel("manual")({ event: "mission_builder_viewed" });
+    expect(JSON.parse(send.mock.calls[0][1].body).properties.$current_url).toBe("https://furball-frenzy.sploosh.ai/mission");
   });
 
   it("stops sending immediately on opt-out and resumes on opt-in", () => {

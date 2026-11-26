@@ -13,6 +13,8 @@ also allows capture only on `furball-frenzy.sploosh.ai`.
 Collection defaults to on when configured. The Settings gear switch and `?analytics=off`
 save an opt-out; the switch or `?analytics=on` restores the default. Do Not Track still applies.
 Page views send an allowlisted path, the production host and a random, in-memory visit ID.
+Every event also sends `$current_url`, built from that host and path rather than the address bar,
+which fills PostHog's URL / Screen column.
 Capture uses the US event endpoint directly, without the browser SDK, a person profile, analytics
 cookies, session recording, query strings or a Referer header. Client IP discard is on in
 project 768669.
