@@ -23,7 +23,7 @@ import {
 import Debrief from "./Debrief";
 import GaugeBar from "./GaugeBar";
 import { primeMissionSound } from "./missionSound";
-import MissionStory, { type PlaybackEnding } from "./MissionStory";
+import MissionStory, { type PlaybackEnding, type PlaybackSummary, type SceneView } from "./MissionStory";
 import PartCard from "./PartCard";
 import TrailerButton from "@/components/TrailerButton";
 
@@ -129,7 +129,12 @@ export default function MissionBuilder() {
     return () => window.clearTimeout(timer.current);
   }, [auto, evaluation.canLaunch, journey]);
 
-  const finishLaunch = useCallback((playback: PlaybackEnding) => {
+  const viewScene = useCallback((view: SceneView) => {
+    const run = lastRun.current;
+    run?.track({ event: "mission_scene_viewed", attempt: run.attempt, scene: view.scene, position: view.position, total: view.total });
+  }, []);
+
+  const finishLaunch = useCallback((playback: PlaybackEnding, summary: PlaybackSummary) => {
     const mission = pending.current;
     const run = lastRun.current;
     if (mission && run) {
@@ -137,6 +142,8 @@ export default function MissionBuilder() {
         event: "mission_run_finished",
         attempt: run.attempt,
         playback,
+        story: summary.story,
+        last_scene: summary.lastScene,
         outcome: !mission.launched ? "blocked" : mission.success ? "success" : "unsuccessful",
       });
     }
@@ -254,7 +261,7 @@ export default function MissionBuilder() {
         </div>
       </aside>
 
-      {running && <MissionStory design={design} result={running} onDone={finishLaunch} />}
+      {running && <MissionStory design={design} result={running} onDone={finishLaunch} onScene={viewScene} />}
 
       {result && (
         <div ref={debrief} className="scroll-mt-16 lg:col-span-2">

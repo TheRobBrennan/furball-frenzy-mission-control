@@ -63,6 +63,17 @@ describe("page-view capture", () => {
     expect(payloads[3].properties.builder_id).not.toBe(payloads[0].properties.builder_id);
   });
 
+  it("sends each scene once per attempt, and again on a retry", () => {
+    const send = setup();
+    const track = missionFunnel("manual");
+    const view = (attempt: number, scene: string) => track({ event: "mission_scene_viewed", attempt, scene, position: 1, total: 8 });
+    view(1, "control");
+    view(1, "control");
+    view(1, "liftoff");
+    view(2, "control");
+    expect(send.mock.calls.map(([, request]) => JSON.parse(request.body).properties.scene)).toEqual(["control", "liftoff", "control"]);
+  });
+
   it("honors a mid-mission opt-out without replaying any skipped events", () => {
     const send = setup();
     const track = missionFunnel("manual");

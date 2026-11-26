@@ -55,7 +55,7 @@ describe("MissionStory", () => {
     expect(onDone).not.toHaveBeenCalled();
     expect(screen.getByTestId("lesson")).toHaveTextContent("What worked");
     fireEvent.click(screen.getByRole("button", { name: /see the debrief/i }));
-    expect(onDone).toHaveBeenCalledExactlyOnceWith("completed");
+    expect(onDone).toHaveBeenCalledExactlyOnceWith("completed", { story: "success", lastScene: "wrap" });
   });
 
   it("shows the captions one by one, and keeps them on screen as a transcript", () => {
@@ -188,7 +188,7 @@ describe("MissionStory", () => {
     fireEvent.click(screen.getByRole("button", { name: /skip to the debrief/i }));
     fireEvent.keyDown(window, { key: "Escape" });
     playThrough();
-    expect(onDone).toHaveBeenCalledExactlyOnceWith("skipped");
+    expect(onDone).toHaveBeenCalledExactlyOnceWith("skipped", { story: "success", lastScene: "control" });
   });
 
   it("with reduced motion waits for a tap on Next, and shows every line at once", () => {
@@ -236,5 +236,20 @@ describe("MissionStory", () => {
     vi.stubGlobal("matchMedia", () => ({ matches: true, addEventListener() {}, removeEventListener() {} }));
     story(balanced);
     expect(screen.queryByTestId("speed")).not.toBeInTheDocument();
+  });
+});
+
+describe("MissionStory progress reporting", () => {
+  it("reports the first scene with its place in the story", () => {
+    const onScene = vi.fn();
+    render(<MissionStory design={balanced} result={simulate(balanced)} onDone={() => {}} onScene={onScene} hold={null} trouble={null} />);
+    expect(onScene).toHaveBeenCalledWith({ scene: "control", position: 1, total: 9 });
+  });
+
+  it("says the crew turned for home, even though the design itself would have worked", () => {
+    const onDone = vi.fn();
+    story(balanced, onDone, null, { cause: 0, outcome: "abort" });
+    fireEvent.keyDown(window, { key: "Escape" });
+    expect(onDone).toHaveBeenCalledWith("skipped", { story: "turned_home", lastScene: "control" });
   });
 });

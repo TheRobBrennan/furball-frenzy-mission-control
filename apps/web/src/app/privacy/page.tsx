@@ -25,7 +25,7 @@ export default function PrivacyPage() {
       <h2>Analytics</h2>
       <p>
         On the live site, anonymous page views and mission progress events are enabled by default when analytics is configured. PostHog receives the page path,
-        progress such as reaching launch or viewing the debrief, and random IDs kept in browser memory until you reload or close the page.
+        progress such as reaching launch, which story scenes play and how the story ends, and random IDs kept in browser memory until you reload or close the page.
         Your part selections stay on your device. We respect Do Not Track and use no analytics cookies or session recordings.
         Use Settings to turn analytics off or on. Your choice is saved in this browser for future visits.
       </p>
