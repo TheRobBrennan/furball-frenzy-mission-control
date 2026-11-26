@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { capturePageview, setAnalyticsEnabled } from "./analytics";
+import { capturePageview, missionFunnel, setAnalyticsEnabled } from "./analytics";
 
 afterEach(() => {
   setAnalyticsEnabled(true);
@@ -40,6 +40,44 @@ describe("page-view capture", () => {
     setAnalyticsEnabled(true);
     capturePageview("/");
     expect(send).toHaveBeenCalledOnce();
+  });
+
+  it("keeps manual and judges funnels separate and emits each attempt stage once", () => {
+    const send = setup();
+    const manual = missionFunnel("manual");
+    const judges = missionFunnel("judges");
+    manual({ event: "mission_builder_viewed" });
+    manual({ event: "mission_builder_viewed" });
+    manual({ event: "mission_launch_started", attempt: 1 });
+    manual({ event: "mission_launch_started", attempt: 1 });
+    manual({ event: "mission_launch_started", attempt: 2 });
+    judges({ event: "mission_builder_viewed" });
+
+    const payloads = send.mock.calls.map(([, request]) => JSON.parse(request.body));
+    expect(payloads.map((row) => row.event)).toEqual([
+      "mission_builder_viewed", "mission_launch_started", "mission_launch_started", "mission_builder_viewed",
+    ]);
+    expect(payloads[1].properties).toMatchObject({ mode: "manual", attempt: 1, builder_id: payloads[0].properties.builder_id });
+    expect(payloads[2].properties).toMatchObject({ mode: "manual", attempt: 2, builder_id: payloads[0].properties.builder_id });
+    expect(payloads[3].properties.mode).toBe("judges");
+    expect(payloads[3].properties.builder_id).not.toBe(payloads[0].properties.builder_id);
+  });
+
+  it("honors a mid-mission opt-out without replaying any skipped events", () => {
+    const send = setup();
+    const track = missionFunnel("manual");
+    track({ event: "mission_builder_viewed" });
+    setAnalyticsEnabled(false);
+    track({ event: "mission_design_started" });
+    track({ event: "mission_launch_started", attempt: 1 });
+    expect(send).toHaveBeenCalledOnce();
+
+    setAnalyticsEnabled(true);
+    track({ event: "mission_design_started" });
+    track({ event: "mission_launch_started", attempt: 2 });
+    expect(send).toHaveBeenCalledTimes(2);
+    const [, request] = send.mock.calls[1];
+    expect(JSON.parse(request.body).properties.attempt).toBe(2);
   });
 
   it.each([

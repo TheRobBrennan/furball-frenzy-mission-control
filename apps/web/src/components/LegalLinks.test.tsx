@@ -14,7 +14,7 @@ describe("the legal pages", () => {
   it("explains default analytics and where to opt out", () => {
     render(<PrivacyPage />);
     expect(screen.getByRole("heading", { level: 1, name: "Privacy" })).toBeInTheDocument();
-    expect(screen.getByText(/anonymous page views are enabled by default/i)).toBeInTheDocument();
+    expect(screen.getByText(/anonymous page views and mission progress events are enabled by default/i)).toBeInTheDocument();
     expect(screen.getByText(/use Settings to turn analytics off or on/i)).toBeInTheDocument();
   });
 

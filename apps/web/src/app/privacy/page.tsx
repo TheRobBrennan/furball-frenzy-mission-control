@@ -14,7 +14,7 @@ export default function PrivacyPage() {
       <ul>
         <li>There are no accounts, so no names, emails, or passwords.</li>
         <li>We do not sell or share information about you with advertisers.</li>
-        <li>The mission you design stays in your browser. The Clearance Desk and the story run on your device.</li>
+        <li>The mission you design stays in your browser. Anything you type to convince the elephants stays on your device.</li>
       </ul>
       <h2>What stays on your device</h2>
       <p>The site remembers a few choices in your browser, these choices stay on your device:</p>
@@ -24,8 +24,9 @@ export default function PrivacyPage() {
       </ul>
       <h2>Analytics</h2>
       <p>
-        On the live site, anonymous page views are enabled by default when analytics is configured. PostHog receives the page path and a random visit ID
-        that stays in memory until you reload or close the page. We respect Do Not Track and use no analytics cookies or session recordings.
+        On the live site, anonymous page views and mission progress events are enabled by default when analytics is configured. PostHog receives the page path,
+        progress such as reaching launch or viewing the debrief, and random IDs kept in browser memory until you reload or close the page.
+        Your part selections stay on your device. We respect Do Not Track and use no analytics cookies or session recordings.
         Use Settings to turn analytics off or on. Your choice is saved in this browser for future visits.
       </p>
       <h2>Updates by email, only if you sign up</h2>

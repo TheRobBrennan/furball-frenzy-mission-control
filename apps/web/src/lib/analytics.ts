@@ -37,9 +37,29 @@ export function subscribeToAnalyticsPreference(listener: () => void) {
 }
 
 export function capturePageview(pathname: string) {
+  if (routes.has(pathname)) capture("$pageview", { $pathname: pathname });
+}
+
+type MissionStage =
+  | { event: "mission_builder_viewed" | "mission_design_started" | "mission_launch_eligible" }
+  | { event: "mission_launch_started" | "mission_debrief_viewed"; attempt: number }
+  | { event: "mission_run_finished"; attempt: number; playback: "completed" | "skipped"; outcome: "success" | "unsuccessful" | "blocked" };
+
+export function missionFunnel(mode: "manual" | "judges") {
+  const builderId = crypto.randomUUID();
+  const emitted = new Set<string>();
+  return ({ event, ...stage }: MissionStage) => {
+    const key = "attempt" in stage ? `${event}:${stage.attempt}` : event;
+    if (emitted.has(key)) return;
+    emitted.add(key);
+    capture(event, { $pathname: "/mission", builder_id: builderId, mode, ...stage });
+  };
+}
+
+function capture(event: "$pageview" | MissionStage["event"], properties: Record<string, string | number>) {
   const token = process.env.NEXT_PUBLIC_FURBALL_POSTHOG_TOKEN;
   if (!token || window.location.hostname !== productionHost || optedOut() ||
-      navigator.doNotTrack === "1" || !routes.has(pathname)) return;
+      navigator.doNotTrack === "1") return;
 
   visitId ??= crypto.randomUUID();
   void fetch(endpoint, {
@@ -49,9 +69,9 @@ export function capturePageview(pathname: string) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       api_key: token,
-      event: "$pageview",
+      event,
       distinct_id: visitId,
-      properties: { $pathname: pathname, $host: productionHost, $process_person_profile: false },
+      properties: { ...properties, $host: productionHost, $process_person_profile: false },
     }),
   }).catch(() => {
     // The game works independently of analytics delivery.
