@@ -190,8 +190,8 @@ Added 2026-11-25, carried over from items 5 to 7 of the `sploosh-ai-web` roadmap
 
 - [x] Uptime monitoring for the live and frozen sites, 2026-11-25: [monitoring and analytics](deployment/monitoring-and-analytics.md)
 - [ ] Major dependency upgrades, one PR each (check Next.js support before TypeScript 7)
-- [ ] Convert any remaining `<img>` tags to `next/image`
-- [ ] Remove old local branches, after checking they are merged
+- [x] Convert any remaining `<img>` tags to `next/image`
+- [x] Remove old local branches, after checking they are merged
 
 ### Repository links in `package.json`
 

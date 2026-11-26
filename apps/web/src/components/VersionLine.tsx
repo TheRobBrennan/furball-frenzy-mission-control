@@ -31,45 +31,32 @@ export default function VersionLine() {
     if (deployedAt) setDeployed(formatDeployTime(deployedAt));
   }, [deployedAt]);
 
+  // Plain footer text, like the Privacy and Terms line above it
+  const link = "underline decoration-white/40 underline-offset-2 hover:text-white";
   return (
-    <div
-      data-testid="version-line"
-      className="mx-auto mt-4 max-w-xs overflow-hidden rounded-xl border border-white/10 bg-white/5 text-left"
-    >
-      <a
-        href={REPO_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        title="View the repository on GitHub"
-        className="flex min-h-11 items-center justify-between gap-3 p-3 hover:bg-white/5"
-      >
-        <span className="leading-tight">
-          <span className="block text-sm font-semibold text-white/80">Furball Frenzy</span>
-          <span className="block text-white/50">Mission Control on GitHub</span>
-        </span>
-        <span aria-hidden="true">&#8599;</span>
-      </a>
-      <div className="space-y-1 border-t border-white/10 px-3 py-2.5 text-[11px] leading-tight text-white/50">
-        <p>
-          v{version}
-          {gitHash && (
-            <>
-              {" "}
-              &middot;{" "}
-              <a
-                href={`${REPO_URL}/commit/${gitHash}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                title="View this commit on GitHub"
-                className="underline decoration-white/20 underline-offset-2 hover:text-white/70"
-              >
-                {gitHash.slice(0, 7)}
-              </a>
-            </>
-          )}
-        </p>
-        {deployed && <p>Released {deployed}</p>}
-      </div>
+    <div data-testid="version-line" className="mt-3 space-y-1 text-[11px] text-white/40">
+      <p>
+        <a href={REPO_URL} target="_blank" rel="noopener noreferrer" title="View the repository on GitHub" className={link}>
+          GitHub
+        </a>{" "}
+        &middot; v{version}
+        {gitHash && (
+          <>
+            {" "}
+            &middot;{" "}
+            <a
+              href={`${REPO_URL}/commit/${gitHash}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              title="View this commit on GitHub"
+              className={link}
+            >
+              {gitHash.slice(0, 7)}
+            </a>
+          </>
+        )}
+      </p>
+      {deployed && <p>Released {deployed}</p>}
     </div>
   );
 }
