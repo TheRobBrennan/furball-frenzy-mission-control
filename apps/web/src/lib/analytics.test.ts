@@ -93,7 +93,7 @@ describe("page-view capture", () => {
   it("sends every edit, even one that repeats an earlier one", () => {
     const send = setup();
     const track = missionFunnel("manual");
-    const edit = { event: "mission_part_changed", category: "launcher", action: "add", from: "", to: "small" } as const;
+    const edit = { event: "mission_part_changed", category: "launcher", action: "add", from: "", to: "small", restores_launch: false } as const;
     track(edit);
     track(edit);
     expect(send).toHaveBeenCalledTimes(2);

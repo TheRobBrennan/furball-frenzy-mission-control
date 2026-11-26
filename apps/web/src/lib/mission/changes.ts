@@ -8,7 +8,7 @@ export type PartCategory = "launcher" | "instrument" | "power" | "comms";
 export type Limit = "mass" | "budget" | "power" | "data";
 
 export type DesignChange =
-  | { event: "mission_part_changed"; category: PartCategory; action: "add" | "remove" | "replace"; from: string; to: string }
+  | { event: "mission_part_changed"; category: PartCategory; action: "add" | "remove" | "replace"; from: string; to: string; restores_launch: boolean }
   | { event: "mission_limit_changed"; limit: Limit; direction: "exceeded" | "resolved"; blocks_launch: boolean }
   | { event: "mission_launch_blockers_changed"; added: string; cleared: string; remaining: string; ready: boolean };
 
@@ -26,10 +26,10 @@ const limits: { id: Limit; blocks: boolean; applies: (d: Design) => boolean }[] 
   { id: "data", blocks: false, applies: (d) => d.commsId !== null },
 ];
 
-function partChanges(before: Design, after: Design): DesignChange[] {
+function partChanges(before: Design, after: Design, restores_launch: boolean): DesignChange[] {
   const changes: DesignChange[] = [];
   const part = (category: PartCategory, from: string, to: string) =>
-    changes.push({ event: "mission_part_changed", category, action: !from ? "add" : !to ? "remove" : "replace", from, to });
+    changes.push({ event: "mission_part_changed", category, action: !from ? "add" : !to ? "remove" : "replace", from, to, restores_launch });
   for (const [category, slot] of slots) {
     if (before[slot] !== after[slot]) part(category, before[slot] ?? "", after[slot] ?? "");
   }
@@ -39,10 +39,11 @@ function partChanges(before: Design, after: Design): DesignChange[] {
 }
 
 export function designChanges(before: Design, after: Design): DesignChange[] {
-  const changes = partChanges(before, after);
-  if (changes.length === 0) return changes;
   const was = evaluate(before);
   const now = evaluate(after);
+  // True when this edit took the design from locked to ready, so a report can name the swap that fixed it.
+  const changes = partChanges(before, after, !was.canLaunch && now.canLaunch);
+  if (changes.length === 0) return changes;
   const over = (e: typeof was, id: Limit) => e.gauges.find((g) => g.id === id)?.status === "over";
   for (const limit of limits) {
     if (over(was, limit.id) === over(now, limit.id)) continue;
