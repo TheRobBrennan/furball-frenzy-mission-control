@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import GamePageNav from "@/components/GamePageNav";
 
 export const metadata: Metadata = {
   title: "The 30 second demo | Furball Frenzy: Mission Control",
@@ -10,9 +11,7 @@ export const metadata: Metadata = {
 export default function DemoPage() {
   return (
     <main id="top" className="mx-auto w-full max-w-4xl flex-1 px-4 py-8 sm:px-6 sm:py-12">
-      <Link href="/" className="font-mono text-xs uppercase tracking-[0.2em] text-ice underline-offset-4 hover:underline">
-        &larr; Mission Control
-      </Link>
+      <GamePageNav />
       <h1 className="mt-4 text-3xl font-black leading-tight text-white sm:text-5xl">The 30 second demo</h1>
       <p className="mt-2 text-lg text-white/80">
         Two Polish elephants, one lifelong dream. Watch the furballs design a mission, run their final checks, and fly to the Moon and home again, then learn

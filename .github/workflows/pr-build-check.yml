@@ -23,6 +23,9 @@ jobs:
 
   web:
     runs-on: ubuntu-latest
+    env:
+      # Exercise the deployed footer through a metadata-enabled production build.
+      NEXT_PUBLIC_BUILD_TIME: "2026-11-25T21:00:00Z"
     defaults:
       run:
         working-directory: apps/web

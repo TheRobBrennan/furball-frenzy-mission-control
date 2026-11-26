@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { caseLabel, hashTarget } from "@/lib/binder";
+import GameSettings from "./GameSettings";
 import SadElephants from "./SadElephants";
 
 type Tab = { id: string; label: string; color: string; side: string };
@@ -279,15 +280,15 @@ export default function MissionNav() {
       aria-label="Mission menu"
       className="sticky top-0 z-40 border-b border-white/10 bg-space/85 backdrop-blur"
     >
-      <div className="mx-auto flex max-w-6xl items-end justify-between gap-3 px-4 pt-2 sm:px-6">
+      <div className="mx-auto flex max-w-6xl items-end gap-2 px-4 pt-2 sm:px-6">
         <a
           href="#top"
           onClick={(e) => go(e, "top")}
-          className="pb-2 font-mono text-xs font-semibold uppercase tracking-[0.2em] text-amber focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber"
+          className="mr-auto pb-2 font-mono text-xs font-semibold uppercase tracking-[0.2em] text-amber focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber"
         >
           Furball Frenzy
         </a>
-        <ul className="hidden items-end gap-1 sm:flex">
+        <ul className="hidden items-end gap-1 md:flex">
           {tabs.map((t) => (
             <li key={t.id}>
               <a
@@ -319,14 +320,15 @@ export default function MissionNav() {
           aria-expanded={menu}
           aria-controls="mission-menu-sheet"
           onClick={() => setMenu((v) => !v)}
-          className="case-pulse mb-2 rounded-lg bg-amber px-3 py-1.5 font-mono text-xs font-semibold text-space sm:hidden"
+          className="case-pulse mb-2 rounded-lg bg-amber px-3 py-1.5 font-mono text-xs font-semibold text-space md:hidden"
         >
           {menu ? "Close" : "Mission menu"}
         </button>
+        <GameSettings />
       </div>
 
       {menu && (
-        <ul id="mission-menu-sheet" className="space-y-2 border-t border-white/10 px-4 pb-4 pt-3 sm:hidden">
+        <ul id="mission-menu-sheet" className="space-y-2 border-t border-white/10 px-4 pb-4 pt-3 md:hidden">
           {tabs.map((t) => (
             <li key={t.id}>
               <a

@@ -17,13 +17,17 @@ export default function PrivacyPage() {
         <li>The mission you design stays in your browser. The Clearance Desk and the story run on your device.</li>
       </ul>
       <h2>What stays on your device</h2>
-      <p>The site remembers a few choices in your browser, nothing is sent anywhere:</p>
+      <p>The site remembers a few choices in your browser, these choices stay on your device:</p>
       <ul>
         <li>The story speed and whether sound is on.</li>
         <li>Whether you have already cleared the elephants from the case, so it does not ask again in the same visit.</li>
       </ul>
-      <h2>No analytics</h2>
-      <p>The site does not use analytics or record sessions.</p>
+      <h2>Analytics</h2>
+      <p>
+        On the live site, anonymous page views are enabled by default when analytics is configured. PostHog receives the page path and a random visit ID
+        that stays in memory until you reload or close the page. We respect Do Not Track and use no analytics cookies or session recordings.
+        Use Settings to turn analytics off or on. Your choice is saved in this browser for future visits.
+      </p>
       <h2>Updates by email, only if you sign up</h2>
       <p>
         If a Stay updated box is shown and you use it, your email address goes to Flodesk, the email service we use, and is used only to send you updates about the
