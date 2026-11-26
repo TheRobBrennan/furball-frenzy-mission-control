@@ -58,7 +58,7 @@ describe("MissionBuilder", () => {
     await launch();
     const manualIndex = vi.mocked(missionFunnel).mock.calls.findIndex(([mode]) => mode === "manual");
     const track = vi.mocked(missionFunnel).mock.results[manualIndex].value;
-    expect(track).toHaveBeenCalledWith(expect.objectContaining({ event: "mission_scene_viewed", attempt: 1, scene: "mission_control", position: 1 }));
+    expect(track).toHaveBeenCalledWith(expect.objectContaining({ event: "mission_scene_viewed", attempt: 1, scene: "mission_control", title: "Mission Control", position: 1 }));
     expect(track).toHaveBeenCalledWith(expect.objectContaining({ event: "mission_run_finished", playback: "skipped", last_scene: "mission_control", story: expect.any(String) }));
   });
 

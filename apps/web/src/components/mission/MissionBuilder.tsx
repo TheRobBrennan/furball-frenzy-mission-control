@@ -131,7 +131,7 @@ export default function MissionBuilder() {
 
   const viewScene = useCallback((view: SceneView) => {
     const run = lastRun.current;
-    run?.track({ event: "mission_scene_viewed", attempt: run.attempt, scene: view.scene, position: view.position, total: view.total });
+    run?.track({ event: "mission_scene_viewed", attempt: run.attempt, scene: view.scene, title: view.title, position: view.position, total: view.total });
   }, []);
 
   const finishLaunch = useCallback((playback: PlaybackEnding, summary: PlaybackSummary) => {

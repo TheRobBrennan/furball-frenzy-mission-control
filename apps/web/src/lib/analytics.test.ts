@@ -28,8 +28,24 @@ describe("page-view capture", () => {
       api_key: "test-token",
       event: "$pageview",
       distinct_id: expect.any(String),
-      properties: { $pathname: "/mission", $host: "furball-frenzy.sploosh.ai", $process_person_profile: false },
+      properties: { $pathname: "/mission", $current_url: "https://furball-frenzy.sploosh.ai/mission", $host: "furball-frenzy.sploosh.ai", $process_person_profile: false },
     });
+  });
+
+  it("gives mission events a URL without anything from the address bar", () => {
+    const send = setup();
+    Object.assign(window.location, { search: "?email=private", hash: "#secret" });
+    missionFunnel("manual")({ event: "mission_builder_viewed" });
+    expect(JSON.parse(send.mock.calls[0][1].body).properties.$current_url).toBe("https://furball-frenzy.sploosh.ai/mission");
+  });
+
+  it("names a scene by its title in place of a URL", () => {
+    const send = setup();
+    missionFunnel("manual")({ event: "mission_scene_viewed", attempt: 1, scene: "mission_control", title: "Mission Control", position: 1, total: 9 });
+    const { properties } = JSON.parse(send.mock.calls[0][1].body);
+    expect(properties.$screen_name).toBe("Mission Control");
+    expect(properties).not.toHaveProperty("$current_url");
+    expect(properties).not.toHaveProperty("title");
   });
 
   it("stops sending immediately on opt-out and resumes on opt-in", () => {
@@ -66,7 +82,7 @@ describe("page-view capture", () => {
   it("sends each scene once per attempt, and again on a retry", () => {
     const send = setup();
     const track = missionFunnel("manual");
-    const view = (attempt: number, scene: string) => track({ event: "mission_scene_viewed", attempt, scene, position: 1, total: 8 });
+    const view = (attempt: number, scene: string) => track({ event: "mission_scene_viewed", attempt, scene, title: "A scene", position: 1, total: 8 });
     view(1, "mission_control");
     view(1, "mission_control");
     view(1, "liftoff");

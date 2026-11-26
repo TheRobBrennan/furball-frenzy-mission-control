@@ -13,6 +13,10 @@ also allows capture only on `furball-frenzy.sploosh.ai`.
 Collection defaults to on when configured. The Settings gear switch and `?analytics=off`
 save an opt-out; the switch or `?analytics=on` restores the default. Do Not Track still applies.
 Page views send an allowlisted path, the production host and a random, in-memory visit ID.
+Events also send `$current_url`, built from that host and path rather than the address bar, which
+fills PostHog's URL / Screen column. `mission_scene_viewed` sends the scene's title as
+`$screen_name` instead, so that column names the scene. In `posthog-live`, press `c` and add
+`$screen_name` to see titles.
 Capture uses the US event endpoint directly, without the browser SDK, a person profile, analytics
 cookies, session recording, query strings or a Referer header. Client IP discard is on in
 project 768669.
@@ -45,7 +49,7 @@ Duplicate the insight with `mode = judges` to inspect demo traffic.
 | `mission_design_started` | First effective edit or first automatic judges pick |
 | `mission_launch_eligible` | The design first passes its launch checks |
 | `mission_launch_started` | The simulation confirms a launch |
-| `mission_scene_viewed` | A story scene starts, with its `scene` name, `position` and `total` |
+| `mission_scene_viewed` | A story scene starts, with its `scene` name, title (`$screen_name`), `position` and `total` |
 | `mission_run_finished` | The player completes or skips the playback |
 | `mission_debrief_viewed` | The debrief first enters the viewport after an attempt |
 
