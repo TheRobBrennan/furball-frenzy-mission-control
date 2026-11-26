@@ -1,0 +1,52 @@
+name: Deploy Production
+
+# Started by Main Branch Merge after a merge to main, or by hand from the Actions tab.
+# Always ships main, whatever ref started it. The frozen NASA copy has its own workflow.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy to production
+    runs-on: ubuntu-latest
+    # Deploys run unattended. Add Required reviewers to the furball-frenzy environment to gate them.
+    environment:
+      name: furball-frenzy
+      url: https://furball-frenzy.sploosh.ai
+    concurrency:
+      group: deploy-furball-frenzy
+      cancel-in-progress: false
+    steps:
+      # main now includes the merged version bump, so the deployed build shows the new version
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Install the deploy key and settings
+        env:
+          FURBALL_DEPLOY_SSH_KEY: ${{ secrets.FURBALL_DEPLOY_SSH_KEY }}
+          FURBALL_VM_IP: ${{ secrets.FURBALL_VM_IP }}
+        run: |
+          mkdir -p ~/.ssh
+          install -m 600 /dev/null ~/.ssh/furball_oracle_deploy
+          printf '%s\n' "$FURBALL_DEPLOY_SSH_KEY" > ~/.ssh/furball_oracle_deploy
+          # No TUNNEL_ID and no credentials here on purpose, the VM keeps its own copies
+          printf 'FURBALL_VM_IP=%s\nFURBALL_PUBLIC_HOSTNAME=furball-frenzy.sploosh.ai\n' "$FURBALL_VM_IP" > .env.deploy
+
+      - name: Deploy the app to the Oracle VM
+        run: ./scripts/deploy/deploy-to-oracle.sh up app
+
+      - name: Verify the public site
+        run: |
+          for i in $(seq 1 12); do
+            code=$(curl -s -o /dev/null --max-time 15 -w '%{http_code}' https://furball-frenzy.sploosh.ai/ || true)
+            echo "Attempt $i: https://furball-frenzy.sploosh.ai/ -> ${code:-000}"
+            [ "$code" = "200" ] && exit 0
+            sleep 10
+          done
+          echo "Site did not return 200 after the deploy"
+          exit 1
