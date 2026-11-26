@@ -31,34 +31,32 @@ export default function VersionLine() {
     if (deployedAt) setDeployed(formatDeployTime(deployedAt));
   }, [deployedAt]);
 
+  // Plain footer text, like the Privacy and Terms line above it
+  const link = "underline decoration-white/40 underline-offset-2 hover:text-white";
   return (
-    <p
-      data-testid="version-line"
-      className="mt-3 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-[11px] text-white/40"
-    >
-      <span>v{version}</span>
-      {gitHash && (
-        <>
-          <span aria-hidden="true">&middot;</span>
-          <a
-            href={`${REPO_URL}/commit/${gitHash}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            title="View this commit on GitHub"
-            className="underline decoration-white/20 underline-offset-2 hover:text-white/70"
-          >
-            {gitHash.slice(0, 7)}
-          </a>
-        </>
-      )}
-      {deployed && (
-        <>
-          <span aria-hidden="true" className="hidden sm:inline">
-            &middot;
-          </span>
-          <span className="basis-full sm:basis-auto">Released {deployed}</span>
-        </>
-      )}
-    </p>
+    <div data-testid="version-line" className="mt-3 space-y-1 text-[11px] text-white/40">
+      <p>
+        <a href={REPO_URL} target="_blank" rel="noopener noreferrer" title="View the repository on GitHub" className={link}>
+          GitHub
+        </a>{" "}
+        &middot; v{version}
+        {gitHash && (
+          <>
+            {" "}
+            &middot;{" "}
+            <a
+              href={`${REPO_URL}/commit/${gitHash}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              title="View this commit on GitHub"
+              className={link}
+            >
+              {gitHash.slice(0, 7)}
+            </a>
+          </>
+        )}
+      </p>
+      {deployed && <p>Released {deployed}</p>}
+    </div>
   );
 }
