@@ -14,7 +14,7 @@ export default function PrivacyPage() {
       <ul>
         <li>There are no accounts, so no names, emails, or passwords.</li>
         <li>We do not sell or share information about you with advertisers.</li>
-        <li>The mission you design stays in your browser. The Clearance Desk and the story run on your device.</li>
+        <li>The mission you design stays in your browser. Anything you type to convince the elephants stays on your device.</li>
       </ul>
       <h2>What stays on your device</h2>
       <p>The site remembers a few choices in your browser, these choices stay on your device:</p>
