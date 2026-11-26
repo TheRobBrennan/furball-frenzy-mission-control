@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const link = "underline decoration-1 underline-offset-4 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber";
+const link = "inline-flex min-h-11 items-center underline decoration-1 underline-offset-4 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber";
 
 /**
  * The privacy and terms links. On the home page they sit inside the footer's own text (inline), and on every other page
@@ -18,7 +18,7 @@ export default function LegalLinks({ inline = false }: { inline?: boolean }) {
       <Link href="/privacy" className={link}>
         Privacy policy
       </Link>
-      <span aria-hidden="true" className="mx-2 text-white/30">
+      <span aria-hidden="true" className={inline ? "hidden" : "mx-2 text-white/30"}>
         &middot;
       </span>
       <Link href="/terms" className={link}>
@@ -26,7 +26,7 @@ export default function LegalLinks({ inline = false }: { inline?: boolean }) {
       </Link>
     </>
   );
-  if (inline) return <nav aria-label="Legal" className="mt-1 block">{links}</nav>;
+  if (inline) return <nav aria-label="Legal" className="flex shrink-0 flex-wrap items-center gap-x-4 text-white/75">{links}</nav>;
   return (
     <footer className="mx-auto w-full max-w-5xl px-6 pb-10 pt-6 text-center font-mono text-xs text-white/50">
       <nav aria-label="Legal">{links}</nav>

@@ -31,11 +31,10 @@ export default function VersionLine() {
     if (deployedAt) setDeployed(formatDeployTime(deployedAt));
   }, [deployedAt]);
 
-  // Plain footer text, like the Privacy and Terms line above it
   const link = "underline decoration-white/40 underline-offset-2 hover:text-white";
   return (
-    <div data-testid="version-line" className="mt-3 space-y-1 text-[11px] text-white/40">
-      <p>
+    <div data-testid="version-line" className="mt-2 flex flex-wrap items-baseline justify-between gap-x-5 gap-y-1 border-t border-white/15 pt-3 font-mono text-white/65">
+      <p className="whitespace-nowrap">
         <a href={REPO_URL} target="_blank" rel="noopener noreferrer" title="View the repository on GitHub" className={link}>
           GitHub
         </a>{" "}
