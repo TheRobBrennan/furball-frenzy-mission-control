@@ -245,7 +245,7 @@ function Stage({ scene, animate, speed, paused, clock, last, onNext, onDone }: S
 export type PlaybackEnding = "completed" | "skipped";
 /** How this run of the story turns out, which can differ from the simulation when the crew turns for home. */
 export type StoryEnding = "success" | "learned" | "turned_home" | "grounded";
-export type SceneView = { scene: string; position: number; total: number };
+export type SceneView = { scene: string; title: string; position: number; total: number };
 export type PlaybackSummary = { story: StoryEnding; lastScene: string };
 
 export default function MissionStory({ design, result, onDone, clock = () => new Date(), hold, trouble, onScene }: { design: Design; result: MissionResult; onDone: (ending: PlaybackEnding, summary: PlaybackSummary) => void; onScene?: (view: SceneView) => void; clock?: () => Date; hold?: number | null; trouble?: Trouble | null }) {
@@ -304,14 +304,14 @@ export default function MissionStory({ design, result, onDone, clock = () => new
   };
   const story: StoryEnding = !result.launched ? "grounded" : chosenTrouble?.outcome === "abort" ? "turned_home" : result.success ? "success" : "learned";
   const position = Math.min(index, scenes.length - 1);
-  const sceneId = scenes[position].id;
+  const { id: sceneId, title: sceneTitle } = scenes[position];
   const seen = useRef(onScene);
   useEffect(() => {
     seen.current = onScene;
   }, [onScene]);
   useEffect(() => {
-    seen.current?.({ scene: sceneId, position: position + 1, total: scenes.length });
-  }, [sceneId, position, scenes.length]);
+    seen.current?.({ scene: sceneId, title: sceneTitle, position: position + 1, total: scenes.length });
+  }, [sceneId, sceneTitle, position, scenes.length]);
   const summary = useRef<PlaybackSummary>({ story, lastScene: sceneId });
   useEffect(() => {
     summary.current = { story, lastScene: sceneId };

@@ -243,7 +243,7 @@ describe("MissionStory progress reporting", () => {
   it("reports the first scene with its place in the story", () => {
     const onScene = vi.fn();
     render(<MissionStory design={balanced} result={simulate(balanced)} onDone={() => {}} onScene={onScene} hold={null} trouble={null} />);
-    expect(onScene).toHaveBeenCalledWith({ scene: "mission_control", position: 1, total: 9 });
+    expect(onScene).toHaveBeenCalledWith({ scene: "mission_control", title: "Mission Control", position: 1, total: 9 });
   });
 
   it("says the crew turned for home, even though the design itself would have worked", () => {

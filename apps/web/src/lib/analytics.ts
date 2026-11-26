@@ -43,7 +43,7 @@ export function capturePageview(pathname: string) {
 type MissionStage =
   | { event: "mission_builder_viewed" | "mission_design_started" | "mission_launch_eligible" }
   | { event: "mission_launch_started" | "mission_debrief_viewed"; attempt: number }
-  | { event: "mission_scene_viewed"; attempt: number; scene: string; position: number; total: number }
+  | { event: "mission_scene_viewed"; attempt: number; scene: string; title: string; position: number; total: number }
   | {
       event: "mission_run_finished";
       attempt: number;
@@ -64,6 +64,12 @@ export function missionFunnel(mode: "manual" | "judges") {
   };
 }
 
+// PostHog's URL / Screen column shows $current_url, or $screen_name when there is no URL. A scene
+// shows its title, everything else a URL built from the allowlisted path, never the address bar.
+function place({ title, $pathname }: Record<string, string | number | undefined>) {
+  return title ? { $screen_name: title, title: undefined } : { $current_url: `https://${productionHost}${$pathname}` };
+}
+
 function capture(event: "$pageview" | MissionStage["event"], properties: Record<string, string | number>) {
   const token = process.env.NEXT_PUBLIC_FURBALL_POSTHOG_TOKEN;
   if (!token || window.location.hostname !== productionHost || optedOut() ||
@@ -79,8 +85,7 @@ function capture(event: "$pageview" | MissionStage["event"], properties: Record<
       api_key: token,
       event,
       distinct_id: visitId,
-      // PostHog's URL / Screen column reads $current_url. It is built from the allowlisted path, never the address bar.
-      properties: { ...properties, $current_url: `https://${productionHost}${properties.$pathname}`, $host: productionHost, $process_person_profile: false },
+      properties: { ...properties, ...place(properties), $host: productionHost, $process_person_profile: false },
     }),
   }).catch(() => {
     // The game works independently of analytics delivery.
