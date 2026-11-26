@@ -52,6 +52,16 @@ describe("MissionBuilder", () => {
     expect(screen.getByTestId("science")).toHaveTextContent("Science returned: 100%");
   });
 
+  it("tracks the scene that played and how the story ended", async () => {
+    render(<MissionBuilder />);
+    await buildBalanced();
+    await launch();
+    const manualIndex = vi.mocked(missionFunnel).mock.calls.findIndex(([mode]) => mode === "manual");
+    const track = vi.mocked(missionFunnel).mock.results[manualIndex].value;
+    expect(track).toHaveBeenCalledWith(expect.objectContaining({ event: "mission_scene_viewed", attempt: 1, scene: "control", position: 1 }));
+    expect(track).toHaveBeenCalledWith(expect.objectContaining({ event: "mission_run_finished", playback: "skipped", last_scene: "control", story: expect.any(String) }));
+  });
+
   it("tells the mission story first, and the debrief comes after it", async () => {
     render(<MissionBuilder />);
     await buildBalanced();
@@ -78,7 +88,7 @@ describe("MissionBuilder", () => {
     expect(track).toHaveBeenCalledWith({ event: "mission_design_started" });
     expect(track).toHaveBeenCalledWith({ event: "mission_launch_eligible" });
     expect(track).toHaveBeenCalledWith({ event: "mission_launch_started", attempt: 1 });
-    expect(track).toHaveBeenCalledWith({ event: "mission_run_finished", attempt: 1, playback: "skipped", outcome: "success" });
+    expect(track).toHaveBeenCalledWith({ event: "mission_run_finished", attempt: 1, playback: "skipped", outcome: "success", story: expect.any(String), last_scene: "control" });
     expect(track).not.toHaveBeenCalledWith({ event: "mission_debrief_viewed", attempt: 1 });
     act(() => reportVisibility?.([{ isIntersecting: true } as IntersectionObserverEntry], observer as unknown as IntersectionObserver));
     expect(track).toHaveBeenCalledWith({ event: "mission_debrief_viewed", attempt: 1 });

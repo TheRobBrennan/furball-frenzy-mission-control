@@ -25,7 +25,7 @@ control at phone width and confirm the frozen site sends nothing.
 
 ## Mission launch funnel
 
-Use these six stages in order in a PostHog funnel. Apply `mode = manual` to the
+Use these six stages in order, leaving out `mission_scene_viewed`, in a PostHog funnel. Apply `mode = manual` to the
 insight and hold `builder_id` constant to keep stages from different builders from joining.
 Duplicate the insight with `mode = judges` to inspect demo traffic.
 
@@ -35,12 +35,18 @@ Duplicate the insight with `mode = judges` to inspect demo traffic.
 | `mission_design_started` | First effective edit or first automatic judges pick |
 | `mission_launch_eligible` | The design first passes its launch checks |
 | `mission_launch_started` | The simulation confirms a launch |
+| `mission_scene_viewed` | A story scene starts, with its `scene` name, `position` and `total` |
 | `mission_run_finished` | The player completes or skips the playback |
 | `mission_debrief_viewed` | The debrief first enters the viewport after an attempt |
 
-Each event has a random builder ID for the current page and mode. Launch, finish, and debrief
+Each event has a random builder ID for the current page and mode. Launch, scene, finish, and debrief
 events carry a one-based attempt number. Finish carries simulation outcome and playback ending
-independently. A skipped story can have a successful simulation. The payload contains only
+independently. A skipped story can have a successful simulation.
+Finish also carries `story` (`success`, `learned`, `turned_home` or `grounded`), which is how this
+run of the story turns out whether or not it was watched, and `last_scene`, the scene on screen when
+playback ended. To see which scenes were watched, chart `mission_scene_viewed` broken down by `scene`.
+`scene` and `total` come from the story script, so added or removed scenes are reported without an
+analytics change. Keep a scene's id stable, renaming it splits its history. The payload contains only
 these fields and the existing site metadata. No part selections or free text are sent.
 
 After deploy, run a manual mission and a judges demo, then repeat with analytics off. Check

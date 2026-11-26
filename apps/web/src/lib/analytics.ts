@@ -43,13 +43,21 @@ export function capturePageview(pathname: string) {
 type MissionStage =
   | { event: "mission_builder_viewed" | "mission_design_started" | "mission_launch_eligible" }
   | { event: "mission_launch_started" | "mission_debrief_viewed"; attempt: number }
-  | { event: "mission_run_finished"; attempt: number; playback: "completed" | "skipped"; outcome: "success" | "unsuccessful" | "blocked" };
+  | { event: "mission_scene_viewed"; attempt: number; scene: string; position: number; total: number }
+  | {
+      event: "mission_run_finished";
+      attempt: number;
+      playback: "completed" | "skipped";
+      outcome: "success" | "unsuccessful" | "blocked";
+      story: "success" | "learned" | "turned_home" | "grounded";
+      last_scene: string;
+    };
 
 export function missionFunnel(mode: "manual" | "judges") {
   const builderId = crypto.randomUUID();
   const emitted = new Set<string>();
   return ({ event, ...stage }: MissionStage) => {
-    const key = "attempt" in stage ? `${event}:${stage.attempt}` : event;
+    const key = "attempt" in stage ? `${event}:${stage.attempt}:${"scene" in stage ? stage.scene : ""}` : event;
     if (emitted.has(key)) return;
     emitted.add(key);
     capture(event, { $pathname: "/mission", builder_id: builderId, mode, ...stage });
