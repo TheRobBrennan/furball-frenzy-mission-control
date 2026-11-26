@@ -37,6 +37,18 @@ Frenzy project in your browser, then authorize when it opens. The sign-in is cac
 `npm run posthog:live -- --event-type mission_scene_viewed,mission_run_finished`.
 Inside the viewer, `p` pauses, `f` filters by event, Enter shows an event's details, `q` quits.
 
+## Design edits
+
+Each effective edit sends these, with `builder_id` and `mode`. Values are catalog IDs and fixed codes.
+
+| Event | Properties |
+| --- | --- |
+| `mission_part_changed` | `category`, `action` (add, remove, replace), `from`, `to` |
+| `mission_limit_changed` | `limit` (mass, budget, power, data), `direction`, `blocks_launch` |
+| `mission_launch_blockers_changed` | `added`, `cleared`, `remaining` (comma-separated issue codes), `ready` |
+
+Starting over is not an edit. Removing the part that sets a limit is not reported as resolving it.
+
 ## Mission launch funnel
 
 Use these six stages in order, leaving out `mission_scene_viewed`, in a PostHog funnel. Apply `mode = manual` to the
@@ -61,7 +73,7 @@ run of the story turns out whether or not it was watched, and `last_scene`, the 
 playback ended. To see which scenes were watched, chart `mission_scene_viewed` broken down by `scene`.
 `scene` and `total` come from the story script, so added or removed scenes are reported without an
 analytics change. Keep a scene's id stable, renaming it splits its history. The payload contains only
-these fields and the existing site metadata. No part selections or free text are sent.
+these fields and the existing site metadata. No free text is sent.
 
 After deploy, run a manual mission and a judges demo, then repeat with analytics off. Check
 the event order and fields in the Furball project, and save the manual launch funnel after

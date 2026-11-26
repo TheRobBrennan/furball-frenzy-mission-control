@@ -1,3 +1,5 @@
+import type { DesignChange } from "./mission/changes";
+
 const productionHost = "furball-frenzy.sploosh.ai";
 const endpoint = "https://us.i.posthog.com/i/v0/e/";
 const preferenceKey = "furball-analytics-off";
@@ -41,6 +43,7 @@ export function capturePageview(pathname: string) {
 }
 
 type MissionStage =
+  | DesignChange
   | { event: "mission_builder_viewed" | "mission_design_started" | "mission_launch_eligible" }
   | { event: "mission_launch_started" | "mission_debrief_viewed"; attempt: number }
   | { event: "mission_scene_viewed"; attempt: number; scene: string; title: string; position: number; total: number }
@@ -53,24 +56,29 @@ type MissionStage =
       last_scene: string;
     };
 
+const repeats = new Set<string>(["mission_part_changed", "mission_limit_changed", "mission_launch_blockers_changed"]);
+
 export function missionFunnel(mode: "manual" | "judges") {
   const builderId = crypto.randomUUID();
   const emitted = new Set<string>();
   return ({ event, ...stage }: MissionStage) => {
     const key = "attempt" in stage ? `${event}:${stage.attempt}:${"scene" in stage ? stage.scene : ""}` : event;
-    if (emitted.has(key)) return;
-    emitted.add(key);
+    // Stages are sent once, every edit to the design counts.
+    if (!repeats.has(event)) {
+      if (emitted.has(key)) return;
+      emitted.add(key);
+    }
     capture(event, { $pathname: "/mission", builder_id: builderId, mode, ...stage });
   };
 }
 
 // PostHog's URL / Screen column shows $current_url, or $screen_name when there is no URL. A scene
 // shows its title, everything else a URL built from the allowlisted path, never the address bar.
-function place({ title, $pathname }: Record<string, string | number | undefined>) {
+function place({ title, $pathname }: Record<string, string | number | boolean | undefined>) {
   return title ? { $screen_name: title, title: undefined } : { $current_url: `https://${productionHost}${$pathname}` };
 }
 
-function capture(event: "$pageview" | MissionStage["event"], properties: Record<string, string | number>) {
+function capture(event: "$pageview" | MissionStage["event"], properties: Record<string, string | number | boolean>) {
   const token = process.env.NEXT_PUBLIC_FURBALL_POSTHOG_TOKEN;
   if (!token || window.location.hostname !== productionHost || optedOut() ||
       navigator.doNotTrack === "1") return;
