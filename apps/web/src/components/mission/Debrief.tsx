@@ -1,7 +1,7 @@
 import { compareToReal, leftOnTable, type Design, type MissionResult } from "@/lib/mission";
 
 /** What happened, phase by phase, how much science got home, and what cost the most. */
-export default function Debrief({ result, design, onChange, onReset }: { result: MissionResult; design?: Design; onChange: () => void; onReset: () => void }) {
+export default function Debrief({ result, design, onChange, onReset, onReference }: { result: MissionResult; design?: Design; onChange: () => void; onReset: () => void; onReference?: (mission: string) => void }) {
   const real = design && result.launched ? compareToReal(design) : null;
   const left = design ? leftOnTable(design, result) : [];
   return (
@@ -64,7 +64,7 @@ export default function Debrief({ result, design, onChange, onReset }: { result:
             {real.mission.sources.map((s, i) => (
               <span key={s.url}>
                 {i > 0 && ", "}
-                <a href={s.url} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">
+                <a href={s.url} onClick={() => onReference?.(real.mission.name)} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">
                   {s.label}
                 </a>
               </span>

@@ -49,6 +49,22 @@ Each effective edit sends these, with `builder_id` and `mode`. Values are catalo
 
 Starting over is not an edit. Removing the part that sets a limit is not reported as resolving it.
 
+## Debrief and next attempt
+
+| Event | Trigger and properties |
+| --- | --- |
+| `mission_revision_started` | "Change one thing", or editing a part under the debrief. `attempt` is the one being revised |
+| `mission_design_reset` | "Start over" on the debrief. `attempt` is the one left behind |
+| `mission_reference_opened` | A real mission source link is clicked, once per attempt. `attempt`, `reference` (mission name from the game's list) |
+
+`mission_launch_started` also carries `previous_attempt` (0 for the first), `previous_debrief_seen` and `via`
+(`first`, `unchanged`, `revision`, `reset`). `mission_run_finished` also carries `science`, `days_operating` and
+`loss_cause` (`power`, `data`, `launch`, `none`). Attempt numbers are per `builder_id` and `mode`.
+
+For first versus next attempt, join each launch to the finish with the same `builder_id`, `mode` and `attempt`,
+keeping `mode = manual`. A relaunch with `previous_debrief_seen = false` means the player never saw the earlier
+result, report it apart from an observed unsuccessful mission.
+
 ## Mission launch funnel
 
 Use these six stages in order, leaving out `mission_scene_viewed`, in a PostHog funnel. Apply `mode = manual` to the

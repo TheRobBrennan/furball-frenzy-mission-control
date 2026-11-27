@@ -1,3 +1,4 @@
+import type { Via } from "./mission/attempts";
 import type { DesignChange } from "./mission/changes";
 
 const productionHost = "furball-frenzy.sploosh.ai";
@@ -45,7 +46,9 @@ export function capturePageview(pathname: string) {
 type MissionStage =
   | DesignChange
   | { event: "mission_builder_viewed" | "mission_design_started" | "mission_launch_eligible" }
-  | { event: "mission_launch_started" | "mission_debrief_viewed"; attempt: number }
+  | { event: "mission_debrief_viewed" | "mission_revision_started" | "mission_design_reset"; attempt: number }
+  | { event: "mission_launch_started"; attempt: number; previous_attempt: number; previous_debrief_seen: boolean; via: Via }
+  | { event: "mission_reference_opened"; attempt: number; reference: string }
   | { event: "mission_scene_viewed"; attempt: number; scene: string; title: string; position: number; total: number }
   | {
       event: "mission_run_finished";
@@ -54,6 +57,9 @@ type MissionStage =
       outcome: "success" | "unsuccessful" | "blocked";
       story: "success" | "learned" | "turned_home" | "grounded";
       last_scene: string;
+      science: number;
+      days_operating: number;
+      loss_cause: "power" | "data" | "launch" | "none";
     };
 
 const repeats = new Set<string>(["mission_part_changed", "mission_limit_changed", "mission_launch_blockers_changed"]);
