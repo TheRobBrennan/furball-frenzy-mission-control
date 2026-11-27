@@ -96,12 +96,39 @@ describe("MissionBuilder", () => {
     expect(missionFunnel).toHaveBeenCalledExactlyOnceWith("manual");
     expect(track).toHaveBeenCalledWith({ event: "mission_design_started" });
     expect(track).toHaveBeenCalledWith({ event: "mission_launch_eligible" });
-    expect(track).toHaveBeenCalledWith({ event: "mission_launch_started", attempt: 1 });
-    expect(track).toHaveBeenCalledWith({ event: "mission_run_finished", attempt: 1, playback: "skipped", outcome: "success", story: expect.any(String), last_scene: "mission_control" });
+    expect(track).toHaveBeenCalledWith({ event: "mission_launch_started", attempt: 1, previous_attempt: 0, previous_debrief_seen: false, via: "first" });
+    expect(track).toHaveBeenCalledWith({ event: "mission_run_finished", attempt: 1, playback: "skipped", outcome: "success", story: expect.any(String), last_scene: "mission_control", science: 100, days_operating: 14, loss_cause: "none" });
     expect(track).not.toHaveBeenCalledWith({ event: "mission_debrief_viewed", attempt: 1 });
     act(() => reportVisibility?.([{ isIntersecting: true } as IntersectionObserverEntry], observer as unknown as IntersectionObserver));
     expect(track).toHaveBeenCalledWith({ event: "mission_debrief_viewed", attempt: 1 });
     expect(observer.disconnect).toHaveBeenCalled();
+  });
+
+  it("links a relaunch to the attempt before, through a revision and a reset", async () => {
+    render(<MissionBuilder />);
+    await buildBalanced();
+    await launch();
+    const track = vi.mocked(missionFunnel).mock.results[0].value;
+    await userEvent.click(screen.getByTestId("real-mission").querySelector("a")!);
+    expect(track).toHaveBeenCalledWith({ event: "mission_reference_opened", attempt: 1, reference: expect.any(String) });
+    await userEvent.click(screen.getByRole("button", { name: /change one thing/i }));
+    expect(track).toHaveBeenCalledWith({ event: "mission_revision_started", attempt: 1 });
+    await launch();
+    expect(track).toHaveBeenCalledWith(expect.objectContaining({ event: "mission_launch_started", attempt: 2, previous_attempt: 1, via: "revision" }));
+    await userEvent.click(screen.getByRole("button", { name: /start over/i }));
+    expect(track).toHaveBeenCalledWith({ event: "mission_design_reset", attempt: 2 });
+    await buildBalanced();
+    await launch();
+    expect(track).toHaveBeenCalledWith(expect.objectContaining({ event: "mission_launch_started", attempt: 3, previous_attempt: 2, via: "reset" }));
+  });
+
+  it("counts editing a part under the debrief as a revision", async () => {
+    render(<MissionBuilder />);
+    await buildBalanced();
+    await launch();
+    const track = vi.mocked(missionFunnel).mock.results[0].value;
+    await pick(/radar/i);
+    expect(track).toHaveBeenCalledWith({ event: "mission_revision_started", attempt: 1 });
   });
 
   it("ticks each step as it is completed", async () => {
@@ -168,7 +195,7 @@ describe("MissionBuilder", () => {
       expect(screen.getByTestId("mission-story")).toBeInTheDocument();
       const judgesIndex = vi.mocked(missionFunnel).mock.calls.findIndex(([mode]) => mode === "judges");
       const track = vi.mocked(missionFunnel).mock.results[judgesIndex].value;
-      expect(track).toHaveBeenCalledWith({ event: "mission_launch_started", attempt: 1 });
+      expect(track).toHaveBeenCalledWith({ event: "mission_launch_started", attempt: 1, previous_attempt: 0, previous_debrief_seen: false, via: "first" });
     });
 
     it("stops when the visitor wants to design it themselves, and leaves the parts picked so far", () => {

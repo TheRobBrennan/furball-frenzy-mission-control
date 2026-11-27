@@ -58,15 +58,17 @@ describe("page-view capture", () => {
     expect(send).toHaveBeenCalledOnce();
   });
 
+  const link = { previous_attempt: 0, previous_debrief_seen: false, via: "first" } as const;
+
   it("keeps manual and judges funnels separate and emits each attempt stage once", () => {
     const send = setup();
     const manual = missionFunnel("manual");
     const judges = missionFunnel("judges");
     manual({ event: "mission_builder_viewed" });
     manual({ event: "mission_builder_viewed" });
-    manual({ event: "mission_launch_started", attempt: 1 });
-    manual({ event: "mission_launch_started", attempt: 1 });
-    manual({ event: "mission_launch_started", attempt: 2 });
+    manual({ event: "mission_launch_started", attempt: 1, ...link });
+    manual({ event: "mission_launch_started", attempt: 1, ...link });
+    manual({ event: "mission_launch_started", attempt: 2, ...link });
     judges({ event: "mission_builder_viewed" });
 
     const payloads = send.mock.calls.map(([, request]) => JSON.parse(request.body));
@@ -105,12 +107,12 @@ describe("page-view capture", () => {
     track({ event: "mission_builder_viewed" });
     setAnalyticsEnabled(false);
     track({ event: "mission_design_started" });
-    track({ event: "mission_launch_started", attempt: 1 });
+    track({ event: "mission_launch_started", attempt: 1, ...link });
     expect(send).toHaveBeenCalledOnce();
 
     setAnalyticsEnabled(true);
     track({ event: "mission_design_started" });
-    track({ event: "mission_launch_started", attempt: 2 });
+    track({ event: "mission_launch_started", attempt: 2, ...link });
     expect(send).toHaveBeenCalledTimes(2);
     const [, request] = send.mock.calls[1];
     expect(JSON.parse(request.body).properties.attempt).toBe(2);

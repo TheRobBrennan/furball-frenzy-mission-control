@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { missionFunnel } from "@/lib/analytics";
+import { attemptLink, nextAttempt, type Attempt } from "@/lib/mission/attempts";
 import { designChanges } from "@/lib/mission/changes";
 import { reducedMotion } from "@/lib/motion";
 import {
@@ -65,8 +66,8 @@ export default function MissionBuilder() {
   const evaluation = useMemo(() => evaluate(design), [design]);
 
   const journeys = useRef<Partial<Record<"manual" | "judges", ReturnType<typeof missionFunnel>>>>({});
-  const attempts = useRef({ manual: 0, judges: 0 });
-  const lastRun = useRef<{ track: ReturnType<typeof missionFunnel>; attempt: number } | null>(null);
+  const attempts = useRef<Partial<Record<"manual" | "judges", Attempt>>>({});
+  const lastRun = useRef<(Attempt & { track: ReturnType<typeof missionFunnel> }) | null>(null);
   const journey = useCallback((mode: "manual" | "judges") => {
     const track = journeys.current[mode] ??= missionFunnel(mode);
     track({ event: "mission_builder_viewed" });
@@ -77,11 +78,12 @@ export default function MissionBuilder() {
     primeMissionSound();
     const r = simulate(design);
     const track = journey(mode);
-    const run = { track, attempt: ++attempts.current[mode] };
-    lastRun.current = run;
+    const previous = attempts.current[mode];
+    const run = { track, ...nextAttempt(previous) };
+    lastRun.current = attempts.current[mode] = run;
     if (r.launched) {
       track({ event: "mission_launch_eligible" });
-      track({ event: "mission_launch_started", attempt: run.attempt });
+      track({ event: "mission_launch_started", attempt: run.attempt, ...attemptLink(previous) });
     }
     pending.current = r;
     setRunning(r);
@@ -146,6 +148,9 @@ export default function MissionBuilder() {
         story: summary.story,
         last_scene: summary.lastScene,
         outcome: !mission.launched ? "blocked" : mission.success ? "success" : "unsuccessful",
+        science: mission.science,
+        days_operating: mission.daysOperating,
+        loss_cause: mission.lossCause ?? "none",
       });
     }
     setResult(mission);
@@ -162,6 +167,7 @@ export default function MissionBuilder() {
     if (typeof IntersectionObserver === "undefined") return;
     const observer = new IntersectionObserver(([entry]) => {
       if (entry?.isIntersecting) {
+        run.debriefSeen = true;
         run.track({ event: "mission_debrief_viewed", attempt: run.attempt });
         observer.disconnect();
       }
@@ -180,6 +186,14 @@ export default function MissionBuilder() {
     for (const change of designChanges(before, design)) track(change);
   }, [design, auto, journey]);
 
+  // Leaving a debrief to try again, either by changing the design or by starting over.
+  const leaveDebrief = (next: "revision" | "reset") => {
+    const run = lastRun.current;
+    if (!run) return;
+    run.next = next;
+    run.track({ event: next === "reset" ? "mission_design_reset" : "mission_revision_started", attempt: run.attempt });
+  };
+
   // Any change to the design clears an old debrief, it would no longer describe what is on screen.
   const update = (next: Design) => {
     if (next !== emptyDesign && auto === null) {
@@ -187,6 +201,7 @@ export default function MissionBuilder() {
       track({ event: "mission_design_started" });
       if (evaluate(next).canLaunch) track({ event: "mission_launch_eligible" });
     }
+    if (result && next !== emptyDesign) leaveDebrief("revision");
     setDesign(next);
     setResult(null);
   };
@@ -276,7 +291,22 @@ export default function MissionBuilder() {
 
       {result && (
         <div ref={debrief} className="scroll-mt-16 lg:col-span-2">
-          <Debrief result={result} design={design} onChange={() => setResult(null)} onReset={() => update(emptyDesign)} />
+          <Debrief
+            result={result}
+            design={design}
+            onChange={() => {
+              leaveDebrief("revision");
+              setResult(null);
+            }}
+            onReset={() => {
+              leaveDebrief("reset");
+              update(emptyDesign);
+            }}
+            onReference={(reference) => {
+              const run = lastRun.current;
+              run?.track({ event: "mission_reference_opened", attempt: run.attempt, reference });
+            }}
+          />
         </div>
       )}
     </div>
