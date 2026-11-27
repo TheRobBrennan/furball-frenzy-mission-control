@@ -65,6 +65,18 @@ For first versus next attempt, join each launch to the finish with the same `bui
 keeping `mode = manual`. A relaunch with `previous_debrief_seen = false` means the player never saw the earlier
 result, report it apart from an observed unsuccessful mission.
 
+## Parade Day
+
+| Event | Trigger and properties |
+| --- | --- |
+| `parade_started` | "Start the parade" |
+| `parade_scene_viewed` | A scene appears, once per showing. `scene`, `title`, `position`, `total` |
+| `parade_finished` | The last scene appears. `playback` (`watched`, `skipped`) |
+| `parade_replayed` | "Watch again" |
+| `parade_sound_changed` | `sound` (`on`, `off`) |
+
+All carry `show_id` (one page visit) and `showing` (1, then 2 after a replay).
+
 ## Mission launch funnel
 
 Use these six stages in order, leaving out `mission_scene_viewed`, in a PostHog funnel. Apply `mode = manual` to the

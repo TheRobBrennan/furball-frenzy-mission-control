@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { capturePageview, missionFunnel, setAnalyticsEnabled } from "./analytics";
+import { capturePageview, missionFunnel, paradeFunnel, setAnalyticsEnabled } from "./analytics";
 
 afterEach(() => {
   setAnalyticsEnabled(true);
@@ -116,6 +116,19 @@ describe("page-view capture", () => {
     expect(send).toHaveBeenCalledTimes(2);
     const [, request] = send.mock.calls[1];
     expect(JSON.parse(request.body).properties.attempt).toBe(2);
+  });
+
+  it("counts each parade scene once per showing, and again after a replay", () => {
+    const send = setup();
+    const track = paradeFunnel();
+    const scene = { event: "parade_scene_viewed", scene: "moon-float", title: "Moon", position: 10, total: 10 } as const;
+    track(scene);
+    track(scene);
+    track({ event: "parade_replayed" });
+    track(scene);
+    const payloads = send.mock.calls.map(([, request]) => JSON.parse(request.body));
+    expect(payloads.map((p) => p.event)).toEqual(["parade_scene_viewed", "parade_replayed", "parade_scene_viewed"]);
+    expect(payloads[2].properties).toMatchObject({ showing: 2, show_id: payloads[0].properties.show_id, $pathname: "/parade" });
   });
 
   it.each([

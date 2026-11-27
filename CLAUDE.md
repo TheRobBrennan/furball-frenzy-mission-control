@@ -72,6 +72,17 @@ Whimsy, intrigue, and mischief: the furballs and the American Space Program. War
 kind, never creepy. The Polish elephants love cameras, drawings, and all kinds of media, and keep
 a few things classified just for the fun of it, they are playful, not sneaky or surveilling.
 
+## Analytics is part of every feature
+
+**A new page, flow, or control is not done until PostHog can see it.** Plan the events with the feature,
+and ship them in the same PR:
+
+- Add the page path to `routes` in `apps/web/src/lib/analytics.ts`, and send events through that file only.
+- Say what question each event answers. Send allowlisted values only, never free text, URLs, or personal data.
+- Add the events to `docs/deployment/analytics.md`, update the privacy page when collection changes, and test them.
+- After deploy, verify the events in the Furball PostHog project.
+- A change that needs no events says so, and why, in the PR.
+
 ## Mobile first, always
 
 **The site must be responsive and mobile-friendly, without question.** Rob develops on a

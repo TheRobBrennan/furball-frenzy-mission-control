@@ -5,7 +5,7 @@ const productionHost = "furball-frenzy.sploosh.ai";
 const endpoint = "https://us.i.posthog.com/i/v0/e/";
 const preferenceKey = "furball-analytics-off";
 const preferenceEvent = "furball-analytics-preference";
-const routes = new Set(["/", "/mission", "/demo", "/thanks", "/privacy", "/terms"]);
+const routes = new Set(["/", "/mission", "/parade", "/demo", "/thanks", "/privacy", "/terms"]);
 let optedOutInMemory: boolean | undefined;
 let visitId: string | undefined;
 
@@ -84,7 +84,32 @@ function place({ title, $pathname }: Record<string, string | number | boolean | 
   return title ? { $screen_name: title, title: undefined } : { $current_url: `https://${productionHost}${$pathname}` };
 }
 
-function capture(event: "$pageview" | MissionStage["event"], properties: Record<string, string | number | boolean>) {
+type ParadeStage =
+  | { event: "parade_started" | "parade_replayed" }
+  | { event: "parade_scene_viewed"; scene: string; title: string; position: number; total: number }
+  | { event: "parade_finished"; playback: "watched" | "skipped" }
+  | { event: "parade_sound_changed"; sound: "on" | "off" };
+
+/** One visit to the parade. A scene counts once per showing, so Back does not inflate it. */
+export function paradeFunnel() {
+  const showId = crypto.randomUUID();
+  let showing = 1;
+  const seen = new Set<string>();
+  return ({ event, ...stage }: ParadeStage) => {
+    if (event === "parade_replayed") {
+      showing++;
+      seen.clear();
+    }
+    const key = `${event}:${"scene" in stage ? stage.scene : ""}`;
+    if (event === "parade_scene_viewed" || event === "parade_finished" || event === "parade_started") {
+      if (seen.has(key)) return;
+      seen.add(key);
+    }
+    capture(event, { $pathname: "/parade", show_id: showId, showing, ...stage });
+  };
+}
+
+function capture(event: "$pageview" | MissionStage["event"] | ParadeStage["event"], properties: Record<string, string | number | boolean>) {
   const token = process.env.NEXT_PUBLIC_FURBALL_POSTHOG_TOKEN;
   if (!token || window.location.hostname !== productionHost || optedOut() ||
       navigator.doNotTrack === "1") return;

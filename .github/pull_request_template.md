@@ -15,3 +15,4 @@ change, linked by commit SHA. Include the phone width.
 - [ ] Tap targets are comfortable, text is readable without zooming
 - [ ] Public text, alt text, filenames, and images say North Carolina, no town, street, or coordinates, and image metadata is stripped
 - [ ] `npr test` passes
+- [ ] PostHog: events added, documented, tested, and privacy copy updated, or the PR says why none are needed

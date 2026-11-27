@@ -1265,3 +1265,28 @@ html[data-binder-first] .binder::after {
     animation: none;
   }
 }
+
+/* Parade Day: the balloons bob and drift closer, and the confetti falls. */
+@keyframes parade-float {
+  0% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-8px) scale(1.03); }
+  100% { transform: translateY(0) scale(1.06); }
+}
+@keyframes parade-confetti {
+  from { transform: translateY(-1rem) rotate(0deg); }
+  to { transform: translateY(70svh) rotate(540deg); }
+}
+.parade-float { animation: parade-float 7s ease-in-out both; }
+.parade-confetti {
+  position: absolute;
+  top: 0;
+  width: 6px;
+  height: 10px;
+  opacity: 0.9;
+  pointer-events: none;
+  animation: parade-confetti linear infinite both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .parade-float { animation: none; }
+  .parade-confetti { display: none; }
+}
