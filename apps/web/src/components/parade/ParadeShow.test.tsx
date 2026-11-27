@@ -3,13 +3,13 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { paradeFunnel } from "@/lib/analytics";
 import { paradeScenes } from "@/lib/parade/script";
 import ParadeShow from "./ParadeShow";
-import { playParadeSound } from "./paradeSound";
+import { playCheer, playParadeSound } from "./paradeSound";
 
 vi.mock("@/lib/analytics", () => {
   const track = vi.fn();
   return { paradeFunnel: vi.fn(() => track) };
 });
-vi.mock("./paradeSound", () => ({ playParadeSound: vi.fn(), stopParadeSound: vi.fn() }));
+vi.mock("./paradeSound", () => ({ playCheer: vi.fn(), playParadeSound: vi.fn(), primeParadeSound: vi.fn(), stopParadeSound: vi.fn() }));
 
 afterEach(() => {
   vi.useRealTimers();
@@ -27,10 +27,15 @@ describe("ParadeShow", () => {
     render(<ParadeShow />);
     expect(playParadeSound).not.toHaveBeenCalled();
     start();
-    expect(scene()).toBe("whole-parade");
-    expect(playParadeSound).toHaveBeenCalledWith("fanfare");
+    expect(scene()).toBe("piggy-hamley");
+    expect(playParadeSound).toHaveBeenCalledWith(paradeScenes[0]);
     act(() => void vi.advanceTimersByTime(paradeScenes[0].ms));
-    expect(scene()).toBe("band-sports");
+    expect(scene()).toBe("bunnies");
+  });
+
+  it("shows no balloons before the parade starts", () => {
+    render(<ParadeShow />);
+    expect(screen.queryByRole("img")).not.toBeInTheDocument();
   });
 
   it("holds still while paused", () => {
@@ -39,7 +44,7 @@ describe("ParadeShow", () => {
     start();
     fireEvent.click(screen.getByRole("button", { name: "Pause" }));
     act(() => void vi.advanceTimersByTime(60_000));
-    expect(scene()).toBe("whole-parade");
+    expect(scene()).toBe("piggy-hamley");
   });
 
   it("skips to Little Bear's goodbye, and plays again", () => {
@@ -49,7 +54,7 @@ describe("ParadeShow", () => {
     expect(scene()).toBe("moon-float");
     expect(screen.getByText(/safety and silliness first/i)).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "Watch again" }));
-    expect(scene()).toBe("whole-parade");
+    expect(scene()).toBe("piggy-hamley");
   });
 
   it("reports the show: start, scenes, how it finished, a replay, and the sound choice", () => {
@@ -60,10 +65,18 @@ describe("ParadeShow", () => {
     fireEvent.click(screen.getByRole("button", { name: "Watch again" }));
     const track = vi.mocked(paradeFunnel).mock.results[0].value;
     expect(track).toHaveBeenCalledWith({ event: "parade_started" });
-    expect(track).toHaveBeenCalledWith({ event: "parade_scene_viewed", scene: "whole-parade", title: "Parade Day", position: 1, total: paradeScenes.length });
+    expect(track).toHaveBeenCalledWith({ event: "parade_scene_viewed", scene: "piggy-hamley", title: "Piggy and Hamley", position: 1, total: paradeScenes.length });
     expect(track).toHaveBeenCalledWith({ event: "parade_sound_changed", sound: "off" });
     expect(track).toHaveBeenCalledWith({ event: "parade_finished", playback: "skipped" });
     expect(track).toHaveBeenCalledWith({ event: "parade_replayed" });
+  });
+
+  it("cheers when the picture is tapped", () => {
+    render(<ParadeShow />);
+    start();
+    fireEvent.click(screen.getByRole("button", { name: "Cheer for the parade" }));
+    expect(playCheer).toHaveBeenCalled();
+    expect(vi.mocked(paradeFunnel).mock.results[0].value).toHaveBeenCalledWith({ event: "parade_cheered", scene: "piggy-hamley" });
   });
 
   it("remembers sound turned off", () => {
@@ -80,7 +93,7 @@ describe("ParadeShow", () => {
     render(<ParadeShow />);
     start();
     act(() => void vi.advanceTimersByTime(60_000));
-    expect(scene()).toBe("whole-parade");
+    expect(scene()).toBe("piggy-hamley");
     expect(screen.queryByRole("button", { name: "Pause" })).not.toBeInTheDocument();
   });
 });

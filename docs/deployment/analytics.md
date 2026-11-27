@@ -74,6 +74,7 @@ result, report it apart from an observed unsuccessful mission.
 | `parade_finished` | The last scene appears. `playback` (`watched`, `skipped`) |
 | `parade_replayed` | "Watch again" |
 | `parade_sound_changed` | `sound` (`on`, `off`) |
+| `parade_cheered` | A tap on the picture. `scene` |
 
 All carry `show_id` (one page visit) and `showing` (1, then 2 after a replay).
 

@@ -6,7 +6,7 @@ import { paradeFunnel } from "@/lib/analytics";
 import { readSound, SOUND_KEY } from "@/lib/mission";
 import { reducedMotion } from "@/lib/motion";
 import { nextScene, paradeImage, paradeScenes, previousScene } from "@/lib/parade/script";
-import { playParadeSound, stopParadeSound } from "./paradeSound";
+import { playCheer, playParadeSound, primeParadeSound, stopParadeSound } from "./paradeSound";
 
 const button =
   "inline-flex min-h-12 shrink-0 items-center justify-center rounded-full border border-white/30 px-4 font-bold text-white transition hover:bg-white/10 disabled:opacity-40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber";
@@ -23,6 +23,13 @@ const savedSound = () => {
 };
 const never = () => () => {};
 
+const balloons = [
+  { left: 6, delay: 0.2 },
+  { left: 86, delay: 1.4 },
+  { left: 14, delay: 2.6 },
+  { left: 78, delay: 3.4 },
+];
+
 const confetti = Array.from({ length: 28 }, (_, i) => ({
   left: (i * 37) % 100,
   delay: ((i * 53) % 40) / 10,
@@ -34,6 +41,8 @@ export default function ParadeShow() {
   const [index, setIndex] = useState<number | null>(null);
   const [paused, setPaused] = useState(false);
   const [choice, setChoice] = useState<boolean | null>(null);
+  // Each tap on the picture throws another handful of confetti.
+  const [cheers, setCheers] = useState(0);
   const saved = useSyncExternalStore(never, savedSound, () => true);
   const soundOn = choice ?? saved;
   const still = useSyncExternalStore(never, reducedMotion, () => false);
@@ -58,11 +67,13 @@ export default function ParadeShow() {
     return () => window.clearTimeout(timer);
   }, [index, paused, still, last]);
 
+  // The music plays on between scenes, and stops for pause, sound off, or leaving the page.
   useEffect(() => {
-    if (!scene || !soundOn || paused) return;
-    playParadeSound(scene.sound);
-    return stopParadeSound;
+    if (!scene) return;
+    if (soundOn && !paused) playParadeSound(scene);
+    else stopParadeSound();
   }, [scene, soundOn, paused]);
+  useEffect(() => stopParadeSound, []);
 
   const toggleSound = () => {
     setChoice(!soundOn);
@@ -74,12 +85,20 @@ export default function ParadeShow() {
     }
   };
 
+  const cheer = () => {
+    if (!scene) return;
+    setCheers((n) => n + 1);
+    if (soundOn) playCheer();
+    track({ event: "parade_cheered", scene: scene.id });
+  };
+
   if (index === null || !scene) {
-    const cover = paradeScenes[0];
+    // A title card with no pictures, so every balloon is a surprise.
     return (
-      <section aria-label="Parade Day" className="space-y-4">
-        <Image src={paradeImage(cover)} alt={cover.alt} width={cover.width} height={cover.height} priority sizes="(max-width: 1152px) 100vw, 1152px" className="h-auto w-full rounded-3xl border border-white/15" />
-        <button type="button" data-testid="parade-start" onClick={() => { track({ event: "parade_started" }); setIndex(0); }} className={`${primary} w-full sm:w-auto`}>
+      <section aria-label="Parade Day" className="flex min-h-80 flex-col items-center justify-center gap-5 rounded-3xl border border-white/15 bg-space-2 px-6 py-12 text-center">
+        <p className="font-mono text-xs uppercase tracking-[0.2em] text-amber">The street is roped off</p>
+        <p className="max-w-md text-2xl font-black text-white sm:text-3xl">Listen, you can hear the drums.</p>
+        <button type="button" data-testid="parade-start" onClick={() => { primeParadeSound(); track({ event: "parade_started" }); setIndex(0); }} className={`${primary} w-full sm:w-auto`}>
           Start the parade
         </button>
       </section>
@@ -90,9 +109,23 @@ export default function ParadeShow() {
   return (
     <section aria-label="Parade Day" data-testid="parade-show" data-scene={scene.id} className="space-y-4">
       <div className="relative h-[60svh] min-h-80 overflow-hidden rounded-3xl border border-white/15 bg-space-2">
-        <div key={scene.id} className={`absolute inset-0 ${still ? "" : "parade-float"}`} style={{ animationPlayState: move ? "running" : "paused" }}>
-          <Image src={paradeImage(scene)} alt={scene.alt} fill sizes="(max-width: 1152px) 100vw, 1152px" className="object-contain" />
+        <div key={scene.id} className={`absolute inset-0 ${still ? "" : "parade-enter"}`}>
+          <div className={`absolute inset-0 ${still ? "" : "parade-float"}`} style={{ animationPlayState: move ? "running" : "paused" }}>
+            <Image src={paradeImage(scene)} alt={scene.alt} fill sizes="(max-width: 1152px) 100vw, 1152px" className="object-contain" />
+          </div>
         </div>
+        {!still &&
+          balloons.map((b, i) => (
+            <span key={`${scene.id}-${i}`} aria-hidden="true" className="parade-balloon" style={{ left: `${b.left}%`, animationDelay: `${b.delay}s`, animationPlayState: move ? "running" : "paused" }}>
+              🎈
+            </span>
+          ))}
+        <button type="button" onClick={cheer} aria-label="Cheer for the parade" className="absolute inset-0 z-10 cursor-pointer focus-visible:outline focus-visible:outline-4 focus-visible:-outline-offset-4 focus-visible:outline-amber" />
+        {!still &&
+          cheers > 0 &&
+          confetti.map((c, i) => (
+            <span key={`${cheers}-${i}`} aria-hidden="true" className="parade-burst" style={{ background: c.color, "--x": `${(i - 14) * 11}px`, "--y": `${-60 - ((i * 47) % 140)}px` } as React.CSSProperties} />
+          ))}
         {!still &&
           confetti.map((c, i) => (
             <span key={i} aria-hidden="true" className="parade-confetti" style={{ left: `${c.left}%`, background: c.color, animationDelay: `${c.delay}s`, animationDuration: `${c.time}s`, animationPlayState: move ? "running" : "paused" }} />
@@ -104,6 +137,7 @@ export default function ParadeShow() {
         </p>
         <h2 className="mt-1 text-2xl font-black text-white sm:text-3xl">{scene.title}</h2>
         <p className="mt-1 min-h-12 text-lg text-white/85">{scene.caption}</p>
+        <p className="text-sm text-white/65">Tap the picture to cheer.</p>
       </div>
       <div className="flex flex-wrap gap-3">
         <button type="button" className={button} onClick={() => setIndex(previousScene(index))} disabled={index === 0}>
@@ -132,6 +166,11 @@ export default function ParadeShow() {
           </button>
         )}
       </div>
+      <p className="text-xs text-white/55">
+        Music: the U.S. Marine Band, the U.S. Navy Fleet Forces Band, and a public domain drum cadence. &ldquo;Also sprach Zarathustra&rdquo; performed by Kevin MacLeod,{" "}
+        <a href="https://commons.wikimedia.org/wiki/File:Also_Sprach_Zarathustra_-_Einleitung.ogg" target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">source</a>, trimmed,{" "}
+        <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">CC BY 3.0</a>. No endorsement implied.
+      </p>
     </section>
   );
 }

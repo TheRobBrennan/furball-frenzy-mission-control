@@ -26,7 +26,7 @@ export default function PrivacyPage() {
       <p>
         On the live site, anonymous page views and mission progress events are enabled by default when analytics is configured. PostHog receives the page path,
         progress such as reaching launch, which story scenes play and how the story ends, and random IDs kept in browser memory until you reload or close the page.
-        It also receives which catalog parts you add, remove or swap, and whether the design is over a limit or ready to launch, whether you revise or start over after a debrief, which real NASA mission link you open, and each run&apos;s science returned, days operating, and main cause of loss. On Parade Day it receives which scenes play, whether you watch to the end, skip, or replay, and whether you turn sound on or off. We respect Do Not Track and use no analytics cookies or session recordings.
+        It also receives which catalog parts you add, remove or swap, and whether the design is over a limit or ready to launch, whether you revise or start over after a debrief, which real NASA mission link you open, and each run&apos;s science returned, days operating, and main cause of loss. On Parade Day it receives which scenes play, whether you watch to the end, skip, or replay, your cheers, and whether you turn sound on or off. We respect Do Not Track and use no analytics cookies or session recordings.
         Use Settings to turn analytics off or on. Your choice is saved in this browser for future visits.
       </p>
       <h2>Updates by email, only if you sign up</h2>

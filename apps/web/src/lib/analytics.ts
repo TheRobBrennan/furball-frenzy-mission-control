@@ -88,7 +88,8 @@ type ParadeStage =
   | { event: "parade_started" | "parade_replayed" }
   | { event: "parade_scene_viewed"; scene: string; title: string; position: number; total: number }
   | { event: "parade_finished"; playback: "watched" | "skipped" }
-  | { event: "parade_sound_changed"; sound: "on" | "off" };
+  | { event: "parade_sound_changed"; sound: "on" | "off" }
+  | { event: "parade_cheered"; scene: string };
 
 /** One visit to the parade. A scene counts once per showing, so Back does not inflate it. */
 export function paradeFunnel() {

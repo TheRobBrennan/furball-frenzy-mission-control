@@ -11,6 +11,7 @@ import MissionPatch from "@/components/MissionPatch";
 import StayUpdated from "@/components/StayUpdated";
 import TrailerButton from "@/components/TrailerButton";
 import MissionStatus from "@/components/MissionStatus";
+import ParadeInvite from "@/components/parade/ParadeInvite";
 import LegalLinks from "@/components/LegalLinks";
 import VersionLine from "@/components/VersionLine";
 
@@ -76,6 +77,8 @@ export default function Home() {
       />
 
       <section className="relative mx-auto grid max-w-6xl gap-8 px-6 pb-8 pt-8 lg:grid-cols-2 lg:items-start lg:gap-12 lg:pb-12 lg:pt-16">
+        {/* At the top on a phone, so the treat is seen without scrolling. */}
+        <ParadeInvite className="order-first mx-auto flex w-full lg:hidden" />
         <div className="relative order-1 mx-auto w-full max-w-[19rem] sm:max-w-sm lg:order-2 lg:max-w-md">
           <HeroPolaroid />
           {/* Under the Polaroid on a wide screen. On a phone it sits under the headline instead, so the headline stays above the fold. */}
@@ -99,6 +102,7 @@ export default function Home() {
             Two Polish elephants, one lifelong dream: shining in the American Space
             Program. Design the mission that gets them to the Moon.
           </p>
+          <ParadeInvite className="mt-5 hidden lg:flex" />
           <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
             <a
               href="/mission"

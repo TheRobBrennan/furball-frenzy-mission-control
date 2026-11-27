@@ -1,18 +1,35 @@
-// The parade sounds, made on the spot like the mission sounds, so no audio file ships and no music is
-// borrowed: a drum cadence, a brass fanfare, a crowd cheer, a radio blip, and Little Bear's giggle.
-import type { ParadeSound } from "@/lib/parade/script";
+// The parade's music is real recordings, played through Web Audio so one tap unlocks them on a phone.
+// The drum major's whistle, the crowd cheer, and Little Bear's giggle are made on the spot.
+import { paradeAudio, type ParadeScene, type ParadeTrack } from "@/lib/parade/script";
 
 let ctx: AudioContext | null = null;
-let master: GainNode | null = null;
+let music: { track: ParadeTrack; stop: () => void } | null = null;
+const files = new Map<ParadeTrack, Promise<AudioBuffer>>();
 
 function context(): AudioContext | null {
   if (typeof window === "undefined" || !window.AudioContext) return null;
   ctx ??= new window.AudioContext();
-  if (ctx.state === "suspended") void ctx.resume();
+  if (ctx.state === "suspended") void ctx.resume().catch(() => {});
   return ctx;
 }
 
-function tone(c: AudioContext, out: AudioNode, at: number, from: number, to: number, length: number, type: OscillatorType, gain: number) {
+/** Call from the Start click, so a phone lets the music play when later scenes arrive. */
+export function primeParadeSound() {
+  context();
+}
+
+function load(c: AudioContext, track: ParadeTrack) {
+  let file = files.get(track);
+  if (!file) {
+    file = fetch(paradeAudio(track)).then((r) => r.arrayBuffer()).then((data) => c.decodeAudioData(data));
+    // A failed download is tried again next time.
+    file.catch(() => files.delete(track));
+    files.set(track, file);
+  }
+  return file;
+}
+
+function tone(c: AudioContext, at: number, from: number, to: number, length: number, type: OscillatorType, gain: number) {
   const osc = c.createOscillator();
   const amp = c.createGain();
   osc.type = type;
@@ -21,73 +38,78 @@ function tone(c: AudioContext, out: AudioNode, at: number, from: number, to: num
   amp.gain.setValueAtTime(0.0001, at);
   amp.gain.exponentialRampToValueAtTime(gain, at + 0.02);
   amp.gain.exponentialRampToValueAtTime(0.0001, at + length);
-  osc.connect(amp).connect(out);
+  osc.connect(amp).connect(c.destination);
   osc.start(at);
   osc.stop(at + length + 0.02);
 }
 
-function noise(c: AudioContext, out: AudioNode, at: number, length: number, freq: number, q: number, gain: number, swell = false) {
-  const buffer = c.createBuffer(1, Math.ceil(c.sampleRate * length), c.sampleRate);
-  const data = buffer.getChannelData(0);
-  for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
-  const src = c.createBufferSource();
-  src.buffer = buffer;
-  const filter = c.createBiquadFilter();
-  filter.type = "bandpass";
-  filter.frequency.value = freq;
-  filter.Q.value = q;
-  const amp = c.createGain();
-  amp.gain.setValueAtTime(swell ? 0.0001 : gain, at);
-  if (swell) amp.gain.exponentialRampToValueAtTime(gain, at + length * 0.4);
-  amp.gain.exponentialRampToValueAtTime(0.0001, at + length);
-  src.connect(filter).connect(amp).connect(out);
-  src.start(at);
-}
-
-const sounds: Record<ParadeSound, (c: AudioContext, out: AudioNode, now: number) => void> = {
-  drums(c, out, now) {
-    for (let beat = 0; beat < 16; beat++) {
-      const at = now + beat * 0.25;
-      if (beat % 4 === 0) tone(c, out, at, 110, 55, 0.18, "sine", 0.3);
-      else noise(c, out, at, 0.09, 2400, 0.8, beat % 2 ? 0.1 : 0.16);
-    }
-  },
-  fanfare(c, out, now) {
-    const notes: [number, number, number][] = [[392, 0, 0.18], [392, 0.2, 0.18], [523, 0.4, 0.35], [659, 0.8, 0.35], [784, 1.2, 0.9]];
-    for (const [freq, at, length] of notes) {
-      tone(c, out, now + at, freq, freq, length, "sawtooth", 0.07);
-      tone(c, out, now + at, freq / 2, freq / 2, length, "square", 0.035);
-    }
-  },
-  cheer(c, out, now) {
-    noise(c, out, now, 2.4, 900, 0.6, 0.18, true);
-    noise(c, out, now + 0.3, 1.8, 1800, 0.9, 0.08, true);
-  },
-  radio(c, out, now) {
-    noise(c, out, now, 0.25, 1500, 4, 0.12);
-    for (const [at, freq] of [[0.3, 880], [0.5, 1320], [0.7, 1100]]) tone(c, out, now + at, freq, freq, 0.12, "sine", 0.12);
-    sounds.drums(c, out, now + 1);
-  },
-  giggle(c, out, now) {
-    for (let i = 0; i < 7; i++) tone(c, out, now + 0.4 + i * 0.13, 520 + (i % 2) * 140, 700 + (i % 2) * 120, 0.09, "triangle", 0.14);
-    sounds.cheer(c, out, now + 1.6);
-  },
-};
-
-/** Stops whatever the last scene was playing. */
-export function stopParadeSound() {
-  master?.disconnect();
-  master = null;
-}
-
-export function playParadeSound(sound: ParadeSound) {
-  stopParadeSound();
+/** A short crowd cheer on top of the music, for a tap on the picture. */
+export function playCheer() {
   try {
     const c = context();
     if (!c) return;
-    master = c.createGain();
-    master.connect(c.destination);
-    sounds[sound](c, master, c.currentTime + 0.05);
+    const now = c.currentTime;
+    const buffer = c.createBuffer(1, Math.ceil(c.sampleRate * 1.2), c.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+    const src = c.createBufferSource();
+    src.buffer = buffer;
+    const filter = c.createBiquadFilter();
+    filter.type = "bandpass";
+    filter.frequency.value = 1100;
+    filter.Q.value = 0.7;
+    const amp = c.createGain();
+    amp.gain.setValueAtTime(0.0001, now);
+    amp.gain.exponentialRampToValueAtTime(0.2, now + 0.5);
+    amp.gain.exponentialRampToValueAtTime(0.0001, now + 1.2);
+    src.connect(filter).connect(amp).connect(c.destination);
+    src.start(now);
+    tone(c, now + 0.1, 900, 1500, 0.35, "sine", 0.08);
+  } catch {
+    // Quiet is fine.
+  }
+}
+
+export function stopParadeSound() {
+  music?.stop();
+  music = null;
+}
+
+function startTrack(c: AudioContext, track: ParadeTrack) {
+  stopParadeSound();
+  const src = c.createBufferSource();
+  const amp = c.createGain();
+  let stopped = false;
+  src.connect(amp).connect(c.destination);
+  music = {
+    track,
+    stop: () => {
+      stopped = true;
+      amp.disconnect();
+    },
+  };
+  load(c, track)
+    .then((buffer) => {
+      if (stopped) return;
+      src.buffer = buffer;
+      src.loop = true;
+      src.start();
+    })
+    .catch(() => {
+      // Quiet is fine, the parade still plays.
+    });
+}
+
+/** Plays what this scene sounds like. A scene on the same track lets the band play on. */
+export function playParadeSound(scene: Pick<ParadeScene, "track" | "giggle">) {
+  try {
+    const c = context();
+    if (!c) return;
+    if (music?.track !== scene.track) {
+      for (const [at, length] of [[0, 0.12], [0.18, 0.3]]) tone(c, c.currentTime + at, 2300, 2500, length, "square", 0.03);
+      startTrack(c, scene.track);
+    }
+    if (scene.giggle) for (let i = 0; i < 7; i++) tone(c, c.currentTime + 3 + i * 0.13, 520 + (i % 2) * 140, 700 + (i % 2) * 120, 0.09, "triangle", 0.16);
   } catch {
     // Quiet is fine, the parade still plays.
   }
