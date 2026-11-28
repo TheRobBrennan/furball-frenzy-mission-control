@@ -12,8 +12,8 @@ export default function ParadeInvite({ className = "" }: { className?: string })
         🎈
       </span>
       <span className="min-w-0">
-        <span className="block font-mono text-xs uppercase tracking-[0.2em] text-amber">New: a special treat</span>
-        <span className="block text-base font-black text-white sm:text-lg">Thanksgiving Parade &rarr;</span>
+        <span className="block font-mono text-xs uppercase tracking-[0.2em] text-amber">New: A special treat</span>
+        <span className="block text-balance text-base font-black text-white sm:text-lg">The first annual Furball Frenzy Thanksgiving parade &rarr;</span>
       </span>
     </Link>
   );
