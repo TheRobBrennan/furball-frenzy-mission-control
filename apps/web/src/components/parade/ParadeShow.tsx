@@ -5,7 +5,7 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { paradeFunnel } from "@/lib/analytics";
 import { readSound, SOUND_KEY } from "@/lib/mission";
 import { reducedMotion } from "@/lib/motion";
-import { nextScene, paradeImage, paradeScenes, previousScene } from "@/lib/parade/script";
+import { CURTAIN_MS, nextScene, paradeImage, paradeScenes, previousScene } from "@/lib/parade/script";
 import PresentedBy from "./PresentedBy";
 import TapFireworks from "./TapFireworks";
 import { playCheer, playParadeSound, primeParadeSound, stopParadeSound } from "./paradeSound";
@@ -59,6 +59,23 @@ export default function ParadeShow() {
     send({ event: "parade_scene_viewed", scene: shown.id, title: shown.title, position: index + 1, total: paradeScenes.length });
     if (index === paradeScenes.length - 1) send({ event: "parade_finished", playback: skipped.current ? "skipped" : "watched" });
   }, [index]);
+
+  // The closing curtain rises a little after the last scene arrives, or at once with less motion.
+  const [curtain, setCurtain] = useState(false);
+  useEffect(() => {
+    if (!last) return;
+    const timer = window.setTimeout(() => setCurtain(true), still ? 0 : CURTAIN_MS);
+    return () => {
+      window.clearTimeout(timer);
+      setCurtain(false);
+    };
+  }, [last, still]);
+  const watchAgain = () => {
+    skipped.current = false;
+    track({ event: "parade_replayed" });
+    setPaused(false);
+    setIndex(0);
+  };
 
   // With less motion asked for, the visitor turns the pages. Otherwise the parade marches on by itself.
   useEffect(() => {
@@ -134,6 +151,18 @@ export default function ParadeShow() {
             </span>
           ))}
         <button type="button" data-cheer onClick={still ? cheer : undefined} aria-label="Cheer for the parade" className="absolute inset-0 z-10 cursor-pointer focus-visible:outline focus-visible:outline-4 focus-visible:-outline-offset-4 focus-visible:outline-amber" />
+        {curtain && (
+          <div data-testid="parade-curtain" className={`absolute inset-x-0 bottom-0 z-20 flex flex-col items-center gap-3 bg-gradient-to-t from-space via-space/90 to-transparent px-4 pb-5 pt-10 text-center ${still ? "" : "parade-enter"}`}>
+            <p aria-hidden="true" className="text-3xl">
+              <span className="parade-invite-icon">🎈</span> 🥁 🎺 <span className="parade-invite-icon">🎈</span>
+            </p>
+            <p className="text-balance text-2xl font-black text-white sm:text-4xl">That&apos;s a wrap! Thanks for coming to the parade.</p>
+            <p className="text-sm text-white/80">The elephants are still waving.</p>
+            <button type="button" data-testid="parade-encore" data-no-fireworks onClick={watchAgain} className="inline-flex min-h-16 w-full max-w-sm items-center justify-center rounded-full bg-amber px-8 text-xl font-black text-space shadow-xl shadow-amber/30 transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+              Watch again
+            </button>
+          </div>
+        )}
       </div>
       <div aria-live="polite">
         <p className="font-mono text-xs uppercase tracking-[0.2em] text-amber">
@@ -148,7 +177,7 @@ export default function ParadeShow() {
           Back
         </button>
         {last ? (
-          <button type="button" className={primary} onClick={() => { skipped.current = false; track({ event: "parade_replayed" }); setPaused(false); setIndex(0); }}>
+          <button type="button" className={primary} onClick={watchAgain}>
             Watch again
           </button>
         ) : (

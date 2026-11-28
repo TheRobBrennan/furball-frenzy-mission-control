@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import GamePageNav from "@/components/GamePageNav";
+import SiteFooter from "@/components/SiteFooter";
 import { missions } from "@/lib/missions";
 
 export const metadata: Metadata = {
@@ -10,6 +11,7 @@ export const metadata: Metadata = {
 
 export default function MissionsPage() {
   return (
+    <>
     <main id="top" className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6 sm:py-12">
       <GamePageNav />
       <h1 className="mt-4 text-3xl font-black leading-tight text-white sm:text-5xl">Missions</h1>
@@ -29,5 +31,7 @@ export default function MissionsPage() {
         ))}
       </ol>
     </main>
+      <SiteFooter />
+    </>
   );
 }

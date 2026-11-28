@@ -9,6 +9,8 @@ export type ParadeScene = {
   title: string;
   caption: string;
   alt: string;
+  /** The picture's file name when it is not the id. A new picture gets a new name, so no browser shows an old one. */
+  file?: string;
   width: number;
   height: number;
   ms: number;
@@ -28,10 +30,13 @@ export const paradeScenes: ParadeScene[] = [
   { id: "band-friends", title: "Another band", caption: "The rooster leads. Nobody argues with the rooster.", alt: "A marching band of plush pigs, a rooster and chick, a bear, a purple dog, and a unicorn", width: 1600, height: 1194, ms: 5500, track: "anchors-aweigh" },
   { id: "carolina", title: "The Carolina crew", caption: "The elephants brought a flag, and their tag.", alt: "Giant balloons of the gray elephant, the two Polish elephants, Blue Bear, a pink duck, and a race car", width: 1199, height: 1600, ms: 6000, track: "anchors-aweigh" },
   { id: "space-program", title: "The American Space Program", caption: "No sleigh this year. The rover is bringing up the rear.", alt: "Giant balloons of the Polish elephants stacked on their rover, with Hamlet and Little Bear", ...tall, ms: 9000, track: "zarathustra" },
-  { id: "moon-float", title: "One last thing from Little Bear", caption: "“Careful up there. Safety and silliness first!”", alt: "A Moon float where the waving elephants drive their rover while Little Bear giggles", ...tall, ms: 10000, track: "zarathustra", giggle: true },
+  { id: "moon-float", file: "moon-float-waving", title: "One last thing from Little Bear", caption: "“Careful up there. Safety and silliness first!”", alt: "A Moon float where the waving elephants drive their rover while Little Bear giggles", ...tall, ms: 10000, track: "zarathustra", giggle: true },
 ];
 
-export const paradeImage = (scene: ParadeScene) => `/images/parade/${scene.id}.jpg`;
+export const paradeImage = (scene: ParadeScene) => `/images/parade/${scene.file ?? scene.id}.jpg`;
+
+/** How long Little Bear gets before the closing curtain rises. */
+export const CURTAIN_MS = 6000;
 
 /** The scene after this one, or the same one at the end of the parade. */
 export const nextScene = (index: number) => Math.min(index + 1, paradeScenes.length - 1);

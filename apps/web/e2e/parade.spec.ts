@@ -24,6 +24,8 @@ test("the parade starts, ends with Little Bear, and fits the screen", async ({ p
   await expect(show).toHaveAttribute("data-scene", "bunnies");
   await page.getByRole("button", { name: "Skip to the end" }).click();
   await expect(show).toHaveAttribute("data-scene", "moon-float");
+  await expect(page.getByTestId("parade-encore")).toBeInViewport({ timeout: 15_000 });
+  await expect(page.getByRole("navigation", { name: "Legal" })).toHaveCount(1);
   const picture = show.locator("img").first();
   await expect.poll(() => picture.evaluate((i: HTMLImageElement) => i.naturalWidth)).toBeGreaterThan(0);
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(page.viewportSize()!.width);

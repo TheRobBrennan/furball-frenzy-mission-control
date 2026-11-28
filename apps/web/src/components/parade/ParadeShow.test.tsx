@@ -1,7 +1,7 @@
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { paradeFunnel } from "@/lib/analytics";
-import { paradeScenes } from "@/lib/parade/script";
+import { CURTAIN_MS, paradeScenes } from "@/lib/parade/script";
 import ParadeShow from "./ParadeShow";
 import { playCheer, playParadeSound } from "./paradeSound";
 
@@ -71,6 +71,19 @@ describe("ParadeShow", () => {
     expect(track).toHaveBeenCalledWith({ event: "parade_sound_changed", sound: "off" });
     expect(track).toHaveBeenCalledWith({ event: "parade_finished", playback: "skipped" });
     expect(track).toHaveBeenCalledWith({ event: "parade_replayed" });
+  });
+
+  it("draws to a close with a curtain and a big way to watch again", () => {
+    vi.useFakeTimers();
+    render(<ParadeShow />);
+    start();
+    fireEvent.click(screen.getByRole("button", { name: "Skip to the end" }));
+    expect(screen.queryByTestId("parade-curtain")).not.toBeInTheDocument();
+    act(() => void vi.advanceTimersByTime(CURTAIN_MS));
+    expect(screen.getAllByRole("button", { name: "Watch again" })).toHaveLength(2);
+    fireEvent.click(screen.getByTestId("parade-encore"));
+    expect(scene()).toBe("piggy-hamley");
+    expect(screen.queryByTestId("parade-curtain")).not.toBeInTheDocument();
   });
 
   it("cheers when the picture is tapped", () => {

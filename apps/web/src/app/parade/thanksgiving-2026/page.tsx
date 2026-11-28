@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import GamePageNav from "@/components/GamePageNav";
+import SiteFooter from "@/components/SiteFooter";
 import ParadeShow from "@/components/parade/ParadeShow";
 
 export const metadata: Metadata = {
@@ -9,6 +10,7 @@ export const metadata: Metadata = {
 
 export default function ParadePage() {
   return (
+    <>
     <main id="top" className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6 sm:py-12">
       <GamePageNav />
       <header className="mt-4 max-w-3xl">
@@ -20,5 +22,7 @@ export default function ParadePage() {
         <ParadeShow />
       </div>
     </main>
+      <SiteFooter />
+    </>
   );
 }
