@@ -70,7 +70,7 @@ result, report it apart from an observed unsuccessful mission.
 | Event | Trigger and properties |
 | --- | --- |
 | `parade_started` | "Start the parade" |
-| `parade_scene_viewed` | A scene appears, once per showing. `scene`, `title`, `position`, `total` |
+| `parade_scene_viewed` | A scene appears, once per showing. `scene`, the scene's title as `$screen_name` (the URL / Screen column), `position`, `total` |
 | `parade_finished` | The last scene appears. `playback` (`watched`, `skipped`) |
 | `parade_replayed` | "Watch again" |
 | `parade_sound_changed` | `sound` (`on`, `off`) |
