@@ -19,7 +19,7 @@ describe("page-view capture", () => {
 
   it("sends only an anonymous route view by default", () => {
     const send = setup();
-    capturePageview("/mission");
+    capturePageview("/missions/lunar-south-pole");
     expect(send).toHaveBeenCalledOnce();
     const [endpoint, request] = send.mock.calls[0];
     expect(endpoint).toBe("https://us.i.posthog.com/i/v0/e/");
@@ -28,7 +28,7 @@ describe("page-view capture", () => {
       api_key: "test-token",
       event: "$pageview",
       distinct_id: expect.any(String),
-      properties: { $pathname: "/mission", $current_url: "https://furball-frenzy.sploosh.ai/mission", $host: "furball-frenzy.sploosh.ai", $process_person_profile: false },
+      properties: { $pathname: "/missions/lunar-south-pole", $current_url: "https://furball-frenzy.sploosh.ai/missions/lunar-south-pole", $host: "furball-frenzy.sploosh.ai", $process_person_profile: false },
     });
   });
 
@@ -36,7 +36,7 @@ describe("page-view capture", () => {
     const send = setup();
     Object.assign(window.location, { search: "?email=private", hash: "#secret" });
     missionFunnel("manual")({ event: "mission_builder_viewed" });
-    expect(JSON.parse(send.mock.calls[0][1].body).properties.$current_url).toBe("https://furball-frenzy.sploosh.ai/mission");
+    expect(JSON.parse(send.mock.calls[0][1].body).properties.$current_url).toBe("https://furball-frenzy.sploosh.ai/missions/lunar-south-pole");
   });
 
   it("names a scene by its title in place of a URL", () => {
@@ -128,14 +128,14 @@ describe("page-view capture", () => {
     track(scene);
     const payloads = send.mock.calls.map(([, request]) => JSON.parse(request.body));
     expect(payloads.map((p) => p.event)).toEqual(["parade_scene_viewed", "parade_replayed", "parade_scene_viewed"]);
-    expect(payloads[2].properties).toMatchObject({ showing: 2, show_id: payloads[0].properties.show_id, $pathname: "/parade/thanksgiving-2026" });
+    expect(payloads[2].properties).toMatchObject({ showing: 2, show_id: payloads[0].properties.show_id, $pathname: "/missions/parade/thanksgiving-2026" });
   });
 
   it.each([
     ["preview.example.com", "test-token", "0", "/"],
     ["furball-frenzy.sploosh.ai", "", "0", "/"],
     ["furball-frenzy.sploosh.ai", "test-token", "1", "/"],
-    ["furball-frenzy.sploosh.ai", "test-token", "0", "/mission?email=private"],
+    ["furball-frenzy.sploosh.ai", "test-token", "0", "/missions/lunar-south-pole?email=private"],
   ])("fails closed outside configured analytics routes", (host, token, dnt, route) => {
     const send = setup(host, token, dnt);
     capturePageview(route);

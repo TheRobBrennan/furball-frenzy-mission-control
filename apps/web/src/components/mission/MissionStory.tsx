@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Furball from "@/components/characters/Furballs";
 import { chooseHold, chooseTrouble, clampSpeed, COUNT_STEP_MS, countdownStart, formatStamp, lineStarts, MAX_SPEED, MIN_SPEED, missionScript, names, readSound, readSpeed, scaled, SOUND_KEY, SPEED_KEY, speedLabel, type Design, type MissionResult, type Scene, type Trouble, type Who } from "@/lib/mission";
 import { reducedMotion } from "@/lib/motion";
+import { saveSoundEnabled } from "@/lib/soundPreference";
 import { playComms, playCountdown, playLiftoff, playAlarm, playFixed, playNoGo, playPhase, playSad, playSplash, playWrench, setSoundEnabled, startAmbience, stopAmbience } from "./missionSound";
 import SceneArt from "./SceneArt";
 
@@ -287,11 +288,7 @@ export default function MissionStory({ design, result, onDone, clock = () => new
   const toggleSound = () => {
     const next = !soundOn;
     setSoundOn(next);
-    try {
-      window.localStorage.setItem(SOUND_KEY, next ? "on" : "off");
-    } catch {
-      // The choice just is not remembered, that is fine.
-    }
+    saveSoundEnabled(next);
   };
   const commitSpeed = () => {
     const next = clampSpeed(draft);

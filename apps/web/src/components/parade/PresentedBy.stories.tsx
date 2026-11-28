@@ -5,3 +5,5 @@ const meta = { component: PresentedBy, decorators: [(Story) => <div className="r
 export default meta;
 
 export const Default: StoryObj<typeof meta> = {};
+
+export const Compact: StoryObj<typeof meta> = { args: { compact: true } };

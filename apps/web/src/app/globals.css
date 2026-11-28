@@ -1309,3 +1309,34 @@ html[data-binder-first] .binder::after {
   .parade-enter, .parade-balloon, .parade-burst, .parade-invite-icon { animation: none; }
   .parade-balloon, .parade-burst { display: none; }
 }
+
+/* The rover laps the sticker, turning the other way so the elephants stay right side up, with a bounce. */
+.new-orbit { animation: new-orbit 4s linear infinite; }
+.new-orbit-rider { animation: new-orbit-rider 4s linear infinite; }
+@keyframes new-orbit { to { transform: rotate(360deg); } }
+@keyframes new-orbit-rider {
+  0% { transform: rotate(0deg) translateY(0); }
+  12.5% { transform: rotate(-45deg) translateY(-3px); }
+  25% { transform: rotate(-90deg) translateY(0); }
+  37.5% { transform: rotate(-135deg) translateY(-3px); }
+  50% { transform: rotate(-180deg) translateY(0); }
+  62.5% { transform: rotate(-225deg) translateY(-3px); }
+  75% { transform: rotate(-270deg) translateY(0); }
+  87.5% { transform: rotate(-315deg) translateY(-3px); }
+  100% { transform: rotate(-360deg) translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .new-orbit, .new-orbit-rider { animation: none; }
+}
+
+/* Folder tabs: slowly folding away on Missions, and fanning out again on the cover. */
+.tab-fold { overflow: hidden; animation: tab-fold 1.1s ease-in-out both; }
+.tab-unfold { overflow: hidden; animation: tab-fold 1.1s ease-in-out reverse both; }
+@keyframes tab-fold {
+  from { max-width: 14rem; opacity: 1; translate: 0 0; }
+  to { max-width: 0; margin-left: -0.25rem; opacity: 0; translate: 0 60%; visibility: hidden; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tab-fold { display: none; }
+  .tab-unfold { animation: none; }
+}

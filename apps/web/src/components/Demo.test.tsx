@@ -11,6 +11,6 @@ describe("the demo page", () => {
     expect(container.querySelector("source")).toHaveAttribute("src", "/demo/furball-frenzy-30s.mp4");
     expect(screen.getByRole("link", { name: "Download it here" })).toHaveAttribute("href", "/demo/furball-frenzy-30s.mp4");
     expect(screen.getByTestId("deck-link")).toHaveAttribute("href", "/demo/furball-frenzy-deck.pdf");
-    expect(screen.getByRole("link", { name: "Watch a mission for real" })).toHaveAttribute("href", "/mission?judges=1");
+    expect(screen.getByRole("link", { name: "Watch a mission for real" })).toHaveAttribute("href", "/missions/lunar-south-pole?judges=1");
   });
 });

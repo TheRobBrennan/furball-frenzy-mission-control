@@ -5,7 +5,7 @@ const productionHost = "furball-frenzy.sploosh.ai";
 const endpoint = "https://us.i.posthog.com/i/v0/e/";
 const preferenceKey = "furball-analytics-off";
 const preferenceEvent = "furball-analytics-preference";
-const routes = new Set(["/", "/mission", "/missions", "/parade/thanksgiving-2026", "/demo", "/thanks", "/privacy", "/terms"]);
+const routes = new Set(["/", "/missions/lunar-south-pole", "/missions", "/missions/parade/thanksgiving-2026", "/demo", "/thanks", "/privacy", "/terms"]);
 let optedOutInMemory: boolean | undefined;
 let visitId: string | undefined;
 
@@ -74,7 +74,7 @@ export function missionFunnel(mode: "manual" | "judges") {
       if (emitted.has(key)) return;
       emitted.add(key);
     }
-    capture(event, { $pathname: "/mission", builder_id: builderId, mode, ...stage });
+    capture(event, { $pathname: "/missions/lunar-south-pole", builder_id: builderId, mode, ...stage });
   };
 }
 
@@ -107,7 +107,7 @@ export function paradeFunnel() {
       if (seen.has(key)) return;
       seen.add(key);
     }
-    capture(event, { $pathname: "/parade/thanksgiving-2026", show_id: showId, showing, ...stage });
+    capture(event, { $pathname: "/missions/parade/thanksgiving-2026", show_id: showId, showing, ...stage });
   };
 }
 

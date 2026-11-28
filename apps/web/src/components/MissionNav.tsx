@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { Fragment, useCallback, useEffect, useRef, useState } from "react";
+import { Fragment, useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { caseLabel, hashTarget } from "@/lib/binder";
+import { rememberFolded, wereFolded } from "@/lib/folderTabs";
 import GameSettings from "./GameSettings";
 import SadElephants from "./SadElephants";
 
@@ -51,7 +52,15 @@ function scrollToId(id: string) {
   history.replaceState(null, "", `#${id}`);
 }
 
+const noChange = () => () => {};
+
 export default function MissionNav() {
+  // Coming back from Missions, the section tabs fan out again, one after another.
+  const unfolding = useSyncExternalStore(noChange, wereFolded, () => false);
+  useEffect(() => {
+    const timer = window.setTimeout(() => rememberFolded(false), 2000);
+    return () => window.clearTimeout(timer);
+  }, []);
   const [active, setActive] = useState("top");
   const [menu, setMenu] = useState(false);
   // The binder starts closed, only the cover and the footer show until the visitor opens the case.
@@ -284,14 +293,14 @@ export default function MissionNav() {
         <a
           href="#top"
           onClick={(e) => go(e, "top")}
-          className="mr-auto pb-2 font-mono text-xs font-semibold uppercase tracking-[0.2em] text-amber focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber"
+          className="mr-auto inline-flex min-h-11 items-center font-mono text-xs font-semibold uppercase tracking-[0.2em] text-amber focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber"
         >
           Furball Frenzy
         </a>
         <ul className="hidden items-end gap-1 lg:flex">
-          {tabs.map((t) => (
+          {tabs.map((t, i) => (
             <Fragment key={t.id}>
-            <li>
+            <li className={unfolding && i > 0 ? "tab-unfold" : undefined} style={unfolding && i > 0 ? { animationDelay: `${(i - 1) * 0.18}s` } : undefined}>
               <a
                 href={`#${t.id}`}
                 onClick={(e) => go(e, t.id)}
@@ -329,7 +338,7 @@ export default function MissionNav() {
           aria-expanded={menu}
           aria-controls="mission-menu-sheet"
           onClick={() => setMenu((v) => !v)}
-          className="case-pulse mb-2 rounded-lg bg-amber px-3 py-1.5 font-mono text-xs font-semibold text-space lg:hidden"
+          className="case-pulse mb-1 min-h-10 rounded-lg bg-amber px-3 py-1.5 font-mono text-xs font-semibold text-space lg:hidden"
         >
           {menu ? "Close" : "Mission menu"}
         </button>

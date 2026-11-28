@@ -16,7 +16,7 @@ test("the trailer pops up once, can be closed, and does not come back this visit
 test("the trailer's link starts the judges mission", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("link", { name: /watch a mission/i }).click();
-  await expect(page).toHaveURL(/\/mission\?judges=1/);
+  await expect(page).toHaveURL(/\/missions\/lunar-south-pole\?judges=1/);
 });
 
 test("the link /?trailer plays it again after it was closed", async ({ page }) => {
@@ -38,7 +38,7 @@ test("the buttons read on one line each, at desktop and phone width", async ({ p
 
 test("watch the trailer again, from the Judges block on the mission page", async ({ page }) => {
   await page.addInitScript(() => sessionStorage.setItem("ff-promo-seen", "1"));
-  await page.goto("/mission");
+  await page.goto("/missions/lunar-south-pole");
   await page.waitForTimeout(2000);
   await expect(page.getByTestId("promo")).toBeHidden();
   await page.getByTestId("trailer-again").click();

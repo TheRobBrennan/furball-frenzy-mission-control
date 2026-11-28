@@ -104,7 +104,7 @@ export default function Home() {
           <ParadeInvite className="mt-5 hidden lg:flex" />
           <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
             <a
-              href="/mission"
+              href="/missions/lunar-south-pole"
               className="inline-flex min-h-12 items-center justify-center rounded-full bg-amber px-6 font-bold text-space shadow-lg shadow-amber/20 transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             >
               Start the mission
@@ -118,7 +118,7 @@ export default function Home() {
           </div>
           <p className="mt-4 text-center text-base text-white/85 lg:text-left">
             Judging this?{" "}
-            <a href="/mission?judges=1" className="font-bold text-amber underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white">
+            <a href="/missions/lunar-south-pole?judges=1" className="font-bold text-amber underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white">
               Start here
             </a>{" "}
             and watch the elephants design and launch a mission in about 30 seconds, or <TrailerButton className="text-amber" />.

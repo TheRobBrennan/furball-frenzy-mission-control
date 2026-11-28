@@ -7,7 +7,7 @@ describe("the thank you page", () => {
     render(<ThanksPage />);
     expect(screen.getByRole("heading", { level: 1, name: "Thank you!" })).toBeInTheDocument();
     expect(screen.getByText(/Polish elephants, Piggy, and the whole furball crew/)).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Watch a mission" })).toHaveAttribute("href", "/mission?judges=1");
+    expect(screen.getByRole("link", { name: "Watch a mission" })).toHaveAttribute("href", "/missions/lunar-south-pole?judges=1");
     expect(screen.getByRole("link", { name: "Back to Mission Control" })).toHaveAttribute("href", "/");
   });
 

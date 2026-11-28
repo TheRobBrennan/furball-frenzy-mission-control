@@ -1,14 +1,16 @@
-// The parade's music is real recordings, played through Web Audio so one tap unlocks them on a phone.
-// The drum major's whistle, the crowd cheer, and Little Bear's giggle are made on the spot.
-import { paradeAudio, type ParadeScene, type ParadeTrack } from "@/lib/parade/script";
+// The parade's music is real recordings in ordinary audio elements, which Safari and iPhones play most
+// dependably. The drum major's whistle, the crowd cheer, and Little Bear's giggle are made on the spot.
+import { paradeAudio, paradeScenes, type ParadeScene, type ParadeTrack } from "@/lib/parade/script";
 
 /** How long one song takes to give way to the next, in seconds. */
 export const CROSSFADE_S = 1.8;
 const STOP_S = 0.4;
+const STEP_MS = 60;
 
 let ctx: AudioContext | null = null;
-let music: { track: ParadeTrack; stop: (seconds: number) => void } | null = null;
-const files = new Map<ParadeTrack, Promise<AudioBuffer>>();
+let current: ParadeTrack | null = null;
+const players = new Map<ParadeTrack, HTMLAudioElement>();
+const fades = new Map<HTMLAudioElement, number>();
 
 function context(): AudioContext | null {
   if (typeof window === "undefined" || !window.AudioContext) return null;
@@ -18,30 +20,56 @@ function context(): AudioContext | null {
   return ctx;
 }
 
-/** Call from the Start click, so a phone lets the music play when later scenes arrive. */
+function player(track: ParadeTrack) {
+  let audio = players.get(track);
+  if (!audio) {
+    audio = new Audio(paradeAudio(track));
+    audio.loop = true;
+    audio.preload = "auto";
+    players.set(track, audio);
+  }
+  return audio;
+}
+
+/** Moves the volume to a target a step at a time. An iPhone ignores volume, so there the song just changes. */
+function fade(audio: HTMLAudioElement, to: number, seconds: number, done?: () => void) {
+  window.clearInterval(fades.get(audio));
+  const from = audio.volume;
+  const steps = Math.max(1, Math.round((seconds * 1000) / STEP_MS));
+  let step = 0;
+  const timer = window.setInterval(() => {
+    step++;
+    audio.volume = Math.min(1, Math.max(0, from + ((to - from) * step) / steps));
+    if (step >= steps) {
+      window.clearInterval(timer);
+      done?.();
+    }
+  }, STEP_MS);
+  fades.set(audio, timer);
+}
+
+/** Told when the browser refuses to play, so the page can offer a button that is a fresh tap. */
+let blocked: () => void = () => {};
+export function onParadeSoundBlocked(listener: () => void) {
+  blocked = listener;
+}
+
+/**
+ * Call from a click, after starting the first song. Safari only lets an audio element play later if the
+ * visitor's own tap played it once, so the other songs are started and stopped in the same moment.
+ */
 export function primeParadeSound() {
   try {
-    const c = context();
-    if (!c) return;
-    // Safari is surest to unlock when something actually plays during the tap, so play a moment of silence.
-    const silence = c.createBufferSource();
-    silence.buffer = c.createBuffer(1, 1, c.sampleRate);
-    silence.connect(c.destination);
-    silence.start();
+    context();
+    for (const track of new Set(paradeScenes.map((s) => s.track))) {
+      if (track === current) continue;
+      const audio = player(track);
+      void audio.play()?.catch(() => {});
+      audio.pause();
+    }
   } catch {
     // Quiet is fine.
   }
-}
-
-function load(c: AudioContext, track: ParadeTrack) {
-  let file = files.get(track);
-  if (!file) {
-    file = fetch(paradeAudio(track)).then((r) => r.arrayBuffer()).then((data) => c.decodeAudioData(data));
-    // A failed download is tried again next time.
-    file.catch(() => files.delete(track));
-    files.set(track, file);
-  }
-  return file;
 }
 
 function tone(c: AudioContext, at: number, from: number, to: number, length: number, type: OscillatorType, gain: number) {
@@ -87,55 +115,36 @@ export function playCheer() {
 
 /** Fades the band out, quickly for pause or sound off, slowly when the next song is coming in. */
 export function stopParadeSound(seconds = STOP_S) {
-  music?.stop(seconds);
-  music = null;
+  if (!current) return;
+  const audio = player(current);
+  current = null;
+  fade(audio, 0, seconds, () => audio.pause());
 }
 
-function startTrack(c: AudioContext, track: ParadeTrack) {
-  const crossfade = music !== null;
+function startTrack(track: ParadeTrack) {
+  const crossfade = current !== null;
   stopParadeSound(CROSSFADE_S);
-  const src = c.createBufferSource();
-  const amp = c.createGain();
-  let stopped = false;
-  let started = false;
-  src.connect(amp).connect(c.destination);
-  music = {
-    track,
-    stop: (seconds) => {
-      stopped = true;
-      if (!started) return amp.disconnect();
-      const now = c.currentTime;
-      amp.gain.cancelScheduledValues(now);
-      amp.gain.setValueAtTime(amp.gain.value, now);
-      amp.gain.linearRampToValueAtTime(0, now + seconds);
-      src.stop(now + seconds);
-    },
-  };
-  load(c, track)
-    .then((buffer) => {
-      if (stopped) return;
-      src.buffer = buffer;
-      src.loop = true;
-      amp.gain.setValueAtTime(0, c.currentTime);
-      amp.gain.linearRampToValueAtTime(1, c.currentTime + (crossfade ? CROSSFADE_S : STOP_S));
-      src.start();
-      started = true;
-    })
-    .catch(() => {
-      // Quiet is fine, the parade still plays. Forget this song so the next scene tries it again.
-      if (music?.track === track) music = null;
-    });
+  current = track;
+  const audio = player(track);
+  audio.currentTime = 0;
+  audio.volume = 0;
+  fade(audio, 1, crossfade ? CROSSFADE_S : STOP_S);
+  void audio.play()?.catch((error: unknown) => {
+    // Quiet is fine, the parade still plays. Forget this song so the next try starts it again.
+    if (current !== track) return;
+    current = null;
+    if ((error as Error)?.name === "NotAllowedError") blocked();
+  });
 }
 
 /** Plays what this scene sounds like. A scene on the same track lets the band play on. */
 export function playParadeSound(scene: Pick<ParadeScene, "track" | "giggle">) {
   try {
+    const changed = current !== scene.track;
+    if (changed) startTrack(scene.track);
     const c = context();
     if (!c) return;
-    if (music?.track !== scene.track) {
-      for (const [at, length] of [[0, 0.12], [0.18, 0.3]]) tone(c, c.currentTime + at, 2300, 2500, length, "square", 0.03);
-      startTrack(c, scene.track);
-    }
+    if (changed) for (const [at, length] of [[0, 0.12], [0.18, 0.3]]) tone(c, c.currentTime + at, 2300, 2500, length, "square", 0.03);
     if (scene.giggle) for (let i = 0; i < 7; i++) tone(c, c.currentTime + 3 + i * 0.13, 520 + (i % 2) * 140, 700 + (i % 2) * 120, 0.09, "triangle", 0.16);
   } catch {
     // Quiet is fine, the parade still plays.

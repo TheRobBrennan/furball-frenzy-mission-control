@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function ParadeInvite({ className = "" }: { className?: string }) {
   return (
     <Link
-      href="/parade/thanksgiving-2026"
+      href="/missions/parade/thanksgiving-2026"
       data-testid="parade-invite"
       className={`min-h-16 max-w-md items-center gap-3 rounded-2xl border-2 border-amber bg-amber/10 px-4 py-3 text-left transition hover:bg-amber/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${className}`}
     >

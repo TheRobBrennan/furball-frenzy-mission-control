@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 
 const link = "inline-flex min-h-11 items-center underline decoration-1 underline-offset-4 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber";
 
-const withFooterCard = ["/", "/missions", "/parade/thanksgiving-2026"];
+const withFooterCard = ["/", "/missions", "/missions/parade/thanksgiving-2026"];
 
 /**
  * The privacy and terms links. On the home page they sit inside the footer's own text (inline), and on every other page

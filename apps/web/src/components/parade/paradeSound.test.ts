@@ -1,32 +1,54 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-const ramps: [number, number][] = [];
-const stops: number[] = [];
-
-function fakeContext() {
-  const node = () => ({ connect: vi.fn((next) => next), disconnect: vi.fn(), start: vi.fn(), stop: vi.fn((at: number) => stops.push(at)), buffer: null, loop: false, type: "", frequency: { setValueAtTime: vi.fn(), exponentialRampToValueAtTime: vi.fn() } });
-  const gain = () => ({ ...node(), gain: { value: 1, setValueAtTime: vi.fn(), exponentialRampToValueAtTime: vi.fn(), cancelScheduledValues: vi.fn(), linearRampToValueAtTime: vi.fn((v: number, at: number) => ramps.push([v, at])) } });
-  return function FakeAudio() {
-    return { state: "running", currentTime: 10, destination: {}, createOscillator: node, createBufferSource: node, createGain: gain, decodeAudioData: async () => ({}) };
-  };
+const made: FakeAudio[] = [];
+class FakeAudio {
+  volume = 1;
+  muted = false;
+  loop = false;
+  preload = "";
+  currentTime = 0;
+  playing = false;
+  constructor(public src: string) {
+    made.push(this);
+  }
+  play = vi.fn(async () => {
+    this.playing = true;
+  });
+  pause = vi.fn(() => {
+    this.playing = false;
+  });
 }
 
-afterEach(() => vi.unstubAllGlobals());
+const song = (name: string) => made.find((a) => a.src.includes(name))!;
+
+afterEach(() => {
+  vi.useRealTimers();
+  vi.unstubAllGlobals();
+});
 
 describe("parade music", () => {
-  it("crossfades from one song to the next, and plays on within a song", async () => {
-    vi.stubGlobal("AudioContext", fakeContext());
-    vi.stubGlobal("fetch", async () => ({ arrayBuffer: async () => new ArrayBuffer(1) }));
-    const { CROSSFADE_S, playParadeSound } = await import("./paradeSound");
-    const settle = () => new Promise((r) => setTimeout(r, 0));
+  it("unlocks every song on the tap, then crossfades between them", async () => {
+    vi.useFakeTimers();
+    vi.stubGlobal("Audio", FakeAudio);
+    const { CROSSFADE_S, playParadeSound, primeParadeSound, stopParadeSound } = await import("./paradeSound");
+    // The same order as the Start click: the first song, then the unlock of the rest.
     playParadeSound({ track: "liberty-bell" });
-    await settle();
-    ramps.length = 0;
-    playParadeSound({ track: "liberty-bell" });
-    expect(ramps).toEqual([]);
+    primeParadeSound();
+    expect(made).toHaveLength(4);
+    for (const audio of made) expect(audio.play).toHaveBeenCalled();
+    await vi.advanceTimersByTimeAsync(1000);
+    expect(made.filter((a) => a.playing)).toEqual([song("liberty-bell")]);
+    expect(song("liberty-bell").volume).toBe(1);
+
     playParadeSound({ track: "drum-cadence" });
-    await settle();
-    expect(ramps).toEqual([[0, 10 + CROSSFADE_S], [1, 10 + CROSSFADE_S]]);
-    expect(stops).toContain(10 + CROSSFADE_S);
+    await vi.advanceTimersByTimeAsync((CROSSFADE_S * 1000) / 2);
+    expect(song("liberty-bell").volume).toBeGreaterThan(0.2);
+    expect(song("drum-cadence").volume).toBeGreaterThan(0.2);
+    await vi.advanceTimersByTimeAsync(CROSSFADE_S * 1000);
+    expect(made.filter((a) => a.playing)).toEqual([song("drum-cadence")]);
+
+    stopParadeSound();
+    await vi.advanceTimersByTimeAsync(1000);
+    expect(made.filter((a) => a.playing)).toEqual([]);
   });
 });

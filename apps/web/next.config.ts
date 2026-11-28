@@ -22,8 +22,12 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       { source: "/storybook", destination: "/storybook/index.html", permanent: false },
-      // The short address always leads to the newest parade, so it is not permanent.
-      { source: "/parade", destination: "/parade/thanksgiving-2026", permanent: false },
+      // Every mission lives under /missions. The older addresses are live and linked, so they keep working,
+      // query and all. Not permanent, so they can be pointed somewhere newer.
+      { source: "/mission", destination: "/missions/lunar-south-pole", permanent: false },
+      { source: "/parade", destination: "/missions/parade/thanksgiving-2026", permanent: false },
+      { source: "/parade/thanksgiving-2026", destination: "/missions/parade/thanksgiving-2026", permanent: false },
+      { source: "/missions/parade", destination: "/missions/parade/thanksgiving-2026", permanent: false },
     ];
   },
   async rewrites() {

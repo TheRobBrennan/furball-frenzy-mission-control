@@ -3,13 +3,13 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { paradeFunnel } from "@/lib/analytics";
 import { CURTAIN_MS, paradeScenes } from "@/lib/parade/script";
 import ParadeShow from "./ParadeShow";
-import { playCheer, playParadeSound } from "./paradeSound";
+import { onParadeSoundBlocked, playCheer, playParadeSound } from "./paradeSound";
 
 vi.mock("@/lib/analytics", () => {
   const track = vi.fn();
   return { paradeFunnel: vi.fn(() => track) };
 });
-vi.mock("./paradeSound", () => ({ playCheer: vi.fn(), playParadeSound: vi.fn(), primeParadeSound: vi.fn(), stopParadeSound: vi.fn() }));
+vi.mock("./paradeSound", () => ({ onParadeSoundBlocked: vi.fn(), playCheer: vi.fn(), playParadeSound: vi.fn(), primeParadeSound: vi.fn(), stopParadeSound: vi.fn() }));
 
 afterEach(() => {
   vi.useRealTimers();
@@ -62,7 +62,7 @@ describe("ParadeShow", () => {
   it("reports the show: start, scenes, how it finished, a replay, and the sound choice", () => {
     render(<ParadeShow />);
     start();
-    fireEvent.click(screen.getByRole("button", { name: "Sound on" }));
+    fireEvent.click(screen.getByRole("switch", { name: "Sound" }));
     fireEvent.click(screen.getByRole("button", { name: "Skip to the end" }));
     fireEvent.click(screen.getByRole("button", { name: "Watch again" }));
     const track = vi.mocked(paradeFunnel).mock.results[0].value;
@@ -86,6 +86,16 @@ describe("ParadeShow", () => {
     expect(screen.queryByTestId("parade-curtain")).not.toBeInTheDocument();
   });
 
+  it("offers a tap for sound if the browser refuses to play", () => {
+    render(<ParadeShow />);
+    start();
+    act(() => vi.mocked(onParadeSoundBlocked).mock.calls[0][0]());
+    vi.mocked(playParadeSound).mockClear();
+    fireEvent.click(screen.getByRole("button", { name: /tap for sound/i }));
+    expect(playParadeSound).toHaveBeenCalledWith(paradeScenes[0]);
+    expect(screen.queryByRole("button", { name: /tap for sound/i })).not.toBeInTheDocument();
+  });
+
   it("cheers when the picture is tapped", () => {
     render(<ParadeShow />);
     start();
@@ -98,8 +108,8 @@ describe("ParadeShow", () => {
   it("remembers sound turned off", () => {
     render(<ParadeShow />);
     start();
-    fireEvent.click(screen.getByRole("button", { name: "Sound on" }));
-    expect(screen.getByRole("button", { name: "Sound off" })).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("switch", { name: "Sound" }));
+    expect(screen.getByRole("switch", { name: "Sound" })).toHaveAttribute("aria-checked", "false");
     expect(window.localStorage.getItem("ff-story-sound")).toBe("off");
   });
 

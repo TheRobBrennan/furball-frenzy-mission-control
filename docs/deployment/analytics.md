@@ -77,7 +77,9 @@ result, report it apart from an observed unsuccessful mission.
 | `parade_cheered` | A tap anywhere that is not a control. `scene`, or `title` before the start |
 | `parade_sponsor_opened` | A presenter link. `sponsor` (`sploosh`, `hockey`) |
 
-The Missions page and tab are measured by the `/missions`, `/mission` and `/parade/thanksgiving-2026` page views.
+The Missions page and tab are measured by the `/missions`, `/missions/lunar-south-pole` and `/missions/parade/thanksgiving-2026` page views.
+
+The mission moved from `/mission` to `/missions/lunar-south-pole` on 2026-11-27. Reports filtered on the old path need both.
 
 All carry `show_id` (one page visit) and `showing` (1, then 2 after a replay).
 

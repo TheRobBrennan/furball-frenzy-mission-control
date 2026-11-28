@@ -212,7 +212,7 @@ describe("MissionBuilder", () => {
 
     it("starts by itself from the link on the home page", () => {
       vi.useFakeTimers();
-      window.history.replaceState({}, "", "/mission?judges=1");
+      window.history.replaceState({}, "", "/missions/lunar-south-pole?judges=1");
       render(<MissionBuilder />);
       advance(100);
       expect(screen.getByTestId("judges-start")).toHaveTextContent("Stop and design it myself");

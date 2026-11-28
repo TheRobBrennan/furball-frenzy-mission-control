@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 test("settings opens the analytics toggle and preserves the browser preference", async ({ page }) => {
-  await page.goto("/mission");
+  await page.goto("/missions/lunar-south-pole");
   const settings = page.getByRole("navigation", { name: "Main navigation" }).getByRole("button", { name: "Settings", exact: true });
   const toggle = page.getByRole("switch", { name: "Analytics" });
   await expect(toggle).toBeHidden();
@@ -15,10 +15,10 @@ test("settings opens the analytics toggle and preserves the browser preference",
   await page.reload();
   await settings.click();
   await expect(toggle).not.toBeChecked();
-  await page.goto("/mission?analytics=on");
+  await page.goto("/missions/lunar-south-pole?analytics=on");
   await settings.click();
   await expect(toggle).toBeChecked();
-  await page.goto("/mission?analytics=off");
+  await page.goto("/missions/lunar-south-pole?analytics=off");
   await settings.click();
   await expect(toggle).not.toBeChecked();
   await page.goto("/privacy");
