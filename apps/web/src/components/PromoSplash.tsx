@@ -119,14 +119,14 @@ export default function PromoSplash() {
         </div>
         <div className="mt-3 flex flex-col gap-3 sm:flex-row">
           <a
-            href="/mission?judges=1"
+            href="/missions/lunar-south-pole?judges=1"
             onClick={close}
             className="inline-flex min-h-12 flex-1 items-center justify-center whitespace-nowrap rounded-full bg-amber px-6 text-center font-bold text-space shadow-lg shadow-amber/20 transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             Watch a mission
           </a>
           <a
-            href="/mission"
+            href="/missions/lunar-south-pole"
             onClick={close}
             className="inline-flex min-h-12 flex-1 items-center justify-center whitespace-nowrap rounded-full border border-white/30 px-6 text-center font-bold text-white transition hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >

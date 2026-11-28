@@ -10,9 +10,10 @@ export const metadata: Metadata = {
 /** The 30 second demo video, at a public link with no login, for the Space Apps submission. */
 export default function DemoPage() {
   return (
-    <main id="top" className="mx-auto w-full max-w-4xl flex-1 px-4 py-8 sm:px-6 sm:py-12">
-      <GamePageNav />
-      <h1 className="mt-4 text-3xl font-black leading-tight text-white sm:text-5xl">The 30 second demo</h1>
+    <>
+    <GamePageNav />
+    <main id="top" className="mx-auto w-full max-w-4xl flex-1 px-4 py-5 sm:px-6 sm:py-8">
+      <h1 className="text-3xl font-black leading-tight text-white sm:text-5xl">The 30 second demo</h1>
       <p className="mt-2 text-lg text-white/80">
         Two Polish elephants, one lifelong dream. Watch the furballs design a mission, run their final checks, and fly to the Moon and home again, then learn
         how the rover compares to real NASA missions.
@@ -30,13 +31,13 @@ export default function DemoPage() {
       </video>
       <div className="mt-6 flex flex-col gap-3 sm:flex-row">
         <Link
-          href="/mission?judges=1"
+          href="/missions/lunar-south-pole?judges=1"
           className="inline-flex min-h-12 items-center justify-center whitespace-nowrap rounded-full bg-amber px-6 font-bold text-space shadow-lg shadow-amber/20 transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
         >
           Watch a mission for real
         </Link>
         <Link
-          href="/mission"
+          href="/missions/lunar-south-pole"
           className="inline-flex min-h-12 items-center justify-center whitespace-nowrap rounded-full border border-white/30 px-6 font-bold text-white transition hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
         >
           Design it yourself
@@ -50,5 +51,6 @@ export default function DemoPage() {
         </a>
       </div>
     </main>
+    </>
   );
 }

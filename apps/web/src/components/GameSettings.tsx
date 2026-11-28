@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import AnalyticsPreference from "./AnalyticsPreference";
+import SoundPreference from "./SoundPreference";
 
 export default function GameSettings() {
   const button = useRef<HTMLButtonElement>(null);
@@ -58,7 +59,10 @@ export default function GameSettings() {
         className="fixed inset-auto right-3 top-14 m-0 w-80 max-w-[calc(100vw-1.5rem)] overflow-y-auto rounded-2xl border border-white/25 bg-space p-4 text-white shadow-xl shadow-black/60"
       >
         <h2 id="game-settings-title" className="text-base font-bold">Settings</h2>
-        <div className="mt-3 flex items-center justify-between gap-3">
+        <div className="mt-3">
+          <SoundPreference />
+        </div>
+        <div className="mt-2 flex items-center justify-between gap-3">
           <span className="text-sm">Anonymous analytics</span>
           <AnalyticsPreference />
         </div>

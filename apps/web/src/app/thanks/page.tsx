@@ -52,7 +52,7 @@ export default function ThanksPage() {
       <p className="mt-3 text-base text-white/70">If Flodesk asks you to confirm your email, look for its message in your inbox, and check the spam folder too.</p>
       <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
         <Link
-          href="/mission?judges=1"
+          href="/missions/lunar-south-pole?judges=1"
           className="inline-flex min-h-12 items-center justify-center whitespace-nowrap rounded-full bg-amber px-6 font-bold text-space shadow-lg shadow-amber/20 transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
         >
           Watch a mission

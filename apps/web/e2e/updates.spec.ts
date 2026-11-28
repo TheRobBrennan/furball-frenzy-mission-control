@@ -6,7 +6,7 @@ test("the Stay updated box loads nothing from Flodesk until asked, then loads it
     if (/flodesk\.com/.test(r.url())) flodesk.push(r.url());
   });
   await page.addInitScript(() => sessionStorage.setItem("ff-promo-seen", "1"));
-  await page.goto("/mission");
+  await page.goto("/missions/lunar-south-pole");
   await page.getByTestId("stay-updated").scrollIntoViewIfNeeded();
   await page.waitForTimeout(1500);
   expect(flodesk).toEqual([]);

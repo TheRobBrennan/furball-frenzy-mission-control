@@ -11,8 +11,8 @@ import MissionPatch from "@/components/MissionPatch";
 import StayUpdated from "@/components/StayUpdated";
 import TrailerButton from "@/components/TrailerButton";
 import MissionStatus from "@/components/MissionStatus";
-import LegalLinks from "@/components/LegalLinks";
-import VersionLine from "@/components/VersionLine";
+import ParadeInvite from "@/components/parade/ParadeInvite";
+import SiteFooter from "@/components/SiteFooter";
 
 const photos = [
   {
@@ -76,6 +76,8 @@ export default function Home() {
       />
 
       <section className="relative mx-auto grid max-w-6xl gap-8 px-6 pb-8 pt-8 lg:grid-cols-2 lg:items-start lg:gap-12 lg:pb-12 lg:pt-16">
+        {/* At the top on a phone, so the treat is seen without scrolling. */}
+        <ParadeInvite className="order-first mx-auto flex w-full lg:hidden" />
         <div className="relative order-1 mx-auto w-full max-w-[19rem] sm:max-w-sm lg:order-2 lg:max-w-md">
           <HeroPolaroid />
           {/* Under the Polaroid on a wide screen. On a phone it sits under the headline instead, so the headline stays above the fold. */}
@@ -99,9 +101,10 @@ export default function Home() {
             Two Polish elephants, one lifelong dream: shining in the American Space
             Program. Design the mission that gets them to the Moon.
           </p>
+          <ParadeInvite className="mt-5 hidden lg:flex" />
           <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
             <a
-              href="/mission"
+              href="/missions/lunar-south-pole"
               className="inline-flex min-h-12 items-center justify-center rounded-full bg-amber px-6 font-bold text-space shadow-lg shadow-amber/20 transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             >
               Start the mission
@@ -115,7 +118,7 @@ export default function Home() {
           </div>
           <p className="mt-4 text-center text-base text-white/85 lg:text-left">
             Judging this?{" "}
-            <a href="/mission?judges=1" className="font-bold text-amber underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white">
+            <a href="/missions/lunar-south-pole?judges=1" className="font-bold text-amber underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white">
               Start here
             </a>{" "}
             and watch the elephants design and launch a mission in about 30 seconds, or <TrailerButton className="text-amber" />.
@@ -317,19 +320,7 @@ export default function Home() {
         </div>
       </div>
 
-      <footer id="footer" className="mx-auto w-full max-w-6xl scroll-mt-20 px-4 pb-10 pt-6 sm:px-6 sm:pb-14">
-        <div className="rounded-2xl border border-white/15 bg-space/90 px-5 py-4 text-[13px] shadow-xl shadow-black/25 sm:px-7">
-          <div className="flex flex-col gap-1 md:flex-row md:items-center md:justify-between md:gap-6">
-            <p className="leading-relaxed text-white/85">
-              Built by one with a crew of furballs for the 2026{" "}
-              <ExtLink href="https://www.spaceappschallenge.org/">NASA Space Apps Challenge</ExtLink> at{" "}
-              <ExtLink href="https://www.spaceappsclt.org/">Space Apps Charlotte</ExtLink>.
-            </p>
-            <LegalLinks inline />
-          </div>
-          <VersionLine />
-        </div>
-      </footer>
+      <SiteFooter />
     </main>
     </>
   );

@@ -65,6 +65,24 @@ For first versus next attempt, join each launch to the finish with the same `bui
 keeping `mode = manual`. A relaunch with `previous_debrief_seen = false` means the player never saw the earlier
 result, report it apart from an observed unsuccessful mission.
 
+## Parade Day
+
+| Event | Trigger and properties |
+| --- | --- |
+| `parade_started` | "Start the parade" |
+| `parade_scene_viewed` | A scene appears, once per showing. `scene`, the scene's title as `$screen_name` (the URL / Screen column), `position`, `total` |
+| `parade_finished` | The last scene appears. `playback` (`watched`, `skipped`) |
+| `parade_replayed` | "Watch again" |
+| `parade_sound_changed` | `sound` (`on`, `off`) |
+| `parade_cheered` | A tap anywhere that is not a control. `scene`, or `title` before the start |
+| `parade_sponsor_opened` | A presenter link. `sponsor` (`sploosh`, `hockey`) |
+
+The Missions page and tab are measured by the `/missions`, `/missions/lunar-south-pole` and `/missions/parade/thanksgiving-2026` page views.
+
+The mission moved from `/mission` to `/missions/lunar-south-pole` on 2026-11-27. Reports filtered on the old path need both.
+
+All carry `show_id` (one page visit) and `showing` (1, then 2 after a replay).
+
 ## Mission launch funnel
 
 Use these six stages in order, leaving out `mission_scene_viewed`, in a PostHog funnel. Apply `mode = manual` to the

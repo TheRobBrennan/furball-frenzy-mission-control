@@ -19,8 +19,8 @@ describe("PromoSplash", () => {
     expect(screen.queryByTestId("promo")).not.toBeInTheDocument();
     advance(1300);
     expect(screen.getByRole("dialog", { name: /trailer/i })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /watch a mission/i })).toHaveAttribute("href", "/mission?judges=1");
-    expect(screen.getByRole("link", { name: /design it myself/i })).toHaveAttribute("href", "/mission");
+    expect(screen.getByRole("link", { name: /watch a mission/i })).toHaveAttribute("href", "/missions/lunar-south-pole?judges=1");
+    expect(screen.getByRole("link", { name: /design it myself/i })).toHaveAttribute("href", "/missions/lunar-south-pole");
   });
 
   it("moves through its four lines on its own and stops on the last", () => {

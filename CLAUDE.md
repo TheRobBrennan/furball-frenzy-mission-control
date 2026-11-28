@@ -2,6 +2,18 @@
 
 Guidance for Claude Code when working in this repo.
 
+## Critical, every change: tests, mobile, analytics
+
+Work is not done, and a pull request is not ready, until all three are true. None is optional or a follow-up.
+
+1. **Tests.** New logic has a Vitest test, new components a story, new flows a Playwright test. All suites run and pass.
+2. **Mobile and responsive.** The responsive pass is done at 320, 375, 768, and 1280, and the screenshots looked at.
+   See "Responsive pass before every UI pull request".
+3. **PostHog.** Every new page, flow, or control sends its events, documented and tested, with privacy copy updated,
+   or the PR says why none are needed. See "Analytics is part of every feature".
+
+Say plainly in the PR anything that was not checked, such as Safari or a real phone.
+
 ## What this is
 
 **Furball Frenzy: Mission Control**, a web game built for the 2026 NASA Space Apps
@@ -71,6 +83,27 @@ The web app forwards `/api/*` to the FastAPI service (`API_URL`, default
 Whimsy, intrigue, and mischief: the furballs and the American Space Program. Warm, playful, and
 kind, never creepy. The Polish elephants love cameras, drawings, and all kinds of media, and keep
 a few things classified just for the fun of it, they are playful, not sneaky or surveilling.
+
+## Responsive pass before every UI pull request
+
+Screenshot every page and state you touched at 320, 375, 768, and 1280 wide, and look at each one:
+
+- No sideways scroll. Check it in the browser, not by eye.
+- A handful of related buttons stays on one line on a phone, with symbols and screen-reader words if needed.
+- Nothing important hides below the fold, wraps awkwardly, or is padded far more than the home page.
+- Headers and titles match from page to page, and tap targets are at least 44 px.
+- Check Safari as well as Chrome for sound, video, and clickable areas, or say it was not checked.
+
+## Analytics is part of every feature
+
+**A new page, flow, or control is not done until PostHog can see it.** Plan the events with the feature,
+and ship them in the same PR:
+
+- Add the page path to `routes` in `apps/web/src/lib/analytics.ts`, and send events through that file only.
+- Say what question each event answers. Send allowlisted values only, never free text, URLs, or personal data.
+- Add the events to `docs/deployment/analytics.md`, update the privacy page when collection changes, and test them.
+- After deploy, verify the events in the Furball PostHog project.
+- A change that needs no events says so, and why, in the PR.
 
 ## Mobile first, always
 
