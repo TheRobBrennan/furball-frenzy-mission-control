@@ -71,6 +71,5 @@ def test_parade_day_furballs_are_in_the_crew() -> None:
 def test_meet_the_crew_on_the_site_lists_everyone_the_headcount_counts() -> None:
     page = Path(__file__).parents[2] / "web/src/components/fleet/HomeBases.tsx"
     rosters = re.findall(r"const (?:carolina|seattle)Crew: Member\[\] = \[(.*?)\n\];", page.read_text(), re.DOTALL)
-    # A line can hold a pair of buddies, such as "Kraken Bear and Mankind".
-    listed = [n for r in rosters for line in re.findall(r'name: "([^"]+)"', r) for n in line.split(" and ")]
+    listed = [n for r in rosters for n in re.findall(r'name: "([^"]+)"', r)]
     assert sorted(listed) == sorted(c["name"] for c in client.get("/crew").json())

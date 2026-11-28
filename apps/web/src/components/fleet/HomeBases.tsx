@@ -133,9 +133,10 @@ const seattleCrew: Member[] = [
   { name: "Little Bear" },
   { name: "Mister Bunny" },
   { name: "Little Bunny" },
-  // Kraken Bear and his little buddy share a line.
-  { name: "Kraken Bear and Mankind" },
+  // Two columns on a wide screen: Mankind sits under Kraken Bear, as Hamley sits under Piggy.
+  { name: "Kraken Bear" },
   { name: "Fuzzy Black Bear" },
+  { name: "Mankind" },
   { name: "Fuzzy Brown Bear" },
   { name: "Blitz" },
   { name: "Cool Bird" },
@@ -147,8 +148,7 @@ function Roster({ members, anchorId }: { members: Member[]; anchorId?: string })
       <h4 id={anchorId} className="mt-8 scroll-mt-24 font-mono text-xs uppercase tracking-[0.25em] text-ice">Crew</h4>
       <ul className="mt-3 grid gap-x-3 gap-y-2 text-base min-[375px]:text-lg sm:grid-cols-2">
         {members.map((m) => (
-          // A pair of buddies gets the whole row, so their names stay on one line.
-          <li key={m.name} className={`flex items-baseline gap-2 ${m.name.includes(" and ") ? "sm:col-span-2" : ""}`}>
+          <li key={m.name} className="flex items-baseline gap-2">
             <span className="text-amber" aria-hidden="true">
               &#9733;
             </span>
