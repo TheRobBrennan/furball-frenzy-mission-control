@@ -85,6 +85,23 @@ public-safe and confirmed, add it to `crew.py` in the same change.
 | 2026-11-14 | The elephants keep studying Zamboni driving and repair from their favorite Zamboni driver and hockey expert, a skill Kraken Bear shares | confirmed |
 | 2026-11-14 | Fuzzy Black Bear has an unpictured twin, Fuzzy Brown Bear | confirmed |
 
+### Mister Bunny, Seattle
+| Date | Trait | Status |
+| --- | --- | --- |
+| 2026-11-27 | The olive safari hat is his favorite, a souvenir from his first adventure to Kauaʻi, with a Kalalau Trail, Nā Pali Coast patch | confirmed |
+| 2026-11-27 | Little Bunny is his little buddy in the parade | confirmed |
+
+### The parade bands
+| Date | Trait | Status |
+| --- | --- | --- |
+| 2026-11-27 | Blitz takes the baton | confirmed |
+| 2026-11-27 | Blitz is the Seattle football hawk in the number 0 jersey | **proposed** |
+| 2026-11-27 | Cool Bird takes a solo to entertain the crowd | confirmed |
+| 2026-11-27 | Cool Bird is the blue hawk with the trumpet | **proposed** |
+| 2026-11-27 | Two Hawaiian furballs from Kauaʻi lead their band, not yet named | confirmed |
+| 2026-11-27 | The two Hawaiian furballs are the rooster and the chick | **proposed** |
+| 2026-11-27 | Blitz and Cool Bird are listed with the Seattle crew | **proposed** |
+
 ## Game ideas, proposed
 
 - **The binder is the game's navigation.** The elephants' tabbed binder, colored dividers and all, becomes the main UI, one tab each for the Brief, Research, Missions, Parts, Journal, and Debrief, so the research and journaling they are proud of is the thing the player flips through. The journal pages are the mission debrief. *Proposed, from Rob's binder idea.*
