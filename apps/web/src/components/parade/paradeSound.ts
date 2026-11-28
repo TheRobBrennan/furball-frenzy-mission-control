@@ -13,13 +13,24 @@ const files = new Map<ParadeTrack, Promise<AudioBuffer>>();
 function context(): AudioContext | null {
   if (typeof window === "undefined" || !window.AudioContext) return null;
   ctx ??= new window.AudioContext();
-  if (ctx.state === "suspended") void ctx.resume().catch(() => {});
+  // Safari also parks a context as "interrupted", after sleep or another app's audio.
+  if (ctx.state !== "running") void ctx.resume().catch(() => {});
   return ctx;
 }
 
 /** Call from the Start click, so a phone lets the music play when later scenes arrive. */
 export function primeParadeSound() {
-  context();
+  try {
+    const c = context();
+    if (!c) return;
+    // Safari is surest to unlock when something actually plays during the tap, so play a moment of silence.
+    const silence = c.createBufferSource();
+    silence.buffer = c.createBuffer(1, 1, c.sampleRate);
+    silence.connect(c.destination);
+    silence.start();
+  } catch {
+    // Quiet is fine.
+  }
 }
 
 function load(c: AudioContext, track: ParadeTrack) {
@@ -111,7 +122,8 @@ function startTrack(c: AudioContext, track: ParadeTrack) {
       started = true;
     })
     .catch(() => {
-      // Quiet is fine, the parade still plays.
+      // Quiet is fine, the parade still plays. Forget this song so the next scene tries it again.
+      if (music?.track === track) music = null;
     });
 }
 

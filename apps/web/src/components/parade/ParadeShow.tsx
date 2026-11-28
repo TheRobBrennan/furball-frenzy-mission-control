@@ -93,6 +93,7 @@ export default function ParadeShow() {
   useEffect(() => () => stopParadeSound(), []);
 
   const toggleSound = () => {
+    if (!soundOn) primeParadeSound();
     setChoice(!soundOn);
     track({ event: "parade_sound_changed", sound: soundOn ? "off" : "on" });
     try {
