@@ -168,4 +168,29 @@ CREW: list[Character] = [
         role="Crew",
         bio="Has an unpictured twin, Fuzzy Brown Bear.",
     ),
+    Character(
+        slug="mister-bunny",
+        name="Mister Bunny",
+        location="Seattle WA",
+        role="Crew",
+        bio=(
+            "The big bunny in the olive safari hat, his favorite, a souvenir from his first "
+            "adventure to Kauaʻi, with a Kalalau Trail, Nā Pali Coast patch. Little Bunny is "
+            "his little buddy in the parade."
+        ),
+    ),
+    Character(
+        slug="blitz",
+        name="Blitz",
+        location="Seattle WA",
+        role="Marching band",
+        bio="Takes the baton in the parade.",
+    ),
+    Character(
+        slug="cool-bird",
+        name="Cool Bird",
+        location="Seattle WA",
+        role="Marching band",
+        bio="Takes a solo to entertain the parade crowd.",
+    ),
 ]

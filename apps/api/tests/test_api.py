@@ -57,3 +57,9 @@ def test_polish_elephants_are_playful_camera_lovers_with_a_few_classified_files(
     assert "waving to their family" in traits
     assert "satellite" in traits
     assert "playful" in traits
+
+
+def test_parade_day_furballs_are_in_the_crew() -> None:
+    assert "Kauaʻi" in client.get("/crew/mister-bunny").json()["bio"]
+    for slug in ("blitz", "cool-bird"):
+        assert client.get(f"/crew/{slug}").json()["role"] == "Marching band"
