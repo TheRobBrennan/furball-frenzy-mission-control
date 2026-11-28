@@ -56,10 +56,14 @@ export default function StayUpdated({ id = formId(), compact = false }: { id?: s
           compact ? "mt-6 w-full p-4" : "mx-auto mb-8 mt-4 w-[calc(100%-2rem)] max-w-3xl p-6 sm:p-8"
         }`}
       >
-        <div className="flex items-center justify-center gap-3 sm:gap-4" aria-hidden="true" data-testid="stay-updated-crew">
-          {crew.map((c) => (
-            <Furball key={c.who} who={c.who} label={c.label} waving={c.who === "elephants"} className={`shrink-0 ${compact ? "h-9 w-9" : "h-11 w-11 sm:h-14 sm:w-14"} ${c.who === "elephants" ? (compact ? "w-14" : "w-16 sm:w-20") : ""}`} />
-          ))}
+        {/* Smaller on narrow phones, so the row never makes the card wider than the screen. */}
+        <div className="flex items-center justify-center gap-1 min-[420px]:gap-3 sm:gap-4" aria-hidden="true" data-testid="stay-updated-crew">
+          {crew.map((c) => {
+            const size = compact
+              ? `h-7 min-[420px]:h-9 ${c.who === "elephants" ? "w-11 min-[420px]:w-14" : "w-7 min-[420px]:w-9"}`
+              : `h-7 min-[480px]:h-11 sm:h-14 ${c.who === "elephants" ? "w-11 min-[480px]:w-16 sm:w-20" : "w-7 min-[480px]:w-11 sm:w-14"}`;
+            return <Furball key={c.who} who={c.who} label={c.label} waving={c.who === "elephants"} className={`shrink-0 ${size}`} />;
+          })}
         </div>
         <p className="mt-3 font-mono text-xs uppercase tracking-[0.2em] text-amber">Dispatches from Mission Control</p>
         <h2 className={`mt-1 font-black text-white ${compact ? "text-xl" : "text-2xl sm:text-3xl"}`}>Join the furball crew</h2>

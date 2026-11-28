@@ -60,3 +60,26 @@ test("the hero text starts at the top, level with the Polaroid, not centered aga
   // The first line of text is within 120px of the top of the Polaroid, instead of hundreds of pixels lower.
   expect(Math.abs(eyebrow!.y - polaroid!.y)).toBeLessThan(120);
 });
+
+for (const path of ["/", "/missions/lunar-south-pole"]) {
+  test(`at 320 wide nothing in the hero or the Stay updated box is cut off on ${path}`, async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 800 });
+    await page.addInitScript(() => sessionStorage.setItem("ff-promo-seen", "1"));
+    await page.goto(path);
+    const box = page.locator('[data-testid="stay-updated"]:visible');
+    await box.scrollIntoViewIfNeeded();
+    // The page hides overflow, so check element edges instead of scroll width.
+    const targets = [box, box.getByTestId("stay-updated-crew").locator(":scope > *").last()];
+    if (path === "/") targets.push(page.getByRole("link", { name: "Start the mission" }), page.getByRole("link", { name: "Meet the crew" }));
+    for (const target of targets) {
+      await expect(async () => {
+        const b = await target.boundingBox();
+        expect(b!.x).toBeGreaterThanOrEqual(0);
+        expect(b!.x + b!.width).toBeLessThanOrEqual(320);
+      }).toPass();
+    }
+    // The crew row fits inside the card too.
+    const row = box.getByTestId("stay-updated-crew");
+    expect(await row.evaluate((e) => e.scrollWidth - e.clientWidth)).toBeLessThanOrEqual(0);
+  });
+}
