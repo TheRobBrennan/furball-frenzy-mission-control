@@ -162,11 +162,25 @@ CREW: list[Character] = [
         ),
     ),
     Character(
+        slug="mankind",
+        name="Mankind",
+        location="Seattle WA",
+        role="Crew",
+        bio="Kraken Bear's little buddy.",
+    ),
+    Character(
         slug="fuzzy-black-bear",
         name="Fuzzy Black Bear",
         location="Seattle WA",
         role="Crew",
         bio="Has an unpictured twin, Fuzzy Brown Bear.",
+    ),
+    Character(
+        slug="fuzzy-brown-bear",
+        name="Fuzzy Brown Bear",
+        location="Seattle WA",
+        role="Crew",
+        bio="Fuzzy Black Bear's twin.",
     ),
     Character(
         slug="mister-bunny",

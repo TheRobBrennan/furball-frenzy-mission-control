@@ -91,6 +91,11 @@ public-safe and confirmed, add it to `crew.py` in the same change.
 | 2026-11-27 | The olive safari hat is his favorite, a souvenir from his first adventure to Kauaʻi, with a Kalalau Trail, Nā Pali Coast patch | confirmed |
 | 2026-11-27 | Little Bunny is his little buddy in the parade | confirmed |
 
+### Mankind, Seattle
+| Date | Trait | Status |
+| --- | --- | --- |
+| 2026-11-27 | Kraken Bear's little buddy | confirmed |
+
 ### The parade bands
 | Date | Trait | Status |
 | --- | --- | --- |
