@@ -5,7 +5,7 @@ const productionHost = "furball-frenzy.sploosh.ai";
 const endpoint = "https://us.i.posthog.com/i/v0/e/";
 const preferenceKey = "furball-analytics-off";
 const preferenceEvent = "furball-analytics-preference";
-const routes = new Set(["/", "/mission", "/parade", "/demo", "/thanks", "/privacy", "/terms"]);
+const routes = new Set(["/", "/mission", "/missions", "/parade/thanksgiving-2026", "/demo", "/thanks", "/privacy", "/terms"]);
 let optedOutInMemory: boolean | undefined;
 let visitId: string | undefined;
 
@@ -89,7 +89,8 @@ type ParadeStage =
   | { event: "parade_scene_viewed"; scene: string; title: string; position: number; total: number }
   | { event: "parade_finished"; playback: "watched" | "skipped" }
   | { event: "parade_sound_changed"; sound: "on" | "off" }
-  | { event: "parade_cheered"; scene: string };
+  | { event: "parade_cheered"; scene: string }
+  | { event: "parade_sponsor_opened"; sponsor: "sploosh" | "hockey" };
 
 /** One visit to the parade. A scene counts once per showing, so Back does not inflate it. */
 export function paradeFunnel() {
@@ -106,7 +107,7 @@ export function paradeFunnel() {
       if (seen.has(key)) return;
       seen.add(key);
     }
-    capture(event, { $pathname: "/parade", show_id: showId, showing, ...stage });
+    capture(event, { $pathname: "/parade/thanksgiving-2026", show_id: showId, showing, ...stage });
   };
 }
 

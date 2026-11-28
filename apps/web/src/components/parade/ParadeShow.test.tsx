@@ -33,9 +33,11 @@ describe("ParadeShow", () => {
     expect(scene()).toBe("bunnies");
   });
 
-  it("shows no balloons before the parade starts", () => {
+  it("shows the roped-off street and its presenters, and no balloons, before the start", () => {
     render(<ParadeShow />);
-    expect(screen.queryByRole("img")).not.toBeInTheDocument();
+    expect(screen.getAllByRole("img").map((i) => i.getAttribute("alt"))).toEqual(["A city street roped off with barriers, crowds waiting for the parade", "Sploosh.AI"]);
+    fireEvent.click(screen.getByRole("link", { name: /hockey analytics/i }));
+    expect(vi.mocked(paradeFunnel).mock.results[0].value).toHaveBeenCalledWith({ event: "parade_sponsor_opened", sponsor: "hockey" });
   });
 
   it("holds still while paused", () => {
@@ -74,7 +76,8 @@ describe("ParadeShow", () => {
   it("cheers when the picture is tapped", () => {
     render(<ParadeShow />);
     start();
-    fireEvent.click(screen.getByRole("button", { name: "Cheer for the parade" }));
+    fireEvent.click(screen.getByRole("button", { name: "Cheer for the parade" }), { clientX: 10, clientY: 20, detail: 1 });
+    expect(screen.getByTestId("firework")).toBeInTheDocument();
     expect(playCheer).toHaveBeenCalled();
     expect(vi.mocked(paradeFunnel).mock.results[0].value).toHaveBeenCalledWith({ event: "parade_cheered", scene: "piggy-hamley" });
   });

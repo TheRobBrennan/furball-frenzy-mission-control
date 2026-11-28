@@ -2,8 +2,12 @@
 // The drum major's whistle, the crowd cheer, and Little Bear's giggle are made on the spot.
 import { paradeAudio, type ParadeScene, type ParadeTrack } from "@/lib/parade/script";
 
+/** How long one song takes to give way to the next, in seconds. */
+export const CROSSFADE_S = 1.8;
+const STOP_S = 0.4;
+
 let ctx: AudioContext | null = null;
-let music: { track: ParadeTrack; stop: () => void } | null = null;
+let music: { track: ParadeTrack; stop: (seconds: number) => void } | null = null;
 const files = new Map<ParadeTrack, Promise<AudioBuffer>>();
 
 function context(): AudioContext | null {
@@ -70,22 +74,30 @@ export function playCheer() {
   }
 }
 
-export function stopParadeSound() {
-  music?.stop();
+/** Fades the band out, quickly for pause or sound off, slowly when the next song is coming in. */
+export function stopParadeSound(seconds = STOP_S) {
+  music?.stop(seconds);
   music = null;
 }
 
 function startTrack(c: AudioContext, track: ParadeTrack) {
-  stopParadeSound();
+  const crossfade = music !== null;
+  stopParadeSound(CROSSFADE_S);
   const src = c.createBufferSource();
   const amp = c.createGain();
   let stopped = false;
+  let started = false;
   src.connect(amp).connect(c.destination);
   music = {
     track,
-    stop: () => {
+    stop: (seconds) => {
       stopped = true;
-      amp.disconnect();
+      if (!started) return amp.disconnect();
+      const now = c.currentTime;
+      amp.gain.cancelScheduledValues(now);
+      amp.gain.setValueAtTime(amp.gain.value, now);
+      amp.gain.linearRampToValueAtTime(0, now + seconds);
+      src.stop(now + seconds);
     },
   };
   load(c, track)
@@ -93,7 +105,10 @@ function startTrack(c: AudioContext, track: ParadeTrack) {
       if (stopped) return;
       src.buffer = buffer;
       src.loop = true;
+      amp.gain.setValueAtTime(0, c.currentTime);
+      amp.gain.linearRampToValueAtTime(1, c.currentTime + (crossfade ? CROSSFADE_S : STOP_S));
       src.start();
+      started = true;
     })
     .catch(() => {
       // Quiet is fine, the parade still plays.

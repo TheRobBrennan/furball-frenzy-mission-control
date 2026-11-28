@@ -6,6 +6,8 @@ import { paradeFunnel } from "@/lib/analytics";
 import { readSound, SOUND_KEY } from "@/lib/mission";
 import { reducedMotion } from "@/lib/motion";
 import { nextScene, paradeImage, paradeScenes, previousScene } from "@/lib/parade/script";
+import PresentedBy from "./PresentedBy";
+import TapFireworks from "./TapFireworks";
 import { playCheer, playParadeSound, primeParadeSound, stopParadeSound } from "./paradeSound";
 
 const button =
@@ -41,8 +43,6 @@ export default function ParadeShow() {
   const [index, setIndex] = useState<number | null>(null);
   const [paused, setPaused] = useState(false);
   const [choice, setChoice] = useState<boolean | null>(null);
-  // Each tap on the picture throws another handful of confetti.
-  const [cheers, setCheers] = useState(0);
   const saved = useSyncExternalStore(never, savedSound, () => true);
   const soundOn = choice ?? saved;
   const still = useSyncExternalStore(never, reducedMotion, () => false);
@@ -73,7 +73,7 @@ export default function ParadeShow() {
     if (soundOn && !paused) playParadeSound(scene);
     else stopParadeSound();
   }, [scene, soundOn, paused]);
-  useEffect(() => stopParadeSound, []);
+  useEffect(() => () => stopParadeSound(), []);
 
   const toggleSound = () => {
     setChoice(!soundOn);
@@ -87,20 +87,28 @@ export default function ParadeShow() {
 
   const cheer = () => {
     if (!scene) return;
-    setCheers((n) => n + 1);
     if (soundOn) playCheer();
     track({ event: "parade_cheered", scene: scene.id });
   };
 
+  const sponsor = (name: "sploosh" | "hockey") => track({ event: "parade_sponsor_opened", sponsor: name });
+
   if (index === null || !scene) {
-    // A title card with no pictures, so every balloon is a surprise.
+    // A roped-off street and no balloons, so every one is a surprise.
     return (
-      <section aria-label="Parade Day" className="flex min-h-80 flex-col items-center justify-center gap-5 rounded-3xl border border-white/15 bg-space-2 px-6 py-12 text-center">
-        <p className="font-mono text-xs uppercase tracking-[0.2em] text-amber">The street is roped off</p>
-        <p className="max-w-md text-2xl font-black text-white sm:text-3xl">Listen, you can hear the drums.</p>
-        <button type="button" data-testid="parade-start" onClick={() => { primeParadeSound(); track({ event: "parade_started" }); setIndex(0); }} className={`${primary} w-full sm:w-auto`}>
-          Start the parade
-        </button>
+      <section aria-label="Parade Day" className="relative isolate flex min-h-[34rem] flex-col items-center justify-between gap-6 overflow-hidden rounded-3xl border border-white/15 px-4 py-6 text-center">
+        {!still && <TapFireworks onTap={() => { if (soundOn) playCheer(); track({ event: "parade_cheered", scene: "title" }); }} />}
+        <Image src="/images/parade/street.jpg" alt="A city street roped off with barriers, crowds waiting for the parade" fill priority sizes="(max-width: 1152px) 100vw, 1152px" className="-z-10 object-cover" />
+        <div className="w-full max-w-md rounded-3xl bg-white/95 px-4 py-3 shadow-2xl">
+          <PresentedBy onOpen={sponsor} />
+        </div>
+        <div className="flex w-full max-w-xl flex-col items-center gap-4 rounded-3xl bg-space/85 px-5 py-5 backdrop-blur">
+          <p className="text-balance font-mono text-xs uppercase tracking-[0.2em] text-amber">The first parade in Furball Frenzy history</p>
+          <p className="text-balance text-2xl font-black text-white sm:text-3xl">Listen, you can hear the drums.</p>
+          <button type="button" data-testid="parade-start" onClick={() => { primeParadeSound(); track({ event: "parade_started" }); setIndex(0); }} className={`${primary} w-full sm:w-auto`}>
+            Start the parade
+          </button>
+        </div>
       </section>
     );
   }
@@ -108,6 +116,7 @@ export default function ParadeShow() {
   const move = !still && !paused;
   return (
     <section aria-label="Parade Day" data-testid="parade-show" data-scene={scene.id} className="space-y-4">
+      {!still && <TapFireworks onTap={cheer} />}
       <div className="relative h-[60svh] min-h-80 overflow-hidden rounded-3xl border border-white/15 bg-space-2">
         <div key={scene.id} className={`absolute inset-0 ${still ? "" : "parade-enter"}`}>
           <div className={`absolute inset-0 ${still ? "" : "parade-float"}`} style={{ animationPlayState: move ? "running" : "paused" }}>
@@ -115,21 +124,16 @@ export default function ParadeShow() {
           </div>
         </div>
         {!still &&
+          confetti.map((c, i) => (
+            <span key={i} aria-hidden="true" className="parade-confetti" style={{ left: `${c.left}%`, background: c.color, animationDelay: `${c.delay}s`, animationDuration: `${c.time}s`, animationPlayState: move ? "running" : "paused" }} />
+          ))}
+        {!still &&
           balloons.map((b, i) => (
             <span key={`${scene.id}-${i}`} aria-hidden="true" className="parade-balloon" style={{ left: `${b.left}%`, animationDelay: `${b.delay}s`, animationPlayState: move ? "running" : "paused" }}>
               🎈
             </span>
           ))}
-        <button type="button" onClick={cheer} aria-label="Cheer for the parade" className="absolute inset-0 z-10 cursor-pointer focus-visible:outline focus-visible:outline-4 focus-visible:-outline-offset-4 focus-visible:outline-amber" />
-        {!still &&
-          cheers > 0 &&
-          confetti.map((c, i) => (
-            <span key={`${cheers}-${i}`} aria-hidden="true" className="parade-burst" style={{ background: c.color, "--x": `${(i - 14) * 11}px`, "--y": `${-60 - ((i * 47) % 140)}px` } as React.CSSProperties} />
-          ))}
-        {!still &&
-          confetti.map((c, i) => (
-            <span key={i} aria-hidden="true" className="parade-confetti" style={{ left: `${c.left}%`, background: c.color, animationDelay: `${c.delay}s`, animationDuration: `${c.time}s`, animationPlayState: move ? "running" : "paused" }} />
-          ))}
+        <button type="button" data-cheer onClick={still ? cheer : undefined} aria-label="Cheer for the parade" className="absolute inset-0 z-10 cursor-pointer focus-visible:outline focus-visible:outline-4 focus-visible:-outline-offset-4 focus-visible:outline-amber" />
       </div>
       <div aria-live="polite">
         <p className="font-mono text-xs uppercase tracking-[0.2em] text-amber">
@@ -137,7 +141,7 @@ export default function ParadeShow() {
         </p>
         <h2 className="mt-1 text-2xl font-black text-white sm:text-3xl">{scene.title}</h2>
         <p className="mt-1 min-h-12 text-lg text-white/85">{scene.caption}</p>
-        <p className="text-sm text-white/65">Tap the picture to cheer.</p>
+        <p className="text-sm text-white/65">Tap anywhere to cheer.</p>
       </div>
       <div className="flex flex-wrap gap-3">
         <button type="button" className={button} onClick={() => setIndex(previousScene(index))} disabled={index === 0}>
@@ -165,6 +169,9 @@ export default function ParadeShow() {
             Skip to the end
           </button>
         )}
+      </div>
+      <div className="mx-auto max-w-md rounded-3xl bg-white px-4 py-3">
+        <PresentedBy onOpen={sponsor} />
       </div>
       <p className="text-xs text-white/55">
         Music: the U.S. Marine Band, the U.S. Navy Fleet Forces Band, and a public domain drum cadence. &ldquo;Also sprach Zarathustra&rdquo; performed by Kevin MacLeod,{" "}

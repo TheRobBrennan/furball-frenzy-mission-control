@@ -74,7 +74,10 @@ result, report it apart from an observed unsuccessful mission.
 | `parade_finished` | The last scene appears. `playback` (`watched`, `skipped`) |
 | `parade_replayed` | "Watch again" |
 | `parade_sound_changed` | `sound` (`on`, `off`) |
-| `parade_cheered` | A tap on the picture. `scene` |
+| `parade_cheered` | A tap anywhere that is not a control. `scene`, or `title` before the start |
+| `parade_sponsor_opened` | A presenter link. `sponsor` (`sploosh`, `hockey`) |
+
+The Missions page and tab are measured by the `/missions`, `/mission` and `/parade/thanksgiving-2026` page views.
 
 All carry `show_id` (one page visit) and `showing` (1, then 2 after a replay).
 

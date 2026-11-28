@@ -128,7 +128,7 @@ describe("page-view capture", () => {
     track(scene);
     const payloads = send.mock.calls.map(([, request]) => JSON.parse(request.body));
     expect(payloads.map((p) => p.event)).toEqual(["parade_scene_viewed", "parade_replayed", "parade_scene_viewed"]);
-    expect(payloads[2].properties).toMatchObject({ showing: 2, show_id: payloads[0].properties.show_id, $pathname: "/parade" });
+    expect(payloads[2].properties).toMatchObject({ showing: 2, show_id: payloads[0].properties.show_id, $pathname: "/parade/thanksgiving-2026" });
   });
 
   it.each([

@@ -20,7 +20,11 @@ const nextConfig: NextConfig = {
   // which Next first trims to /storybook) there. A redirect, not a rewrite: Storybook's relative asset
   // paths need the URL to end in /storybook/.
   async redirects() {
-    return [{ source: "/storybook", destination: "/storybook/index.html", permanent: false }];
+    return [
+      { source: "/storybook", destination: "/storybook/index.html", permanent: false },
+      // The short address always leads to the newest parade, so it is not permanent.
+      { source: "/parade", destination: "/parade/thanksgiving-2026", permanent: false },
+    ];
   },
   async rewrites() {
     return [{ source: "/api/:path*", destination: `${apiUrl}/:path*` }];
