@@ -1,3 +1,6 @@
+import re
+from pathlib import Path
+
 from fastapi.testclient import TestClient
 
 from app.main import app
@@ -63,3 +66,11 @@ def test_parade_day_furballs_are_in_the_crew() -> None:
     assert "Kauaʻi" in client.get("/crew/mister-bunny").json()["bio"]
     for slug in ("blitz", "cool-bird"):
         assert client.get(f"/crew/{slug}").json()["role"] == "Marching band"
+
+
+def test_meet_the_crew_on_the_site_lists_everyone_the_headcount_counts() -> None:
+    page = Path(__file__).parents[2] / "web/src/components/fleet/HomeBases.tsx"
+    rosters = re.findall(r"const (?:carolina|seattle)Crew: Member\[\] = \[(.*?)\n\];", page.read_text(), re.DOTALL)
+    # A line can hold a pair of buddies, such as "Kraken Bear and Mankind".
+    listed = [n for r in rosters for line in re.findall(r'name: "([^"]+)"', r) for n in line.split(" and ")]
+    assert sorted(listed) == sorted(c["name"] for c in client.get("/crew").json())

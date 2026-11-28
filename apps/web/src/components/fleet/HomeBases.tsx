@@ -131,19 +131,24 @@ const carolinaCrew: Member[] = [
 const seattleCrew: Member[] = [
   { name: "Hamlet", title: "Captain" },
   { name: "Little Bear" },
+  { name: "Mister Bunny" },
   { name: "Little Bunny" },
-  { name: "Kraken Bear" },
+  // Kraken Bear and his little buddy share a line.
+  { name: "Kraken Bear and Mankind" },
   { name: "Fuzzy Black Bear" },
   { name: "Fuzzy Brown Bear" },
+  { name: "Blitz" },
+  { name: "Cool Bird" },
 ];
 
 function Roster({ members, anchorId }: { members: Member[]; anchorId?: string }) {
   return (
     <div>
       <h4 id={anchorId} className="mt-8 scroll-mt-24 font-mono text-xs uppercase tracking-[0.25em] text-ice">Crew</h4>
-      <ul className="mt-3 grid gap-x-6 gap-y-2 text-lg sm:grid-cols-2">
+      <ul className="mt-3 grid gap-x-3 gap-y-2 text-base min-[375px]:text-lg sm:grid-cols-2">
         {members.map((m) => (
-          <li key={m.name} className="flex items-baseline gap-2">
+          // A pair of buddies gets the whole row, so their names stay on one line.
+          <li key={m.name} className={`flex items-baseline gap-2 ${m.name.includes(" and ") ? "sm:col-span-2" : ""}`}>
             <span className="text-amber" aria-hidden="true">
               &#9733;
             </span>
