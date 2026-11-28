@@ -35,9 +35,11 @@ function KrakenBear() {
 // Seattle's launch site, as two polaroids: a satellite look at the arena in a sonar-and-deep-sea
 // style that Enhance zooms into, and a rink where a Zamboni resurfaces the ice in a rotating set of
 // skins while Kraken Bear follows it, slips, and spins off. The show cycles on its own while it is on
-// screen, and a click on the machine opens that skin's website in a new tab.
+// screen, starts over when it comes back on screen, and a click on the machine opens that skin's website in a new tab.
 export default function SeattleLocation() {
-  const holder = useRef<HTMLDivElement>(null);
+  const rink = useRef<HTMLElement>(null);
+  // Whether the show is on screen, or has played and then been scrolled away from.
+  const watched = useRef<"never" | "watching" | "left">("never");
   const [seen, setSeen] = useState(false);
   const [inView, setInView] = useState(false);
   const [run, setRun] = useState(0);
@@ -54,7 +56,7 @@ export default function SeattleLocation() {
   };
 
   useEffect(() => {
-    const el = holder.current;
+    const el = rink.current;
     if (!el || !("IntersectionObserver" in window)) {
       setSeen(true);
       setInView(true);
@@ -63,11 +65,19 @@ export default function SeattleLocation() {
     const io = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
-          setInView(e.isIntersecting);
-          if (e.isIntersecting) setSeen(true);
+          if (e.intersectionRatio >= 0.35) {
+            setInView(true);
+            setSeen(true);
+            // A show that ran while scrolled past starts over, so the ice is never left empty.
+            if (watched.current === "left") setRun((n) => n + 1);
+            watched.current = "watching";
+          } else {
+            setInView(false);
+            if (!e.isIntersecting && watched.current === "watching") watched.current = "left";
+          }
         }
       },
-      { threshold: 0.35 },
+      { threshold: [0, 0.35] },
     );
     io.observe(el);
     return () => io.disconnect();
@@ -85,7 +95,7 @@ export default function SeattleLocation() {
   const caption = "mt-2 text-center font-mono text-[0.65rem] font-semibold leading-snug text-space";
 
   return (
-    <div ref={holder} className="mt-6 flex flex-col">
+    <div className="mt-6 flex flex-col">
       <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start sm:justify-center sm:gap-0 lg:min-h-[340px]">
         <ReconPolaroid
           src="/images/seattle-center-satellite.jpg"
@@ -96,7 +106,7 @@ export default function SeattleLocation() {
         />
 
         {/* the ice polaroid */}
-        <figure className={`${polaroid} relative z-10 w-[92%] sm:-ml-[3%] sm:mt-12 sm:w-[60%]`} style={{ ["--tilt" as string]: "2.5deg" }}>
+        <figure ref={rink} className={`${polaroid} relative z-10 w-[92%] sm:-ml-[3%] sm:mt-12 sm:w-[60%]`} style={{ ["--tilt" as string]: "2.5deg" }}>
           <div
             key={run}
             className={`rink relative aspect-[16/10] overflow-hidden rounded-sm bg-gradient-to-b from-[#d8eef5] to-[#f3fbfe] ${seen ? "rink-go" : ""}`}
